@@ -113,14 +113,14 @@ class StepDefinitions {
     Mockito.when(request.getAttributes()).thenReturn(requestAttributes);
     Mockito.when(request.getClientInfo()).thenReturn(new ClientInfo());
   }
-//
-//  def prepareRequest(resource: SkysailServerResource[_]): Unit {
-//    //val entity = stepContext.getLastResponse().getEntity().asInstanceOf[Entity]
-//    //val id = entity.getId().toString();
-//    //requestAttributes.put("id", id.replace("#", ""));
-//    //resource.init(context, request, new Response(request));
-//  }
-//
+
+  def prepareRequest(resource: SkysailServerResource[_]): Unit = {
+    val entity = stepContext.getLastResponse().getEntity().asInstanceOf[Note]
+    val id = entity.getId().toString();
+    requestAttributes.put("id", id.replace("#", ""));
+    resource.init(context, request, new Response(request));
+  }
+
 //  // <T extends SkysailServerResource<?>> T 
 //  def setupResource[T <: SkysailServerResource[_]](resource: T) = {
 //    resource.setRequest(request);

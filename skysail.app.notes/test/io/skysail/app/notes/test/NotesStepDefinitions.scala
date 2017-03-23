@@ -23,6 +23,7 @@ import org.mockito.Matchers.any;
 import cucumber.api.java.en.When
 import collection.JavaConversions._
 import cucumber.api.java.en.Then
+import org.restlet.data.Form
 
 class NotesStepDefinitions extends StepDefinitions {
 
@@ -63,6 +64,21 @@ class NotesStepDefinitions extends StepDefinitions {
   
   @When("^I query all notes")
   def i_query_all_notes() = notes = notesResource.getEntities(stepContext.getVariant()).getEntity()
+  
+  @When("^I change its '(.+)' to '(.+)'$")
+  def i_change_its_content_to_(attribute: String, newContent: String) {
+        prepareRequest(noteResource);
+        val lastEntity = noteResource.getResource(stepContext.getVariant());
+        val form = new Form();
+        form.add(classOf[Note].getName() + "|id", lastEntity.getEntity().getId());
+        form.add(classOf[Note].getName() + "|content", lastEntity.getEntity().getContent());
+        prepareRequest(putResource);
+        putResource.put(stepContext.formFor(
+                classOf[Note].getName() + "|id:" + lastEntity.getEntity().getId(),
+                classOf[Note].getName() + "|content:" + newContent// ,
+        // "iban:"+lastEntity.getEntity().getIban()
+        ), stepContext.getVariant());
+  }
 
   // === THENs ========================================================================
 

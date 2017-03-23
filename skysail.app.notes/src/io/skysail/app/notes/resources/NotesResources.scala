@@ -40,7 +40,10 @@ class NoteResource extends EntityServerResource[Note] {
 
 class PostNoteResource extends PostEntityServerResource[Note] {
   def createEntityTemplate(): Note = new Note()
-  def addEntity(entity: Note): Unit = NotesResource.noteRepo(getApplication()).save(entity, getApplicationModel())
+  def addEntity(entity: Note): Unit = {
+    val id = NotesResource.noteRepo(getApplication()).save(entity, getApplicationModel())
+    
+  }
   override def redirectTo() = super.redirectTo(classOf[NotesResource])
 }
 
