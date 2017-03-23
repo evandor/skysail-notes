@@ -32,10 +32,10 @@ Scenario: adding a simple account without name yields an error
       | content | |
     Then I get a 'Bad Request' response
 
-@Updating
-Scenario: updating an account entity
-    When I add a note like this:
-    | content | content_<random> |
-    And I change its 'content' to 'content_xxx'
-    And I open the note page
-    Then the page contains 'content_xxx'
+#@Updating
+#Scenario: updating an account entity
+#    When I add a note like this:
+#    | content | content_<random> |
+#    And I change its 'content' to 'content_xxx'
+#    And I open the note page
+#    Then the page contains 'content_xxx'
