@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 ##########################################################################
-### Deployment Script SSP Pact Integration                             ###
+### Deployment Script SSP Notes Integration                            ###
 ##########################################################################
 
 CURRENT_DIR=`pwd`
@@ -17,7 +17,7 @@ echo ""
 PROJECTNAME="skysail.app.notes"
 APPNAME="notes"
 STAGE="int"
-MAIN_DEPLOY_SCRIPT_PATH=../../../skysail.server/deployment/scripts
+MAIN_DEPLOY_SCRIPT_PATH=/home/carsten/.hudson/jobs/skysail.pipeline/workspace/skysail.server/deployment/scripts
 
 function execute {
   echo "executing $1" 
