@@ -17,13 +17,6 @@ Scenario: if the user sends the "created" property it should be ignored
        | iban      | DE00000000000000000000  |
        | created   | <!>1472280000000        |
 
-@Retrieval
-Scenario: retrieving a created account again
-     When I add an account like this:
-       | name | a new one |
-     And I open the account page
-     Then the page contains 'a new one'
-
 #https://github.com/orientechnologies/orientdb/issues/6306
 @Deletion
 Scenario: deleting an account

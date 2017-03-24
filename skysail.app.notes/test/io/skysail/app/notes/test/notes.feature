@@ -24,13 +24,20 @@ Scenario: adding a simple note entity
 Scenario: getting "Created 201" after creating a new note
     When I add a note like this:
       | content | content_<random> |
-     Then I get a 'Created (201)' response
+    Then I get a 'Created (201)' response
 
 @Validation
 Scenario: adding a simple account without name yields an error
     When I add a note like this:
       | content | |
     Then I get a response containing 'Bad Request'
+
+@Retrieval
+Scenario: retrieving a created note again
+    When I add a note like this:
+      | content | content_abc |
+    And I open the note page
+    Then the page contains 'content_abc'
 
 @Updating
 Scenario: updating an account entity
