@@ -24,10 +24,10 @@ skysail.server.um:\
     skysail.server.um.shiro;version=${skysail.server.um.shiro.version}
 
 -runbundles: \
-	webconsole.all;version=latest,\
 	${serverbundles-minimal-1.0.0},\
     ${orientdb},\
     ${jetty},\
+    skysail.ext.config;version=latest,\
 	skysail.server.ui.jquery;version=latest,\
     skysail.server.ui.bootstrap;version=latest,\
 	skysail.app.notes;version=latest,\

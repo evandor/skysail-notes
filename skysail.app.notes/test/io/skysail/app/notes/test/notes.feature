@@ -30,12 +30,12 @@ Scenario: getting "Created 201" after creating a new note
 Scenario: adding a simple account without name yields an error
     When I add a note like this:
       | content | |
-    Then I get a 'Bad Request' response
+    Then I get a response containing 'Bad Request'
 
-#@Updating
-#Scenario: updating an account entity
-#    When I add a note like this:
-#    | content | content_<random> |
-#    And I change its 'content' to 'content_xxx'
-#    And I open the note page
-#    Then the page contains 'content_xxx'
+@Updating
+Scenario: updating an account entity
+    When I add a note like this:
+    | content | content_<random> |
+    And I change its 'content' to 'content_xxx'
+    And I open the note page
+    Then the page contains 'content_xxx'

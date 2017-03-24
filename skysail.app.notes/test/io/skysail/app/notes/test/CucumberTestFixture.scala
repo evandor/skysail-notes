@@ -1,5 +1,7 @@
 package io.skysail.app.notes.test
 
+import org.mockito.Mockito._
+
 import org.mockito.Mock
 import io.skysail.core.app.ServiceListProvider
 import io.skysail.api.um.AuthenticationService
@@ -15,7 +17,6 @@ import io.skysail.server.testsupport.cucumber.CucumberStepContext
 import io.skysail.app.notes.NotesApplication
 import org.mockito.MockitoAnnotations
 import java.security.Principal
-import org.mockito.Mockito
 import io.skysail.api.um.AuthenticationMode
 import io.skysail.api.validation.DefaultValidationImpl
 import io.skysail.api.metrics.NoOpMetricsCollector
@@ -31,8 +32,13 @@ import io.skysail.app.notes.domain.Note
 import org.hamcrest.TypeSafeMatcher
 import org.hamcrest.Description
 import java.util.Arrays
+import io.skysail.core.app.SkysailApplicationService
+import io.skysail.core.model.SkysailEntityModel
+import io.skysail.core.model.SkysailEntityModel
+import io.skysail.core.app.ApplicationListProvider
+import io.skysail.core.app.ApplicationList
 
-object StepDefinitions {
+object CucumberTestFixture {
  def validNoteWith(data: java.util.Map[String, String], keys:String*): Matcher[Note] = {
    
         return new TypeSafeMatcher[Note]() {
@@ -58,7 +64,7 @@ object StepDefinitions {
     }  
 }
 
-class StepDefinitions {
+class CucumberTestFixture {
 
   @Mock var serviceListProvider: ServiceListProvider = null
   @Mock var authService: AuthenticationService = null
@@ -75,7 +81,7 @@ class StepDefinitions {
   var stepContext: CucumberStepContext = null
 
   def setUp(app: NotesApplication, stepContext: CucumberStepContext): Unit = {
-    val log = LoggerFactory.getLogger(classOf[StepDefinitions])
+    val log = LoggerFactory.getLogger(classOf[CucumberTestFixture])
     this.stepContext = stepContext;
 
     MockitoAnnotations.initMocks(this);
@@ -83,21 +89,36 @@ class StepDefinitions {
     this.application = app;
     val context = new Context();
     val principal = new Principal() { override def getName() = "admin" }
-    Mockito.when(authService.getPrincipal(org.mockito.Matchers.any(classOf[Request]))).thenReturn(principal)
-    Mockito.when(authService.getApplicationAuthenticator(context, AuthenticationMode.AUTHENTICATED)).thenReturn(authenticator)
+    when(authService.getPrincipal(org.mockito.Matchers.any(classOf[Request]))).thenReturn(principal)
+    when(authService.getApplicationAuthenticator(context, AuthenticationMode.AUTHENTICATED)).thenReturn(authenticator)
     
-    Mockito.when(authService.getApplicationAuthenticator(context, AuthenticationMode.ANONYMOUS)).thenReturn(authenticator)
+    when(authService.getApplicationAuthenticator(context, AuthenticationMode.ANONYMOUS)).thenReturn(authenticator)
     
-    Mockito.when(serviceListProvider.getAuthenticationService()).thenReturn(authService);
-    Mockito.when(serviceListProvider.getAuthorizationService()).thenReturn(authorizationService);
-    Mockito.when(serviceListProvider.getValidatorService()).thenReturn(new DefaultValidationImpl());
-    Mockito.when(serviceListProvider.getMetricsCollector()).thenReturn(new NoOpMetricsCollector());
-    requestAttributes = new ConcurrentHashMap[String, Object]();
-    SkysailApplication.setServiceListProvider(serviceListProvider);
+    when(serviceListProvider.getAuthenticationService()).thenReturn(authService);
+    when(serviceListProvider.getAuthorizationService()).thenReturn(authorizationService);
+    when(serviceListProvider.getValidatorService()).thenReturn(new DefaultValidationImpl());
+    when(serviceListProvider.getMetricsCollector()).thenReturn(new NoOpMetricsCollector());
+    
+    
+    val skysailApplicationService = new SkysailApplicationService()//mock(classOf[SkysailApplicationService])
+    //val entityModel: SkysailEntityModel[Note] = Mockito.mock(classOf[SkysailEntityModel[Note]])//new SkysailEntityModel[Note](null, classOf[Note],putResource)
+    //when(skysailApplicationService.getEntityModel(classOf[Note].getName())).thenReturn(entityModel)
+    when(serviceListProvider.getSkysailApplicationService()).thenReturn(skysailApplicationService)
+    
+    val applicationListProvider = new ApplicationList();
+    applicationListProvider.addApplicationProvider(application)
+    
+    val applicationListProviderField = classOf[SkysailApplicationService].getDeclaredField("applicationListProvider")
+    applicationListProviderField.setAccessible(true)
+    applicationListProviderField.set(skysailApplicationService, applicationListProvider)
+
+        
+    requestAttributes = new ConcurrentHashMap[String, Object]()
+    SkysailApplication.setServiceListProvider(serviceListProvider)
 
     try {
-      val appConfig = Mockito.mock(classOf[ApplicationConfiguration]);
-      val componentContext = Mockito.mock(classOf[ComponentContext]);
+      val appConfig = mock(classOf[ApplicationConfiguration]);
+      val componentContext = mock(classOf[ComponentContext]);
       application.activate(appConfig, componentContext);
     } catch {
       case e: Throwable => log.error(e.getMessage, e)
@@ -108,10 +129,11 @@ class StepDefinitions {
 
     org.restlet.Application.setCurrent(application);
 
-    Mockito.when(resourceRef.getTargetRef()).thenReturn(targetRef);
-    Mockito.when(request.getResourceRef()).thenReturn(resourceRef);
-    Mockito.when(request.getAttributes()).thenReturn(requestAttributes);
-    Mockito.when(request.getClientInfo()).thenReturn(new ClientInfo());
+    when(resourceRef.getTargetRef()).thenReturn(targetRef)
+    when(request.getResourceRef()).thenReturn(resourceRef)
+    when(request.getAttributes()).thenReturn(requestAttributes)
+    when(request.getClientInfo()).thenReturn(new ClientInfo())
+    
   }
 
   def prepareRequest(resource: SkysailServerResource[_]): Unit = {
