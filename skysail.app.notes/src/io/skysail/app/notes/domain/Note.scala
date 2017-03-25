@@ -9,7 +9,9 @@ import io.skysail.server.forms.PutView
 import com.fasterxml.jackson.annotation.JsonFormat
 import java.util.Date
 import io.skysail.server.forms.Visibility;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 class Note() extends Entity {
   
   var id:String = null
