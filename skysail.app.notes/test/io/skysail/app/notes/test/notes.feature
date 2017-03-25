@@ -46,3 +46,14 @@ Scenario: updating an account entity
     And I change its 'content' to 'content_xxx'
     And I open the note page
     Then the page contains 'content_xxx'
+    
+@Security
+Scenario: if the user sends the "created" property it should be ignored
+    When I add a note like this:
+       | content | content_<random> |
+       | created | 2000-10-01 10:11:12    |
+    And I open the note page
+    Then the page contains:
+       | conent    | account_<random> |
+       | created   | <!>2000-10-01 10:11:12 |
+    

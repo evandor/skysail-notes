@@ -13,6 +13,7 @@ import io.skysail.server.restlet.resources.PutEntityServerResource
 import io.skysail.server.restlet.resources.EntityServerResource
 import io.skysail.server.ResourceContextId
 import io.skysail.core.app.SkysailApplication
+import java.util.Date
 
 object NotesResource {
   def noteRepo(app: SkysailApplication) = app.getRepository[NotesRepository](classOf[Note])
@@ -53,6 +54,7 @@ class PutNoteResource extends PutEntityServerResource[Note] {
   def updateEntity(entity: Note): Unit = {
     val original = getEntity()
     copyProperties(original, entity)
+    original.setModified(new Date())
     NotesResource.noteRepo(getApplication()).update(original, getApplicationModel())
   }
 }

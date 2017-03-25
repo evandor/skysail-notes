@@ -5,17 +5,6 @@ Feature: [Ref.App SingleEntity] - account specific features - HTML
 #Background: 
 #    Given a running AccountApplication
     
-@Security
-Scenario: if the user sends the "created" property it should be ignored
-     When I add an account like this:
-       | name      | account_<random>        |
-       | iban      | DE00000000000000000000  |
-       | created   | 1472280000000           |
-     And I open the account page
-     Then the page contains:
-       | name      | account_<random>        |
-       | iban      | DE00000000000000000000  |
-       | created   | <!>1472280000000        |
 
 #https://github.com/orientechnologies/orientdb/issues/6306
 @Deletion
