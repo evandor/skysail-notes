@@ -27,8 +27,11 @@ skysail.server.um:\
 	${serverbundles-minimal-1.0.0},\
     ${orientdb},\
     ${jetty},\
+	io.dropwizard.metrics.core;version=3.1.2,\
     skysail.ext.config;version=latest,\
+    skysail.ext.metrics;version=latest,\
 	skysail.server.ui.jquery;version=latest,\
     skysail.server.ui.bootstrap;version=latest,\
+    skysail.server.app.metrics;version=latest,\
 	skysail.app.notes;version=latest,\
 	org.scala-lang.scala-library;version=2.11.8
