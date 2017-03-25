@@ -54,6 +54,6 @@ Scenario: if the user sends the "created" property it should be ignored
        | created | 2000-10-01 10:11:12    |
     And I open the note page
     Then the page contains:
-       | conent    | account_<random> |
+       | content   | content_<random> |
        | created   | <!>2000-10-01 10:11:12 |
     
