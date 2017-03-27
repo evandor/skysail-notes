@@ -11,20 +11,14 @@ import java.util.Date
 import io.skysail.server.forms.Visibility;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-class Note() extends Entity {
-  
-  var id:String = null
-  def getId(): String = id
-  def setId(c: String) = id = c
-
-  @Field(inputType = InputType.TEXTAREA)
-  @Size(min=1)
-  var content: String = ""
-  def setContent(c: String) = content = c
-  def getContent() = content
-  
-  
+//@JsonIgnoreProperties(ignoreUnknown = true)
+case class Note(
+    id:String,
+    content:String
+) extends Entity {
+    def this() = this("","")
+    def getId():String = id
+    
   @Field(inputType = InputType.DATE)
   @PostView(visibility = Visibility.HIDE)
   @PutView(visibility = Visibility.HIDE)

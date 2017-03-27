@@ -52,7 +52,7 @@ class NotesStepDefinitions extends CucumberTestFixture {
 
     notesResource = setupResource(new NotesResource());
     noteResource = setupResource(new NoteResource());
-    postResource = setupResource(new PostNoteResource());
+    //postResource = setupResource(new PostNoteResource());
     putResource = setupResource(new PutNoteResource());
     
   }
@@ -66,7 +66,7 @@ class NotesStepDefinitions extends CucumberTestFixture {
 
   @When("^I add a note like this:$")
   def postData(data: java.util.Map[String, String]): Unit = {
-    stepContext.post(postResource, addEntityClassIdentifier(data.toMap));
+    //stepContext.post(postResource, addEntityClassIdentifier(data.toMap));
   }
 
   @When("^I query all notes")
@@ -78,7 +78,7 @@ class NotesStepDefinitions extends CucumberTestFixture {
     val lastEntity = noteResource.getResource(stepContext.getVariant());
     val form = new Form();
     form.add(classOf[Note].getName() + "|id", lastEntity.getEntity().getId());
-    form.add(classOf[Note].getName() + "|content", lastEntity.getEntity().getContent());
+    form.add(classOf[Note].getName() + "|content", lastEntity.getEntity().content);
     prepareRequest(putResource);
     putResource.put(stepContext.formFor(
       classOf[Note].getName() + "|id:" + lastEntity.getEntity().getId(),
@@ -112,7 +112,7 @@ class NotesStepDefinitions extends CucumberTestFixture {
 
   @Then("^the page contains '(.+)'$")
   def the_page_contains_theString(name: String) {
-    assertThat(noteResponse.getEntity.getContent(), containsString(name));
+    assertThat(noteResponse.getEntity.content, containsString(name));
   }
 
   //  @Then("^the page contains '(.+)'$")

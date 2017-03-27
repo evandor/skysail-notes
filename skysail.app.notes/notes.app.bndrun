@@ -24,6 +24,7 @@ skysail.server.um:\
     skysail.server.um.shiro;version=${skysail.server.um.shiro.version}
 
 -runbundles: \
+    webconsole.all;version=latest,\
 	${serverbundles-minimal-1.0.0},\
     ${orientdb},\
     ${jetty},\
@@ -34,4 +35,10 @@ skysail.server.um:\
     skysail.server.ui.bootstrap;version=latest,\
     skysail.server.app.metrics;version=latest,\
 	skysail.app.notes;version=latest,\
+	com.thoughtworks.paranamer;version=2.8,\
+	io.skysail.bundled.json4s-jackson_2.11;version=3.5,\
+	io.skysail.bundled.json4s-ast_2.11;version=3.5,\
+	io.skysail.bundled.json4s-scalap_2.11;version=3.5,\
+	io.skysail.bundled.json4s-core_2.11;version=3.5,\
+	io.skysail.bundled.json4s-native_2.11;version=3.5,\
 	org.scala-lang.scala-library;version=2.11.8

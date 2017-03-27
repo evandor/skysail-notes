@@ -55,7 +55,7 @@ object CucumberTestFixture {
                 if (note.getId() == null) {
                     return false;
                 }
-                if (!note.getContent().equals(data.get(classOf[Note].getName() + "|content"))) {
+                if (!note.content.equals(data.get(classOf[Note].getName() + "|content"))) {
                     return false;
                 }
                 true;

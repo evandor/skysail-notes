@@ -1,8 +1,6 @@
 package io.skysail.app.notes.resources
 
 import io.skysail.api.responses.SkysailResponse
-import io.skysail.server.restlet.resources.PostEntityServerResource
-import io.skysail.server.restlet.resources.PostEntityServerResource
 import io.skysail.app.notes.domain.Note
 import io.skysail.app.notes.NotesApplication
 import io.skysail.server.restlet.resources.ListServerResource
@@ -26,7 +24,7 @@ class NotesResource extends ListServerResource[Note](classOf[NoteResource]) {
     val pagination = new Pagination(getRequest(), getResponse());
     NotesResource.noteRepo(getApplication()).find(filter, pagination);
   }
-  override def getLinks() = super.getLinks(classOf[PostNoteResource], classOf[NotesResource])
+  //override def getLinks() = super.getLinks(classOf[PostNoteResource], classOf[NotesResource])
 }
 
 class NoteResource extends EntityServerResource[Note] {
@@ -39,15 +37,17 @@ class NoteResource extends EntityServerResource[Note] {
   override def getLinks() = super.getLinks(classOf[PutNoteResource])
 }
 
-class PostNoteResource extends PostEntityServerResource[Note] {
-  def createEntityTemplate(): Note = new Note()
+class PostNoteResource extends PostEntityServerResource2[Note] {
+  def createEntityTemplate() = Note("","")
+  def getEntity() = Note("","").asInstanceOf[Nothing]
   def addEntity(entity: Note): Unit = {
     entity.setCreated(new Date())
     entity.setModified(new Date())
-    val vertex = NotesResource.noteRepo(getApplication()).save(entity, getApplicationModel())
-    entity.setId(vertex.getId.toString())
+    //val vertex = NotesResource.noteRepo(getApplication()).save(entity, getApplicationModel())
+    //entity.setId(vertex.getId.toString())
+   // entity.copy(id=vertex.getId.toString())
   }
-  override def redirectTo() = super.redirectTo(classOf[NotesResource])
+ // override def redirectTo() = super.redirectTo(classOf[NotesResource])
 }
 
 class PutNoteResource extends PutEntityServerResource[Note] {
