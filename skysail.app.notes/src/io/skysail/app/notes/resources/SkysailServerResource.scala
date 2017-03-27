@@ -7,14 +7,14 @@ import java.util.function.Consumer
 import io.skysail.api.links.Link
 import io.skysail.core.utils.LinkUtils
 
-abstract class ScalaSkysailServerResource[T] extends io.skysail.core.resources.SkysailServerResource[T] {
+abstract class ScalaSkysailServerResource extends ServerResource {
  
-  var entity: T 
-  def setEntity(e: T) = entity = e
+  var entity: AnyRef = null
+  def setEntity(e: AnyRef) = entity = e
   
   def getSkysailApplication() = getApplication().asInstanceOf[SkysailApplication]
-  //def getMetricsCollector() = getSkysailApplication().getMetricsCollector()
-  //def getParameterizedType() = ReflectionUtils.getParameterizedType(getClass());
+  def getMetricsCollector() = getSkysailApplication().getMetricsCollector()
+  def getParameterizedType() = ReflectionUtils.getParameterizedType(getClass());
  
   /*def getPathSubstitutions(): Consumer[Link] = {
     return l -> {

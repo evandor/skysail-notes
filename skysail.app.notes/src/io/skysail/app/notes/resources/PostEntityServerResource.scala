@@ -18,7 +18,7 @@ import java.util.Arrays
 import io.skysail.api.links.Link
 import io.skysail.api.responses.FormResponse
 
-abstract class PostEntityServerResource2[T/*: Manifest*/] extends ScalaSkysailServerResource[T] {
+abstract class PostEntityServerResource2[T/*: Manifest*/] extends ScalaSkysailServerResource {
 
   //implicit val formats = DefaultFormats 
   
@@ -45,7 +45,7 @@ abstract class PostEntityServerResource2[T/*: Manifest*/] extends ScalaSkysailSe
     //links.stream().forEach(getPathSubstitutions());
     
     val entity:Note = createEntityTemplate();
-    this.setEntity(entity);
+    //this.setEntity(entity);
     timerMetric.stop();
     new FormResponse[Note](getResponse(), entity, links.get(0).getUri());
   }
