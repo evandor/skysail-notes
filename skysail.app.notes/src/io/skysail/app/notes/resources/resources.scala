@@ -12,6 +12,7 @@ import io.skysail.server.restlet.resources.EntityServerResource
 import io.skysail.server.ResourceContextId
 import io.skysail.core.app.SkysailApplication
 import java.util.Date
+import io.skysail.restlet.PostEntityServerResource2
 
 object NotesResource {
   def noteRepo(app: SkysailApplication) = app.getRepository[NotesRepository](classOf[Note])
@@ -39,7 +40,7 @@ class NoteResource extends EntityServerResource[Note] {
 
 class PostNoteResource extends PostEntityServerResource2[Note] {
   def createEntityTemplate() = Note("","")
-  def getEntity() = Note("","").asInstanceOf[Nothing]
+  //def getEntity() = Note("","").asInstanceOf[Nothing]
   def addEntity(entity: Note): Unit = {
     entity.setCreated(new Date())
     entity.setModified(new Date())
