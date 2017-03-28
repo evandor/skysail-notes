@@ -24,6 +24,7 @@ import org.osgi.service.component.annotations.ReferenceCardinality
 import io.skysail.app.notes.resources.PutNoteResource
 import io.skysail.app.notes.resources.NoteResource
 import io.skysail.app.notes.resources.PostNoteResource
+import io.skysail.server.security.config.SecurityConfigBuilder
 
 object NotesApplication {
   final val APP_NAME = "notes"
@@ -56,6 +57,10 @@ class NotesApplication extends SkysailApplication(
     router.attach(new RouteBuilder("/notes/{id}", classOf[NoteResource]));
     router.attach(new RouteBuilder("/notes/{id}/", classOf[PutNoteResource]));
     createStaticDirectory();
+  }
+
+  override def defineSecurityConfig(securityConfigBuilder: SecurityConfigBuilder) = {
+    securityConfigBuilder.authorizeRequests().startsWithMatcher("").permitAll();
   }
 
 }
