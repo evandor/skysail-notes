@@ -2,13 +2,14 @@ package io.skysail.restlet
 
 import io.skysail.api.responses.SkysailResponse
 import io.skysail.api.responses.FormResponse
+import io.skysail.restlet.responses.ScalaSkysailResponse
 
 object FieldsFactory {
-  def getFactory(response: SkysailResponse[_]): FieldFactory = {
-    if (response.getEntity() == null) {
+  def getFactory(response: ScalaSkysailResponse[_]): FieldFactory = {
+    if (response.entity == null) {
       return new NoFieldFactory();
     }
-    if (response.getEntity().isInstanceOf[List[_]]) {
+    if (response.entity.isInstanceOf[List[_]]) {
       null
       //      return new DefaultListFieldFactory();
       //    } else if (response instanceof ConstraintViolationsResponse) {
@@ -16,7 +17,7 @@ object FieldsFactory {
     } else if (response.isInstanceOf[FormResponse[_]]) {
       return entityFactoryForForm(response.asInstanceOf[FormResponse[_]]);
     } else {
-      null; //return new DefaultEntityFieldFactory(response.getEntity().getClass());
+      new DefaultEntityFieldFactory(response.entity.getClass());
     }
   }
 

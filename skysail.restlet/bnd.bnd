@@ -14,6 +14,7 @@ Import-Package: \
 	${logging},\
 	${commons},\
 	${javax},\
+	com.google.guava;version='[16.0,16.1)',\
 	skysail.server;version=${skysail.server.version},\
 	io.skysail.bundled.json4s-jackson_2.11;version=3.5,\
 	io.skysail.bundled.json4s-ast_2.11;version=3.5,\
@@ -26,7 +27,12 @@ Import-Package: \
     
     
 Export-Package: \
+	io.skysail.restlet.app,\
 	io.skysail.restlet,\
 	io.skysail.restlet.resources,\
-	io.skysail.restlet.utils
-Private-Package: io.skysail.restlet.filter
+	io.skysail.restlet.utils,\
+	io.skysail.restlet.responses
+Private-Package: \
+	io.skysail.restlet.filter,\
+	io.skysail.restlet.router,\
+	io.skysail.restlet.model

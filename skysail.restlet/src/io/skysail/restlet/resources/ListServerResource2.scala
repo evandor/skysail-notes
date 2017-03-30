@@ -6,6 +6,7 @@ import org.restlet.data.Method
 import io.skysail.api.responses.SkysailResponse
 import io.skysail.restlet.ListRequestHandler
 import io.skysail.restlet.ScalaSkysailServerResource
+import io.skysail.restlet.responses.ScalaSkysailResponse
 
 abstract class ListServerResource2[T](cls: Class[_]) extends ScalaSkysailServerResource {
 

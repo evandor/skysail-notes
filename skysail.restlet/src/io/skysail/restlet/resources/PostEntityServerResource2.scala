@@ -10,8 +10,8 @@ import scala.collection.mutable.MutableList
 import org.restlet.resource.Get
 import java.util.Arrays
 import io.skysail.api.links.Link
-import io.skysail.api.responses.FormResponse
 import io.skysail.restlet.ScalaSkysailServerResource
+import io.skysail.restlet.responses.FormResponse
 
 abstract class PostEntityServerResource2[T/*: Manifest*/] extends ScalaSkysailServerResource {
 
