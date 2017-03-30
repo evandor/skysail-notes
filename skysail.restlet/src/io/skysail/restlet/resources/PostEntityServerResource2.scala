@@ -1,21 +1,17 @@
-package io.skysail.restlet
+package io.skysail.restlet.resources
 
 import org.restlet.resource.Post
 import org.restlet.representation.Variant
 import org.restlet.data.Form
-import io.skysail.api.metrics.TimerMetric
-import java.util.LinkedHashMap
-
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
-//import org.json4s.JsonAST._
-
 import scala.collection.JavaConversions._
 import scala.collection.mutable.MutableList
 import org.restlet.resource.Get
 import java.util.Arrays
 import io.skysail.api.links.Link
 import io.skysail.api.responses.FormResponse
+import io.skysail.restlet.ScalaSkysailServerResource
 
 abstract class PostEntityServerResource2[T/*: Manifest*/] extends ScalaSkysailServerResource {
 

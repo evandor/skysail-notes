@@ -25,4 +25,8 @@ Import-Package: \
 #	skysail.domain;version=${skysail.domain.version},\
     
     
-Export-Package: io.skysail.restlet
+Export-Package: \
+	io.skysail.restlet,\
+	io.skysail.restlet.resources,\
+	io.skysail.restlet.utils
+Private-Package: io.skysail.restlet.filter

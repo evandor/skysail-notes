@@ -9,17 +9,16 @@ import io.skysail.core.utils.LinkUtils
 import io.skysail.server.ResourceContextId
 
 abstract class ScalaSkysailServerResource extends ServerResource {
- 
+
   var entity: AnyRef = null
   def setEntity(e: AnyRef) = entity = e
- 
-  val stringContextMap = new java.util.HashMap[ResourceContextId, String]() 
-   
+
+  val stringContextMap = new java.util.HashMap[ResourceContextId, String]()
 
   def getSkysailApplication() = getApplication().asInstanceOf[SkysailApplication]
   def getMetricsCollector() = getSkysailApplication().getMetricsCollector()
   def getParameterizedType() = ReflectionUtils.getParameterizedType(getClass());
- 
+
   /*def getPathSubstitutions(): Consumer[Link] = {
     return l -> {
       val uri = l.getUri();
@@ -27,6 +26,8 @@ abstract class ScalaSkysailServerResource extends ServerResource {
     }
   }*/
 
-  def getFromContext( id: ResourceContextId) = stringContextMap.get(id)
+  def getFromContext(id: ResourceContextId) = stringContextMap.get(id)
+
+  def addToContext(id: ResourceContextId, value: String): Unit = stringContextMap.put(id, value)
 
 }

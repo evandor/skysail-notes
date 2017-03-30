@@ -41,8 +41,7 @@ Include-Resource: resources
 
 
 Export-Package: \
-  	io.skysail.app.notes,\
-  	io.skysail.restlet
+  	io.skysail.app.notes
 
 Private-Package: \
 	io.skysail.app.notes.domain,\
