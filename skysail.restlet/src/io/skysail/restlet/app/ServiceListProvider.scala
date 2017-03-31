@@ -25,15 +25,14 @@ trait ScalaServiceListProvider {
 
 }
 
-@Component(immediate = false)
+@Component(immediate = true)
 class ScalaServiceList extends ScalaServiceListProvider {
 
   val log = LoggerFactory.getLogger(classOf[ScalaServiceList])
 
   var authorizationService: AuthorizationService = null
   var authenticationService: AuthenticationService = null
-
-  var skysailComponentProvider: SkysailComponentProvider
+  var skysailComponentProvider: SkysailComponentProvider = null
 
   def getAuthenticationService(): AuthenticationService = authenticationService
 
@@ -52,32 +51,33 @@ class ScalaServiceList extends ScalaServiceListProvider {
   def setSkysailComponentProvider(service: SkysailComponentProvider): Unit = {
     skysailComponentProvider = service;
     val appContext = skysailComponentProvider.getSkysailComponent().getContext().createChildContext();
-    getSkysailApps().forEach(app -> app.setContext(appContext));
+    getSkysailApps().foreach { app => app.setContext(appContext)}
   }
+  
+  @Activate 
+  def activate() = applicationListProvider.attach(skysailComponentProvider.getSkysailComponent())
+  
+  @Deactivate 
+  def deactivate() = {}
+
 
   def unsetSkysailComponentProvider(service: SkysailComponentProvider) = {
     this.skysailComponentProvider = null;
-    getSkysailApps().forEach(a -> a.setContext(null));
+    getSkysailApps().foreach { a => a.setContext(null)}
   }
-
-  @Activate
-  def activate() = applicationListProvider.attach(skysailComponentProvider.getSkysailComponent())
-
-  @Deactivate
-  def deactivate() = {}
 
   def unsetUserManagementProvider(provider: UserManagementProvider): Unit = {
     log.info("USER MANAGEMENT PROVIDER: unsetting provider '{}'", provider.getClass().getName());
     this.authenticationService = null;
     this.authorizationService = null;
   }
-  
-      private def getSkysailApps():Stream[ScalaSkysailApplication] =  {
-        if (applicationListProvider == null) {
-            return Stream.empty();
-        }
-        return applicationListProvider.getApplications().stream();
-    }
 
+  private def getSkysailApps() = {
+//    if (applicationListProvider == null) {
+//      return java.util.stream.Stream.empty()
+//    }
+    //return applicationListProvider.getApplications().stream();
+    applicationListProvider.getApplications()
+  }
 
 }

@@ -51,7 +51,7 @@ abstract class ScalaSkysailApplication(
 
   val repositories = new ArrayList[DbRepository]();
 
-  val router: ScalaSkysailRouter = null
+  val router: ScalaSkysailRouter = new ScalaSkysailRouter(this, apiVersion)
 
   val stringContextMap = new java.util.HashMap[ApplicationContextId, String]()
 
@@ -134,9 +134,8 @@ abstract class ScalaSkysailApplication(
   }
 
   override def createInboundRoot(): Restlet = {
-    super.createInboundRoot();
     log.info("creating new Router in {}", this.getClass().getName());
-    val router = new ScalaSkysailRouter(this, apiVersion);
+   // router = Some(new ScalaSkysailRouter(this, apiVersion));
 
     log.info("adding extensions to metadata service");
     getMetadataService().addExtension("x-www-form-urlencoded", MediaType.APPLICATION_WWW_FORM);
