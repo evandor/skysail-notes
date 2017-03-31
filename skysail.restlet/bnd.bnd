@@ -31,8 +31,8 @@ Export-Package: \
 	io.skysail.restlet,\
 	io.skysail.restlet.resources,\
 	io.skysail.restlet.utils,\
-	io.skysail.restlet.responses
+	io.skysail.restlet.responses,\
+	io.skysail.restlet.router
 Private-Package: \
 	io.skysail.restlet.filter,\
-	io.skysail.restlet.router,\
 	io.skysail.restlet.model

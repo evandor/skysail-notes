@@ -1,0 +1,83 @@
+package io.skysail.restlet.app
+
+import io.skysail.api.validation.ValidatorService
+import io.skysail.api.um.AuthorizationService
+import io.skysail.api.um.AuthenticationService
+import io.skysail.server.app.TranslationRenderServiceHolder
+import io.skysail.core.SkysailComponent
+import org.osgi.service.component.annotations._
+import io.skysail.api.um.UserManagementProvider
+import org.slf4j.LoggerFactory
+import io.skysail.server.app.SkysailComponentProvider
+
+@org.osgi.annotation.versioning.ProviderType
+trait ScalaServiceListProvider {
+  //  def getValidatorService(): ValidatorService
+  //  def getAuthorizationService(): AuthorizationService
+  def getAuthenticationService(): AuthenticationService
+  //  def getTranslationRenderServices(): Set[TranslationRenderServiceHolder]
+  // def Set<TranslationStoreHolder> getTranslationStores(): 
+  //  def getSkysailComponent(): SkysailComponent
+  //    MetricsCollector getMetricsCollector();
+  //    FacetsProvider getFacetsProvider();
+  //	FilterParser getFilterParser();
+  //	SkysailApplicationService getSkysailApplicationService();
+
+}
+
+@Component(immediate = false)
+class ScalaServiceList extends ScalaServiceListProvider {
+
+  val log = LoggerFactory.getLogger(classOf[ScalaServiceList])
+
+  var authorizationService: AuthorizationService = null
+  var authenticationService: AuthenticationService = null
+
+  var skysailComponentProvider: SkysailComponentProvider
+
+  def getAuthenticationService(): AuthenticationService = authenticationService
+
+  @Reference(cardinality = ReferenceCardinality.MANDATORY)
+  var applicationListProvider: ApplicationListProvider = null
+  def getApplicationListProvider() = applicationListProvider
+
+  @Reference(policy = ReferencePolicy.STATIC, cardinality = ReferenceCardinality.MANDATORY)
+  def setUserManagementProvider(provider: UserManagementProvider): Unit = {
+    log.info("USER MANAGEMENT PROVIDER: setting provider to '{}'", provider.getClass().getName());
+    this.authenticationService = provider.getAuthenticationService();
+    this.authorizationService = provider.getAuthorizationService();
+  }
+
+  @Reference(policy = ReferencePolicy.DYNAMIC, cardinality = ReferenceCardinality.OPTIONAL)
+  def setSkysailComponentProvider(service: SkysailComponentProvider): Unit = {
+    skysailComponentProvider = service;
+    val appContext = skysailComponentProvider.getSkysailComponent().getContext().createChildContext();
+    getSkysailApps().forEach(app -> app.setContext(appContext));
+  }
+
+  def unsetSkysailComponentProvider(service: SkysailComponentProvider) = {
+    this.skysailComponentProvider = null;
+    getSkysailApps().forEach(a -> a.setContext(null));
+  }
+
+  @Activate
+  def activate() = applicationListProvider.attach(skysailComponentProvider.getSkysailComponent())
+
+  @Deactivate
+  def deactivate() = {}
+
+  def unsetUserManagementProvider(provider: UserManagementProvider): Unit = {
+    log.info("USER MANAGEMENT PROVIDER: unsetting provider '{}'", provider.getClass().getName());
+    this.authenticationService = null;
+    this.authorizationService = null;
+  }
+  
+      private def getSkysailApps():Stream[ScalaSkysailApplication] =  {
+        if (applicationListProvider == null) {
+            return Stream.empty();
+        }
+        return applicationListProvider.getApplications().stream();
+    }
+
+
+}

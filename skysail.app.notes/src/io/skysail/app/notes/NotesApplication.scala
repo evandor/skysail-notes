@@ -25,6 +25,8 @@ import io.skysail.app.notes.resources.PutNoteResource
 import io.skysail.app.notes.resources.NoteResource
 import io.skysail.app.notes.resources.PostNoteResource
 import io.skysail.server.security.config.SecurityConfigBuilder
+import io.skysail.restlet.app.ScalaSkysailApplication
+import io.skysail.restlet.app.ScalaApplicationProvider
 
 object NotesApplication {
   final val APP_NAME = "notes"
@@ -33,8 +35,8 @@ object NotesApplication {
 @Component(
   immediate = true,
   configurationPolicy = ConfigurationPolicy.OPTIONAL,
-  service = Array(classOf[ApplicationProvider], classOf[MenuItemProvider]))
-class NotesApplication extends SkysailApplication(
+  service = Array(classOf[ScalaApplicationProvider], classOf[MenuItemProvider]))
+class NotesApplication extends ScalaSkysailApplication(
   NotesApplication.APP_NAME,
   new ApiVersion(int2Integer(1))) with MenuItemProvider {
 
@@ -47,7 +49,7 @@ class NotesApplication extends SkysailApplication(
   @Activate
   override def activate(appConfig: ApplicationConfiguration, componentContext: ComponentContext) = {
     super.activate(appConfig, componentContext);
-    addRepository(new NotesRepository(dbService));
+    //addRepository(new NotesRepository(dbService));
   }
 
   override def attach() = {

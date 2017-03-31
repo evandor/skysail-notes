@@ -37,6 +37,7 @@ import io.skysail.core.model.SkysailEntityModel
 import io.skysail.core.model.SkysailEntityModel
 import io.skysail.core.app.ApplicationListProvider
 import io.skysail.core.app.ApplicationList
+import io.skysail.restlet.app.ScalaSkysailApplication
 
 object CucumberTestFixture {
  def validNoteWith(data: java.util.Map[String, String], keys:String*): Matcher[Note] = {
@@ -76,7 +77,7 @@ class CucumberTestFixture {
 
   var requestAttributes: ConcurrentMap[String, Object] = null
   var context: Context = null
-  var application: SkysailApplication = null
+  var application: ScalaSkysailApplication = null
   var resource: SkysailServerResource[_] = null
   var stepContext: CucumberStepContext = null
 
@@ -106,7 +107,7 @@ class CucumberTestFixture {
     when(serviceListProvider.getSkysailApplicationService()).thenReturn(skysailApplicationService)
     
     val applicationListProvider = new ApplicationList();
-    applicationListProvider.addApplicationProvider(application)
+  //  applicationListProvider.addApplicationProvider(application)
     
     val applicationListProviderField = classOf[SkysailApplicationService].getDeclaredField("applicationListProvider")
     applicationListProviderField.setAccessible(true)

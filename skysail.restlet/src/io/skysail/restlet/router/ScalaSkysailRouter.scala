@@ -12,12 +12,13 @@ import java.util.concurrent.ConcurrentHashMap
 import io.skysail.server.restlet.RolesPredicateAuthorizer
 import org.restlet.Restlet
 import io.skysail.server.security.config.SecurityConfig
+import io.skysail.restlet.app.ScalaSkysailApplication
 
 object ScalaSkysailRouter {
   def getResourcesGenericType(resourceInstance: ScalaSkysailServerResource) = resourceInstance.getParameterizedType()
 }
 
-class ScalaSkysailRouter(skysailApplication: SkysailApplication, apiVersion: ApiVersion) extends Router(skysailApplication.getContext()) {
+class ScalaSkysailRouter(skysailApplication: ScalaSkysailApplication, apiVersion: ApiVersion) extends Router(skysailApplication.getContext()) {
 
   val log = LoggerFactory.getLogger(classOf[ScalaSkysailRouter])
 
