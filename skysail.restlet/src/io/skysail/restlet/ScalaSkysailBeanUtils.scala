@@ -2,8 +2,9 @@ package io.skysail.restlet
 
 import io.skysail.core.app.SkysailApplicationService
 import java.util.Locale
+import io.skysail.restlet.app.ScalaSkysailApplicationService
 
-case class ScalaSkysailBeanUtils[T](bean: T, locale: Locale, service: SkysailApplicationService) {
+case class ScalaSkysailBeanUtils[T](bean: T, locale: Locale, service: ScalaSkysailApplicationService) {
 
   def copyProperties(dest: T, orig: T, resource: ScalaSkysailServerResource): Unit = {
     //        Map<String, FormField> formfields = FormfieldUtils.determineFormfields(resource, service);

@@ -35,4 +35,5 @@ Export-Package: \
 	io.skysail.restlet.router
 Private-Package: \
 	io.skysail.restlet.filter,\
-	io.skysail.restlet.model
+	io.skysail.restlet.model,\
+	io.skysail.restlet.forms

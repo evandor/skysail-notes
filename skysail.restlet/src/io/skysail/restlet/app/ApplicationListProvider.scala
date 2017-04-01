@@ -99,6 +99,7 @@ class ApplicationList extends ApplicationListProvider {
 
   private def attachToComponent(application: Application): Unit = {
     if (skysailComponent == null) {
+      log.debug("could not attach application '{}' to component, as component not (yet) available", application.getName)
       return ;
     }
     //    if (application.isInstanceOf[SkysailRootApplication]) {

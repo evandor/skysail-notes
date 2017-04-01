@@ -28,6 +28,7 @@ import io.skysail.server.security.config.SecurityConfigBuilder
 import io.skysail.restlet.app.ScalaSkysailApplication
 import io.skysail.restlet.app.ScalaApplicationProvider
 import io.skysail.core.app.ServiceListProvider
+import io.skysail.restlet.app.ScalaServiceListProvider
 
 object NotesApplication {
   final val APP_NAME = "notes"
@@ -48,11 +49,11 @@ class NotesApplication extends ScalaSkysailApplication(
   var dbService: DbService = null
   
   @Reference(policy = ReferencePolicy.DYNAMIC, cardinality = ReferenceCardinality.OPTIONAL)
-  def setApplicationListProvider(service: ServiceListProvider) {
+  def setApplicationListProvider(service: ScalaServiceListProvider) {
     serviceListProvider = service;
   }
 
-  def unsetApplicationListProvider(service: ServiceListProvider) {
+  def unsetApplicationListProvider(service: ScalaServiceListProvider) {
     serviceListProvider = null;
   }
 

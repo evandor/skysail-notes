@@ -55,7 +55,7 @@ abstract class ScalaSkysailApplication(
 
   val stringContextMap = new java.util.HashMap[ApplicationContextId, String]()
 
-  var serviceListProvider: ServiceListProvider = null
+  var serviceListProvider: ScalaServiceListProvider = null
 
   setName(name);
   //getEncoderService().getIgnoredMediaTypes().add(SkysailApplication.SKYSAIL_SERVER_SENT_EVENTS);

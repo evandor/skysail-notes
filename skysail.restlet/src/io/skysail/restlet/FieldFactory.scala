@@ -5,56 +5,54 @@ import io.skysail.server.forms.FormField
 import java.util.Collections
 import org.slf4j.LoggerFactory
 import scala.collection.JavaConverters._
+import io.skysail.restlet.app.ScalaSkysailApplicationService
+import io.skysail.restlet.model.ScalaSkysailFieldModel
+import io.skysail.restlet.forms.ScalaFormField
 
 trait FieldFactory {
 
   val log = LoggerFactory.getLogger(classOf[FieldFactory])
 
-  def determineFrom(resource: ScalaSkysailServerResource, appService: SkysailApplicationService): java.util.Map[String, FormField]
+  def determineFrom(r: ScalaSkysailServerResource, s: ScalaSkysailApplicationService): Map[String, ScalaFormField]
 
-  def determine(resource: ScalaSkysailServerResource, cls: Class[_], service: SkysailApplicationService): java.util.Map[String, FormField] = {
+  def determine(
+      resource: ScalaSkysailServerResource, cls: Class[_], 
+      service: ScalaSkysailApplicationService): Map[String, ScalaFormField] = {
+    
     require(service != null, "service must not be null")
     val entityModel = service.getEntityModel(cls.getName());
 
     if (entityModel == null) {
       log.warn("entity Model for '{}' was null.", cls.getName());
       log.warn("existing models are:");
-      service.getEntityModels().asScala.foreach { model => log.info("{}", model.getName()) }
-      return Collections.emptyMap();
+      service.getEntityModels().foreach { model => log.info("{}", model.getName()) }
+      return Map()
     }
 
     if (entityModel.getFieldValues() == null) {
-      return Collections.emptyMap();
+      return Map()
     }
-    //            val collect = entityModel.getFieldValues().stream()
-    //            		.map(SkysailFieldModel.class::cast)
-    //                    .map(field -> new FormField(field, resource.getCurrentEntity(), service))
-    //                    .collect(MyCollectors.toLinkedMap(p -> p.getId(), p -> p));
-    return null //collect;
+    entityModel.getFieldValues().asScala
+      .map { fv => fv.asInstanceOf[ScalaSkysailFieldModel] }
+      .map { field => new ScalaFormField(field, resource.entity, service) }
+      .map { sff => sff.getId() -> sff }
+      .toMap
   }
 
 }
 
 class NoFieldFactory extends FieldFactory {
-  override def determineFrom(resource: ScalaSkysailServerResource, service: SkysailApplicationService): java.util.Map[String, FormField] = {
-    Collections.emptyMap();
-  }
+  override def determineFrom(r: ScalaSkysailServerResource, s: ScalaSkysailApplicationService) = Map()
 }
 
 class FormResponseEntityFieldFactory(t: Class[_]) extends FieldFactory {
-  override def determineFrom(resource: ScalaSkysailServerResource, service: SkysailApplicationService): java.util.Map[String, FormField] = {
-    determine(resource, t, service);
-  }
+  override def determineFrom(r: ScalaSkysailServerResource, s: ScalaSkysailApplicationService) = determine(r, t, s)
 }
 
 class DefaultEntityFieldFactory(t: Class[_]) extends FieldFactory {
-  override def determineFrom(resource: ScalaSkysailServerResource, service: SkysailApplicationService): java.util.Map[String, FormField] = {
-    determine(resource, t, service);
-  }
+  override def determineFrom(r: ScalaSkysailServerResource, s: ScalaSkysailApplicationService) =  determine(r, t, s)
 }
 
 class DefaultListFieldFactory() extends FieldFactory {
-  override def determineFrom(resource: ScalaSkysailServerResource, service: SkysailApplicationService): java.util.Map[String, FormField] = {
-    determine(resource, resource.getParameterizedType(), service);
-  }
+  override def determineFrom(r: ScalaSkysailServerResource, s: ScalaSkysailApplicationService) = determine(r, r.getParameterizedType(), s)
 }

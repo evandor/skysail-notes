@@ -10,6 +10,7 @@ import io.skysail.api.um.UserManagementProvider
 import org.slf4j.LoggerFactory
 import io.skysail.server.app.SkysailComponentProvider
 import io.skysail.api.metrics.MetricsCollector
+import io.skysail.api.metrics.NoOpMetricsCollector
 
 @org.osgi.annotation.versioning.ProviderType
 trait ScalaServiceListProvider {
@@ -19,10 +20,10 @@ trait ScalaServiceListProvider {
   //  def getTranslationRenderServices(): Set[TranslationRenderServiceHolder]
   // def Set<TranslationStoreHolder> getTranslationStores(): 
   //  def getSkysailComponent(): SkysailComponent
- // def  getMetricsCollector(): MetricsCollector
+  def getMetricsCollector(): MetricsCollector
   //    FacetsProvider getFacetsProvider();
   //	FilterParser getFilterParser();
- //def	 getSkysailApplicationService(): SkysailApplicationService
+  def getSkysailApplicationService(): ScalaSkysailApplicationService
 
 }
 
@@ -37,6 +38,14 @@ class ScalaServiceList extends ScalaServiceListProvider {
 
   def getAuthenticationService(): AuthenticationService = authenticationService
 
+  //@Reference(cardinality = ReferenceCardinality.MANDATORY)
+  var metricsCollector = new NoOpMetricsCollector();
+  def getMetricsCollector() = metricsCollector
+
+  @Reference(cardinality = ReferenceCardinality.OPTIONAL, policy = ReferencePolicy.DYNAMIC)
+  var skysailApplicationService: ScalaSkysailApplicationService = null
+  def getSkysailApplicationService = skysailApplicationService
+  
   @Reference(cardinality = ReferenceCardinality.MANDATORY)
   var applicationListProvider: ApplicationListProvider = new NoOpApplicationListProvider()
   def getApplicationListProvider() = applicationListProvider
@@ -52,19 +61,18 @@ class ScalaServiceList extends ScalaServiceListProvider {
   def setSkysailComponentProvider(service: SkysailComponentProvider): Unit = {
     skysailComponentProvider = service;
     val appContext = skysailComponentProvider.getSkysailComponent().getContext().createChildContext();
-    getSkysailApps().foreach { app => app.setContext(appContext)}
+    getSkysailApps().foreach { app => app.setContext(appContext) }
   }
-  
-  @Activate 
-  def activate() = applicationListProvider.attach(skysailComponentProvider.getSkysailComponent())
-  
-  @Deactivate 
-  def deactivate() = {}
 
+  @Activate
+  def activate() = applicationListProvider.attach(skysailComponentProvider.getSkysailComponent())
+
+  @Deactivate
+  def deactivate() = {}
 
   def unsetSkysailComponentProvider(service: SkysailComponentProvider) = {
     this.skysailComponentProvider = null;
-    getSkysailApps().foreach { a => a.setContext(null)}
+    getSkysailApps().foreach { a => a.setContext(null) }
   }
 
   def unsetUserManagementProvider(provider: UserManagementProvider): Unit = {
@@ -74,9 +82,9 @@ class ScalaServiceList extends ScalaServiceListProvider {
   }
 
   private def getSkysailApps() = {
-//    if (applicationListProvider == null) {
-//      return java.util.stream.Stream.empty()
-//    }
+    //    if (applicationListProvider == null) {
+    //      return java.util.stream.Stream.empty()
+    //    }
     //return applicationListProvider.getApplications().stream();
     applicationListProvider.getApplications()
   }
