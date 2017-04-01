@@ -20,13 +20,14 @@ import java.util.Arrays
 import io.skysail.app.notes.resources.NotesResource
 import io.skysail.server.db.DbService
 import io.skysail.app.notes.repository.NotesRepository
-import org.osgi.service.component.annotations.ReferenceCardinality
+import org.osgi.service.component.annotations._
 import io.skysail.app.notes.resources.PutNoteResource
 import io.skysail.app.notes.resources.NoteResource
 import io.skysail.app.notes.resources.PostNoteResource
 import io.skysail.server.security.config.SecurityConfigBuilder
 import io.skysail.restlet.app.ScalaSkysailApplication
 import io.skysail.restlet.app.ScalaApplicationProvider
+import io.skysail.core.app.ServiceListProvider
 
 object NotesApplication {
   final val APP_NAME = "notes"
@@ -45,6 +46,16 @@ class NotesApplication extends ScalaSkysailApplication(
 
   @Reference(cardinality = ReferenceCardinality.MANDATORY)
   var dbService: DbService = null
+  
+  @Reference(policy = ReferencePolicy.DYNAMIC, cardinality = ReferenceCardinality.OPTIONAL)
+  def setApplicationListProvider(service: ServiceListProvider) {
+    serviceListProvider = service;
+  }
+
+  def unsetApplicationListProvider(service: ServiceListProvider) {
+    serviceListProvider = null;
+  }
+
 
   @Activate
   override def activate(appConfig: ApplicationConfiguration, componentContext: ComponentContext) = {

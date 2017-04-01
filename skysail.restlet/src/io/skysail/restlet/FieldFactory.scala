@@ -52,3 +52,9 @@ class DefaultEntityFieldFactory(t: Class[_]) extends FieldFactory {
     determine(resource, t, service);
   }
 }
+
+class DefaultListFieldFactory() extends FieldFactory {
+  override def determineFrom(resource: ScalaSkysailServerResource, service: SkysailApplicationService): java.util.Map[String, FormField] = {
+    determine(resource, resource.getParameterizedType(), service);
+  }
+}

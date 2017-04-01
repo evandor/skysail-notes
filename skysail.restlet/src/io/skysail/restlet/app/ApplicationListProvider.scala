@@ -20,6 +20,12 @@ trait ApplicationListProvider {
   def detach(skysailComponent: SkysailComponent)
 }
 
+class NoOpApplicationListProvider extends ApplicationListProvider {
+  def attach(skysailComponent: SkysailComponent): Unit = {  }
+  def detach(skysailComponent: SkysailComponent): Unit = {  }
+  def getApplications(): List[ScalaSkysailApplication] = List()
+}
+
 object ApplicationList {
   def getApplication(provider: ScalaApplicationProvider): ScalaSkysailApplication = {
     val application = provider.getSkysailApplication();

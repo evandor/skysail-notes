@@ -8,8 +8,8 @@ import io.skysail.server.restlet.filter.RedirectListFilter
 import io.skysail.server.restlet.filter.AbstractListResourceFilter
 import io.skysail.restlet.filter.ExceptionCatchingListFilter
 
-class ListRequestHandler {
-  def createForList(method: Method): ScalaAbstractListResourceFilter = {
+class ListRequestHandler[T] {
+  def createForList(method: Method): ScalaAbstractListResourceFilter[T] = {
     if (method.equals(Method.GET)) {
       return chainForListGet();
     } else if (method.equals(Method.POST)) {
@@ -19,8 +19,8 @@ class ListRequestHandler {
     //  throw new RuntimeException("Method " + method + " is not yet supported");
   }
 
-  private def chainForListGet(): ScalaAbstractListResourceFilter = {
-    new ExceptionCatchingListFilter()
+  private def chainForListGet(): ScalaAbstractListResourceFilter[T] = {
+    new ExceptionCatchingListFilter[T]()
 //      // .calling(new ExtractStandardQueryParametersResourceFilter<>())
 //      .calling(new DataExtractingListFilter())
 //      .calling(new AddLinkheadersListFilter())

@@ -1,44 +1,44 @@
 package io.skysail.restlet.app
 
-import io.skysail.core.app.ApplicationProvider
-import io.skysail.server.services.ResourceBundleProvider
-import io.skysail.domain.Entity
-import io.skysail.core.app.ApiVersion
-import java.util.ResourceBundle
-import java.util.Collections
-import org.osgi.service.component.annotations.Activate
-import org.osgi.service.component.ComponentContext
-import org.osgi.framework.BundleContext
+import io.skysail.core.app._
 import io.skysail.core.model.SkysailApplicationModel
-import org.osgi.service.component.annotations.Deactivate
-import io.skysail.core.app.ApplicationConfiguration
-import io.skysail.domain.core.repos.DbRepository
-import java.util.ArrayList
-import io.skysail.restlet.router.ScalaSkysailRouter
-import org.restlet.data.LocalReference
 import io.skysail.core.utils.CompositeClassLoader
-import org.restlet.routing.Router
 import io.skysail.core.utils.ClassLoaderDirectory
+import io.skysail.domain.Entity
+import io.skysail.domain.core.repos.DbRepository
+import io.skysail.restlet.router.ScalaSkysailRouter
+import io.skysail.server.services.ResourceBundleProvider
 import io.skysail.server.menus.MenuItem
-import java.util.Arrays
-import io.skysail.core.app.ApplicationContextId
 import io.skysail.server.security.config.SecurityConfigBuilder
 import io.skysail.restlet.model.ScalaSkysailApplicationModel
-import org.restlet.Restlet
-import org.restlet.data.MediaType
-import org.restlet.data.Protocol
-import org.slf4j.LoggerFactory
 import io.skysail.server.restlet.filter.OriginalRequestFilter
 import io.skysail.api.um.AuthenticationService
 import io.skysail.api.um.AuthenticationMode
 import io.skysail.core.app.ServiceListProvider
+import java.util.ResourceBundle
+import java.util.Collections
+import java.util.ArrayList
+import java.util.Arrays
+import org.osgi.service.component.ComponentContext
+import org.osgi.framework._
+import org.osgi.service.component.annotations._
+import org.restlet.data.LocalReference
+import org.restlet.routing.Router
+import org.restlet.Restlet
+import org.restlet.data.MediaType
+import org.restlet.data.Protocol
+import org.slf4j.LoggerFactory
+
+import scala.collection.JavaConverters._
+import io.skysail.core.utils.ReflectionUtils
+import io.skysail.restlet.NoOpDbRepository
 
 abstract class ScalaSkysailApplication(
-    name: String,
-    apiVersion: ApiVersion,
-    entityClasses: List[Class[_ <: Entity]])
-  extends org.restlet.Application
-    with ScalaApplicationProvider 
+  name: String,
+  apiVersion: ApiVersion,
+  entityClasses: List[Class[_ <: Entity]])
+    extends org.restlet.Application
+    with ScalaApplicationProvider
     with ResourceBundleProvider {
 
   val log = LoggerFactory.getLogger(classOf[ScalaSkysailApplication])
@@ -51,11 +51,18 @@ abstract class ScalaSkysailApplication(
 
   val repositories = new ArrayList[DbRepository]();
 
-  val router: ScalaSkysailRouter = new ScalaSkysailRouter(this, apiVersion)
+  var router: ScalaSkysailRouter = null
 
   val stringContextMap = new java.util.HashMap[ApplicationContextId, String]()
 
-  val serviceListProvider: ServiceListProvider = null
+  var serviceListProvider: ServiceListProvider = null
+
+  setName(name);
+  //getEncoderService().getIgnoredMediaTypes().add(SkysailApplication.SKYSAIL_SERVER_SENT_EVENTS);
+  getEncoderService().setEnabled(true);
+  log.debug("Instanciating new Skysail ApplicationModel '{}'", this.getClass().getSimpleName());
+  applicationModel = new ScalaSkysailApplicationModel(name);
+  //entityClasses.forEach(cls -> applicationModel.addOnce(EntityFactory.createFrom(this, cls, null)));
 
   def this(name: String, apiVersion: ApiVersion) {
     this(name, apiVersion, List())
@@ -135,7 +142,7 @@ abstract class ScalaSkysailApplication(
 
   override def createInboundRoot(): Restlet = {
     log.info("creating new Router in {}", this.getClass().getName());
-   // router = Some(new ScalaSkysailRouter(this, apiVersion));
+    router = new ScalaSkysailRouter(this, apiVersion)
 
     log.info("adding extensions to metadata service");
     getMetadataService().addExtension("x-www-form-urlencoded", MediaType.APPLICATION_WWW_FORM);
@@ -149,8 +156,8 @@ abstract class ScalaSkysailApplication(
 
     val securityConfigBuilder = new SecurityConfigBuilder(apiVersion);
     defineSecurityConfig(securityConfigBuilder);
-    //securityConfigBuilder.setAuthenticationService(serviceListProvider.getAuthenticationService());
-    router.setSecurityConfig(securityConfigBuilder.build());
+    securityConfigBuilder.setAuthenticationService(serviceListProvider.getAuthenticationService());
+    router.setSecurityConfig(securityConfigBuilder.build())
 
     //getContext().setDefaultEnroler(serviceListProvider.getAuthorizationService().getEnroler());
 
@@ -217,5 +224,27 @@ abstract class ScalaSkysailApplication(
   }
 
   def getAuthenticationService(): AuthenticationService = serviceListProvider.getAuthenticationService();
+  def getMetricsCollector() = serviceListProvider.getMetricsCollector()
+  def getSkysailApplicationService() = serviceListProvider.getSkysailApplicationService()
+
+  def getBundle(): Bundle = {
+    if (componentContext == null) {
+      return null;
+    }
+    return componentContext.getBundleContext().getBundle();
+  }
+
+  //Class<? extends Entity>
+  def getRepository[T <: DbRepository](entityClass: Class[_]): T = {
+    val repo = repositories.asScala.filter { r =>
+      val entityType = ReflectionUtils.getParameterizedType(r.getClass())
+      entityClass.isAssignableFrom(entityType)
+    }.headOption
+      .getOrElse(
+        //log.warn("no matching repository found for '{}'", entityClass.getName())
+        //return new NoOpDbRepository[T]()
+        throw new RuntimeException("no repo"))
+    repo.asInstanceOf[T]
+  }
 
 }

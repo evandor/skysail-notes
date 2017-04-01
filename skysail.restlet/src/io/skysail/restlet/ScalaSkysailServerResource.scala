@@ -7,6 +7,7 @@ import java.util.function.Consumer
 import io.skysail.api.links.Link
 import io.skysail.core.utils.LinkUtils
 import io.skysail.server.ResourceContextId
+import io.skysail.restlet.app.ScalaSkysailApplication
 
 abstract class ScalaSkysailServerResource extends ServerResource {
 
@@ -15,7 +16,7 @@ abstract class ScalaSkysailServerResource extends ServerResource {
 
   val stringContextMap = new java.util.HashMap[ResourceContextId, String]()
 
-  def getSkysailApplication() = getApplication().asInstanceOf[SkysailApplication]
+  def getSkysailApplication() = getApplication().asInstanceOf[ScalaSkysailApplication]
   def getMetricsCollector() = getSkysailApplication().getMetricsCollector()
   def getParameterizedType() = ReflectionUtils.getParameterizedType(getClass());
 

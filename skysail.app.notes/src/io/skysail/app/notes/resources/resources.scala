@@ -16,9 +16,10 @@ import io.skysail.restlet.resources.PostEntityServerResource2
 import io.skysail.restlet.resources.EntityServerResource2
 import io.skysail.restlet.resources.PutEntityServerResource2
 import io.skysail.restlet.resources.ListServerResource2
+import io.skysail.restlet.app.ScalaSkysailApplication
 
 object NotesResource {
-  def noteRepo(app: SkysailApplication) = app.getRepository[NotesRepository](classOf[Note])
+  def noteRepo(app: ScalaSkysailApplication) = app.getRepository[NotesRepository](classOf[Note])
 }
 
 class NotesResource extends ListServerResource2[Note](classOf[NoteResource]) {

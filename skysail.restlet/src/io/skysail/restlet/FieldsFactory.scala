@@ -10,8 +10,7 @@ object FieldsFactory {
       return new NoFieldFactory();
     }
     if (response.entity.isInstanceOf[List[_]]) {
-      null
-      //      return new DefaultListFieldFactory();
+      return new DefaultListFieldFactory();
       //    } else if (response instanceof ConstraintViolationsResponse) {
       //      return entityFactory((ConstraintViolationsResponse<?>) response);
     } else if (response.isInstanceOf[FormResponse[_]]) {

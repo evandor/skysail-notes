@@ -9,6 +9,7 @@ import org.osgi.service.component.annotations._
 import io.skysail.api.um.UserManagementProvider
 import org.slf4j.LoggerFactory
 import io.skysail.server.app.SkysailComponentProvider
+import io.skysail.api.metrics.MetricsCollector
 
 @org.osgi.annotation.versioning.ProviderType
 trait ScalaServiceListProvider {
@@ -18,10 +19,10 @@ trait ScalaServiceListProvider {
   //  def getTranslationRenderServices(): Set[TranslationRenderServiceHolder]
   // def Set<TranslationStoreHolder> getTranslationStores(): 
   //  def getSkysailComponent(): SkysailComponent
-  //    MetricsCollector getMetricsCollector();
+ // def  getMetricsCollector(): MetricsCollector
   //    FacetsProvider getFacetsProvider();
   //	FilterParser getFilterParser();
-  //	SkysailApplicationService getSkysailApplicationService();
+ //def	 getSkysailApplicationService(): SkysailApplicationService
 
 }
 
@@ -37,7 +38,7 @@ class ScalaServiceList extends ScalaServiceListProvider {
   def getAuthenticationService(): AuthenticationService = authenticationService
 
   @Reference(cardinality = ReferenceCardinality.MANDATORY)
-  var applicationListProvider: ApplicationListProvider = null
+  var applicationListProvider: ApplicationListProvider = new NoOpApplicationListProvider()
   def getApplicationListProvider() = applicationListProvider
 
   @Reference(policy = ReferencePolicy.STATIC, cardinality = ReferenceCardinality.MANDATORY)
