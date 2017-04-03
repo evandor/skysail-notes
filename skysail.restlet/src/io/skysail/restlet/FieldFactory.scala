@@ -29,14 +29,19 @@ trait FieldFactory {
       return Map()
     }
 
-    if (entityModel.getFieldValues() == null) {
-      return Map()
-    }
-    entityModel.getFieldValues().asScala
-      .map { fv => fv.asInstanceOf[ScalaSkysailFieldModel] }
+    entityModel.getScalaFields().values
       .map { field => new ScalaFormField(field, resource.entity, service) }
       .map { sff => sff.getId() -> sff }
       .toMap
+    
+//    if (entityModel.getFieldValues() == null) {
+//      return Map()
+//    }
+//    entityModel.getFieldValues().asScala
+//      .map { fv => fv.asInstanceOf[ScalaSkysailFieldModel] }
+//      .map { field => new ScalaFormField(field, resource.entity, service) }
+//      .map { sff => sff.getId() -> sff }
+//      .toMap
   }
 
 }

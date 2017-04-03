@@ -8,6 +8,6 @@ object ScalaEntityFactory {
 		skysailApplication: ScalaSkysailApplication, 
 	  identifiable: Class[_],
     resourceInstance: ScalaSkysailServerResource):ScalaSkysailEntityModel = { // <T extends Entity> SkysailEntityModel<T>
-         new ScalaSkysailEntityModel(identifiable);
+         new ScalaSkysailEntityModel(identifiable, resourceInstance);
     }
 }
