@@ -32,8 +32,10 @@ Export-Package: \
 	io.skysail.restlet.resources,\
 	io.skysail.restlet.utils,\
 	io.skysail.restlet.responses,\
-	io.skysail.restlet.router
+	io.skysail.restlet.router,\
+	io.skysail.restlet.model,\
+	io.skysail.restlet.queries
 Private-Package: \
 	io.skysail.restlet.filter,\
-	io.skysail.restlet.model,\
-	io.skysail.restlet.forms
+	io.skysail.restlet.forms,\
+	io.skysail.restlet.queries.impl
