@@ -11,18 +11,20 @@ import java.util.Date
 import io.skysail.server.forms.Visibility;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 
+import scala.annotation.meta.field
+
 //@JsonIgnoreProperties(ignoreUnknown = true)
 case class Note(
-    id:String,
-    content:String
-) extends Entity {
-    def this() = this("","")
-    def getId():String = id
-    
+    id: String,
+    @(Field @field) content: String) extends Entity {
+
+  def this() = this("", "")
+  def getId(): String = id
+
   @Field(inputType = InputType.DATE)
   @PostView(visibility = Visibility.HIDE)
   @PutView(visibility = Visibility.HIDE)
-  @JsonFormat (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
   var created: Date = new Date()
   def setCreated(c: Date) = created = c
   def getCreated() = created
@@ -30,7 +32,7 @@ case class Note(
   @Field(inputType = InputType.DATE)
   @PostView(visibility = Visibility.HIDE)
   @PutView(visibility = Visibility.HIDE)
-  @JsonFormat (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
   var modified: Date = new Date()
   def setModified(c: Date) = modified = c
   def getModified() = modified
