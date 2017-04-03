@@ -11,14 +11,16 @@ import org.slf4j.LoggerFactory
 import io.skysail.server.app.SkysailComponentProvider
 import io.skysail.api.metrics.MetricsCollector
 import io.skysail.api.metrics.NoOpMetricsCollector
+import io.skysail.core.text.TranslationStoreHolder
+import io.skysail.api.text.TranslationStore
 
 @org.osgi.annotation.versioning.ProviderType
 trait ScalaServiceListProvider {
   //  def getValidatorService(): ValidatorService
   //  def getAuthorizationService(): AuthorizationService
   def getAuthenticationService(): AuthenticationService
-  //  def getTranslationRenderServices(): Set[TranslationRenderServiceHolder]
-  // def Set<TranslationStoreHolder> getTranslationStores(): 
+  def getTranslationRenderServices(): Set[TranslationRenderServiceHolder]
+  def getTranslationStores(): Set[TranslationStoreHolder]
   //  def getSkysailComponent(): SkysailComponent
   def getMetricsCollector(): MetricsCollector
   //    FacetsProvider getFacetsProvider();
@@ -45,7 +47,7 @@ class ScalaServiceList extends ScalaServiceListProvider {
   @Reference(cardinality = ReferenceCardinality.OPTIONAL, policy = ReferencePolicy.DYNAMIC)
   var skysailApplicationService: ScalaSkysailApplicationService = null
   def getSkysailApplicationService = skysailApplicationService
-  
+
   @Reference(cardinality = ReferenceCardinality.MANDATORY)
   var applicationListProvider: ApplicationListProvider = new NoOpApplicationListProvider()
   def getApplicationListProvider() = applicationListProvider
@@ -57,11 +59,26 @@ class ScalaServiceList extends ScalaServiceListProvider {
     this.authorizationService = provider.getAuthorizationService();
   }
 
+  val translationStores = scala.collection.mutable.Set[TranslationStoreHolder]() //Collections.synchronizedSet(new HashSet<>());
+  def getTranslationStores() = translationStores.toSet
+
+  val translationRenderServices = scala.collection.mutable.Set[TranslationRenderServiceHolder]()
+  def getTranslationRenderServices() = translationRenderServices.toSet
+
   @Reference(policy = ReferencePolicy.DYNAMIC, cardinality = ReferenceCardinality.OPTIONAL)
   def setSkysailComponentProvider(service: SkysailComponentProvider): Unit = {
     skysailComponentProvider = service;
     val appContext = skysailComponentProvider.getSkysailComponent().getContext().createChildContext();
     getSkysailApps().foreach { app => app.setContext(appContext) }
+  }
+
+  @Reference(policy = ReferencePolicy.DYNAMIC, cardinality = ReferenceCardinality.MULTIPLE)
+  def addTranslationStore(service: TranslationStore, props: java.util.Map[String, String]):Unit = {
+    this.translationStores += new TranslationStoreHolder(service, props)
+  }
+
+  def removeTranslationStore(service: TranslationStore):Unit = {
+    this.translationStores -= new TranslationStoreHolder(service, new java.util.HashMap[String, String]())
   }
 
   @Activate

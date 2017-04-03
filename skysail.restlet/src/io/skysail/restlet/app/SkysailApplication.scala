@@ -1,16 +1,17 @@
 package io.skysail.restlet.app
 
+import io.skysail.api.text.Translation
 import io.skysail.core.app._
 import io.skysail.core.model.SkysailApplicationModel
-import io.skysail.core.utils.CompositeClassLoader
-import io.skysail.core.utils.ClassLoaderDirectory
+import io.skysail.core.utils._
 import io.skysail.domain.Entity
 import io.skysail.domain.core.repos.DbRepository
 import io.skysail.restlet.router.ScalaSkysailRouter
+import io.skysail.restlet.model.ScalaSkysailApplicationModel
+import io.skysail.restlet.NoOpDbRepository
 import io.skysail.server.services.ResourceBundleProvider
 import io.skysail.server.menus.MenuItem
 import io.skysail.server.security.config.SecurityConfigBuilder
-import io.skysail.restlet.model.ScalaSkysailApplicationModel
 import io.skysail.server.restlet.filter.OriginalRequestFilter
 import io.skysail.api.um.AuthenticationService
 import io.skysail.api.um.AuthenticationMode
@@ -24,14 +25,14 @@ import org.osgi.framework._
 import org.osgi.service.component.annotations._
 import org.restlet.data.LocalReference
 import org.restlet.routing.Router
+import org.restlet.resource.ServerResource
 import org.restlet.Restlet
 import org.restlet.data.MediaType
 import org.restlet.data.Protocol
 import org.slf4j.LoggerFactory
 
 import scala.collection.JavaConverters._
-import io.skysail.core.utils.ReflectionUtils
-import io.skysail.restlet.NoOpDbRepository
+import io.skysail.restlet.utils.ScalaTranslationUtils
 
 abstract class ScalaSkysailApplication(
   name: String,
@@ -40,6 +41,8 @@ abstract class ScalaSkysailApplication(
     extends org.restlet.Application
     with ScalaApplicationProvider
     with ResourceBundleProvider {
+
+  val IN_MEMORY_TRANSLATION_STORE = "InMemoryTranslationStore"
 
   val log = LoggerFactory.getLogger(classOf[ScalaSkysailApplication])
 
@@ -246,5 +249,32 @@ abstract class ScalaSkysailApplication(
         throw new RuntimeException("no repo"))
     repo.asInstanceOf[T]
   }
+
+  def translate(key: String, defaultMsg: String, resource: ServerResource): Translation = {
+    if (serviceListProvider == null) {
+      return new Translation(defaultMsg)
+    }
+
+    val stores = serviceListProvider.getTranslationStores()
+
+    val optionalTranslation = ScalaTranslationUtils.getBestTranslation(stores, key, resource);
+    if (!optionalTranslation.isDefined) {
+      return new Translation(defaultMsg);
+    }
+    val translation = optionalTranslation.get
+    val trs = serviceListProvider.getTranslationRenderServices();
+    val renderedTranslation = ScalaTranslationUtils.render(trs, translation);
+
+    if (isNotInMemoryStore(translation)) {
+      val t = stores
+        .filter(IN_MEMORY_TRANSLATION_STORE == _.getProps().get("name"))
+        .headOption
+        .exists { _.getStore.get.persist(key, renderedTranslation.getValue(), translation.getLocale(), null) }
+    }
+
+    return null; // renderedTranslation;
+  }
+
+  def isNotInMemoryStore(translation: Translation) = IN_MEMORY_TRANSLATION_STORE != translation.getStoreName()
 
 }

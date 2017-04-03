@@ -20,6 +20,8 @@ case class Note(
 
   def this() = this("", "")
   def getId(): String = id
+  
+  def getContent() = content
 
   @Field(inputType = InputType.DATE)
   @PostView(visibility = Visibility.HIDE)
