@@ -4,31 +4,24 @@ import io.skysail.restlet.ScalaAbstractResourceFilter
 import io.skysail.restlet.ScalaSkysailServerResource
 import org.slf4j.LoggerFactory
 import io.skysail.server.restlet.filter.FilterResult
+import io.skysail.restlet.Wrapper3
+import org.restlet.resource.ResourceException
+import io.skysail.restlet.filter.helper.ExceptionCatchingFilterHelper
 
 class ExceptionCatchingFilter[T] extends ScalaAbstractResourceFilter[T] {
 
-  val log = LoggerFactory.getLogger(classOf[ExceptionCatchingFilter[_]])
-
-  override def doHandle(resource: ScalaSkysailServerResource /*,  responseWrapper: Wrapper2*/ ): FilterResult = {
+  override def doHandle(resource: ScalaSkysailServerResource, responseWrapper: Wrapper3): FilterResult = {
     log.debug("entering {}#doHandle", this.getClass().getSimpleName());
-    
     try {
-      super.doHandle(resource)
+      super.doHandle(resource, responseWrapper)
     } catch {
-      case _: Throwable =>
+      case r: ResourceException => throw r
+      case e: Exception => ExceptionCatchingFilterHelper.handleError(e, resource.getSkysailApplication(), responseWrapper, resource.getClass());
     }
-    
-    //        try {
-    //            super.doHandle(resource, responseWrapper);
-    //        } catch (ResourceException re) {
-    //            throw re;
-    //        } catch (Exception e) {
-    //            ExceptionCatchingFilterHelper.handleError(e, resource.getApplication(), responseWrapper, resource.getClass());
-    //        }
     FilterResult.CONTINUE;
   }
 
-  override def afterHandle(resource: ScalaSkysailServerResource):Unit = { //, Wrapper2 responseWrapper) {
+  override def afterHandle(resource: ScalaSkysailServerResource, responseWrapper: Wrapper3): Unit = {
     resource.getServerInfo().setAgent("Skysail-Server/0.0.1 " + resource.getServerInfo().getAgent());
   }
 }

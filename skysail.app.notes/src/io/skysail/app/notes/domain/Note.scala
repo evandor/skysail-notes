@@ -14,10 +14,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import scala.annotation.meta.field
 import scala.beans.BeanProperty
 
+import javax.validation.constraints._
+
 //@JsonIgnoreProperties(ignoreUnknown = true)
 case class Note(
     id: String,
-    @(Field @field) @BeanProperty val content: String) extends Entity {
+    @(Field @field) @BeanProperty @(NotNull @field) @Size(min=1) val content: String) extends Entity {
 
   def this() = this("", "")
   def getId(): String = id

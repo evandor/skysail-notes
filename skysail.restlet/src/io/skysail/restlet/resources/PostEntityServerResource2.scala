@@ -15,6 +15,7 @@ import io.skysail.restlet.responses.FormResponse
 import io.skysail.restlet.responses.ScalaSkysailResponse
 import org.restlet.data.Status
 import io.skysail.restlet.ScalaRequestHandler
+import io.skysail.restlet.ScalaResponseWrapper
 
 abstract class PostEntityServerResource2[T] extends ScalaSkysailServerResource {
 
@@ -66,10 +67,10 @@ abstract class PostEntityServerResource2[T] extends ScalaSkysailServerResource {
     //    if (handledRequest.getConstraintViolationsResponse() != null) {
     //      return handledRequest.getConstraintViolationsResponse();
     //    }
-    new FormResponse[T](getResponse(), handledRequest.getEntity(), ".")
+    new FormResponse[T](getResponse(), entity/*handledRequest.getEntity()*/, ".")
   }
 
-  def doPost(entity: T, variant: Variant): ResponseWrapper[T] = {
+  def doPost(entity: T, variant: Variant): ScalaResponseWrapper[T] = {
     //      addToRequestAttributesIfAvailable(SKYSAIL_SERVER_RESTLET_ENTITY, entity);
     //      addToRequestAttributesIfAvailable(SKYSAIL_SERVER_RESTLET_VARIANT, variant);
     val requestHandler = new ScalaRequestHandler[T]() //getSkysailApplication());

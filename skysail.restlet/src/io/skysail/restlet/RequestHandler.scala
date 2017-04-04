@@ -1,18 +1,13 @@
 package io.skysail.restlet
 
-import org.restlet.data.Method
-import io.skysail.server.restlet.filter.DataExtractingListFilter
-import io.skysail.server.restlet.filter.AddLinkheadersListFilter
-import io.skysail.server.restlet.filter.SetExecutionTimeInListResponseFilter
-import io.skysail.server.restlet.filter.RedirectListFilter
-import io.skysail.server.restlet.filter.AbstractListResourceFilter
-import io.skysail.restlet.filter.ExceptionCatchingListFilter
+import io.skysail.restlet.filter.ExceptionCatchingFilter
+
 
 class ScalaRequestHandler[T] {
 
       def createForPost(): ScalaAbstractResourceFilter[T] = { //AbstractResourceFilter<PostEntityServerResource<T>, T> = {
 
-           new ExceptionCatchingFilter[PostEntityServerResource2]()
+           new ExceptionCatchingFilter[T]()
 //                .calling(new ExtractStandardQueryParametersResourceFilter[]())
 //                .calling(new CheckInvalidInputFilter[](application))
 //                .calling(new FormDataExtractingFilter[]())
