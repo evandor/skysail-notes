@@ -6,4 +6,5 @@ import io.skysail.restlet.model.ScalaSkysailFieldModel
 
 case class ScalaFormField(ssfm: ScalaSkysailFieldModel, currentEntity: Any, appService: ScalaSkysailApplicationService) {
   def getId() = ssfm.getId
+  def getLabel() = ssfm.f.getName()
 }

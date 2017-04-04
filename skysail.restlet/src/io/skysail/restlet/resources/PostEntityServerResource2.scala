@@ -12,13 +12,16 @@ import java.util.Arrays
 import io.skysail.api.links.Link
 import io.skysail.restlet.ScalaSkysailServerResource
 import io.skysail.restlet.responses.FormResponse
+import io.skysail.restlet.responses.ScalaSkysailResponse
+import org.restlet.data.Status
+import io.skysail.restlet.ScalaRequestHandler
 
-abstract class PostEntityServerResource2[T/*: Manifest*/] extends ScalaSkysailServerResource {
+abstract class PostEntityServerResource2[T] extends ScalaSkysailServerResource {
 
   //implicit val formats = DefaultFormats 
-  
-  def createEntityTemplate():T
-  
+
+  def createEntityTemplate(): T
+
   //def getEntity():Note = createEntityTemplate()
 
   class FormDeserializer[T](cls: Class[_]) {
@@ -38,19 +41,42 @@ abstract class PostEntityServerResource2[T/*: Manifest*/] extends ScalaSkysailSe
     val formTarget = templatePaths.stream().findFirst().orElse(".");
     val links = Arrays.asList(new Link.Builder(formTarget).build());
     //links.stream().forEach(getPathSubstitutions());
-    
-    val entity:T = createEntityTemplate();
+
+    val entity: T = createEntityTemplate();
     //this.setEntity(entity);
     timerMetric.stop();
     new FormResponse[T](getResponse(), entity, links.get(0).getUri());
   }
 
   @Post("x-www-form-urlencoded:html")
-  def post(form: Form, variant: Variant) = {
+  def post(form: Form, variant: Variant): ScalaSkysailResponse[T] = {
     val timerMetric = getMetricsCollector().timerFor(this.getClass(), "posthtml");
-    //val entity = new FormDeserializer[T](getParameterizedType()).createFrom(form);
-    //post(entity, variant);
+    val entity = new FormDeserializer[T](getParameterizedType()).createFrom(form);
+    val result = jsonPost(entity.asInstanceOf[T], variant)
     timerMetric.stop();
-
+    result
   }
+
+  @Post("json")
+  def jsonPost(entity: T, variant: Variant): ScalaSkysailResponse[T] = {
+    val timerMetric = getMetricsCollector().timerFor(this.getClass(), "postjson");
+    //getRequest().getAttributes().put(SKYSAIL_SERVER_RESTLET_VARIANT, variant);
+    val handledRequest = doPost(entity, variant)
+    timerMetric.stop();
+    //    if (handledRequest.getConstraintViolationsResponse() != null) {
+    //      return handledRequest.getConstraintViolationsResponse();
+    //    }
+    new FormResponse[T](getResponse(), handledRequest.getEntity(), ".")
+  }
+
+  def doPost(entity: T, variant: Variant): ResponseWrapper[T] = {
+    //      addToRequestAttributesIfAvailable(SKYSAIL_SERVER_RESTLET_ENTITY, entity);
+    //      addToRequestAttributesIfAvailable(SKYSAIL_SERVER_RESTLET_VARIANT, variant);
+    val requestHandler = new ScalaRequestHandler[T]() //getSkysailApplication());
+    val handler = requestHandler.createForPost(); //AbstractResourceFilter<PostEntityServerResource<T>, T>
+    getResponse().setStatus(Status.SUCCESS_CREATED);
+    //      handler.handle(this, getResponse());
+    null
+  }
+
 }

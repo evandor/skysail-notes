@@ -12,16 +12,17 @@ import io.skysail.server.forms.Visibility;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 
 import scala.annotation.meta.field
+import scala.beans.BeanProperty
 
 //@JsonIgnoreProperties(ignoreUnknown = true)
 case class Note(
     id: String,
-    @(Field @field) content: String) extends Entity {
+    @(Field @field) @BeanProperty val content: String) extends Entity {
 
   def this() = this("", "")
   def getId(): String = id
   
-  def getContent() = content
+  //def getContent() = content
 
   @Field(inputType = InputType.DATE)
   @PostView(visibility = Visibility.HIDE)

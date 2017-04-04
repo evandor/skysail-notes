@@ -6,6 +6,7 @@ import io.skysail.restlet.ScalaSkysailServerResource
 import io.skysail.core.utils.ReflectionUtils
 import scala.collection.JavaConverters._
 import java.lang.reflect.Field
+import io.skysail.restlet.utils.ScalaReflectionUtils
 
 class ScalaSkysailEntityModel(
   identifiableClass: Class[_],
@@ -22,9 +23,9 @@ class ScalaSkysailEntityModel(
   def identifiableClass(): Class[_] = identifiableClass
 
   private def deriveFields() = {
-    val fields = ReflectionUtils.getInheritedFields(identifiableClass)
-    fields.asScala
-      .filter { filterFormFields(_) }
+    ScalaReflectionUtils.getInheritedFields(identifiableClass)
+  
+    .filter { filterFormFields(_) }
       .map { f => new ScalaSkysailFieldModel(this, f) }
       .map(m => m.getId -> m)
       .toMap
