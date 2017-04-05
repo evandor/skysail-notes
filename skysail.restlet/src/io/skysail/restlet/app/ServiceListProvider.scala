@@ -45,7 +45,7 @@ class ScalaServiceList extends ScalaServiceListProvider {
   def getMetricsCollector() = metricsCollector
 
   @Reference(cardinality = ReferenceCardinality.OPTIONAL, policy = ReferencePolicy.DYNAMIC)
-  var skysailApplicationService: ScalaSkysailApplicationService = null
+  @volatile var skysailApplicationService: ScalaSkysailApplicationService = null
   def getSkysailApplicationService = skysailApplicationService
 
   @Reference(cardinality = ReferenceCardinality.MANDATORY)

@@ -6,6 +6,8 @@ import io.skysail.restlet.model.ScalaSkysailFieldModel
 import io.skysail.domain.html.InputType
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size
+import scala.beans.BeanProperty
+import java.util.Collection
 
 case class ScalaFormField(ssfm: ScalaSkysailFieldModel, currentEntity: Any, appService: ScalaSkysailApplicationService) {
 
@@ -18,14 +20,11 @@ case class ScalaFormField(ssfm: ScalaSkysailFieldModel, currentEntity: Any, appS
   //        this.label = sfm.getF().getName();
   //        this.currentEntity = currentEntity;
   //        tab = postViewAnnotation != null ? postViewAnnotation.tab() : null;
-  //        this.htmlId = sfm.getF().getDeclaringClass().getName().replace(".","_") + "_" + sfm.getF().getName();
-  //        //this.htmlName = sfm.getF().getDeclaringClass().getName() + "|" + sfm.getF().getName();
-  //        this.htmlName = determineHtmlName(sfm.getF());
 
   def getId() = ssfm.getId
   def getLabel() = ssfm.f.getName()
 
-  val inputType: InputType = getFromFieldAnnotation(ssfm.f)
+  @BeanProperty val inputType: InputType = getFromFieldAnnotation(ssfm.f)
 
   def isReadonlyInputType(): Boolean = isOfInputType(InputType.READONLY)
 
@@ -33,14 +32,28 @@ case class ScalaFormField(ssfm: ScalaSkysailFieldModel, currentEntity: Any, appS
   def sizeAnnotation() = ssfm.f.getAnnotation(classOf[Size])
 
   def isMandatory() = ssfm.isMandatory()
-//    if (notNullAnnotation() != null) {
-//      true;
-//    } else if (sizeAnnotation() != null) {
-//      if (sizeAnnotation.min() > 0) true else false
-//    } else {
-//      false      
+  
+  def getHtmlId() = ssfm.f.getDeclaringClass().getName().replace(".", "_") + "_" + ssfm.f.getName();
+  
+  def getHtmlName(): String = {
+//    if (currentEntity == null) {
+//      return ssfm.f.getName();
 //    }
-//  }
+    if (currentEntity.isInstanceOf[Collection[_]]) {
+      return ssfm.f.getDeclaringClass().getName() + "|" + ssfm.f.getName();
+    }
+    //return currentEntity.getClass().getName() + "|" + ssfm.f.getName();
+    ssfm.f.getDeclaringClass().getName() + "|" + ssfm.f.getName()
+  }
+
+  //    if (notNullAnnotation() != null) {
+  //      true;
+  //    } else if (sizeAnnotation() != null) {
+  //      if (sizeAnnotation.min() > 0) true else false
+  //    } else {
+  //      false      
+  //    }
+  //  }
 
   private def isOfInputType(inputType: InputType) = this.inputType.equals(inputType)
 
