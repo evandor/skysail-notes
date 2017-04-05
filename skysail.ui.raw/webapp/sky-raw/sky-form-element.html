@@ -10,7 +10,6 @@
       }
     </style>
     
-    ***
     <template is="dom-if" if="{{isRelation(relationPath)}}">
       <iron-ajax
       		auto
@@ -28,6 +27,15 @@
      </div>
     </template>
     <template is="dom-if" if="{{isElse(inputType, relationPath)}}">
+    
+        <div class="pure-control-group">
+            <label for="{{id}}">{{label}}</label>
+            <input id="{{id}}" type="text" placeholder="{{placeholder}}" class="pure-input-2-3">
+            <span class="pure-form-message-inline">This is a required field.</span>
+        </div>
+
+    
+    
       <div class$='{{determineClass(cssClass,required)}}' style$="{{cssStyle}}">
         <label for='{{id}}' class='col-sm-4 control-label'>
           <sky-label identifier="{{name}}" content="{{label}}" info-message="{{infoMsg}}" edit-base-url='{{editBaseUrl}}'></sky-label>
@@ -78,6 +86,7 @@
 	  	return inputType == "STATIC"; //!this.isRelation(relationPath) && ;
 	  },
 	  isElse: function (inputType, relationPath) {
+	  	//console.log("InputType",relationPath == '' && inputType != "STATIC")
 	    return relationPath == '' && inputType != "STATIC";
 	  },
 	  hasError: function(message) {

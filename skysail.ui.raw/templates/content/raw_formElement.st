@@ -7,7 +7,9 @@ raw_formElement(model,converter,ff) ::= <<
       </div>
     </div>
   $else$
-    <!-- $ff.name$: $first(model.data)$ -->+$ff$+
+  
+    
+    <!-- $ff.name$: $first(model.data)$ -->
     <sky-form-element 
         label="$ff.label$"
         name="$ff.name$"
@@ -24,5 +26,7 @@ raw_formElement(model,converter,ff) ::= <<
         $if(ff.mandatory)$ required $endif$
         edit-base-url='$converter.editBaseUrl$'>
     </sky-form-element>
+    
+    <hr>
   $endif$
 >>

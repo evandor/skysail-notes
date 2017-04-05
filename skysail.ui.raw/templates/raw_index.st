@@ -36,8 +36,10 @@ raw_index(user, messages, converter, model, request) ::= <<
             <h2>A subtitle for your page goes here</h2>
         </div>
 
-        <div class="content">
-        $content/raw_content(user,converter,messages,model,request)$ 
+        <div class="pure-g">
+          <div class="pure-u-lg-1-24">&nbsp;</div>
+          <div class="pure-u-lg-22-24">$content/raw_content(user,converter,messages,model,request)$</div>
+          <div class="pure-u-lg-1-24">&nbsp;</div>
         </div>
 
     </div>

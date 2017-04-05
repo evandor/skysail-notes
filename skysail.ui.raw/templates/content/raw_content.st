@@ -14,34 +14,9 @@ raw_content(user,converter,messages,model,request)::= <<
         <div class="pure-u-4-5">
           <form class="pure-form pure-form-aligned" action="$model.formTarget$" method="POST" id="form" name="form">
             <fieldset>
-                <div class="pure-control-group">
-                    <label for="name">Username</label>
-                    <input id="name" type="text" placeholder="Username">
-                    <span class="pure-form-message-inline">This is a required field.</span>
-                </div>
-        
-                <div class="pure-control-group">
-                    <label for="password">Password</label>
-                    <input id="password" type="password" placeholder="Password">
-                </div>
-        
-                <div class="pure-control-group">
-                    <label for="email">Email Address</label>
-                    <input id="email" type="email" placeholder="Email Address">
-                </div>
-        
-                <div class="pure-control-group">
-                    <label for="foo">Supercalifragilistic Label</label>
-                    <input id="foo" type="text" placeholder="Enter something here...">
-                </div>
-        
+                $model.formfieldsWrapper.formfields: { ff | $raw_formElement(model,converter,ff)$ };separator="\n"$ 
                 <div class="pure-controls">
-                    <label for="cb" class="pure-checkbox">
-                        <input id="cb" type="checkbox"> I've read the terms and conditions
-                    </label>
-                    
                     <button type="submit" name="submit" value="submit" class="pure-button pure-button-primary" >submit</button>
-                    
                 </div>
             </fieldset>
           </form>
@@ -51,9 +26,6 @@ raw_content(user,converter,messages,model,request)::= <<
         $raw_renderEntityInfo(model.formfields, messages, model)$
         </div>
       </div>
-    
-      $model.formfieldsWrapper.formfields: { ff | $raw_formElement(model,converter,ff)$ };separator="\n"$ 
-     
 
     $elseif(model.relationTargetList)$
  

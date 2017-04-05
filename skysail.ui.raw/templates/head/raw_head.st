@@ -6,11 +6,19 @@ raw_head(converter) ::= <<
   <title>skysail raw viewer</title>
 
   <link rel="stylesheet" href="/_ui/raw/0.6.2/pure-min.css">
+  
   <!--[if lte IE 8]>
     <link rel="stylesheet" href="/_ui/raw/0.6.2/layouts/side-menu-old-ie.css">
   <![endif]-->
   <!--[if gt IE 8]><!-->
     <link rel="stylesheet" href="/_ui/raw/0.6.2/layouts/side-menu.css">
+  <!--<![endif]-->
+  
+  <!--[if lte IE 8]>
+    <link rel="stylesheet" href="/_ui/raw/0.6.2/grids-responsive-old-ie-min.css">
+  <![endif]-->
+  <!--[if gt IE 8]><!-->
+    <link rel="stylesheet" href="/_ui/raw/0.6.2/grids-responsive-min.css">
   <!--<![endif]-->
   
   <link rel="shortcut icon" href="/webapp/favicon.ico" type="image/x-icon" >

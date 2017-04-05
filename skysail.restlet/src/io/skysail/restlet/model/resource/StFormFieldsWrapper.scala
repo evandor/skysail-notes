@@ -35,10 +35,11 @@ case class StFormFieldsWrapper(scalaformfields: Iterable[ScalaFormField], reques
 
     private def determineText(ff: ScalaFormField, key: String): String = {
       val translation = StFormFieldsWrapper.this.messages.get(key);
-      if (translation == null) { // || translation.value == null) {
-        return key;
+      if (translation.isEmpty) { // || translation.value == null) {
+        val split = key.split("\\|")
+        return split(1)
       }
-      return key//translation.getValue();
+      return translation.get.getValue
     }
 
   }
