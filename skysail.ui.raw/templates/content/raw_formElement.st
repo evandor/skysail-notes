@@ -26,7 +26,5 @@ raw_formElement(model,converter,ff) ::= <<
         $if(ff.mandatory)$ required $endif$
         edit-base-url='$converter.editBaseUrl$'>
     </sky-form-element>
-    
-    <hr>
   $endif$
 >>

@@ -17,6 +17,9 @@ import io.skysail.restlet.resources.EntityServerResource2
 import io.skysail.restlet.resources.PutEntityServerResource2
 import io.skysail.restlet.resources.ListServerResource2
 import io.skysail.restlet.app.ScalaSkysailApplication
+import org.json4s.JsonAST.JValue
+import org.json4s.DefaultFormats
+
 
 object NotesResource {
   def noteRepo(app: ScalaSkysailApplication) = app.getRepository[NotesRepository](classOf[Note])
@@ -43,6 +46,7 @@ class NoteResource extends EntityServerResource2[Note] {
 }
 
 class PostNoteResource extends PostEntityServerResource2[Note] {
+  implicit val formats = DefaultFormats
   def createEntityTemplate() = Note("", "")
   //def getEntity() = Note("","").asInstanceOf[Nothing]
   def addEntity(entity: Note): Unit = {
@@ -52,6 +56,7 @@ class PostNoteResource extends PostEntityServerResource2[Note] {
     //entity.setId(vertex.getId.toString())
     // entity.copy(id=vertex.getId.toString())
   }
+
   // override def redirectTo() = super.redirectTo(classOf[NotesResource])
 }
 

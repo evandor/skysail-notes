@@ -41,7 +41,6 @@ case class StFormFieldsWrapper(scalaformfields: Iterable[ScalaFormField], reques
       }
       return translation.get.getValue
     }
-
   }
 
   val formfields = scalaformfields.map(new ScalaFormFieldAdapter(_)).toList.asJava

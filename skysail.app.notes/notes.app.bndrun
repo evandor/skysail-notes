@@ -39,9 +39,5 @@ skysail.server.um:\
     skysail.ui.raw;version=latest,\
 	skysail.app.notes;version=latest,\
 	com.thoughtworks.paranamer;version=2.8,\
-	io.skysail.bundled.json4s-jackson_2.11;version=3.5,\
-	io.skysail.bundled.json4s-ast_2.11;version=3.5,\
-	io.skysail.bundled.json4s-scalap_2.11;version=3.5,\
-	io.skysail.bundled.json4s-core_2.11;version=3.5,\
-	io.skysail.bundled.json4s-native_2.11;version=3.5,\
+	io.skysail.bundled.json4s_2.11-3.5.1;version=3.5,\
 	org.scala-lang.scala-library;version=2.11.8

@@ -30,13 +30,13 @@
     
         <div class="pure-control-group">
             <label for="{{id}}">{{label}}</label>
-            <input id="{{id}}" type="text" placeholder="{{placeholder}}" class="pure-input-2-3">
-            <span class="pure-form-message-inline">This is a required field.</span>
+            <input id="{{id}}" type="text" name="{{name}}" placeholder="{{placeholder}}" class="pure-input-2-3">
+            <span class="pure-form-message-inline"></span>
         </div>
 
     
     
-      <div class$='{{determineClass(cssClass,required)}}' style$="{{cssStyle}}">
+      <!--<div class$='{{determineClass(cssClass,required)}}' style$="{{cssStyle}}">
         <label for='{{id}}' class='col-sm-4 control-label'>
           <sky-label identifier="{{name}}" content="{{label}}" info-message="{{infoMsg}}" edit-base-url='{{editBaseUrl}}'></sky-label>
         </label>
@@ -47,7 +47,7 @@
           </template>
           <sky-form-field-help help-message="{{helpMsg}}" identifier="{{name}}.desc" edit-base-url='{{editBaseUrl}}' />
         </div>
-      </div>
+      </div>-->
     </template>
 	
   </template>

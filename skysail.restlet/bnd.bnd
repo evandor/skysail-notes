@@ -16,10 +16,7 @@ Import-Package: \
 	${javax},\
 	com.google.guava;version='[16.0,16.1)',\
 	skysail.server;version=${skysail.server.version},\
-	io.skysail.bundled.json4s-jackson_2.11;version=3.5,\
-	io.skysail.bundled.json4s-ast_2.11;version=3.5,\
-	io.skysail.bundled.json4s-core_2.11;version=3.5,\
-	io.skysail.bundled.json4s-native_2.11;version=3.5,\
+	io.skysail.bundled.json4s_2.11-3.5.1;version=3.5,\
 	com.fasterxml.jackson.core.jackson-annotations;version=2.5
 	
 #    skysail.api;version=${skysail.api.version},\

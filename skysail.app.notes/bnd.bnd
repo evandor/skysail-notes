@@ -33,10 +33,7 @@ Include-Resource: resources
 	io.skysail.bundled.tinkerpop.blueprints-core;version=2.6,\
 	com.google.guava;version=${guava.version},\
 	org.jsoup;version=1.8,\
-	io.skysail.bundled.json4s-jackson_2.11;version=3.5,\
-	io.skysail.bundled.json4s-ast_2.11;version=3.5,\
-	io.skysail.bundled.json4s-core_2.11;version=3.5,\
-	io.skysail.bundled.json4s-native_2.11;version=3.5,\
+	io.skysail.bundled.json4s_2.11-3.5.1;version=3.5,\
 	com.fasterxml.jackson.core.jackson-annotations;version=2.5
 
 

@@ -14,10 +14,10 @@ raw_content(user,converter,messages,model,request)::= <<
         <div class="pure-u-4-5">
           <form class="pure-form pure-form-aligned" action="$model.formTarget$" method="POST" id="form" name="form">
             <fieldset>
-                $model.formfieldsWrapper.formfields: { ff | $raw_formElement(model,converter,ff)$ };separator="\n"$ 
-                <div class="pure-controls">
-                    <button type="submit" name="submit" value="submit" class="pure-button pure-button-primary" >submit</button>
-                </div>
+              $model.formfieldsWrapper.formfields: { ff | $raw_formElement(model,converter,ff)$ };separator="\n"$ 
+              <div class="pure-controls">
+                <button type="submit" name="submit" value="submit" class="pure-button pure-button-primary" >submit</button>
+              </div>
             </fieldset>
           </form>
         </div>
