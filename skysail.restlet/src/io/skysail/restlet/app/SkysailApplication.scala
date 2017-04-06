@@ -5,7 +5,6 @@ import io.skysail.core.app._
 import io.skysail.core.model.SkysailApplicationModel
 import io.skysail.core.utils._
 import io.skysail.domain.Entity
-import io.skysail.domain.core.repos.DbRepository
 import io.skysail.restlet.router.ScalaSkysailRouter
 import io.skysail.restlet.model.ScalaSkysailApplicationModel
 import io.skysail.restlet.NoOpDbRepository
@@ -33,6 +32,7 @@ import org.slf4j.LoggerFactory
 
 import scala.collection.JavaConverters._
 import io.skysail.restlet.utils.ScalaTranslationUtils
+import io.skysail.domain.core.ScalaDbRepository
 
 abstract class ScalaSkysailApplication(
   name: String,
@@ -52,7 +52,7 @@ abstract class ScalaSkysailApplication(
   var applicationModel: ScalaSkysailApplicationModel = null
   def getApplicationModel() = applicationModel
 
-  val repositories = new ArrayList[DbRepository]();
+  val repositories = new ArrayList[ScalaDbRepository]();
 
   var router: ScalaSkysailRouter = null
 
@@ -197,7 +197,7 @@ abstract class ScalaSkysailApplication(
     None
   }
 
-  def addRepository(repository: DbRepository) = {
+  def addRepository(repository: ScalaDbRepository) = {
     this.repositories.add(repository);
   }
 
@@ -238,7 +238,7 @@ abstract class ScalaSkysailApplication(
   }
 
   //Class<? extends Entity>
-  def getRepository[T <: DbRepository](entityClass: Class[_]): T = {
+  def getRepository[T <: ScalaDbRepository](entityClass: Class[_]): T = {
     val repo = repositories.asScala.filter { r =>
       val entityType = ReflectionUtils.getParameterizedType(r.getClass())
       entityClass.isAssignableFrom(entityType)

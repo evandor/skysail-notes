@@ -16,6 +16,7 @@ import io.skysail.restlet.responses.ScalaSkysailResponse
 import org.restlet.data.Status
 import io.skysail.restlet.ScalaRequestHandler
 import io.skysail.restlet.ScalaResponseWrapper
+import io.skysail.restlet.resources.helper.FormDeserializer
 
 abstract class PostEntityServerResource2[T: Manifest] extends ScalaSkysailServerResource {
 
@@ -25,30 +26,30 @@ abstract class PostEntityServerResource2[T: Manifest] extends ScalaSkysailServer
 
   //def getEntity():Note = createEntityTemplate()
 
-  class FormDeserializer[T](cls: Class[_]) {
-    def createFrom(form: Form): JValue = {
-      println(form)
-      //      val elements = MutableList[JField]()
-      //      form.getNames()
-      //        .filter(_ != "submit")
-      //        .foreach(key => elements += JField(key, JString(form.getFirstValue(key))))
-      //      //val jValue: org.json4s.JsonAST.JValue = JObject(elements.toList)
-      //      JObject(elements.toList)
-      //val json = parse("""{"name":"joe"}""")
-      //json.extract[Note]
-      //jValue.extract[Note]
-      val sb = form.getNames()
-        .filter(_ != "submit")
-        //        .foreach { 
-        //          key => sb.append("\""+key+"\":\"" + form.getFirstValue(key) + "\"") 
-        //        }
-        .map(key => "\"" + key.split("\\|")(1) + "\":\"" + form.getFirstValue(key) + "\"")
-        .mkString(",")
-      println(sb)
-      parse("{" + sb + "}")
-      //json.extract[T]
-    }
-  }
+//  class FormDeserializer[T](cls: Class[_]) {
+//    def createFrom(form: Form): JValue = {
+//      println(form)
+//      //      val elements = MutableList[JField]()
+//      //      form.getNames()
+//      //        .filter(_ != "submit")
+//      //        .foreach(key => elements += JField(key, JString(form.getFirstValue(key))))
+//      //      //val jValue: org.json4s.JsonAST.JValue = JObject(elements.toList)
+//      //      JObject(elements.toList)
+//      //val json = parse("""{"name":"joe"}""")
+//      //json.extract[Note]
+//      //jValue.extract[Note]
+//      val sb = form.getNames()
+//        .filter(_ != "submit")
+//        //        .foreach { 
+//        //          key => sb.append("\""+key+"\":\"" + form.getFirstValue(key) + "\"") 
+//        //        }
+//        .map(key => "\"" + key.split("\\|")(1) + "\":\"" + form.getFirstValue(key) + "\"")
+//        .mkString(",")
+//      println(sb)
+//      parse("{" + sb + "}")
+//      //json.extract[T]
+//    }
+//  }
 
   @Get("htmlform|html")
   def getPostTemplate() = {
@@ -68,7 +69,7 @@ abstract class PostEntityServerResource2[T: Manifest] extends ScalaSkysailServer
   def post(form: Form, variant: Variant): ScalaSkysailResponse[T] = {
     implicit val formats = DefaultFormats
     val timerMetric = getMetricsCollector().timerFor(this.getClass(), "posthtml");
-    val jValue = new FormDeserializer[T](getParameterizedType()).createFrom(form);
+    val jValue = FormDeserializer.createFrom(form,getParameterizedType());
     val entity = jValue.extract[T]
     val result = jsonPost(entity.asInstanceOf[T], variant)
     timerMetric.stop();

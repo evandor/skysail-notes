@@ -14,6 +14,8 @@ Import-Package: \
 	${logging},\
 	${commons},\
 	${javax},\
+	${fasterxml},\
+	com.thoughtworks.paranamer;version=2.8,\
 	com.google.guava;version='[16.0,16.1)',\
 	skysail.server;version=${skysail.server.version},\
 	io.skysail.bundled.json4s_2.11-3.5.1;version=3.5,\
@@ -33,8 +35,10 @@ Export-Package: \
 	io.skysail.restlet.forms,\
 	io.skysail.restlet.model,\
 	io.skysail.restlet.queries,\
-	io.skysail.restlet.model.resource
+	io.skysail.restlet.model.resource,\
+	io.skysail.domain.core
 Private-Package: \
 	io.skysail.restlet.filter,\
 	io.skysail.restlet.queries.impl,\
-	io.skysail.restlet.filter.helper
+	io.skysail.restlet.filter.helper,\
+	io.skysail.restlet.resources.helper

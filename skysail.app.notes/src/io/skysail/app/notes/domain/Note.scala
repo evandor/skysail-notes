@@ -1,8 +1,7 @@
 package io.skysail.app.notes.domain
 
 import io.skysail.domain.Entity
-import io.skysail.domain.html.Field
-import io.skysail.domain.html.InputType
+import io.skysail.domain.html._
 import javax.validation.constraints.Size
 import io.skysail.server.forms.PostView
 import io.skysail.server.forms.PutView
@@ -19,7 +18,7 @@ import javax.validation.constraints._
 //@JsonIgnoreProperties(ignoreUnknown = true)
 case class Note(
     id: String,
-    @(Field @field) @BeanProperty @(NotNull @field) @Size(min=1) val content: String) extends Entity {
+    @(Field @field) @BeanProperty /*@(NotNull @field) @Size(min=1)*/ var content: String) {
 
   def this() = this("", "")
   def getId(): String = id

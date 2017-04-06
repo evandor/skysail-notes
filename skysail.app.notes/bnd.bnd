@@ -23,6 +23,7 @@ Include-Resource: resources
 	skysail.server;version=${skysail.server.version},\
 	skysail.restlet;version=latest,\
 	skysail.server.queryfilter;version=${skysail.server.queryfilter.version},\
+	skysail.repo.orientdb;version=latest,\
 	skysail.server.db;version=${skysail.server.db.version},\
 	skysail.server.codegen;version=latest,\
 	skysail.server.testsupport;version=${skysail.server.testsupport.version},\
