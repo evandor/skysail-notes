@@ -17,7 +17,7 @@ object CheckInvalidInputFilter {
 
 }
 
-class CheckInvalidInputFilter[T] extends ScalaAbstractResourceFilter[T] {
+class CheckInvalidInputFilter[T](entity: T) extends ScalaAbstractResourceFilter[T] {
 
   override val log = LoggerFactory.getLogger(classOf[CheckInvalidInputFilter[T]])
 
@@ -28,7 +28,7 @@ class CheckInvalidInputFilter[T] extends ScalaAbstractResourceFilter[T] {
     val response = responseWrapper.getResponse();
     //Form form = (Form) response.getRequest().getAttributes().get(EntityServerResource.SKYSAIL_SERVER_RESTLET_FORM);
 
-    val entity = response.getRequest().getAttributes().get(ScalaSkysailServerResource.SKYSAIL_SERVER_RESTLET_ENTITY).asInstanceOf[T]
+    //val entity = response.getRequest().getAttributes().get(ScalaSkysailServerResource.SKYSAIL_SERVER_RESTLET_ENTITY).asInstanceOf[T]
     // TODO: check entity, not form
     if (containsInvalidInput(response.getRequest(), resource, entity)) {
       log.info("Input was sanitized");

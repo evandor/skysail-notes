@@ -36,6 +36,12 @@ abstract class ScalaAbstractResourceFilter[T] {
     CONTINUE;
   }
 
+  final def handle(resource: ScalaSkysailServerResource, response: Response): ScalaResponseWrapper[T] = {
+    val responseWrapper = new ScalaResponseWrapper[T](response)
+    handleMe(resource, responseWrapper)
+    responseWrapper
+  }
+
   def calling(next: ScalaAbstractResourceFilter[T]) = { // AbstractResourceFilter<R, T>
     val lastInChain = getLast();
     lastInChain.setNext(next);
@@ -76,7 +82,7 @@ abstract class ScalaAbstractResourceFilter[T] {
     if (entityAsObject != null) {
       if (resource.isInstanceOf[EntityServerResource2[T]]) {
       } else if (resource.isInstanceOf[PostEntityServerResource2[T]]) {
-        return null//resource.asInstanceOf[PostEntityServerResource2[T]].getData(entityAsObject);
+        return null //resource.asInstanceOf[PostEntityServerResource2[T]].getData(entityAsObject);
       }
 
       return null;

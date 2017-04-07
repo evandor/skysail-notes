@@ -7,20 +7,16 @@ import io.skysail.restlet.Wrapper3
 import io.skysail.server.restlet.filter.FilterResult
 import java.util.HashSet
 
-class CheckBusinessViolationsFilter[T] extends ScalaAbstractResourceFilter[T] {
+class CheckBusinessViolationsFilter[T](entity: T) extends ScalaAbstractResourceFilter[T] {
 
   override val log = LoggerFactory.getLogger(classOf[CheckBusinessViolationsFilter[T]])
 
-  def doHandle(resource: ScalaSkysailServerResource, responseWrapper: Wrapper3): FilterResult = {
+  override def doHandle(resource: ScalaSkysailServerResource, responseWrapper: Wrapper3): FilterResult = {
     log.debug("entering {}#doHandle", this.getClass().getSimpleName());
-    val entity = responseWrapper.getEntity()
-    var violations = new HashSet[]()
-    if (entity != null) {
-      //violations = validate(entity.asInstanceOf[T]);
-    }
+    val  violations = validate(entity);
     val response = responseWrapper.getResponse();
-    if (!violations.isEmpty()) {
-      log.info("found {} business validation violation(s): {}", violations.size(), violations.toString());
+    if (!violations.isEmpty) {
+      log.info("found {} business validation violation(s): {}", violations.length, violations.toString());
       //            responseWrapper.setConstraintViolationResponse(new ConstraintViolationsResponse<>(response, (T)responseWrapper.getEntity(), violations));
       //            responseWrapper.setEntity(entity);
       //            resource.setCurrentEntity(entity);
@@ -31,6 +27,10 @@ class CheckBusinessViolationsFilter[T] extends ScalaAbstractResourceFilter[T] {
     }
     super.doHandle(resource, responseWrapper);
     FilterResult.CONTINUE;
+  }
+
+  def validate(entity: T):List[_] = {
+    List[Nothing]()
   }
 
 }

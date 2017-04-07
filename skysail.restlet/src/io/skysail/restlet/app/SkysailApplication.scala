@@ -33,6 +33,7 @@ import org.slf4j.LoggerFactory
 import scala.collection.JavaConverters._
 import io.skysail.restlet.utils.ScalaTranslationUtils
 import io.skysail.domain.repo.ScalaDbRepository
+import io.skysail.server.restlet.RouteBuilder
 
 abstract class ScalaSkysailApplication(
   name: String,
@@ -276,5 +277,13 @@ abstract class ScalaSkysailApplication(
   }
 
   def isNotInMemoryStore(translation: Translation) = IN_MEMORY_TRANSLATION_STORE != translation.getStoreName()
+
+  //public <T extends ServerResource> List<RouteBuilder> getRouteBuilders(Class<T> cls) {
+  def getRouteBuilders(cls: Class[_]):List[RouteBuilder] = {
+    if (router == null) {
+      return List[RouteBuilder]()
+    }
+    return router.getRouteBuildersForResource(cls);
+  }
 
 }

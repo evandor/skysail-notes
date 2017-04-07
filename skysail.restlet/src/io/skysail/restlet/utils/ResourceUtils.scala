@@ -3,7 +3,7 @@ package io.skysail.restlet.utils
 import java.util.Locale
 import io.skysail.restlet.ScalaSkysailServerResource
 
-object ResourceUtils {
+object ScalaResourceUtils {
   def determineLocale(resource: ScalaSkysailServerResource): Locale = {
     if (resource.getRequest() == null || resource.getRequest().getClientInfo() == null) {
       return Locale.getDefault();

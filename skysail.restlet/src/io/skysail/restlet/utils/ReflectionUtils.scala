@@ -2,13 +2,14 @@ package io.skysail.restlet.utils
 
 import java.util.ArrayList
 import scala.collection.mutable.ListBuffer
+import java.lang.reflect.ParameterizedType
 
 object ScalaReflectionUtils {
 
   val inheritedFieldsCache = scala.collection.mutable.Map[Class[_], List[java.lang.reflect.Field]]()
-  
+
   def getInheritedFields(theType: Class[_]): List[java.lang.reflect.Field] = {
-    
+
     if (inheritedFieldsCache.contains(theType)) {
       return inheritedFieldsCache.get(theType).get
     }
@@ -28,6 +29,13 @@ object ScalaReflectionUtils {
     inheritedFieldsCache += theType -> result.toList
     result.toList
   }
+
+  //  def getParameterizedType(getClass: Class[?0]) = {
+  //    ???
+  //  }
+  //
+  //  
+  //  
   //
   //    public static List<Method> getInheritedMethods(Class<?> type) {
   //        List<Method> result = new ArrayList<Method>();
@@ -47,34 +55,35 @@ object ScalaReflectionUtils {
   //        return result;
   //    }
   //
-  //    public static Class<?> getParameterizedType(Class<?> cls) {
-  //        ParameterizedType parameterizedType = getParameterizedType1(cls);
-  //        if (parameterizedType == null) {
-  //            return Object.class;
-  //        }
-  //        Type firstActualTypeArgument = parameterizedType.getActualTypeArguments()[0];
-  //        if (firstActualTypeArgument.getTypeName().startsWith("java.util.Map")) {
-  //            return Map.class;
-  //        }
-  //        return (Class<?>) firstActualTypeArgument;
-  //    }
-  //
-  //    private static ParameterizedType getParameterizedType1(Class<?> cls) {
-  //        Type genericSuperclass = cls.getGenericSuperclass();
-  //        if (genericSuperclass == null) {
-  //            Type[] genericInterfaces = cls.getGenericInterfaces();
-  //            //return getParameterizedType1(genericInterfaces[0].getClass());
-  //            Optional<Type> pt = Arrays.stream(genericInterfaces).filter(i -> i instanceof ParameterizedType).findFirst();
-  //            if (pt.isPresent()) {
-  //                return (ParameterizedType)pt.get();
-  //            }
-  //            return null;
-  //        }
-  //        if (genericSuperclass instanceof ParameterizedType) {
-  //            return (ParameterizedType) genericSuperclass;
-  //        }
-  //        return getParameterizedType1(cls.getSuperclass());
-  //    }
+  def getParameterizedType(cls: Class[_]): Class[_] = {
+    val parameterizedType = getParameterizedType1(cls);
+    if (parameterizedType == null) {
+      return classOf[Any]
+    }
+    val firstActualTypeArgument = parameterizedType.getActualTypeArguments()(0)
+    if (firstActualTypeArgument.getTypeName().startsWith("java.util.Map")) {
+      return classOf[Map[_, _]];
+    }
+    return firstActualTypeArgument.asInstanceOf[Class[_]]
+  }
+
+  private def getParameterizedType1(cls: Class[_]): ParameterizedType = {
+    val genericSuperclass = cls.getGenericSuperclass()
+    if (genericSuperclass == null) {
+      val genericInterfaces = cls.getGenericInterfaces();
+      val pt = genericInterfaces.filter(i => i.isInstanceOf[ParameterizedType]).headOption
+
+      //val pt = java.util.Arrays.stream(genericInterfaces).filter(i => i.isInstanceOf[ParameterizedType]).findFirst();
+      if (pt.isDefined) {
+        return pt.get.asInstanceOf[ParameterizedType];
+      }
+      return null;
+    }
+    if (genericSuperclass.isInstanceOf[ParameterizedType]) {
+      return genericSuperclass.asInstanceOf[ParameterizedType]
+    }
+    return getParameterizedType1(cls.getSuperclass());
+  }
   //
   //    public static Type getParameterizedType(Field field) {
   //        Type type = field.getGenericType();

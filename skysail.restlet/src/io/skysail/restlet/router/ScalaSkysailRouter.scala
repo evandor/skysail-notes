@@ -1,21 +1,23 @@
 package io.skysail.restlet.router
 
-import org.restlet.routing.Router
 import io.skysail.core.app.ApiVersion
 import io.skysail.core.app.SkysailApplication
-import org.restlet.resource.ServerResource
-import org.restlet.routing.TemplateRoute
 import io.skysail.server.restlet.RouteBuilder
 import io.skysail.restlet.ScalaSkysailServerResource
-import org.slf4j.LoggerFactory
-import java.util.concurrent.ConcurrentHashMap
 import io.skysail.server.restlet.RolesPredicateAuthorizer
-import org.restlet.Restlet
 import io.skysail.server.security.config.SecurityConfig
 import io.skysail.restlet.app.ScalaSkysailApplication
 import io.skysail.restlet.ScalaEntityFactory
+import org.restlet.routing.Router
+import org.restlet.resource.ServerResource
+import org.restlet.routing.TemplateRoute
+import org.slf4j.LoggerFactory
+import org.restlet.Restlet
 import org.restlet.routing.Filter
 import org.restlet.resource.Finder
+import java.util.concurrent.ConcurrentHashMap
+
+import scala.collection.JavaConverters._
 
 object ScalaSkysailRouter {
   def getResourcesGenericType(resourceInstance: ScalaSkysailServerResource) = resourceInstance.getParameterizedType()
@@ -54,7 +56,7 @@ class ScalaSkysailRouter(skysailApplication: ScalaSkysailApplication, apiVersion
     val isAuthenticatedAuthorizer = createIsAuthenticatedAuthorizer(pathTemplate, routeBuilder);
 
     log.info("routing path '{}' -> {}", "/" + skysailApplication.getName() + pathTemplate,
-      routeToString(new StringBuilder(), isAuthenticatedAuthorizer).toString():Any);
+      routeToString(new StringBuilder(), isAuthenticatedAuthorizer).toString(): Any);
 
     attach(pathTemplate, isAuthenticatedAuthorizer);
     //
@@ -139,6 +141,49 @@ class ScalaSkysailRouter(skysailApplication: ScalaSkysailApplication, apiVersion
       log.info("unknown: {}", restlet.getClass().getName());
     }
     return sb;
+  }
+
+  def getRouteBuildersForResource(cls: Class[_]) = {
+    val result = new scala.collection.mutable.ListBuffer[RouteBuilder]()
+    for (entry <- pathRouteBuilderMap.entrySet().asScala) {
+      if (entry.getValue() != null) {
+        if (entry.getValue().getTargetClass() == null) {
+          val restlet = entry.getValue().getRestlet();
+          if (restlet != null) {
+            handleRestlet(cls, result.toList, entry.getKey, entry.getValue, restlet);
+          }
+        }
+        if (entry.getValue().getTargetClass().equals(cls)) {
+          //result.add(entry.getValue());
+        }
+      }
+    }
+    result.toList
+  }
+
+  private def handleRestlet(cls: Class[_], result: List[RouteBuilder], key:String, value: RouteBuilder,
+    restlet: Restlet) {
+    if (restlet.isInstanceOf[Filter]) {
+      val next = restlet.asInstanceOf[Filter].getNext();
+      if (next == null) {
+        return ;
+      }
+      if (next.getClass().equals(cls)) {
+       // result.add(entries.getValue());
+        return ;
+      }
+     // handleRestlet(cls, result, entries, next);
+    } else if (restlet.isInstanceOf[Finder]) {
+      val targetClass = restlet.asInstanceOf[Finder].getTargetClass()
+      if (targetClass == null) {
+        return ;
+      }
+      if (targetClass.equals(cls)) {
+      //  result.add(entries.getValue());
+        return ;
+      }
+
+    }
   }
 
 }

@@ -6,7 +6,7 @@ import io.skysail.restlet.ScalaSkysailServerResource
 import io.skysail.restlet.Wrapper3
 import io.skysail.server.restlet.filter.FilterResult
 
-class FormDataExtractingFilter[T] extends ScalaAbstractResourceFilter[T] {
+class FormDataExtractingFilter[T](entity: T) extends ScalaAbstractResourceFilter[T] {
 
   override val log = LoggerFactory.getLogger(classOf[FormDataExtractingFilter[T]])
 
@@ -18,13 +18,7 @@ class FormDataExtractingFilter[T] extends ScalaAbstractResourceFilter[T] {
       FilterResult.STOP;
     }
     try {
-      var data = getDataFromRequest(response.getRequest(), resource);
-
-      if (data == null) {
-        data = response.getRequest().getAttributes().get(ScalaSkysailServerResource.SKYSAIL_SERVER_RESTLET_ENTITY);
-      }
-
-      responseWrapper.setEntity(data);
+      responseWrapper.setEntity(entity);
     } catch {
       case e: java.text.ParseException => throw new RuntimeException("could not parse form", e);
     }

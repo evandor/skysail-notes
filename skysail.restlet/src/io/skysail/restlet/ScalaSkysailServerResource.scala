@@ -2,18 +2,17 @@ package io.skysail.restlet
 
 import io.skysail.api.text.Translation
 import io.skysail.core.app.SkysailApplication
-import io.skysail.core.utils._
 import io.skysail.api.links.Link
 import io.skysail.restlet.app.ScalaSkysailApplication
 import io.skysail.server.ResourceContextId
 import io.skysail.restlet.forms.ScalaFormField
 import java.util.function.Consumer
 import org.restlet.resource.ServerResource
-import io.skysail.server.forms.MessagesUtils
 import io.skysail.restlet.utils.ScalaMessagesUtils
 import org.restlet.Application
 import java.util.Locale
 import java.util.Collections
+import io.skysail.restlet.utils._
 
 object ScalaSkysailServerResource {
   //val SKYSAIL_SERVER_RESTLET_FORM = "de.twenty11.skysail.server.core.restlet.form";
@@ -26,11 +25,13 @@ abstract class ScalaSkysailServerResource extends ServerResource {
   var entity: AnyRef = null
   def setEntity(e: AnyRef) = entity = e
 
+  var links = List[Link]()
+
   val stringContextMap = new java.util.HashMap[ResourceContextId, String]()
 
   def getSkysailApplication() = getApplication().asInstanceOf[ScalaSkysailApplication]
   def getMetricsCollector() = getSkysailApplication().getMetricsCollector()
-  def getParameterizedType() = ReflectionUtils.getParameterizedType(getClass());
+  def getParameterizedType() = ScalaReflectionUtils.getParameterizedType(getClass());
 
   /*def getPathSubstitutions(): Consumer[Link] = {
     return l -> {
@@ -97,6 +98,23 @@ abstract class ScalaSkysailServerResource extends ServerResource {
     } else if (defaultMsg != null) {
       msgs.put(key, new Translation(defaultMsg, null, Locale.getDefault(), Collections.emptySet()));
     }
+  }
+
+  def getAuthorizedLinks(): List[Link] = {
+    val allLinks = getLinks();
+    if (allLinks == null) {
+      return List[Link]()
+    }
+    allLinks//.filter(l => l.isAu)
+  }
+
+  def getLinks(): List[Link] = if (links != null) links else List()
+
+  final def getLinks(classes: Class[_]*) {
+    if (links == null) {
+      links = ScalaLinkUtils.fromResources(this, entity, classes)
+    }
+    links;
   }
 
 }
