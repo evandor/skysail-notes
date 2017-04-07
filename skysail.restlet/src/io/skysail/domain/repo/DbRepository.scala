@@ -1,4 +1,4 @@
-package io.skysail.domain.core
+package io.skysail.domain.repo
 
 trait ScalaDbRepository {
   

@@ -16,8 +16,6 @@ import io.skysail.restlet.resources.EntityServerResource2
 import io.skysail.restlet.resources.PutEntityServerResource2
 import io.skysail.restlet.resources.ListServerResource2
 import io.skysail.restlet.app.ScalaSkysailApplication
-import org.json4s.JsonAST.JValue
-import org.json4s.DefaultFormats
 import io.skysail.app.notes.repository.NotesRepository
 
 
@@ -46,7 +44,7 @@ class NoteResource extends EntityServerResource2[Note] {
 }
 
 class PostNoteResource extends PostEntityServerResource2[Note] {
-  def createEntityTemplate() = Note("1","hi")
+  def createEntityTemplate() = Note(Some("1"),"hi")
   //def getEntity() = Note("","").asInstanceOf[Nothing]
   def addEntity(entity: Note): Unit = {
     println(entity)

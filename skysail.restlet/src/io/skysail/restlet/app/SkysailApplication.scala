@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory
 
 import scala.collection.JavaConverters._
 import io.skysail.restlet.utils.ScalaTranslationUtils
-import io.skysail.domain.core.ScalaDbRepository
+import io.skysail.domain.repo.ScalaDbRepository
 
 abstract class ScalaSkysailApplication(
   name: String,

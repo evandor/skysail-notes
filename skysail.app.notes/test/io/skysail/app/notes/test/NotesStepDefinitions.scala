@@ -1,7 +1,6 @@
 package io.skysail.app.notes.test
 
 import cucumber.api.java.en.Given
-import io.skysail.server.db.OrientGraphDbService
 import io.skysail.app.notes.NotesApplication
 import io.skysail.app.notes.domain.Note
 import io.skysail.server.testsupport.cucumber.CucumberStepContext
@@ -28,6 +27,7 @@ import io.skysail.api.responses.EntityServerResponse
 import org.mockito.Mockito._
 import io.skysail.core.app.SkysailApplicationService
 import io.skysail.core.model.SkysailEntityModel
+import io.skysail.repo.orientdb.OrientGraphDbService
 
 class NotesStepDefinitions extends CucumberTestFixture {
 
@@ -45,7 +45,7 @@ class NotesStepDefinitions extends CucumberTestFixture {
   @Given("^a running NotesApplication$")
   def a_running_NoteApplication(): Unit = {
     val dbService = new OrientGraphDbService();
-    dbService.activate();
+    //dbService.activate(new java.util.HashMap[String,String]());
     val app = new NotesApplication();
     setDbService(dbService, app);
     super.setUp(app, new CucumberStepContext(classOf[Note]));

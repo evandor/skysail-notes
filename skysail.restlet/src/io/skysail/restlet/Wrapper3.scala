@@ -5,16 +5,15 @@ import org.restlet.Response
 trait Wrapper3 {
   def getResponse(): Response
 
-  //    Object getEntity();
+  def getEntity(): Any
+  def setEntity(entity: Any)
   //
-  //    void setEntity(Object entity);
+  //    //void setConstraintViolationResponse(ConstraintViolationsResponse<T> reponse)
   //
-  //    //void setConstraintViolationResponse(ConstraintViolationsResponse<T> reponse);
+  //    void addError(String msg)
+  //    void addInfo(String msg)
+  //    void addWarning(String msg)
   //
-  //    void addError(String msg);
-  //    void addInfo(String msg);
-  //    void addWarning(String msg);
-  //
-  //    List<Long> getMessageIds();
+  //    List<Long> getMessageIds()
 
 }

@@ -16,12 +16,13 @@ import scala.beans.BeanProperty
 import javax.validation.constraints._
 
 //@JsonIgnoreProperties(ignoreUnknown = true)
+@BeanProperty
 case class Note(
-    id: String,
-    @(Field @field) @BeanProperty /*@(NotNull @field) @Size(min=1)*/ var content: String) {
+    var id: Option[String],
+    @(Field @field) /*@(NotNull @field) @Size(min=1)*/ var content: String) {
 
-  def this() = this("", "")
-  def getId(): String = id
+//  def this() = this("", "")
+//  def getId(): String = id
   
   //def getContent() = content
 

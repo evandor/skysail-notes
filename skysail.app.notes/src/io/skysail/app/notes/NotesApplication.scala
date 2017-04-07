@@ -18,7 +18,6 @@ import io.skysail.server.restlet.RouteBuilder
 import io.skysail.server.menus.MenuItem
 import java.util.Arrays
 import io.skysail.app.notes.resources.NotesResource
-import io.skysail.server.db.DbService
 import io.skysail.app.notes.repository.NotesRepository
 import org.osgi.service.component.annotations._
 import io.skysail.app.notes.resources.PutNoteResource
@@ -29,6 +28,7 @@ import io.skysail.restlet.app.ScalaSkysailApplication
 import io.skysail.restlet.app.ScalaApplicationProvider
 import io.skysail.core.app.ServiceListProvider
 import io.skysail.restlet.app.ScalaServiceListProvider
+import io.skysail.repo.orientdb.ScalaDbService
 
 object NotesApplication {
   final val APP_NAME = "notes"
@@ -46,7 +46,7 @@ class NotesApplication extends ScalaSkysailApplication(
   getConnectorService().getClientProtocols().add(Protocol.HTTPS)
 
   @Reference(cardinality = ReferenceCardinality.MANDATORY)
-  var dbService: DbService = null
+  var dbService: ScalaDbService = null
   
   @Reference(policy = ReferencePolicy.DYNAMIC, cardinality = ReferenceCardinality.OPTIONAL)
   def setApplicationListProvider(service: ScalaServiceListProvider) {
@@ -61,7 +61,7 @@ class NotesApplication extends ScalaSkysailApplication(
   @Activate
   override def activate(appConfig: ApplicationConfiguration, componentContext: ComponentContext) = {
     super.activate(appConfig, componentContext);
-    //addRepository(new NotesRepository(dbService));
+    addRepository(new NotesRepository(dbService));
   }
 
   override def attach() = {

@@ -53,9 +53,9 @@ object CucumberTestFixture {
             }
 
             override def matchesSafely(note: Note):Boolean = {
-                if (note.getId() == null) {
-                    return false;
-                }
+//                if (note.getId() == null) {
+//                    return false;
+//                }
                 if (!note.content.equals(data.get(classOf[Note].getName() + "|content"))) {
                     return false;
                 }
@@ -139,7 +139,7 @@ class CucumberTestFixture {
 
   def prepareRequest(resource: SkysailServerResource[_]): Unit = {
     val entity = stepContext.getLastResponse().getEntity().asInstanceOf[Note]
-    val id = entity.getId().toString();
+    val id = ""//entity.getId().toString();
     requestAttributes.put("id", id.replace("#", ""));
     resource.init(context, request, new Response(request));
   }

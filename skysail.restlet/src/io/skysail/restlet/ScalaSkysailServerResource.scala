@@ -15,6 +15,12 @@ import org.restlet.Application
 import java.util.Locale
 import java.util.Collections
 
+object ScalaSkysailServerResource {
+  //val SKYSAIL_SERVER_RESTLET_FORM = "de.twenty11.skysail.server.core.restlet.form";
+  val SKYSAIL_SERVER_RESTLET_ENTITY = classOf[ScalaSkysailServerResource].getName + ".entity"
+  //val SKYSAIL_SERVER_RESTLET_VARIANT = "de.twenty11.skysail.server.core.restlet.variant";
+}
+
 abstract class ScalaSkysailServerResource extends ServerResource {
 
   var entity: AnyRef = null
@@ -64,7 +70,7 @@ abstract class ScalaSkysailServerResource extends ServerResource {
       val baseKey = ScalaMessagesUtils.getBaseKey(entityClass, f); // io.skysail.server.app.notes.Note.title
       val fieldName = ScalaMessagesUtils.getSimpleName(f); // title
       val app = getSkysailApplication()
-      addTranslation(msgs, app, baseKey, f.  getLabel());
+      addTranslation(msgs, app, baseKey, f.getLabel());
       addTranslation(msgs, app, baseKey + ".info", null);
       addTranslation(msgs, app, baseKey + ".placeholder", null);
       addTranslation(msgs, app, baseKey + ".desc", null);
@@ -81,10 +87,10 @@ abstract class ScalaSkysailServerResource extends ServerResource {
   }
 
   private def addTranslation(
-      msgs: java.util.Map[String, Translation], 
-      application: ScalaSkysailApplication, 
-      key: String,
-      defaultMsg: String) = {
+    msgs: java.util.Map[String, Translation],
+    application: ScalaSkysailApplication,
+    key: String,
+    defaultMsg: String) = {
     val translation = application.translate(key, defaultMsg, this);
     if (translation != null && translation.getValue() != null) {
       msgs.put(key, translation);
