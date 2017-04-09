@@ -3,18 +3,21 @@ package io.skysail.restlet.model
 import io.skysail.domain.core.FieldModel
 import java.lang.reflect.Field
 import io.skysail.domain.html.InputType
+import java.lang.reflect.Type
+import java.util.Collection
+import io.skysail.core.utils.ReflectionUtils
+import io.skysail.restlet.utils.ScalaReflectionUtils
 
 class ScalaSkysailFieldModel(
-    entityModel: ScalaSkysailEntityModel,
-    val f: java.lang.reflect.Field)
-  extends FieldModel(
-    entityModel, 
-    f.getName(), 
-    f.getType()) {
+  entityModel: ScalaSkysailEntityModel,
+  val f: java.lang.reflect.Field)
+    extends FieldModel(
+      entityModel,
+      f.getName(),
+      f.getType()) {
 
   //        setReadonly(false);
   //        setTruncateTo(determineTruncation(f));
-  //        setEntityType(f);
   //
   //        listViewLink = determineListViewLink(f);
   //        format = determineFormat(f);
@@ -35,5 +38,11 @@ class ScalaSkysailFieldModel(
     }
     return false;
   }
-  
+
+  def getEntityType() = {
+    if (classOf[Collection[_]].isAssignableFrom(f.getType())) 
+      ScalaReflectionUtils.getParameterizedType(f);
+    else
+      null
+  }
 }

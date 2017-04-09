@@ -29,6 +29,10 @@ class PostEntityServerResource2Test {
   
   class PostTestNoteServerResource extends PostEntityServerResource2[TestNote] {
     def createEntityTemplate(): TestNote = new TestNote("hi")
+
+    def addEntity(entity: TestNote): Unit = {
+      ???
+    }
   }
 
   @Test

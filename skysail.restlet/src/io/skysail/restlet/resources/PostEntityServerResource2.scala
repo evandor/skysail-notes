@@ -24,32 +24,9 @@ abstract class PostEntityServerResource2[T: Manifest] extends ScalaSkysailServer
 
   def createEntityTemplate(): T
 
-  //def getEntity():Note = createEntityTemplate()
+  def addEntity(entity: T)
 
-//  class FormDeserializer[T](cls: Class[_]) {
-//    def createFrom(form: Form): JValue = {
-//      println(form)
-//      //      val elements = MutableList[JField]()
-//      //      form.getNames()
-//      //        .filter(_ != "submit")
-//      //        .foreach(key => elements += JField(key, JString(form.getFirstValue(key))))
-//      //      //val jValue: org.json4s.JsonAST.JValue = JObject(elements.toList)
-//      //      JObject(elements.toList)
-//      //val json = parse("""{"name":"joe"}""")
-//      //json.extract[Note]
-//      //jValue.extract[Note]
-//      val sb = form.getNames()
-//        .filter(_ != "submit")
-//        //        .foreach { 
-//        //          key => sb.append("\""+key+"\":\"" + form.getFirstValue(key) + "\"") 
-//        //        }
-//        .map(key => "\"" + key.split("\\|")(1) + "\":\"" + form.getFirstValue(key) + "\"")
-//        .mkString(",")
-//      println(sb)
-//      parse("{" + sb + "}")
-//      //json.extract[T]
-//    }
-//  }
+  //def getEntity():Note = createEntityTemplate()
 
   @Get("htmlform|html")
   def getPostTemplate() = {
@@ -90,6 +67,6 @@ abstract class PostEntityServerResource2[T: Manifest] extends ScalaSkysailServer
 
   def doPost(entity: T, variant: Variant): ScalaResponseWrapper[T] = {
     getResponse().setStatus(Status.SUCCESS_CREATED)
-    new ScalaRequestHandler[T](entity).createForPost().handle(this, getResponse())
+    new ScalaRequestHandler[T](entity,variant).createForPost().handle(this, getResponse())
   }
 }

@@ -7,15 +7,14 @@ import io.skysail.restlet.Wrapper3
 import io.skysail.server.restlet.filter.FilterResult
 import io.skysail.restlet.resources.PostEntityServerResource2
 
-class PersistEntityFilter[T] extends ScalaAbstractResourceFilter[T] {
+class PersistEntityFilter[T](entity: T) extends ScalaAbstractResourceFilter[T] {
 
   override val log = LoggerFactory.getLogger(classOf[PersistEntityFilter[T]])
 
   override def doHandle(resource: ScalaSkysailServerResource, responseWrapper: Wrapper3): FilterResult = {
     log.debug("entering {}#doHandle", this.getClass().getSimpleName());
     val response = responseWrapper.getResponse();
-    val entity = responseWrapper.getEntity();
-    //        resource.asInstanceOf[PostEntityServerResource2[T]].addEntity(entity);
+    resource.asInstanceOf[PostEntityServerResource2[T]].addEntity(entity);
     //        val id = entity.asInstanceOf[T].getId();
     //        if (id != null) {
     //            response.setLocationRef(response.getRequest().getResourceRef().addSegment(id.replace("#", "")));

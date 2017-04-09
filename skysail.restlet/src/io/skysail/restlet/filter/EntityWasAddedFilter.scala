@@ -7,7 +7,7 @@ import io.skysail.restlet.ScalaSkysailServerResource
 import io.skysail.restlet.Wrapper3
 import io.skysail.server.restlet.filter.FilterResult
 
-class EntityWasAddedFilter[T] extends ScalaAbstractResourceFilter[T] {
+class EntityWasAddedFilter[T](entity: T) extends ScalaAbstractResourceFilter[T] {
 
   override val log = LoggerFactory.getLogger(classOf[EntityWasAddedFilter[T]])
 
