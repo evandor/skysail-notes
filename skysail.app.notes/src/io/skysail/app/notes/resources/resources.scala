@@ -34,7 +34,7 @@ class NotesResource extends ListServerResource2[Note](classOf[NoteResource]) {
 }
 
 class NoteResource extends EntityServerResource2[Note] {
-  def getEntity(): Option[Note] = NotesResource.noteRepo(getSkysailApplication()).findOne(getAttribute("id"))
+  override def getEntity(): Option[Note] = NotesResource.noteRepo(getSkysailApplication()).findOne(getAttribute("id"))
   override def eraseEntity() = {
     //NotesResource.noteRepo(getSkysailApplication()).delete(getAttribute("id"))
     new SkysailResponse[Note]()
@@ -45,15 +45,15 @@ class NoteResource extends EntityServerResource2[Note] {
 
 class PostNoteResource extends PostEntityServerResource2[Note] {
   def createEntityTemplate() = Note(Some("1"),"hi")
-  //def getEntity() = Note("","").asInstanceOf[Nothing]
+  override def getEntity() = Note(None,"").asInstanceOf[Nothing]
   def addEntity(entity: Note): Unit = {
     println(entity)
     entity.setCreated(new Date())
     entity.setModified(new Date())
     val repo = NotesResource.noteRepo(getSkysailApplication())
     val vertex = repo.save(entity, getSkysailApplication().applicationModel)
-    println(vertex)
-    //entity.setId(vertex.getId.toString())
+    println(s"vertext: $vertex")
+   // entity.setId(vertex.getId().toString())
     // entity.copy(id=vertex.getId.toString())
   }
 
@@ -61,7 +61,7 @@ class PostNoteResource extends PostEntityServerResource2[Note] {
 }
 
 class PutNoteResource extends PutEntityServerResource2[Note] {
-  def getEntity() = NotesResource.noteRepo(getSkysailApplication()).findOne(getAttribute("id"))
+  override def getEntity() = NotesResource.noteRepo(getSkysailApplication()).findOne(getAttribute("id"))
   //override def redirectTo() = super.redirectTo(classOf[NotesResource])
   def updateEntity(entity: Note): Unit = {
 //    val original = getEntity()

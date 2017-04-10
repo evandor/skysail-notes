@@ -8,7 +8,11 @@ object ScalaCookiesUtils {
 
     val cookie = getOptionalCookieValue(request, Constants.COOKIE_NAME_MODE)
 
-    ""//RenderingMode.valueOf(getOptionalCookieValue(request, Constants.COOKIE_NAME_MODE).orElse(RenderingMode.DEFAULT.name()).toUpperCase())
+    "" //RenderingMode.valueOf(getOptionalCookieValue(request, Constants.COOKIE_NAME_MODE).orElse(RenderingMode.DEFAULT.name()).toUpperCase())
+  }
+
+  def getInstallationFromCookie(request: Request) = {
+    getOptionalCookieValue(request, Constants.COOKIE_NAME_INSTALLATIONS)
   }
 
   def getOptionalCookieValue(request: Request, name: String): Option[String] = {

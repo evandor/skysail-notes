@@ -11,6 +11,7 @@ import org.restlet.Request
 import io.skysail.core.utils.ReflectionUtils
 import scala.collection.JavaConverters._
 import org.owasp.html.HtmlSanitizer
+import io.skysail.restlet.ScalaResponseWrapper
 
 object CheckInvalidInputFilter {
   val noHtmlPolicyBuilder = new HtmlPolicyBuilder();
@@ -21,7 +22,7 @@ class CheckInvalidInputFilter[T](entity: T) extends ScalaAbstractResourceFilter[
 
   override val log = LoggerFactory.getLogger(classOf[CheckInvalidInputFilter[T]])
 
-  override def doHandle(resource: ScalaSkysailServerResource, responseWrapper: Wrapper3) = {
+  override def doHandle(resource: ScalaSkysailServerResource, responseWrapper:  ScalaResponseWrapper[T]) = {
     log.debug("entering {}#doHandle", this.getClass().getSimpleName());
 
     // do in "before"?

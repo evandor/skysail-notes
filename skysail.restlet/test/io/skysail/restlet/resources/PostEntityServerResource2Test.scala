@@ -33,6 +33,10 @@ class PostEntityServerResource2Test {
     def addEntity(entity: TestNote): Unit = {
       ???
     }
+
+    def getEntity(): Any = {
+      ???
+    }
   }
 
   @Test

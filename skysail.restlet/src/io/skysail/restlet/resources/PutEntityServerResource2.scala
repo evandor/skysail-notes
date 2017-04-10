@@ -15,4 +15,8 @@ class PutEntityServerResource2[T] extends ScalaSkysailServerResource {
     }
   }
 
+  def getEntity(): Any = {
+    ???
+  }
+
 }

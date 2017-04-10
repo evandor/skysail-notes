@@ -6,12 +6,13 @@ import io.skysail.restlet.ScalaSkysailServerResource
 import io.skysail.restlet.Wrapper3
 import io.skysail.server.restlet.filter.FilterResult
 import java.util.HashSet
+import io.skysail.restlet.ScalaResponseWrapper
 
 class CheckBusinessViolationsFilter[T](entity: T) extends ScalaAbstractResourceFilter[T] {
 
   override val log = LoggerFactory.getLogger(classOf[CheckBusinessViolationsFilter[T]])
 
-  override def doHandle(resource: ScalaSkysailServerResource, responseWrapper: Wrapper3): FilterResult = {
+  override def doHandle(resource: ScalaSkysailServerResource, responseWrapper:  ScalaResponseWrapper[T]): FilterResult = {
     log.debug("entering {}#doHandle", this.getClass().getSimpleName());
     val  violations = validate(entity);
     val response = responseWrapper.getResponse();

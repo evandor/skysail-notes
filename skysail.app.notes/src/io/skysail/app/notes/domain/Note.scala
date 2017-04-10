@@ -1,6 +1,5 @@
 package io.skysail.app.notes.domain
 
-import io.skysail.domain.Entity
 import io.skysail.domain.html._
 import javax.validation.constraints.Size
 import io.skysail.server.forms.PostView
@@ -14,17 +13,14 @@ import scala.annotation.meta.field
 import scala.beans.BeanProperty
 
 import javax.validation.constraints._
+import io.skysail.domain.ddd.ScalaEntity
 
 //@JsonIgnoreProperties(ignoreUnknown = true)
 @BeanProperty
-case class Note(
+case class Note (
     var id: Option[String],
-    @(Field @field) /*@(NotNull @field) @Size(min=1)*/ var content: String) {
-
-//  def this() = this("", "")
-//  def getId(): String = id
-  
-  //def getContent() = content
+    @(Field @field) /*@(NotNull @field) @Size(min=1)*/ var content: String
+  ) extends ScalaEntity[String] {
 
   @Field(inputType = InputType.DATE)
   @PostView(visibility = Visibility.HIDE)

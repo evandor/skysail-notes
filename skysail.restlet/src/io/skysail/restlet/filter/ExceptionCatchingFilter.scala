@@ -7,10 +7,11 @@ import io.skysail.server.restlet.filter.FilterResult
 import io.skysail.restlet.Wrapper3
 import org.restlet.resource.ResourceException
 import io.skysail.restlet.filter.helper.ExceptionCatchingFilterHelper
+import io.skysail.restlet.ScalaResponseWrapper
 
 class ExceptionCatchingFilter[T] extends ScalaAbstractResourceFilter[T] {
 
-  override def doHandle(resource: ScalaSkysailServerResource, responseWrapper: Wrapper3): FilterResult = {
+  override def doHandle(resource: ScalaSkysailServerResource, responseWrapper:  ScalaResponseWrapper[T]): FilterResult = {
     log.debug("entering {}#doHandle", this.getClass().getSimpleName());
     try {
       super.doHandle(resource, responseWrapper)

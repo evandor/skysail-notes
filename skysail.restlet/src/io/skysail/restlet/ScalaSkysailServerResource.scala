@@ -25,6 +25,8 @@ abstract class ScalaSkysailServerResource extends ServerResource {
   var entity: AnyRef = null
   def setEntity(e: AnyRef) = entity = e
 
+  def getEntity(): Any
+
   var links = List[Link]()
 
   val stringContextMap = new java.util.HashMap[ResourceContextId, String]()

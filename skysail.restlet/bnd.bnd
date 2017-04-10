@@ -28,6 +28,7 @@ Import-Package: \
     
 Export-Package: \
 	io.skysail.restlet.app,\
+	io.skysail.domain.ddd,\
 	io.skysail.restlet,\
 	io.skysail.restlet.resources,\
 	io.skysail.restlet.utils,\

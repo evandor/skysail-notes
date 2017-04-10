@@ -14,14 +14,14 @@ abstract class ListServerResource2[T](cls: Class[_]) extends ScalaSkysailServerR
   @Get("html|json|yaml|xml|csv|timeline|carbon|standalone|data")
   def getEntities(variant: Variant): ListResponse[T] = {
     val timerMetric = getMetricsCollector().timerFor(this.getClass(), "getEntities");
-    val entitiesList = listEntities();
+    val entitiesList = listEntities(variant);
     timerMetric.stop();
     new ListResponse[T](getResponse(), entitiesList);
   }
 
-  private final def listEntities(): List[T] = {
-    val requestHandler = new ListRequestHandler();
-    val responseWrapper = requestHandler.createForList(Method.GET).handleList(this, getResponse())
+  private final def listEntities(variant: Variant): List[T] = {
+    val requestHandler = new ListRequestHandler[T](variant);
+    val responseWrapper = requestHandler.createForList(Method.GET).handle(this, getResponse())
     return responseWrapper.getEntity()
   }
 

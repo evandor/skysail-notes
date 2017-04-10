@@ -6,12 +6,13 @@ import io.skysail.restlet.ScalaAbstractResourceFilter
 import io.skysail.restlet.ScalaSkysailServerResource
 import io.skysail.restlet.Wrapper3
 import io.skysail.server.restlet.filter.FilterResult
+import io.skysail.restlet.ScalaResponseWrapper
 
 class EntityWasAddedFilter[T](entity: T) extends ScalaAbstractResourceFilter[T] {
 
   override val log = LoggerFactory.getLogger(classOf[EntityWasAddedFilter[T]])
 
-  override def doHandle(resource: ScalaSkysailServerResource, responseWrapper: Wrapper3): FilterResult = {
+  override def doHandle(resource: ScalaSkysailServerResource, responseWrapper:  ScalaResponseWrapper[T]): FilterResult = {
     log.debug("entering {}#doHandle", this.getClass().getSimpleName());
     val infoMessage = resource.getClass().getSimpleName() + ".saved.success";
     //responseWrapper.addInfo(infoMessage);

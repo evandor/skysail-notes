@@ -5,12 +5,13 @@ import org.slf4j.LoggerFactory
 import io.skysail.restlet.ScalaSkysailServerResource
 import io.skysail.restlet.Wrapper3
 import io.skysail.server.restlet.filter.FilterResult
+import io.skysail.restlet.ScalaResponseWrapper
 
 class FormDataExtractingFilter[T](entity: T) extends ScalaAbstractResourceFilter[T] {
 
   override val log = LoggerFactory.getLogger(classOf[FormDataExtractingFilter[T]])
 
-  override def doHandle(resource: ScalaSkysailServerResource, responseWrapper: Wrapper3): FilterResult = {
+  override def doHandle(resource: ScalaSkysailServerResource, responseWrapper:  ScalaResponseWrapper[T]): FilterResult = {
     log.debug("entering {}#doHandle", this.getClass().getSimpleName());
     val response = responseWrapper.getResponse();
     if (response.getRequest() == null || response.getRequest().getResourceRef() == null) {

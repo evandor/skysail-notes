@@ -1,14 +1,12 @@
 package io.skysail.restlet
 
 import org.restlet.data.Method
+import org.restlet.representation.Variant
+import io.skysail.restlet.filter._
 import io.skysail.server.restlet.filter.DataExtractingListFilter
-import io.skysail.server.restlet.filter.AddLinkheadersListFilter
-import io.skysail.server.restlet.filter.SetExecutionTimeInListResponseFilter
-import io.skysail.server.restlet.filter.RedirectListFilter
-import io.skysail.server.restlet.filter.AbstractListResourceFilter
-import io.skysail.restlet.filter.ExceptionCatchingListFilter
 
-class ListRequestHandler[T] {
+class ListRequestHandler[T](variant: Variant) {
+  
   def createForList(method: Method): ScalaAbstractListResourceFilter[T] = {
     if (method.equals(Method.GET)) {
       return chainForListGet();
@@ -20,10 +18,10 @@ class ListRequestHandler[T] {
   }
 
   private def chainForListGet(): ScalaAbstractListResourceFilter[T] = {
-    new ExceptionCatchingListFilter[T]()
-//      // .calling(new ExtractStandardQueryParametersResourceFilter<>())
-//      .calling(new DataExtractingListFilter())
-//      .calling(new AddLinkheadersListFilter())
+    new ScalaExceptionCatchingListFilter[T]()
+      // .calling(new ExtractStandardQueryParametersResourceFilter<>())
+      .calling(new ScalaDataExtractingListFilter[T]())
+      .calling(new AddLinkheadersListFilter[T]())
 //      .calling(new SetExecutionTimeInListResponseFilter())
 //      .calling(new RedirectListFilter());
   }
