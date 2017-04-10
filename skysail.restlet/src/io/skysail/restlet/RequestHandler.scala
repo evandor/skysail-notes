@@ -15,6 +15,7 @@ class ScalaRequestHandler[T](entity: T, variant: Variant) {
                 .calling(new PersistEntityFilter[T](entity))
                 .calling(new EntityWasAddedFilter[T](entity))
                 .calling(new AddLinkheadersFilter[T]())
-                .calling(new PostRedirectGetFilter[T](variant));
+                .calling(new PostRedirectGetFilter[T](variant))
+                .asInstanceOf[ScalaAbstractResourceFilter[T]]
       }
 }

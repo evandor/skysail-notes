@@ -22,7 +22,7 @@ class CheckInvalidInputFilter[T](entity: T) extends ScalaAbstractResourceFilter[
 
   override val log = LoggerFactory.getLogger(classOf[CheckInvalidInputFilter[T]])
 
-  override def doHandle(resource: ScalaSkysailServerResource, responseWrapper:  ScalaResponseWrapper[T]) = {
+  override def doHandle(resource: ScalaSkysailServerResource, responseWrapper:  Wrapper3) = {
     log.debug("entering {}#doHandle", this.getClass().getSimpleName());
 
     // do in "before"?

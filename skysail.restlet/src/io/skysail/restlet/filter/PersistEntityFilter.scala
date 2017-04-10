@@ -12,7 +12,7 @@ class PersistEntityFilter[T](entity: T) extends ScalaAbstractResourceFilter[T] {
 
   override val log = LoggerFactory.getLogger(classOf[PersistEntityFilter[T]])
 
-  override def doHandle(resource: ScalaSkysailServerResource, responseWrapper:  ScalaResponseWrapper[T]): FilterResult = {
+  override def doHandle(resource: ScalaSkysailServerResource, responseWrapper:  Wrapper3): FilterResult = {
     log.debug("entering {}#doHandle", this.getClass().getSimpleName());
     val response = responseWrapper.getResponse();
     resource.asInstanceOf[PostEntityServerResource2[T]].addEntity(entity);

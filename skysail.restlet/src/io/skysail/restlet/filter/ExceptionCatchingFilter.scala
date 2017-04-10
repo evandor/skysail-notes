@@ -11,7 +11,7 @@ import io.skysail.restlet.ScalaResponseWrapper
 
 class ExceptionCatchingFilter[T] extends ScalaAbstractResourceFilter[T] {
 
-  override def doHandle(resource: ScalaSkysailServerResource, responseWrapper:  ScalaResponseWrapper[T]): FilterResult = {
+  override def doHandle(resource: ScalaSkysailServerResource, responseWrapper:  Wrapper3): FilterResult = {
     log.debug("entering {}#doHandle", this.getClass().getSimpleName());
     try {
       super.doHandle(resource, responseWrapper)

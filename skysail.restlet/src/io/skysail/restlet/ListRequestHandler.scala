@@ -24,5 +24,6 @@ class ListRequestHandler[T](variant: Variant) {
       .calling(new AddLinkheadersListFilter[T]())
 //      .calling(new SetExecutionTimeInListResponseFilter())
 //      .calling(new RedirectListFilter());
+      .asInstanceOf[ScalaAbstractListResourceFilter[T]]
   }
 }

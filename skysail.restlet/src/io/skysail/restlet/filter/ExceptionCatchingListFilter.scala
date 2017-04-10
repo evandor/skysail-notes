@@ -13,18 +13,18 @@ class ScalaExceptionCatchingListFilter[T] extends ScalaAbstractListResourceFilte
 
   override val log = LoggerFactory.getLogger(classOf[ScalaExceptionCatchingListFilter[T]])
 
-  override def doHandle(resource: ScalaSkysailServerResource, responseWrapper: ScalaListResponseWrapper[T]): FilterResult = {
+  override def doHandle(resource: ScalaSkysailServerResource, responseWrapper: Wrapper3): FilterResult = {
     log.debug("entering {}#doHandle", this.getClass().getSimpleName());
     try {
       super.doHandle(resource, responseWrapper)
     } catch {
       case r: ResourceException => throw r
-      case e: Exception => ExceptionCatchingFilterHelper.handleError(e, resource.getSkysailApplication(), null, resource.getClass());
+      case e: Exception => ExceptionCatchingFilterHelper.handleError(e, resource.getSkysailApplication(), responseWrapper, resource.getClass());
     }
     FilterResult.CONTINUE;
   }
 
-  override def afterHandle(resource: ScalaSkysailServerResource, responseWrapper: ScalaListResponseWrapper[T]): Unit = {
+  override def afterHandle(resource: ScalaSkysailServerResource, responseWrapper: Wrapper3): Unit = {
     resource.getServerInfo().setAgent("Skysail-Server/0.0.1 " + resource.getServerInfo().getAgent());
   }
 }

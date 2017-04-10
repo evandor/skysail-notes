@@ -7,12 +7,13 @@ import io.skysail.restlet.ScalaListResponseWrapper
 import io.skysail.server.restlet.filter.FilterResult
 import io.skysail.restlet.utils.ScalaCookiesUtils
 import io.skysail.domain.ddd.ScalaEntity
+import io.skysail.restlet.Wrapper3
 
 class ScalaDataExtractingListFilter[T] extends ScalaAbstractListResourceFilter[T] {
 
   override val log = LoggerFactory.getLogger(classOf[ScalaExceptionCatchingListFilter[T]])
 
-  override def doHandle(resource: ScalaSkysailServerResource, responseWrapper: ScalaListResponseWrapper[T]): FilterResult = {
+  override def doHandle(resource: ScalaSkysailServerResource, responseWrapper: Wrapper3): FilterResult = {
     log.debug("entering {}#doHandle", this.getClass().getSimpleName());
 
     //val installation = ScalaCookiesUtils.getInstallationFromCookie(resource.getRequest()).orElse(null);
