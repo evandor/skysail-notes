@@ -12,7 +12,7 @@ import io.skysail.restlet.responses.ListResponse
 
 class ScalaListResponseWrapper[T](response: Response) extends Wrapper3 {
 
-  var entity: List[T] = null
+  var entity: List[T] = List()
   
   def getEntity() = entity
 
