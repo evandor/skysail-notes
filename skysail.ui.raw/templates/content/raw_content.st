@@ -8,6 +8,7 @@ raw_content(user,converter,messages,model,request)::= <<
       </div>
     </div>
     <div class="row">
+    
     $if(model.form)$
     
       <div class="pure-g">
@@ -35,16 +36,9 @@ raw_content(user,converter,messages,model,request)::= <<
       </div>
  
     $elseif(model.list)$
- 
+
       <div class="col-md-16" id="renderTableDiv">
         <br>
-		$if(converter.debug)$
-          Filter     [Param _f]: $model.filterParamValue$<br>
-          Sorting    [Param _s]: $model.sortingParamValue$<br>
-          Pagination [Param _p]: <br>
-          Query      [Param _q]: <br>
-          <br>
-        $endif$
         <table class="table table-striped table-condensed table-hover ROWCLICK">
           <tr>
             $model.formfieldsWrapper.formfields: { ff | $raw_thElement(model,ff)$ };separator="\n"$ 
@@ -57,9 +51,36 @@ raw_content(user,converter,messages,model,request)::= <<
         	  $raw_menuNav(model.createFormLinks)$
     	    </div>
         </div>
-        
       </div>
- 
+
+      <div>
+        <h3>Model</h3>
+        <h5>Form Fields</h5>
+        $model.formfieldsWrapper.formfields: { row | $row$};separator="<br>\n"$
+        <h5>Raw Data</h5>
+        $model.rawData: { row | $row$};separator="<br>\n"$
+      </div> 
+
+      <div>
+        <h3>Request</h3>
+        $request$
+      </div> 
+
+      <div>
+        <h3>User</h3>
+        $user$
+      </div> 
+
+      <div>
+        <h3>Converter</h3>
+        $converter$
+      </div> 
+
+      <div>
+        <h3>Messages</h3>
+        $messages$
+      </div> 
+      
     $else$
       <div class="col-md-16" id="renderEntityDiv">
         <br>

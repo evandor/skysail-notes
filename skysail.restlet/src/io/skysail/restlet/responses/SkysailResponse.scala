@@ -5,6 +5,7 @@ import org.restlet.Response
 sealed trait ScalaSkysailResponse[T] {
   def entity(): T
   def isForm() = this.isInstanceOf[FormResponse[T]] // || this instanceof ConstraintViolationsResponse
+  def isList() = this.isInstanceOf[ListResponse[T]]
 }
 
 final case class FormResponse[T](response: Response, entity: T, target: String) extends ScalaSkysailResponse[T]

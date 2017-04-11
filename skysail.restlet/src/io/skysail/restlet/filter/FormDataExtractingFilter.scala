@@ -8,7 +8,7 @@ import io.skysail.server.restlet.filter.FilterResult
 import io.skysail.restlet.ScalaResponseWrapper
 import io.skysail.restlet.ScalaResponseWrapper
 
-class FormDataExtractingFilter[T](entity: T) extends ScalaAbstractResourceFilter[T] {
+class FormDataExtractingFilter[T:Manifest](entity: T) extends ScalaAbstractResourceFilter[T] {
 
   override val log = LoggerFactory.getLogger(classOf[FormDataExtractingFilter[T]])
 

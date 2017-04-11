@@ -5,7 +5,7 @@ import org.restlet.representation.Variant
 import io.skysail.restlet.filter._
 import io.skysail.server.restlet.filter.DataExtractingListFilter
 
-class ListRequestHandler[T](variant: Variant) {
+class ScalaListRequestHandler[T:Manifest](variant: Variant) {
   
   def createForList(method: Method): ScalaAbstractListResourceFilter[T] = {
     if (method.equals(Method.GET)) {

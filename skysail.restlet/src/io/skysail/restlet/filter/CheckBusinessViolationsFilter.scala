@@ -8,7 +8,7 @@ import io.skysail.server.restlet.filter.FilterResult
 import java.util.HashSet
 import io.skysail.restlet.ScalaResponseWrapper
 
-class CheckBusinessViolationsFilter[T](entity: T) extends ScalaAbstractResourceFilter[T] {
+class CheckBusinessViolationsFilter[T:Manifest](entity: T) extends ScalaAbstractResourceFilter[T] {
 
   override val log = LoggerFactory.getLogger(classOf[CheckBusinessViolationsFilter[T]])
 

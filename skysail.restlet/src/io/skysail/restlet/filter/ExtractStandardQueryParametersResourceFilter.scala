@@ -21,7 +21,7 @@ object ExtractStandardQueryParametersResourceFilter {
   }
 }
 
-class ExtractStandardQueryParametersResourceFilter[T] extends ScalaAbstractResourceFilter[T] {
+class ExtractStandardQueryParametersResourceFilter[T:Manifest] extends ScalaAbstractResourceFilter[T] {
 
   override val log = LoggerFactory.getLogger(classOf[ExtractStandardQueryParametersResourceFilter[T]])
 

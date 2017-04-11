@@ -4,12 +4,12 @@ import org.restlet.representation.Variant
 import org.restlet.resource.Get
 import org.restlet.data.Method
 import io.skysail.api.responses.SkysailResponse
-import io.skysail.restlet.ListRequestHandler
 import io.skysail.restlet.ScalaSkysailServerResource
 import io.skysail.restlet.responses.ScalaSkysailResponse
 import io.skysail.restlet.responses.ListResponse
+import io.skysail.restlet.ScalaListRequestHandler
 
-abstract class ListServerResource2[T](cls: Class[_]) extends ScalaSkysailServerResource {
+abstract class ListServerResource2[T:Manifest](cls: Class[_]) extends ScalaSkysailServerResource {
 
   @Get("html|json|yaml|xml|csv|timeline|carbon|standalone|data")
   def getEntities(variant: Variant): ListResponse[T] = {
@@ -20,7 +20,7 @@ abstract class ListServerResource2[T](cls: Class[_]) extends ScalaSkysailServerR
   }
 
   private final def listEntities(variant: Variant): List[T] = {
-    val requestHandler = new ListRequestHandler[T](variant);
+    val requestHandler = new ScalaListRequestHandler[T](variant);
     val responseWrapper = requestHandler.createForList(Method.GET).handle(this, getResponse())
     return responseWrapper.getEntity()
   }

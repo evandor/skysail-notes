@@ -7,10 +7,10 @@ import org.restlet.data.Status
 
 object ExceptionCatchingFilterHelper {
 
-  val log = LoggerFactory.getLogger("Hier")//classOf[ExceptionCatchingFilterHelper])
+  val log = LoggerFactory.getLogger(this.getClass)
 
   def handleError(e: Exception, application: ScalaSkysailApplication, responseWrapper: Wrapper3, cls: Class[_]): Unit = {
-    //log.error(e.getMessage(), e);
+    log.error(e.getMessage(), e);
     val genericErrorMessageForGui = cls.getSimpleName() + ".saved.failure"
     //responseWrapper.addError(genericErrorMessageForGui)
     val response = responseWrapper.getResponse()

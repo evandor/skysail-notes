@@ -9,7 +9,7 @@ import org.restlet.resource.ResourceException
 import io.skysail.restlet.filter.helper.ExceptionCatchingFilterHelper
 import io.skysail.restlet.ScalaListResponseWrapper
 
-class ScalaExceptionCatchingListFilter[T] extends ScalaAbstractListResourceFilter[T] {
+class ScalaExceptionCatchingListFilter[T:Manifest] extends ScalaAbstractListResourceFilter[T] {
 
   override val log = LoggerFactory.getLogger(classOf[ScalaExceptionCatchingListFilter[T]])
 

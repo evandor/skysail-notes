@@ -18,7 +18,7 @@ object CheckInvalidInputFilter {
 
 }
 
-class CheckInvalidInputFilter[T](entity: T) extends ScalaAbstractResourceFilter[T] {
+class CheckInvalidInputFilter[T:Manifest](entity: T) extends ScalaAbstractResourceFilter[T] {
 
   override val log = LoggerFactory.getLogger(classOf[CheckInvalidInputFilter[T]])
 

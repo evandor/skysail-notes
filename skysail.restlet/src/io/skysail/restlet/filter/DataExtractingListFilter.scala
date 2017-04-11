@@ -8,8 +8,9 @@ import io.skysail.server.restlet.filter.FilterResult
 import io.skysail.restlet.utils.ScalaCookiesUtils
 import io.skysail.domain.ddd.ScalaEntity
 import io.skysail.restlet.Wrapper3
+import io.skysail.restlet.ScalaListResponseWrapper
 
-class ScalaDataExtractingListFilter[T] extends ScalaAbstractListResourceFilter[T] {
+class ScalaDataExtractingListFilter[T:Manifest] extends ScalaAbstractListResourceFilter[T] {
 
   override val log = LoggerFactory.getLogger(classOf[ScalaExceptionCatchingListFilter[T]])
 
@@ -20,9 +21,9 @@ class ScalaDataExtractingListFilter[T] extends ScalaAbstractListResourceFilter[T
     val entity = resource.getEntity()
     if (entity.isInstanceOf[List[T]]) {
       val data = entity.asInstanceOf[List[T]]
-      sanitizeIds(data);
+      //sanitizeIds(data);
 
-//      responseWrapper.setEntity(data);
+      responseWrapper.asInstanceOf[ScalaListResponseWrapper[T]].setEntity(data);
 //      resource.setCurrentEntity(data); // TODO why both wrapper AND
       // resource?
     } else {

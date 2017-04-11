@@ -21,6 +21,8 @@ case class Note (
     var id: Option[String],
     @(Field @field) /*@(NotNull @field) @Size(min=1)*/ var content: String
   ) extends ScalaEntity[String] {
+  
+  def this() = this(None,"") 
 
   @Field(inputType = InputType.DATE)
   @PostView(visibility = Visibility.HIDE)

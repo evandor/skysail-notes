@@ -11,7 +11,7 @@ import org.restlet.Request
 import io.skysail.restlet.resources.EntityServerResource2
 import io.skysail.restlet.resources.PostEntityServerResource2
 
-abstract class ScalaAbstractResourceFilter[T] extends ScalaResourceFilter[T] {
+abstract class ScalaAbstractResourceFilter[T:Manifest] extends ScalaResourceFilter[T] {
 
   override val log = LoggerFactory.getLogger(this.getClass())
 
@@ -20,21 +20,6 @@ abstract class ScalaAbstractResourceFilter[T] extends ScalaResourceFilter[T] {
     handleMe(resource, responseWrapper)
     responseWrapper
   }
-
-//  protected def doHandle(resource: ScalaSkysailServerResource, responseWrapper:  ScalaResponseWrapper[T]): FilterResult = {
-//    val next = getNext();
-//    if (next != null) {
-//      // logger.debug("next filter in chain: {}", next.getClass().getSimpleName());
-//      next.handleMe(resource, responseWrapper);
-//    }
-//    CONTINUE;
-//  }
-//
-//  def calling(next: ScalaAbstractResourceFilter[T]) = { // AbstractResourceFilter<R, T>
-//    val lastInChain = getLast();
-//    lastInChain.setNext(next);
-//    this;
-//  }
 
   protected def getDataFromRequest(request: Request, resource: ScalaSkysailServerResource): Any = {
     val entityAsObject = request.getAttributes().get(ScalaSkysailServerResource.SKYSAIL_SERVER_RESTLET_ENTITY).asInstanceOf[T]

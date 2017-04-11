@@ -16,7 +16,7 @@ import io.skysail.restlet.responses.ScalaSkysailResponse
 import org.restlet.data.Status
 import io.skysail.restlet.ScalaRequestHandler
 import io.skysail.restlet.ScalaResponseWrapper
-import io.skysail.restlet.resources.helper.FormDeserializer
+import io.skysail.restlet.transformations.Transformations
 
 abstract class PostEntityServerResource2[T: Manifest] extends ScalaSkysailServerResource {
 
@@ -46,9 +46,8 @@ abstract class PostEntityServerResource2[T: Manifest] extends ScalaSkysailServer
   def post(form: Form, variant: Variant): ScalaSkysailResponse[T] = {
     implicit val formats = DefaultFormats
     val timerMetric = getMetricsCollector().timerFor(this.getClass(), "posthtml")
-    val jValue = FormDeserializer.createFrom(form,getParameterizedType())
-    val entity = jValue.extract[T]
-    val result = jsonPost(entity.asInstanceOf[T], variant)
+    val json = Transformations.jsonFrom[T](form)
+    val result = jsonPost(json.extract[T], variant)
     timerMetric.stop()
     result
   }

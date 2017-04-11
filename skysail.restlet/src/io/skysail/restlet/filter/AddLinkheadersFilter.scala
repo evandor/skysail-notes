@@ -13,7 +13,7 @@ object AddLinkheadersFilter {
   val MAX_LINK_HEADER_SIZE = 2048
 }
 
-class AddLinkheadersFilter[T] extends ScalaAbstractResourceFilter[T] {
+class AddLinkheadersFilter[T:Manifest] extends ScalaAbstractResourceFilter[T] {
 
   override val log = LoggerFactory.getLogger(classOf[AddLinkheadersFilter[T]])
 

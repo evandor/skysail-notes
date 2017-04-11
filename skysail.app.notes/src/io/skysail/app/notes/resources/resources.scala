@@ -17,6 +17,7 @@ import io.skysail.restlet.resources.PutEntityServerResource2
 import io.skysail.restlet.resources.ListServerResource2
 import io.skysail.restlet.app.ScalaSkysailApplication
 import io.skysail.app.notes.repository.NotesRepository
+import org.json4s.DefaultFormats
 
 
 object NotesResource {
@@ -26,9 +27,11 @@ object NotesResource {
 class NotesResource extends ListServerResource2[Note](classOf[NoteResource]) {
   addToContext(ResourceContextId.LINK_TITLE, "list Notes");
   def getEntity(): List[Note] = {
+    implicit val formats = DefaultFormats
     val filter = new Filter(getRequest());
     val pagination = new Pagination(getRequest(), getResponse());
-    NotesResource.noteRepo(getSkysailApplication()).find(filter, pagination);
+    val result = NotesResource.noteRepo(getSkysailApplication()).find(filter, pagination)
+    result.map { row => row.extract[Note] }.toList
   }
   //override def getLinks() = super.getLinks(classOf[PostNoteResource], classOf[NotesResource])
 }

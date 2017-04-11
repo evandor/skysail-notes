@@ -7,7 +7,7 @@ import io.skysail.restlet.Wrapper3
 import org.restlet.data.MediaType
 import org.restlet.representation.Variant
 
-class PostRedirectGetFilter[T](variant: Variant) extends ScalaAbstractResourceFilter[T] {
+class PostRedirectGetFilter[T:Manifest](variant: Variant) extends ScalaAbstractResourceFilter[T] {
 
   override val log = LoggerFactory.getLogger(classOf[PostRedirectGetFilter[T]])
 

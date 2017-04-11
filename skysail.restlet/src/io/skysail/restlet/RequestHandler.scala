@@ -3,7 +3,7 @@ package io.skysail.restlet
 import io.skysail.restlet.filter._
 import org.restlet.representation.Variant
 
-class ScalaRequestHandler[T](entity: T, variant: Variant) {
+class ScalaRequestHandler[T:Manifest](entity: T, variant: Variant) {
 
       def createForPost(): ScalaAbstractResourceFilter[T] = {
 
