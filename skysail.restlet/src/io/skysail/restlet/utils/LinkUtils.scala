@@ -4,11 +4,10 @@ import io.skysail.restlet.ScalaSkysailServerResource
 import io.skysail.api.links.Link
 import org.slf4j.LoggerFactory
 import io.skysail.api.links.LinkRelation
-import io.skysail.server.restlet.RouteBuilder
 import io.skysail.restlet.app.ScalaSkysailApplication
-import io.skysail.server.ResourceContextId
 import org.restlet.data.MediaType
-import io.skysail.server.rendering.RenderingMode
+import io.skysail.restlet.ResourceContextId
+import io.skysail.restlet.ScalaRouteBuilder
 
 object ScalaLinkUtils {
 
@@ -52,8 +51,8 @@ object ScalaLinkUtils {
       .definingClass(resourceClass)
       .relation(relation)
       .title(getTitle(resource))
-      .authenticationNeeded(routeBuilder.isNeedsAuthentication())
-      .needsRoles(routeBuilder.getRolesForAuthorization())
+      .authenticationNeeded(routeBuilder.needsAuthentication)
+      .needsRoles(routeBuilder.rolesForAuthorization)
       .image(MediaType.TEXT_HTML,
         if (resource.isDefined) resource.get.getFromContext(ResourceContextId.LINK_GLYPH) else null)
     //            if (mode.equals(RenderingMode.DEBUG)) {
@@ -76,7 +75,7 @@ object ScalaLinkUtils {
     None
   }
 
-  private def determineUri2(sssr: ScalaSkysailServerResource, resourceClass: Class[_], routeBuilder: RouteBuilder) = {
+  private def determineUri2(sssr: ScalaSkysailServerResource, resourceClass: Class[_], routeBuilder: ScalaRouteBuilder) = {
     val app = sssr.getApplication().asInstanceOf[ScalaSkysailApplication]
     val result = "/" + app.getName() + routeBuilder.getPathTemplate(app.apiVersion)
     //    try {

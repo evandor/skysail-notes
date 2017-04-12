@@ -3,24 +3,23 @@ package io.skysail.restlet.app
 import io.skysail.api.validation.ValidatorService
 import io.skysail.api.um.AuthorizationService
 import io.skysail.api.um.AuthenticationService
-import io.skysail.server.app.TranslationRenderServiceHolder
-import io.skysail.core.SkysailComponent
 import org.osgi.service.component.annotations._
 import io.skysail.api.um.UserManagementProvider
 import org.slf4j.LoggerFactory
-import io.skysail.server.app.SkysailComponentProvider
 import io.skysail.api.metrics.MetricsCollector
 import io.skysail.api.metrics.NoOpMetricsCollector
-import io.skysail.core.text.TranslationStoreHolder
 import io.skysail.api.text.TranslationStore
+import io.skysail.core.app.ScalaTranslationRenderServiceHolder
+import io.skysail.core.text.ScalaTranslationStoreHolder
+import io.skysail.restlet.services.ScalaSkysailComponentProvider
 
 @org.osgi.annotation.versioning.ProviderType
 trait ScalaServiceListProvider {
   //  def getValidatorService(): ValidatorService
   //  def getAuthorizationService(): AuthorizationService
   def getAuthenticationService(): AuthenticationService
-  def getTranslationRenderServices(): Set[TranslationRenderServiceHolder]
-  def getTranslationStores(): Set[TranslationStoreHolder]
+  def getTranslationRenderServices(): Set[ScalaTranslationRenderServiceHolder]
+  def getTranslationStores(): Set[ScalaTranslationStoreHolder]
   //  def getSkysailComponent(): SkysailComponent
   def getMetricsCollector(): MetricsCollector
   //    FacetsProvider getFacetsProvider();
@@ -36,7 +35,7 @@ class ScalaServiceList extends ScalaServiceListProvider {
 
   var authorizationService: AuthorizationService = null
   var authenticationService: AuthenticationService = null
-  var skysailComponentProvider: SkysailComponentProvider = null
+  var skysailComponentProvider: ScalaSkysailComponentProvider = null
 
   def getAuthenticationService(): AuthenticationService = authenticationService
 
@@ -59,26 +58,26 @@ class ScalaServiceList extends ScalaServiceListProvider {
     this.authorizationService = provider.getAuthorizationService();
   }
 
-  val translationStores = scala.collection.mutable.Set[TranslationStoreHolder]() //Collections.synchronizedSet(new HashSet<>());
+  val translationStores = scala.collection.mutable.Set[ScalaTranslationStoreHolder]() //Collections.synchronizedSet(new HashSet<>());
   def getTranslationStores() = translationStores.toSet
 
-  val translationRenderServices = scala.collection.mutable.Set[TranslationRenderServiceHolder]()
+  val translationRenderServices = scala.collection.mutable.Set[ScalaTranslationRenderServiceHolder]()
   def getTranslationRenderServices() = translationRenderServices.toSet
 
   @Reference(policy = ReferencePolicy.DYNAMIC, cardinality = ReferenceCardinality.OPTIONAL)
-  def setSkysailComponentProvider(service: SkysailComponentProvider): Unit = {
+  def setSkysailComponentProvider(service: ScalaSkysailComponentProvider): Unit = {
     skysailComponentProvider = service;
     val appContext = skysailComponentProvider.getSkysailComponent().getContext().createChildContext();
     getSkysailApps().foreach { app => app.setContext(appContext) }
   }
 
   @Reference(policy = ReferencePolicy.DYNAMIC, cardinality = ReferenceCardinality.MULTIPLE)
-  def addTranslationStore(service: TranslationStore, props: java.util.Map[String, String]):Unit = {
-    this.translationStores += new TranslationStoreHolder(service, props)
+  def addTranslationStore(service: TranslationStore, props: Map[String, String]):Unit = {
+    this.translationStores += new ScalaTranslationStoreHolder(service, props)
   }
 
   def removeTranslationStore(service: TranslationStore):Unit = {
-    this.translationStores -= new TranslationStoreHolder(service, new java.util.HashMap[String, String]())
+    this.translationStores -= new ScalaTranslationStoreHolder(service, Map[String, String]())
   }
 
   @Activate
@@ -87,7 +86,7 @@ class ScalaServiceList extends ScalaServiceListProvider {
   @Deactivate
   def deactivate() = {}
 
-  def unsetSkysailComponentProvider(service: SkysailComponentProvider) = {
+  def unsetSkysailComponentProvider(service: ScalaSkysailComponentProvider) = {
     this.skysailComponentProvider = null;
     getSkysailApps().foreach { a => a.setContext(null) }
   }

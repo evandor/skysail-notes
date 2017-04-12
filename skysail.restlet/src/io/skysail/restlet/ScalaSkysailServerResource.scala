@@ -1,10 +1,8 @@
 package io.skysail.restlet
 
 import io.skysail.api.text.Translation
-import io.skysail.core.app.SkysailApplication
 import io.skysail.api.links.Link
 import io.skysail.restlet.app.ScalaSkysailApplication
-import io.skysail.server.ResourceContextId
 import io.skysail.restlet.forms.ScalaFormField
 import java.util.function.Consumer
 import org.restlet.resource.ServerResource
@@ -19,6 +17,14 @@ object ScalaSkysailServerResource {
   //val SKYSAIL_SERVER_RESTLET_FORM = "de.twenty11.skysail.server.core.restlet.form";
   val SKYSAIL_SERVER_RESTLET_ENTITY = classOf[ScalaSkysailServerResource].getName + ".entity"
   //val SKYSAIL_SERVER_RESTLET_VARIANT = "de.twenty11.skysail.server.core.restlet.variant";
+
+  val FILTER_PARAM_NAME = "_f";
+  val PAGE_PARAM_NAME = "_page";
+  val SEARCH_PARAM_NAME = "_search";
+  
+  val NO_REDIRECTS = "noRedirects";
+  val INSPECT_PARAM_NAME = "_inspect";
+
 }
 
 abstract class ScalaSkysailServerResource extends ServerResource {

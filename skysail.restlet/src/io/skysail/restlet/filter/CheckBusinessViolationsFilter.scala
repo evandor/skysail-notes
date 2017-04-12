@@ -4,7 +4,6 @@ import org.slf4j.LoggerFactory
 import io.skysail.restlet.ScalaAbstractResourceFilter
 import io.skysail.restlet.ScalaSkysailServerResource
 import io.skysail.restlet.Wrapper3
-import io.skysail.server.restlet.filter.FilterResult
 import java.util.HashSet
 import io.skysail.restlet.ScalaResponseWrapper
 

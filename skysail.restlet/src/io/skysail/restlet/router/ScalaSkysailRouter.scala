@@ -1,11 +1,6 @@
 package io.skysail.restlet.router
 
-import io.skysail.core.app.ApiVersion
-import io.skysail.core.app.SkysailApplication
-import io.skysail.server.restlet.RouteBuilder
 import io.skysail.restlet.ScalaSkysailServerResource
-import io.skysail.server.restlet.RolesPredicateAuthorizer
-import io.skysail.server.security.config.SecurityConfig
 import io.skysail.restlet.app.ScalaSkysailApplication
 import io.skysail.restlet.ScalaEntityFactory
 import org.restlet.routing.Router
@@ -18,6 +13,9 @@ import org.restlet.resource.Finder
 import java.util.concurrent.ConcurrentHashMap
 
 import scala.collection.JavaConverters._
+import io.skysail.core.ApiVersion
+import io.skysail.restlet.ScalaRouteBuilder
+import io.skysail.core.security.config.ScalaSecurityConfig
 
 object ScalaSkysailRouter {
   def getResourcesGenericType(resourceInstance: ScalaSkysailServerResource) = resourceInstance.getParameterizedType()
@@ -27,29 +25,29 @@ class ScalaSkysailRouter(skysailApplication: ScalaSkysailApplication, apiVersion
 
   val log = LoggerFactory.getLogger(classOf[ScalaSkysailRouter])
 
-  val pathRouteBuilderMap = new ConcurrentHashMap[String, RouteBuilder]();
+  val pathRouteBuilderMap = new ConcurrentHashMap[String, ScalaRouteBuilder]();
 
-  var securityConfig: SecurityConfig = null
+  var securityConfig: ScalaSecurityConfig = null
 
-  def setSecurityConfig(s: SecurityConfig) = this.securityConfig = s
+  def setSecurityConfig(s: ScalaSecurityConfig) = this.securityConfig = s
 
   override def attach(pathTemplate: String, targetClass: Class[_ <: ServerResource]): TemplateRoute = {
     //log.warn("please use a RouteBuilder to attach this resource: {}", targetClass);
     return attach(pathTemplate, createFinder(targetClass));
   }
 
-  def attach(routeBuilder: RouteBuilder): Unit = {
+  def attach(routeBuilder: ScalaRouteBuilder): Unit = {
 
     updateApplicationModel(routeBuilder);
 
     val pathTemplate = routeBuilder.getPathTemplate(apiVersion);
     pathRouteBuilderMap.put(pathTemplate, routeBuilder);
-    if (routeBuilder.getTargetClass() == null) {
+    if (routeBuilder.targetClass == null) {
       attachForTargetClassNull(routeBuilder);
       return ;
     }
 
-    if (!routeBuilder.isNeedsAuthentication()) {
+    if (!routeBuilder.needsAuthentication) {
       attachForNoAuthenticationNeeded(routeBuilder);
       return ;
     }
@@ -74,14 +72,14 @@ class ScalaSkysailRouter(skysailApplication: ScalaSkysailApplication, apiVersion
 
   }
 
-  private def updateApplicationModel(routeBuilder: RouteBuilder): Unit = {
+  private def updateApplicationModel(routeBuilder: ScalaRouteBuilder): Unit = {
     var applicationModel = skysailApplication.getApplicationModel();
     if (applicationModel == null) {
       log.warn("applicationModel is null");
       return
     }
 
-    val targetClass = routeBuilder.getTargetClass();
+    val targetClass = routeBuilder.targetClass
     if (targetClass != null && classOf[ScalaSkysailServerResource].isAssignableFrom(targetClass)) {
       try {
         val resourceInstance = targetClass.newInstance().asInstanceOf[ScalaSkysailServerResource];
@@ -95,7 +93,7 @@ class ScalaSkysailRouter(skysailApplication: ScalaSkysailApplication, apiVersion
     }
   }
 
-  private def attachForTargetClassNull(routeBuilder: RouteBuilder) = {
+  private def attachForTargetClassNull(routeBuilder: ScalaRouteBuilder) = {
     val restlet = routeBuilder.getRestlet();
     if (restlet == null) {
       throw new IllegalStateException("RouteBuilder with neither TargetClass nor Restlet defined!");
@@ -107,16 +105,16 @@ class ScalaSkysailRouter(skysailApplication: ScalaSkysailApplication, apiVersion
     updateApplicationModel(routeBuilder);
   }
 
-  private def attachForNoAuthenticationNeeded(routeBuilder: RouteBuilder) {
+  private def attachForNoAuthenticationNeeded(routeBuilder: ScalaRouteBuilder) {
     //    log.info("routing path '{}' -> '{}'", routeBuilder.getPathTemplate(apiVersion),
     //      routeBuilder.getTargetClass().getName());
-    attach(routeBuilder.getPathTemplate(apiVersion), routeBuilder.getTargetClass());
+    attach(routeBuilder.getPathTemplate(apiVersion), routeBuilder.targetClass);
   }
 
-  private def createIsAuthenticatedAuthorizer(pathTemplate: String, routeBuilder: RouteBuilder): Restlet = {
+  private def createIsAuthenticatedAuthorizer(pathTemplate: String, routeBuilder: ScalaRouteBuilder): Restlet = {
     //    var predicateToUse = ""
     //    if (routeBuilder.getRolesForAuthorization() != null) 
-    val predicateToUse = routeBuilder.getRolesForAuthorization()
+    val predicateToUse = routeBuilder.rolesForAuthorization
     //    }
     //    routeBuilder.authorizeWith(predicateToUse);
 
@@ -144,16 +142,16 @@ class ScalaSkysailRouter(skysailApplication: ScalaSkysailApplication, apiVersion
   }
 
   def getRouteBuildersForResource(cls: Class[_]) = {
-    val result = new scala.collection.mutable.ListBuffer[RouteBuilder]()
+    val result = new scala.collection.mutable.ListBuffer[ScalaRouteBuilder]()
     for (entry <- pathRouteBuilderMap.entrySet().asScala) {
       if (entry.getValue() != null) {
-        if (entry.getValue().getTargetClass() == null) {
+        if (entry.getValue().targetClass == null) {
           val restlet = entry.getValue().getRestlet();
           if (restlet != null) {
             handleRestlet(cls, result.toList, entry.getKey, entry.getValue, restlet);
           }
         }
-        if (entry.getValue().getTargetClass().equals(cls)) {
+        if (entry.getValue().targetClass.equals(cls)) {
           result += entry.getValue()
         }
       }
@@ -161,7 +159,7 @@ class ScalaSkysailRouter(skysailApplication: ScalaSkysailApplication, apiVersion
     result.toList
   }
 
-  private def handleRestlet(cls: Class[_], result: List[RouteBuilder], key:String, value: RouteBuilder,
+  private def handleRestlet(cls: Class[_], result: List[ScalaRouteBuilder], key:String, value: ScalaRouteBuilder,
     restlet: Restlet) {
     if (restlet.isInstanceOf[Filter]) {
       val next = restlet.asInstanceOf[Filter].getNext();

@@ -1,18 +1,18 @@
 package io.skysail.restlet.utils
 
 import org.restlet.resource.ServerResource
-import io.skysail.core.text.TranslationStoreHolder
 import io.skysail.api.text.Translation
 import io.skysail.api.text.I18nArgumentsProvider
 import java.util.Locale
 import io.skysail.api.text.TranslationStore
-import io.skysail.server.app.TranslationRenderServiceHolder
+import io.skysail.core.text.ScalaTranslationStoreHolder
+import io.skysail.core.app.ScalaTranslationRenderServiceHolder
 
 object ScalaTranslationUtils {
 
-  def getBestTranslation(stores: Set[TranslationStoreHolder], key: String, resource: ServerResource): Option[Translation] = {
+  def getBestTranslation(stores: Set[ScalaTranslationStoreHolder], key: String, resource: ServerResource): Option[Translation] = {
 
-    var storeIsNotNull = (store: TranslationStoreHolder) => store.getStore.get != null
+    var storeIsNotNull = (store: ScalaTranslationStoreHolder) => store.storeRef.get != null
     var translationIsNotNull = (t: Translation) => t != null
 
     getSortedTranslationStores(stores)
@@ -42,7 +42,7 @@ object ScalaTranslationUtils {
   //        return null;
   //    }
   //
-  def render(translationRenderServices: Set[TranslationRenderServiceHolder], translation: Translation): Translation = {
+  def render(translationRenderServices: Set[ScalaTranslationRenderServiceHolder], translation: Translation): Translation = {
     getSortedTranslationRenderServices(translationRenderServices)
       .filter(_.getService.get.applicable(translation.getValue()))
       .map(renderService => {
@@ -53,19 +53,20 @@ object ScalaTranslationUtils {
       .headOption.getOrElse(translation);
   }
 
-  private def getSortedTranslationRenderServices(services: Set[TranslationRenderServiceHolder]) = services.toSeq.sortWith(_.getServiceRanking > _.getServiceRanking)
+  private def getSortedTranslationRenderServices(services: Set[ScalaTranslationRenderServiceHolder]) = 
+    services.toSeq.sortWith(_.getServiceRanking > _.getServiceRanking)
 
-  private def getSortedTranslationStores(stores: Set[TranslationStoreHolder]) = {
-    stores.toSeq.sortWith(_.getServiceRanking < _.getServiceRanking)
+  private def getSortedTranslationStores(stores: Set[ScalaTranslationStoreHolder]) = {
+    stores.toSeq.sortWith(_.serviceRanking < _.serviceRanking)
   }
   //
   private def createTranslationFromStore(
     key: String,
     resource: ServerResource,
-    store: TranslationStoreHolder,
-    stores: Set[TranslationStoreHolder]): Translation = {
+    store: ScalaTranslationStoreHolder,
+    stores: Set[ScalaTranslationStoreHolder]): Translation = {
 
-    val result = store.getStore().get().get(key, resource.getClass().getClassLoader(), resource.getRequest())
+    val result = store.storeRef.get.get(key, resource.getClass().getClassLoader(), resource.getRequest())
       .orElse(null);
     if (result == null) {
       /*if (key.endsWith(".desc") || key.endsWith(".placeholder") || key.endsWith(".message")) {
@@ -80,13 +81,13 @@ object ScalaTranslationUtils {
       val messageArguments = resource.asInstanceOf[I18nArgumentsProvider].getMessageArguments();
       return new Translation(
         result,
-        store.getStore().get(),
+        store.storeRef.get(),
         Locale.getDefault(),
         messageArguments.get(key));
     }
     return new Translation(
       result,
-      store.getStore().get(),
+      store.storeRef.get(),
       Locale.getDefault());
   }
 

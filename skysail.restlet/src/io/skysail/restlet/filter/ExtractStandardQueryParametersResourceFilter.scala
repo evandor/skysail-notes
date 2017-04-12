@@ -5,8 +5,6 @@ import io.skysail.restlet.Wrapper3
 import org.slf4j.LoggerFactory
 import io.skysail.domain.html._;
 import org.owasp.html._;
-import io.skysail.core.resources.SkysailServerResource
-import io.skysail.server.restlet.filter.FilterResult
 
 object ExtractStandardQueryParametersResourceFilter {
 
@@ -21,15 +19,15 @@ object ExtractStandardQueryParametersResourceFilter {
   }
 }
 
-class ExtractStandardQueryParametersResourceFilter[T:Manifest] extends ScalaAbstractResourceFilter[T] {
+class ExtractStandardQueryParametersResourceFilter[T: Manifest] extends ScalaAbstractResourceFilter[T] {
 
   override val log = LoggerFactory.getLogger(classOf[ExtractStandardQueryParametersResourceFilter[T]])
 
   override def beforeHandle(resource: ScalaSkysailServerResource, responseWrapper: Wrapper3) = {
-    addToAttributes(resource, SkysailServerResource.FILTER_PARAM_NAME);
-    addToAttributes(resource, SkysailServerResource.PAGE_PARAM_NAME);
-    addToAttributes(resource, SkysailServerResource.INSPECT_PARAM_NAME);
-    addToAttributes(resource, SkysailServerResource.SEARCH_PARAM_NAME);
+    addToAttributes(resource, ScalaSkysailServerResource.FILTER_PARAM_NAME);
+    addToAttributes(resource, ScalaSkysailServerResource.PAGE_PARAM_NAME);
+    addToAttributes(resource, ScalaSkysailServerResource.INSPECT_PARAM_NAME);
+    addToAttributes(resource, ScalaSkysailServerResource.SEARCH_PARAM_NAME);
 
     //adjustSearchFilter(resource);
 

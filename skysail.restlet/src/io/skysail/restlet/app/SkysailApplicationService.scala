@@ -1,27 +1,26 @@
 package io.skysail.restlet.app
 
 import org.osgi.service.component.annotations._
-import io.skysail.core.app.SkysailApplicationService
 import java.util.ArrayList
-import io.skysail.server.services.EntityApi
 import io.skysail.restlet.model.ScalaSkysailEntityModel
 
 import scala.collection.JavaConverters._
 import io.skysail.restlet.model.ScalaSkysailEntityModel
 import io.skysail.restlet.model.ScalaSkysailEntityModel
+import io.skysail.restlet.services.EntityApi
 
 @Component(immediate = true, service = Array(classOf[ScalaSkysailApplicationService]))
 class ScalaSkysailApplicationService {
 
-  var entityApis: java.util.List[EntityApi[_]] = new java.util.ArrayList[EntityApi[_]]()
+  var entityApis: java.util.List[EntityApi] = new java.util.ArrayList[EntityApi]()
 
   @Reference(cardinality = ReferenceCardinality.MANDATORY)
   var applicationListProvider: ApplicationListProvider = null
 
   @Reference(cardinality = ReferenceCardinality.MULTIPLE, policy = ReferencePolicy.DYNAMIC)
-  def addEntityApi(api: EntityApi[_]): Unit = entityApis.add(api)
+  def addEntityApi(api: EntityApi): Unit = entityApis.add(api)
 
-  def removeEntityApi(api: EntityApi[_]): Unit = entityApis.remove(api)
+  def removeEntityApi(api: EntityApi): Unit = entityApis.remove(api)
 
   //      public String pathForEntityResource(String className, String type) {
   //        for (SkysailApplication app : applicationListProvider.getApplications()) {

@@ -1,20 +1,16 @@
 package io.skysail.restlet.app
 
 import io.skysail.api.text.Translation
-import io.skysail.core.app._
-import io.skysail.core.model.SkysailApplicationModel
-import io.skysail.core.utils._
+import io.skysail.api.um.AuthenticationService
+import io.skysail.api.um.AuthenticationMode
+import io.skysail.core.ApiVersion
 import io.skysail.domain.Entity
+import io.skysail.domain.repo.ScalaDbRepository
 import io.skysail.restlet.router.ScalaSkysailRouter
 import io.skysail.restlet.model.ScalaSkysailApplicationModel
 import io.skysail.restlet.NoOpDbRepository
-import io.skysail.server.services.ResourceBundleProvider
-import io.skysail.server.menus.MenuItem
-import io.skysail.server.security.config.SecurityConfigBuilder
-import io.skysail.server.restlet.filter.OriginalRequestFilter
-import io.skysail.api.um.AuthenticationService
-import io.skysail.api.um.AuthenticationMode
-import io.skysail.core.app.ServiceListProvider
+import io.skysail.restlet.utils.ScalaTranslationUtils
+import io.skysail.restlet.services._
 import java.util.ResourceBundle
 import java.util.Collections
 import java.util.ArrayList
@@ -31,9 +27,11 @@ import org.restlet.data.Protocol
 import org.slf4j.LoggerFactory
 
 import scala.collection.JavaConverters._
-import io.skysail.restlet.utils.ScalaTranslationUtils
-import io.skysail.domain.repo.ScalaDbRepository
-import io.skysail.server.restlet.RouteBuilder
+import io.skysail.restlet.ScalaRouteBuilder
+import io.skysail.restlet.utils.CompositeClassLoader
+import io.skysail.restlet.utils.ClassLoaderDirectory
+import io.skysail.core.security.config.ScalaSecurityConfigBuilder
+import io.skysail.restlet.utils.ScalaReflectionUtils
 
 abstract class ScalaSkysailApplication(
   name: String,
@@ -41,7 +39,7 @@ abstract class ScalaSkysailApplication(
   entityClasses: List[Class[_ <: Entity]])
     extends org.restlet.Application
     with ScalaApplicationProvider
-    with ResourceBundleProvider {
+    with ScalaResourceBundleProvider {
 
   val IN_MEMORY_TRANSLATION_STORE = "InMemoryTranslationStore"
 
@@ -158,7 +156,7 @@ abstract class ScalaSkysailApplication(
     getConnectorService().getClientProtocols().add(Protocol.FILE);
     getConnectorService().getClientProtocols().add(Protocol.CLAP);
 
-    val securityConfigBuilder = new SecurityConfigBuilder(apiVersion);
+    val securityConfigBuilder = new ScalaSecurityConfigBuilder(apiVersion);
     defineSecurityConfig(securityConfigBuilder);
     securityConfigBuilder.setAuthenticationService(serviceListProvider.getAuthenticationService());
     router.setSecurityConfig(securityConfigBuilder.build())
@@ -223,7 +221,7 @@ abstract class ScalaSkysailApplication(
 
   def getSkysailApplication() = this
 
-  def defineSecurityConfig(securityConfigBuilder: SecurityConfigBuilder): Unit = {
+  def defineSecurityConfig(securityConfigBuilder: ScalaSecurityConfigBuilder): Unit = {
     securityConfigBuilder.authorizeRequests().startsWithMatcher("").authenticated();
   }
 
@@ -241,7 +239,7 @@ abstract class ScalaSkysailApplication(
   //Class<? extends Entity>
   def getRepository[T <: ScalaDbRepository](entityClass: Class[_]): T = {
     val repo = repositories.asScala.filter { r =>
-      val entityType = ReflectionUtils.getParameterizedType(r.getClass())
+      val entityType = ScalaReflectionUtils.getParameterizedType(r.getClass())
       entityClass.isAssignableFrom(entityType)
     }.headOption
       .getOrElse(
@@ -279,9 +277,9 @@ abstract class ScalaSkysailApplication(
   def isNotInMemoryStore(translation: Translation) = IN_MEMORY_TRANSLATION_STORE != translation.getStoreName()
 
   //public <T extends ServerResource> List<RouteBuilder> getRouteBuilders(Class<T> cls) {
-  def getRouteBuilders(cls: Class[_]):List[RouteBuilder] = {
+  def getRouteBuilders(cls: Class[_]):List[ScalaRouteBuilder] = {
     if (router == null) {
-      return List[RouteBuilder]()
+      return List[ScalaRouteBuilder]()
     }
     return router.getRouteBuildersForResource(cls);
   }

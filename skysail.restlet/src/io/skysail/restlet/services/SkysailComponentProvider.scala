@@ -1,8 +1,6 @@
 package io.skysail.restlet.services
 
-import io.skysail.core.SkysailComponent;
+trait ScalaSkysailComponentProvider {
 
-trait SkysailComponentProvider {
-
-    def getSkysailComponent(): SkysailComponent
+    def getSkysailComponent(): io.skysail.restlet.ScalaSkysailComponent
 }

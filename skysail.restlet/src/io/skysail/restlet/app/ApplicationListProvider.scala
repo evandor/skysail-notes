@@ -1,28 +1,25 @@
 package io.skysail.restlet.app
 
-import io.skysail.core.app.SkysailApplication
-import io.skysail.core.SkysailComponent
 import org.osgi.service.component.annotations._
-import io.skysail.core.app.ApplicationProvider
-import io.skysail.server.SkysailStatusService
 
 import scala.collection.JavaConverters._
 import org.restlet.Application
-import io.skysail.server.app.SkysailRootApplication
 import org.slf4j.LoggerFactory
 import java.text.DecimalFormat
 import scala.collection.mutable.ListBuffer
+import io.skysail.restlet.ScalaSkysailComponent
+import io.skysail.restlet.services.SkysailStatusService
 
 @org.osgi.annotation.versioning.ProviderType
 trait ApplicationListProvider {
   def getApplications(): List[ScalaSkysailApplication]
-  def attach(skysailComponent: SkysailComponent)
-  def detach(skysailComponent: SkysailComponent)
+  def attach(skysailComponent: ScalaSkysailComponent)
+  def detach(skysailComponent: ScalaSkysailComponent)
 }
 
 class NoOpApplicationListProvider extends ApplicationListProvider {
-  def attach(skysailComponent: SkysailComponent): Unit = {  }
-  def detach(skysailComponent: SkysailComponent): Unit = {  }
+  def attach(skysailComponent: ScalaSkysailComponent): Unit = {  }
+  def detach(skysailComponent: ScalaSkysailComponent): Unit = {  }
   def getApplications(): List[ScalaSkysailApplication] = List()
 }
 
@@ -41,9 +38,9 @@ class ApplicationList extends ApplicationListProvider {
   val applications = scala.collection.mutable.ListBuffer[ScalaSkysailApplication]();
   val log = LoggerFactory.getLogger(classOf[ApplicationList])
 
-  var skysailComponent: SkysailComponent = null
+  var skysailComponent: ScalaSkysailComponent = null
 
-  def attach(skysailComponent: SkysailComponent): Unit = {
+  def attach(skysailComponent: ScalaSkysailComponent): Unit = {
     this.skysailComponent = skysailComponent;
     if (skysailComponent == null) {
       return ;
@@ -51,7 +48,7 @@ class ApplicationList extends ApplicationListProvider {
     getApplications().foreach { a => attachToComponent(a) }
   }
 
-  def detach(skysailComponent: SkysailComponent): Unit = {
+  def detach(skysailComponent: ScalaSkysailComponent): Unit = {
     this.skysailComponent = skysailComponent;
     if (skysailComponent == null) {
       return ;
@@ -116,7 +113,7 @@ class ApplicationList extends ApplicationListProvider {
     //    }
   }
 
-  private def detach(app: ScalaSkysailApplication, restletComponent: SkysailComponent) = {
+  private def detach(app: ScalaSkysailApplication, restletComponent: ScalaSkysailComponent) = {
     log.debug(" >>> unsetting ServerConfiguration");
     // TODO make nicer
     log.debug(" >>> attaching skysailApplication '{}' to defaultHost", "/" + app.getName());

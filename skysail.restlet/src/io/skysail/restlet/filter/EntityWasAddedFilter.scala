@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory
 import io.skysail.restlet.ScalaAbstractResourceFilter
 import io.skysail.restlet.ScalaSkysailServerResource
 import io.skysail.restlet.Wrapper3
-import io.skysail.server.restlet.filter.FilterResult
 import io.skysail.restlet.ScalaResponseWrapper
 
 class EntityWasAddedFilter[T:Manifest](entity: T) extends ScalaAbstractResourceFilter[T] {

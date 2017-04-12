@@ -5,7 +5,6 @@ import java.lang.reflect.Field
 import io.skysail.domain.html.InputType
 import java.lang.reflect.Type
 import java.util.Collection
-import io.skysail.core.utils.ReflectionUtils
 import io.skysail.restlet.utils.ScalaReflectionUtils
 
 class ScalaSkysailFieldModel(

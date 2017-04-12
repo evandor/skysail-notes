@@ -15,18 +15,35 @@ Import-Package: \
 	${commons},\
 	${javax},\
 	${fasterxml},\
+    skysail.api;version=${skysail.api.version},\
+	skysail.domain;version=${skysail.domain.version},\
 	com.thoughtworks.paranamer;version=2.8,\
 	com.google.guava;version='[16.0,16.1)',\
-	skysail.server;version=${skysail.server.version},\
 	io.skysail.bundled.json4s_2.11-3.5.1;version=3.5,\
     io.skysail.bundled.owasp-java-html-sanitizer;version='[20160422.1.0,20160422.1.1)',\
-	com.fasterxml.jackson.core.jackson-annotations;version=2.5
-	
-#    skysail.api;version=${skysail.api.version},\
-#	skysail.domain;version=${skysail.domain.version},\
-    
+	com.fasterxml.jackson.core.jackson-annotations;version=2.5    
     
 Export-Package: \
+	io.skysail.api.doc,\
+	io.skysail.api.features,\
+	io.skysail.api.features.annotations,\
+	io.skysail.api.links,\
+	io.skysail.api.metrics,\
+	io.skysail.api.responses,\
+	io.skysail.api.text,\
+	io.skysail.api.um,\
+	io.skysail.api.validation,\
+	io.skysail.api.validation.hibernate,\
+	io.skysail.api.weaving,\
+	io.skysail.core,\
+	io.skysail.core.resources,\
+	io.skysail.core.app,\
+	io.skysail.core.model,\
+	io.skysail.core.utils,\
+	io.skysail.domain,\
+	io.skysail.domain.core,\
+	io.skysail.domain.core.repos,\
+	io.skysail.domain.html,\
 	io.skysail.restlet.app,\
 	io.skysail.domain.ddd,\
 	io.skysail.restlet,\
@@ -45,4 +62,4 @@ Private-Package: \
 	io.skysail.restlet.filter,\
 	io.skysail.restlet.queries.impl,\
 	io.skysail.restlet.filter.helper,\
-	io.skysail.restlet.resources.helper
+	io.skysail.core.security.config

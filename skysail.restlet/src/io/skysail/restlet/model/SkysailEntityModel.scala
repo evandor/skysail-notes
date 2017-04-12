@@ -1,9 +1,7 @@
 package io.skysail.restlet.model
 
-import io.skysail.core.model.SkysailEntityModel
 import io.skysail.domain.core.EntityModel
 import io.skysail.restlet.ScalaSkysailServerResource
-import io.skysail.core.utils.ReflectionUtils
 import scala.collection.JavaConverters._
 import java.lang.reflect.Field
 import io.skysail.restlet.utils.ScalaReflectionUtils
@@ -34,8 +32,8 @@ class ScalaSkysailEntityModel(
   private def filterFormFields(f: Field): Boolean = f.getAnnotation(classOf[io.skysail.domain.html.Field]) != null
 
   def deriveRelations() = {
-    val fields = ReflectionUtils.getInheritedFields(identifiableClass)
-    fields.asScala
+    val fields = ScalaReflectionUtils.getInheritedFields(identifiableClass)
+    fields
       .filter { filterFormFields(_) }
       .map { _.getName }
       //.map { r => new ScalaEntityRelation(r,null, EntityRelationType.ONE_TO_MANY))}

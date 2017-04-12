@@ -5,13 +5,11 @@ import org.slf4j.LoggerFactory
 import org.owasp.html.HtmlPolicyBuilder
 import io.skysail.restlet.ScalaSkysailServerResource
 import io.skysail.restlet.Wrapper3
-import io.skysail.server.restlet.resources.EntityServerResource
-import io.skysail.server.restlet.filter.FilterResult
 import org.restlet.Request
-import io.skysail.core.utils.ReflectionUtils
 import scala.collection.JavaConverters._
 import org.owasp.html.HtmlSanitizer
 import io.skysail.restlet.ScalaResponseWrapper
+import io.skysail.restlet.utils.ScalaReflectionUtils
 
 object CheckInvalidInputFilter {
   val noHtmlPolicyBuilder = new HtmlPolicyBuilder();
@@ -42,8 +40,8 @@ class CheckInvalidInputFilter[T:Manifest](entity: T) extends ScalaAbstractResour
     var foundInvalidInput = false;
     val entityAsObject = request.getAttributes().get(ScalaSkysailServerResource.SKYSAIL_SERVER_RESTLET_ENTITY);
     if (entityAsObject != null) {
-      val fields = ReflectionUtils.getInheritedFields(entity.getClass());
-      foundInvalidInput = handleFields(foundInvalidInput, entity, fields.asScala.toList);
+      val fields = ScalaReflectionUtils.getInheritedFields(entity.getClass());
+      foundInvalidInput = handleFields(foundInvalidInput, entity, fields.toList);
       return foundInvalidInput;
     }
     false;

@@ -1,8 +1,8 @@
 package io.skysail.restlet
 
 import org.slf4j.LoggerFactory
-import io.skysail.server.restlet.filter._
-import io.skysail.server.restlet.filter.FilterResult._
+import io.skysail.restlet.filter._
+import io.skysail.restlet.filter.FilterResult._
 
 trait ScalaResourceFilter[T] {
 

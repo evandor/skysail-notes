@@ -3,7 +3,6 @@ package io.skysail.restlet.filter
 import io.skysail.restlet.ScalaAbstractListResourceFilter
 import io.skysail.restlet.ScalaSkysailServerResource
 import io.skysail.restlet.Wrapper3
-import io.skysail.server.restlet.filter.FilterResult
 import org.slf4j.LoggerFactory
 import org.restlet.resource.ResourceException
 import io.skysail.restlet.filter.helper.ExceptionCatchingFilterHelper

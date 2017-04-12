@@ -3,7 +3,6 @@ package io.skysail.restlet
 import org.restlet.data.Method
 import org.restlet.representation.Variant
 import io.skysail.restlet.filter._
-import io.skysail.server.restlet.filter.DataExtractingListFilter
 
 class ScalaListRequestHandler[T:Manifest](variant: Variant) {
   

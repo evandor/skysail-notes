@@ -1,6 +1,5 @@
 package io.skysail.restlet
 
-import io.skysail.core.app.SkysailApplicationService
 import java.util.Locale
 import io.skysail.restlet.app.ScalaSkysailApplicationService
 import io.skysail.restlet.utils.ScalaSkysailBeanUtilsBean

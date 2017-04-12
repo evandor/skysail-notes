@@ -1,7 +1,7 @@
 package io.skysail.restlet.utils
 
 import org.restlet.Request
-import io.skysail.server.Constants
+import io.skysail.core.Constants
 
 object ScalaCookiesUtils {
   def getModeFromCookie(request: Request) = {
