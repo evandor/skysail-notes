@@ -33,7 +33,7 @@ class NotesResource extends ListServerResource2[Note](classOf[NoteResource]) {
     val result = NotesResource.noteRepo(getSkysailApplication()).find(filter, pagination)
     result.map { row => row.extract[Note] }.toList
   }
-  //override def getLinks() = super.getLinks(classOf[PostNoteResource], classOf[NotesResource])
+  override def getLinks() = super.getLinks(classOf[PostNoteResource], classOf[NotesResource])
 }
 
 class NoteResource extends EntityServerResource2[Note] {

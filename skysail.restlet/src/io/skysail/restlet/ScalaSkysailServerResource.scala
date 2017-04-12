@@ -13,6 +13,7 @@ import org.restlet.Application
 import java.util.Locale
 import java.util.Collections
 import io.skysail.restlet.utils._
+import io.skysail.api.links.LinkRelation
 
 object ScalaSkysailServerResource {
   //val SKYSAIL_SERVER_RESTLET_FORM = "de.twenty11.skysail.server.core.restlet.form";
@@ -107,16 +108,14 @@ abstract class ScalaSkysailServerResource extends ServerResource {
     if (allLinks == null) {
       return List[Link]()
     }
-    allLinks//.filter(l => l.isAu)
+    allLinks //.filter(l => l.isAu)
   }
+
+  def getLinkRelation() = LinkRelation.CANONICAL
 
   def getLinks(): List[Link] = if (links != null) links else List()
 
-  final def getLinks(classes: Class[_]*) {
-    if (links == null) {
-      links = ScalaLinkUtils.fromResources(this, entity, classes)
-    }
-    links;
-  }
+  final def getLinks[_ <: ScalaSkysailServerResource](classes: Class[_]*): List[Link] =
+    if (links.length == 0) ScalaLinkUtils.fromResources(this, entity, classes) else links
 
 }

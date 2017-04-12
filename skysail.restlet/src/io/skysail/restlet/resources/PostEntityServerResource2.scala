@@ -17,6 +17,8 @@ import org.restlet.data.Status
 import io.skysail.restlet.ScalaRequestHandler
 import io.skysail.restlet.ScalaResponseWrapper
 import io.skysail.restlet.transformations.Transformations
+import io.skysail.api.links.LinkRelation
+import org.restlet.data.Method
 
 abstract class PostEntityServerResource2[T: Manifest] extends ScalaSkysailServerResource {
 
@@ -66,6 +68,13 @@ abstract class PostEntityServerResource2[T: Manifest] extends ScalaSkysailServer
 
   def doPost(entity: T, variant: Variant): ScalaResponseWrapper[T] = {
     getResponse().setStatus(Status.SUCCESS_CREATED)
-    new ScalaRequestHandler[T](entity,variant).createForPost().handle(this, getResponse())
+    new ScalaRequestHandler[T](entity, variant).createForPost().handle(this, getResponse())
   }
+
+  override def getLinks() = {
+    val postLink = new Link.Builder(".").relation(LinkRelation.NEXT).title("form target").verbs(Method.POST)
+      .build()
+    List(postLink)
+  }
+
 }

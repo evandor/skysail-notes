@@ -154,7 +154,7 @@ class ScalaSkysailRouter(skysailApplication: ScalaSkysailApplication, apiVersion
           }
         }
         if (entry.getValue().getTargetClass().equals(cls)) {
-          //result.add(entry.getValue());
+          result += entry.getValue()
         }
       }
     }

@@ -54,11 +54,15 @@ raw_content(user,converter,messages,model,request)::= <<
       </div>
 
       <div>
-        <h3>Model</h3>
+        <h3>Resource Model</h3>
         <h5>Form Fields</h5>
-        $model.formfieldsWrapper.formfields: { row | $row$};separator="<br>\n"$
+        <small>$model.formfieldsWrapper.formfields: { row | $row$};separator="<br>\n"$</small>
         <h5>Raw Data</h5>
-        $model.rawData: { row | $row$};separator="<br>\n"$
+        <small>$model.rawData: { row | $row$};separator="<br>\n"$</small>
+        <h5>Data</h5>
+        <small>$model.data: { row | $row$};separator="<br>\n"$</small>
+        <h5>Links</h5>
+        <small>$model.links: { link | $link$};separator="<br>\n"$</small>
       </div> 
 
       <div>

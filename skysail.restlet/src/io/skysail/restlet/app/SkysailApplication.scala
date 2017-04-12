@@ -37,7 +37,7 @@ import io.skysail.server.restlet.RouteBuilder
 
 abstract class ScalaSkysailApplication(
   name: String,
-  apiVersion: ApiVersion,
+  val apiVersion: ApiVersion,
   entityClasses: List[Class[_ <: Entity]])
     extends org.restlet.Application
     with ScalaApplicationProvider

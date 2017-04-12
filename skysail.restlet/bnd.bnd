@@ -32,6 +32,7 @@ Export-Package: \
 	io.skysail.restlet,\
 	io.skysail.restlet.transformations,\
 	io.skysail.restlet.resources,\
+	io.skysail.restlet.services,\
 	io.skysail.restlet.utils,\
 	io.skysail.restlet.responses,\
 	io.skysail.restlet.router,\

@@ -19,7 +19,7 @@ import io.skysail.domain.ddd.ScalaEntity
 @BeanProperty
 case class Note (
     var id: Option[String],
-    @(Field @field) /*@(NotNull @field) @Size(min=1)*/ var content: String
+    @BeanProperty @(Field @field) /*@(NotNull @field) @Size(min=1)*/ var content: String
   ) extends ScalaEntity[String] {
   
   def this() = this(None,"") 
