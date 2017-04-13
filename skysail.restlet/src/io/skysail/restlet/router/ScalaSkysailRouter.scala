@@ -16,6 +16,7 @@ import scala.collection.JavaConverters._
 import io.skysail.core.ApiVersion
 import io.skysail.restlet.ScalaRouteBuilder
 import io.skysail.core.security.config.ScalaSecurityConfig
+import io.skysail.restlet.RolesPredicateAuthorizer
 
 object ScalaSkysailRouter {
   def getResourcesGenericType(resourceInstance: ScalaSkysailServerResource) = resourceInstance.getParameterizedType()
@@ -94,7 +95,7 @@ class ScalaSkysailRouter(skysailApplication: ScalaSkysailApplication, apiVersion
   }
 
   private def attachForTargetClassNull(routeBuilder: ScalaRouteBuilder) = {
-    val restlet = routeBuilder.getRestlet();
+    val restlet = routeBuilder.restlet
     if (restlet == null) {
       throw new IllegalStateException("RouteBuilder with neither TargetClass nor Restlet defined!");
     }
@@ -106,8 +107,7 @@ class ScalaSkysailRouter(skysailApplication: ScalaSkysailApplication, apiVersion
   }
 
   private def attachForNoAuthenticationNeeded(routeBuilder: ScalaRouteBuilder) {
-    //    log.info("routing path '{}' -> '{}'", routeBuilder.getPathTemplate(apiVersion),
-    //      routeBuilder.getTargetClass().getName());
+    log.info("routing path '${routeBuilder.getPathTemplate(apiVersion)}' -> '{}'", routeBuilder.targetClass.getName());
     attach(routeBuilder.getPathTemplate(apiVersion), routeBuilder.targetClass);
   }
 
@@ -121,7 +121,7 @@ class ScalaSkysailRouter(skysailApplication: ScalaSkysailApplication, apiVersion
     val c = getContext()
     val authorizer = new RolesPredicateAuthorizer(predicateToUse);
     authorizer.setContext(c);
-    authorizer.setNext(routeBuilder.getTargetClass());
+    authorizer.setNext(routeBuilder.targetClass)
 
     val authenticationGuard = securityConfig.authenticatorFor(c, pathTemplate);
 
@@ -146,7 +146,7 @@ class ScalaSkysailRouter(skysailApplication: ScalaSkysailApplication, apiVersion
     for (entry <- pathRouteBuilderMap.entrySet().asScala) {
       if (entry.getValue() != null) {
         if (entry.getValue().targetClass == null) {
-          val restlet = entry.getValue().getRestlet();
+          val restlet = entry.getValue().restlet
           if (restlet != null) {
             handleRestlet(cls, result.toList, entry.getKey, entry.getValue, restlet);
           }
@@ -159,7 +159,7 @@ class ScalaSkysailRouter(skysailApplication: ScalaSkysailApplication, apiVersion
     result.toList
   }
 
-  private def handleRestlet(cls: Class[_], result: List[ScalaRouteBuilder], key:String, value: ScalaRouteBuilder,
+  private def handleRestlet(cls: Class[_], result: List[ScalaRouteBuilder], key: String, value: ScalaRouteBuilder,
     restlet: Restlet) {
     if (restlet.isInstanceOf[Filter]) {
       val next = restlet.asInstanceOf[Filter].getNext();
@@ -167,17 +167,17 @@ class ScalaSkysailRouter(skysailApplication: ScalaSkysailApplication, apiVersion
         return ;
       }
       if (next.getClass().equals(cls)) {
-       // result.add(entries.getValue());
+        // result.add(entries.getValue());
         return ;
       }
-     // handleRestlet(cls, result, entries, next);
+      // handleRestlet(cls, result, entries, next);
     } else if (restlet.isInstanceOf[Finder]) {
       val targetClass = restlet.asInstanceOf[Finder].getTargetClass()
       if (targetClass == null) {
         return ;
       }
       if (targetClass.equals(cls)) {
-      //  result.add(entries.getValue());
+        //  result.add(entries.getValue());
         return ;
       }
 

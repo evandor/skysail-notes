@@ -19,7 +19,7 @@ import org.junit.Ignore
 import io.skysail.restlet.model.ScalaSkysailFieldModel
 import io.skysail.restlet.model.ScalaSkysailEntityModel
 import javax.validation.constraints._
-import io.skysail.core.utils.ReflectionUtils
+import io.skysail.restlet.utils.ScalaReflectionUtils
 
 class FormFieldTest {
 
@@ -28,8 +28,8 @@ class FormFieldTest {
   @Test
   def atest(): Unit = {
     val entityModel = mock(classOf[ScalaSkysailEntityModel])
-    val fields = ReflectionUtils.getInheritedFields(classOf[TestNote])
-    val ssfm = new ScalaSkysailFieldModel(entityModel, fields.get(0))
+    val fields = ScalaReflectionUtils.getInheritedFields(classOf[TestNote])
+    val ssfm = new ScalaSkysailFieldModel(entityModel, fields(0))
     val sff = new ScalaFormField(ssfm, TestNote("content"), null)
     assertThat(sff.isMandatory(), is(true))
   }

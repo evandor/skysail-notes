@@ -4,7 +4,7 @@ import io.skysail.api.text.TranslationRenderService
 import io.skysail.core.Constants
 import org.slf4j.LoggerFactory
 
-case class ScalaTranslationRenderServiceHolder(service: TranslationRenderService, props: Map[String, String]) {
+case class ScalaTranslationRenderServiceHolder(val service: TranslationRenderService, props: Map[String, String]) {
 
   val log = LoggerFactory.getLogger(this.getClass())
 

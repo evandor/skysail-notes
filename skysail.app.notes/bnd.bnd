@@ -20,7 +20,6 @@ Include-Resource: resources
 	${javax},\
 	javassist;version='[3.18.1,3.18.2)',\
 	org.hibernate.validator;version=${org.hibernate.validator.version},\
-	skysail.server;version=${skysail.server.version},\
 	skysail.restlet;version=latest,\
 	skysail.server.queryfilter;version=${skysail.server.queryfilter.version},\
 	skysail.repo.orientdb;version=latest,\

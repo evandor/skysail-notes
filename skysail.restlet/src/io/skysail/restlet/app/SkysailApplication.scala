@@ -32,6 +32,10 @@ import io.skysail.restlet.utils.CompositeClassLoader
 import io.skysail.restlet.utils.ClassLoaderDirectory
 import io.skysail.core.security.config.ScalaSecurityConfigBuilder
 import io.skysail.restlet.utils.ScalaReflectionUtils
+import io.skysail.restlet.filter.OriginalRequestFilter
+import io.skysail.restlet.menu.MenuItem
+import io.skysail.restlet.menu.Category
+import io.skysail.restlet.menu.APPLICATION_MAIN_MENU
 
 abstract class ScalaSkysailApplication(
   name: String,
@@ -74,9 +78,7 @@ abstract class ScalaSkysailApplication(
     this(name, new ApiVersion(1))
   }
 
-  def getResourceBundles(): java.util.List[ResourceBundle] = {
-    Collections.emptyList()
-  }
+  def getResourceBundles() = List[ResourceBundle]()
 
   def getTemplatePaths[T](x$1: Class[T]): java.util.List[String] = {
     Collections.emptyList()
@@ -212,11 +214,11 @@ abstract class ScalaSkysailApplication(
     return new ClassLoaderDirectory(getContext(), localReference, customCL);
   }
 
-  def getMenuEntries(): java.util.List[MenuItem] = {
+  def getMenuEntries(): List[MenuItem] = {
     val appMenu = new MenuItem(getName(), "/" + getName() + apiVersion.getVersionPath());
-    appMenu.setCategory(MenuItem.Category.APPLICATION_MAIN_MENU);
-    appMenu.setIcon(stringContextMap.get(ApplicationContextId.IMG));
-    return Arrays.asList(appMenu);
+    //appMenu.setCategory(APPLICATION_MAIN_MENU);
+    // appMenu.setIcon(stringContextMap.get(ApplicationContextId.IMG));
+    List(appMenu);
   }
 
   def getSkysailApplication() = this
@@ -266,9 +268,9 @@ abstract class ScalaSkysailApplication(
 
     if (isNotInMemoryStore(translation)) {
       val t = stores
-        .filter(IN_MEMORY_TRANSLATION_STORE == _.getProps().get("name"))
+        .filter(IN_MEMORY_TRANSLATION_STORE == _.props.get("name"))
         .headOption
-        .exists { _.getStore.get.persist(key, renderedTranslation.getValue(), translation.getLocale(), null) }
+        .exists { _.store.persist(key, renderedTranslation.getValue(), translation.getLocale(), null) }
     }
 
     return null; // renderedTranslation;

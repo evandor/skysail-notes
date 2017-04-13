@@ -5,7 +5,7 @@ import java.lang.ref.WeakReference
 import org.slf4j.LoggerFactory
 import org.osgi.framework.Constants
 
-class ScalaTranslationStoreHolder(store: TranslationStore, props: Map[String,String]) {
+class ScalaTranslationStoreHolder(val store: TranslationStore, val props: Map[String,String]) {
   
   val log = LoggerFactory.getLogger(this.getClass)
 

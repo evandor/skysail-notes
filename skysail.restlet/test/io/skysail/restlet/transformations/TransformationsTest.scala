@@ -16,13 +16,10 @@ import com.fasterxml.jackson.annotation.JsonFormat
 
 import io.skysail.domain.Entity
 import io.skysail.domain.html.Field
-import io.skysail.server.forms.PostView
-import io.skysail.server.forms.PutView
 import javax.validation.constraints._
 import scala.annotation.meta.field
 import scala.beans.BeanProperty
 import io.skysail.domain.html._
-import io.skysail.server.forms._
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 
 class FormDeserializerTest {

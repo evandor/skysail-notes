@@ -44,10 +44,10 @@ object ScalaTranslationUtils {
   //
   def render(translationRenderServices: Set[ScalaTranslationRenderServiceHolder], translation: Translation): Translation = {
     getSortedTranslationRenderServices(translationRenderServices)
-      .filter(_.getService.get.applicable(translation.getValue()))
+      .filter(_.service.applicable(translation.getValue()))
       .map(renderService => {
-        translation.setValue(renderService.getService().get().render(translation));
-        translation.setRenderer(renderService.getService().get().getClass().getSimpleName());
+        translation.setValue(renderService.service.render(translation));
+        translation.setRenderer(renderService.service.getClass().getSimpleName());
         translation;
       })
       .headOption.getOrElse(translation);

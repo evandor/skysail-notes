@@ -19,7 +19,6 @@ import org.junit.Ignore
 import io.skysail.restlet.model.ScalaSkysailFieldModel
 import io.skysail.restlet.model.ScalaSkysailEntityModel
 import javax.validation.constraints._
-import io.skysail.core.utils.ReflectionUtils
 import io.skysail.restlet.resources.PostEntityServerResource2
 import org.restlet.representation.Variant
 

@@ -14,13 +14,13 @@ import org.restlet.data.Form
 import org.restlet.util.Series
 import org.junit.runner.RunWith
 import org.junit.Ignore
-import io.skysail.restlet.model.ScalaSkysailFieldModel
-import io.skysail.restlet.model.ScalaSkysailEntityModel
+import io.skysail.restlet.model._
 import javax.validation.constraints._
-import io.skysail.core.utils.ReflectionUtils
 
 import scala.annotation.meta.field
 import scala.beans.BeanProperty
+import scala.reflect.runtime.ReflectionUtils
+import io.skysail.restlet.utils.ScalaReflectionUtils
 
 class SkysailFieldModelTest {
 
@@ -29,8 +29,8 @@ class SkysailFieldModelTest {
   @Test
   def atest2(): Unit = {
     val entityModel = mock(classOf[ScalaSkysailEntityModel])
-    val fields = ReflectionUtils.getInheritedFields(classOf[TestNote])
-    val ssfm = new ScalaSkysailFieldModel(entityModel, fields.get(0))
+    val fields = ScalaReflectionUtils.getInheritedFields(classOf[TestNote])
+    val ssfm = new ScalaSkysailFieldModel(entityModel, fields(0))
     assertThat(ssfm.isMandatory(), is(true))
   }
 
