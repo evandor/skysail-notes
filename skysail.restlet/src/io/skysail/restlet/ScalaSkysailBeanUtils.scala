@@ -1,11 +1,11 @@
 package io.skysail.restlet
 
 import java.util.Locale
-import io.skysail.restlet.app.ScalaSkysailApplicationService
+import io.skysail.restlet.app.SecurityConfigBuilderService
 import io.skysail.restlet.utils.ScalaSkysailBeanUtilsBean
 import scala.collection.JavaConverters._
 
-case class ScalaSkysailBeanUtils[T](bean: T, locale: Locale, service: ScalaSkysailApplicationService) {
+case class ScalaSkysailBeanUtils[T](bean: T, locale: Locale, service: SecurityConfigBuilderService) {
   
   val beanUtilsBean = new ScalaSkysailBeanUtilsBean(bean, locale)
 

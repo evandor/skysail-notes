@@ -24,7 +24,7 @@ trait ScalaServiceListProvider {
   def getMetricsCollector(): MetricsCollector
   //    FacetsProvider getFacetsProvider();
   //	FilterParser getFilterParser();
-  def getSkysailApplicationService(): ScalaSkysailApplicationService
+  def getSkysailApplicationService(): SecurityConfigBuilderService
 
 }
 
@@ -44,7 +44,7 @@ class ScalaServiceList extends ScalaServiceListProvider {
   def getMetricsCollector() = metricsCollector
 
   @Reference(cardinality = ReferenceCardinality.OPTIONAL, policy = ReferencePolicy.DYNAMIC)
-  @volatile var skysailApplicationService: ScalaSkysailApplicationService = null
+  @volatile var skysailApplicationService: SecurityConfigBuilderService = null
   def getSkysailApplicationService = skysailApplicationService
 
   @Reference(cardinality = ReferenceCardinality.MANDATORY)
@@ -64,7 +64,7 @@ class ScalaServiceList extends ScalaServiceListProvider {
   val translationRenderServices = scala.collection.mutable.Set[ScalaTranslationRenderServiceHolder]()
   def getTranslationRenderServices() = translationRenderServices.toSet
 
-  @Reference(policy = ReferencePolicy.DYNAMIC, cardinality = ReferenceCardinality.OPTIONAL)
+  @Reference(policy = ReferencePolicy.DYNAMIC, cardinality = ReferenceCardinality.MANDATORY)
   def setSkysailComponentProvider(service: ScalaSkysailComponentProvider): Unit = {
     skysailComponentProvider = service;
     val appContext = skysailComponentProvider.getSkysailComponent().getContext().createChildContext();

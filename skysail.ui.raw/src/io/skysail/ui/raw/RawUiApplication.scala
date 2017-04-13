@@ -15,18 +15,18 @@ object RawUiApplication {
 @Component(
   immediate = true,
   configurationPolicy = ConfigurationPolicy.OPTIONAL,
-  service = Array(classOf[ScalaApplicationProvider]))
-class RawUiApplication extends ScalaSkysailApplication(RawUiApplication.APP_NAME, new ApiVersion(1)) {
+  service = Array(classOf[ApplicationProvider]))
+class RawUiApplication extends SkysailApplication(RawUiApplication.APP_NAME, new ApiVersion(1)) {
 
   setDescription("UI provider for " + RawTemplatesProvider.NAMESPACE);
 
   @Reference(policy = ReferencePolicy.DYNAMIC, cardinality = ReferenceCardinality.OPTIONAL)
   def setApplicationListProvider(service: ScalaServiceListProvider) {
-    serviceListProvider = service;
+    SkysailApplication.serviceListProvider = service;
   }
 
   def unsetApplicationListProvider(service: ScalaServiceListProvider) {
-    serviceListProvider = null;
+    SkysailApplication.serviceListProvider = null;
   }
 
   @Activate

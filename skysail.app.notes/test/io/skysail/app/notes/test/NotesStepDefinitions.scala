@@ -5,11 +5,9 @@ import io.skysail.app.notes.NotesApplication
 import io.skysail.app.notes.domain.Note
 import io.skysail.server.testsupport.cucumber.CucumberStepContext
 import io.skysail.app.notes.resources.NotesResource
-import io.skysail.core.resources.SkysailServerResource
 import io.skysail.app.notes.resources.NoteResource
 import io.skysail.app.notes.resources.PutNoteResource
 import io.skysail.app.notes.resources.PostNoteResource
-import io.skysail.server.Constants
 import java.security.Principal
 import org.restlet.Response
 import org.hamcrest.CoreMatchers.containsString
@@ -25,9 +23,9 @@ import cucumber.api.java.en.Then
 import org.restlet.data.Form
 import io.skysail.api.responses.EntityServerResponse
 import org.mockito.Mockito._
-import io.skysail.core.app.SkysailApplicationService
-import io.skysail.core.model.SkysailEntityModel
 import io.skysail.repo.orientdb.OrientGraphDbService
+import io.skysail.restlet.ScalaSkysailServerResource
+import io.skysail.core.Constants
 
 class NotesStepDefinitions extends CucumberTestFixture {
 
@@ -133,7 +131,7 @@ class NotesStepDefinitions extends CucumberTestFixture {
     }
   }
 
-  private def setupResource[T <: SkysailServerResource[_]](resource: T): T = {
+  private def setupResource[T <: ScalaSkysailServerResource](resource: T): T = {
     resource.setRequest(request);
     resource.init(context, request, new Response(request));
     return resource;

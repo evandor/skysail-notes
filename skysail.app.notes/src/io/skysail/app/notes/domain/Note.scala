@@ -2,11 +2,8 @@ package io.skysail.app.notes.domain
 
 import io.skysail.domain.html._
 import javax.validation.constraints.Size
-import io.skysail.server.forms.PostView
-import io.skysail.server.forms.PutView
 import com.fasterxml.jackson.annotation.JsonFormat
 import java.util.Date
-import io.skysail.server.forms.Visibility;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 
 import scala.annotation.meta.field
@@ -14,6 +11,9 @@ import scala.beans.BeanProperty
 
 import javax.validation.constraints._
 import io.skysail.domain.ddd.ScalaEntity
+import io.skysail.restlet.forms.PostView
+import io.skysail.restlet.forms.PutView
+import io.skysail.restlet.forms.Visibility
 
 //@JsonIgnoreProperties(ignoreUnknown = true)
 @BeanProperty

@@ -4,18 +4,11 @@ import org.osgi.service.component.annotations.Component
 import org.osgi.service.component.annotations.ConfigurationPolicy
 import org.osgi.service.component.annotations.Reference
 import org.restlet.data.Protocol
-import io.skysail.core.app.SkysailApplication
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy
-import io.skysail.core.app.ApplicationProvider
-import io.skysail.server.menus.MenuItemProvider
-import io.skysail.core.app.ApiVersion
 import org.osgi.service.component.annotations.Activate
 import org.osgi.service.component.ComponentContext
-import io.skysail.core.app.ApplicationConfiguration
 import org.restlet.data.Protocol
-import io.skysail.server.restlet.RouteBuilder
-import io.skysail.server.menus.MenuItem
 import java.util.Arrays
 import io.skysail.app.notes.resources.NotesResource
 import io.skysail.app.notes.repository.NotesRepository
@@ -23,12 +16,15 @@ import org.osgi.service.component.annotations._
 import io.skysail.app.notes.resources.PutNoteResource
 import io.skysail.app.notes.resources.NoteResource
 import io.skysail.app.notes.resources.PostNoteResource
-import io.skysail.server.security.config.SecurityConfigBuilder
-import io.skysail.restlet.app.ScalaSkysailApplication
-import io.skysail.restlet.app.ScalaApplicationProvider
-import io.skysail.core.app.ServiceListProvider
+import io.skysail.restlet.app.SkysailApplication
+import io.skysail.restlet.app.ApplicationProvider
 import io.skysail.restlet.app.ScalaServiceListProvider
 import io.skysail.repo.orientdb.ScalaDbService
+import io.skysail.core.ApiVersion
+import io.skysail.restlet.ScalaRouteBuilder
+import io.skysail.core.security.config.ScalaSecurityConfigBuilder
+import io.skysail.restlet.app.ApplicationConfiguration
+import io.skysail.restlet.services.MenuItemProvider
 
 object NotesApplication {
   final val APP_NAME = "notes"
@@ -37,8 +33,8 @@ object NotesApplication {
 @Component(
   immediate = true,
   configurationPolicy = ConfigurationPolicy.OPTIONAL,
-  service = Array(classOf[ScalaApplicationProvider], classOf[MenuItemProvider]))
-class NotesApplication extends ScalaSkysailApplication(
+  service = Array(classOf[ApplicationProvider], classOf[MenuItemProvider]))
+class NotesApplication extends SkysailApplication(
   NotesApplication.APP_NAME,
   new ApiVersion(int2Integer(1))) with MenuItemProvider {
 
@@ -50,11 +46,11 @@ class NotesApplication extends ScalaSkysailApplication(
   
   @Reference(policy = ReferencePolicy.DYNAMIC, cardinality = ReferenceCardinality.OPTIONAL)
   def setApplicationListProvider(service: ScalaServiceListProvider) {
-    serviceListProvider = service;
+    SkysailApplication.serviceListProvider = service;
   }
 
   def unsetApplicationListProvider(service: ScalaServiceListProvider) {
-    serviceListProvider = null;
+    SkysailApplication.serviceListProvider = null;
   }
 
 
@@ -65,15 +61,15 @@ class NotesApplication extends ScalaSkysailApplication(
   }
 
   override def attach() = {
-    router.attach(new RouteBuilder("", classOf[NotesResource]));
-    router.attach(new RouteBuilder("/notes", classOf[NotesResource]));
-    router.attach(new RouteBuilder("/notes/", classOf[PostNoteResource]));
-    router.attach(new RouteBuilder("/notes/{id}", classOf[NoteResource]));
-    router.attach(new RouteBuilder("/notes/{id}/", classOf[PutNoteResource]));
+    router.attach(new ScalaRouteBuilder("", classOf[NotesResource]));
+    router.attach(new ScalaRouteBuilder("/notes", classOf[NotesResource]));
+    router.attach(new ScalaRouteBuilder("/notes/", classOf[PostNoteResource]));
+    router.attach(new ScalaRouteBuilder("/notes/{id}", classOf[NoteResource]));
+    router.attach(new ScalaRouteBuilder("/notes/{id}/", classOf[PutNoteResource]));
     createStaticDirectory();
   }
 
-  override def defineSecurityConfig(securityConfigBuilder: SecurityConfigBuilder) = {
+  override def defineSecurityConfig(securityConfigBuilder: ScalaSecurityConfigBuilder) = {
     securityConfigBuilder.authorizeRequests().startsWithMatcher("").permitAll();
   }
 

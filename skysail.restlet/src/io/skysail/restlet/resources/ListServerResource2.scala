@@ -9,7 +9,7 @@ import io.skysail.restlet.responses.ScalaSkysailResponse
 import io.skysail.restlet.responses.ListResponse
 import io.skysail.restlet.ScalaListRequestHandler
 
-abstract class ListServerResource2[T:Manifest](cls: Class[_]) extends ScalaSkysailServerResource {
+abstract class ListServerResource2[T:Manifest](cls: Class[_] = null) extends ScalaSkysailServerResource {
 
   @Get("html|json|yaml|xml|csv|timeline|carbon|standalone|data")
   def getEntities(variant: Variant): ListResponse[T] = {

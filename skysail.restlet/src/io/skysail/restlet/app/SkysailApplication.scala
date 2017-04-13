@@ -7,7 +7,7 @@ import io.skysail.core.ApiVersion
 import io.skysail.domain.Entity
 import io.skysail.domain.repo.ScalaDbRepository
 import io.skysail.restlet.router.ScalaSkysailRouter
-import io.skysail.restlet.model.ScalaSkysailApplicationModel
+import io.skysail.restlet.model.SecurityConfigBuilderModel
 import io.skysail.restlet.NoOpDbRepository
 import io.skysail.restlet.utils.ScalaTranslationUtils
 import io.skysail.restlet.services._
@@ -36,23 +36,30 @@ import io.skysail.restlet.filter.OriginalRequestFilter
 import io.skysail.restlet.menu.MenuItem
 import io.skysail.restlet.menu.Category
 import io.skysail.restlet.menu.APPLICATION_MAIN_MENU
+import org.restlet.Request
 
-abstract class ScalaSkysailApplication(
+object SkysailApplication {
+  var serviceListProvider: ScalaServiceListProvider = null
+  def setServiceListProvider(service: ScalaServiceListProvider) = this.serviceListProvider = service
+  def unsetServiceListProvider(service: ScalaServiceListProvider) = this.serviceListProvider = null
+}
+
+abstract class SkysailApplication(
   name: String,
   val apiVersion: ApiVersion,
   entityClasses: List[Class[_ <: Entity]])
     extends org.restlet.Application
-    with ScalaApplicationProvider
-    with ScalaResourceBundleProvider {
+    with ApplicationProvider
+    with ResourceBundleProvider {
 
   val IN_MEMORY_TRANSLATION_STORE = "InMemoryTranslationStore"
 
-  val log = LoggerFactory.getLogger(classOf[ScalaSkysailApplication])
+  val log = LoggerFactory.getLogger(classOf[SkysailApplication])
 
   var componentContext: ComponentContext = null
   def getComponentContext() = componentContext
 
-  var applicationModel: ScalaSkysailApplicationModel = null
+  var applicationModel: SecurityConfigBuilderModel = null
   def getApplicationModel() = applicationModel
 
   val repositories = new ArrayList[ScalaDbRepository]();
@@ -61,13 +68,11 @@ abstract class ScalaSkysailApplication(
 
   val stringContextMap = new java.util.HashMap[ApplicationContextId, String]()
 
-  var serviceListProvider: ScalaServiceListProvider = null
-
   setName(name);
   //getEncoderService().getIgnoredMediaTypes().add(SkysailApplication.SKYSAIL_SERVER_SENT_EVENTS);
   getEncoderService().setEnabled(true);
   log.debug("Instanciating new Skysail ApplicationModel '{}'", this.getClass().getSimpleName());
-  applicationModel = new ScalaSkysailApplicationModel(name);
+  applicationModel = new SecurityConfigBuilderModel(name);
   //entityClasses.forEach(cls -> applicationModel.addOnce(EntityFactory.createFrom(this, cls, null)));
 
   def this(name: String, apiVersion: ApiVersion) {
@@ -160,7 +165,7 @@ abstract class ScalaSkysailApplication(
 
     val securityConfigBuilder = new ScalaSecurityConfigBuilder(apiVersion);
     defineSecurityConfig(securityConfigBuilder);
-    securityConfigBuilder.setAuthenticationService(serviceListProvider.getAuthenticationService());
+    securityConfigBuilder.setAuthenticationService(SkysailApplication.serviceListProvider.getAuthenticationService());
     router.setSecurityConfig(securityConfigBuilder.build())
 
     //getContext().setDefaultEnroler(serviceListProvider.getAuthorizationService().getEnroler());
@@ -227,9 +232,9 @@ abstract class ScalaSkysailApplication(
     securityConfigBuilder.authorizeRequests().startsWithMatcher("").authenticated();
   }
 
-  def getAuthenticationService(): AuthenticationService = serviceListProvider.getAuthenticationService();
-  def getMetricsCollector() = serviceListProvider.getMetricsCollector()
-  def getSkysailApplicationService() = serviceListProvider.getSkysailApplicationService()
+  def getAuthenticationService(): AuthenticationService = SkysailApplication.serviceListProvider.getAuthenticationService();
+  def getMetricsCollector() = SkysailApplication.serviceListProvider.getMetricsCollector()
+  def getSkysailApplicationService() = SkysailApplication.serviceListProvider.getSkysailApplicationService()
 
   def getBundle(): Bundle = {
     if (componentContext == null) {
@@ -252,18 +257,18 @@ abstract class ScalaSkysailApplication(
   }
 
   def translate(key: String, defaultMsg: String, resource: ServerResource): Translation = {
-    if (serviceListProvider == null) {
+    if (SkysailApplication.serviceListProvider == null) {
       return new Translation(defaultMsg)
     }
 
-    val stores = serviceListProvider.getTranslationStores()
+    val stores = SkysailApplication.serviceListProvider.getTranslationStores()
 
     val optionalTranslation = ScalaTranslationUtils.getBestTranslation(stores, key, resource);
     if (!optionalTranslation.isDefined) {
       return new Translation(defaultMsg);
     }
     val translation = optionalTranslation.get
-    val trs = serviceListProvider.getTranslationRenderServices();
+    val trs = SkysailApplication.serviceListProvider.getTranslationRenderServices();
     val renderedTranslation = ScalaTranslationUtils.render(trs, translation);
 
     if (isNotInMemoryStore(translation)) {
@@ -279,11 +284,20 @@ abstract class ScalaSkysailApplication(
   def isNotInMemoryStore(translation: Translation) = IN_MEMORY_TRANSLATION_STORE != translation.getStoreName()
 
   //public <T extends ServerResource> List<RouteBuilder> getRouteBuilders(Class<T> cls) {
-  def getRouteBuilders(cls: Class[_]):List[ScalaRouteBuilder] = {
+  def getRouteBuilders(cls: Class[_]): List[ScalaRouteBuilder] = {
     if (router == null) {
       return List[ScalaRouteBuilder]()
     }
     return router.getRouteBuildersForResource(cls);
+  }
+
+  def isAuthenticated(request: Request): Boolean = {
+    if (SkysailApplication.serviceListProvider == null || SkysailApplication.serviceListProvider.getAuthenticationService() == null) {
+      log.warn(
+        "serviceListProvider or AuthenticationService is null, returning isAuthenticated => false by default.");
+      return false;
+    }
+    return SkysailApplication.serviceListProvider.getAuthenticationService().isAuthenticated(request);
   }
 
 }

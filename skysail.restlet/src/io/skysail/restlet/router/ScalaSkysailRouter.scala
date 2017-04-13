@@ -1,7 +1,7 @@
 package io.skysail.restlet.router
 
 import io.skysail.restlet.ScalaSkysailServerResource
-import io.skysail.restlet.app.ScalaSkysailApplication
+import io.skysail.restlet.app.SkysailApplication
 import io.skysail.restlet.ScalaEntityFactory
 import org.restlet.routing.Router
 import org.restlet.resource.ServerResource
@@ -22,7 +22,7 @@ object ScalaSkysailRouter {
   def getResourcesGenericType(resourceInstance: ScalaSkysailServerResource) = resourceInstance.getParameterizedType()
 }
 
-class ScalaSkysailRouter(skysailApplication: ScalaSkysailApplication, apiVersion: ApiVersion) extends Router(skysailApplication.getContext()) {
+class ScalaSkysailRouter(skysailApplication: SkysailApplication, apiVersion: ApiVersion) extends Router(skysailApplication.getContext()) {
 
   val log = LoggerFactory.getLogger(classOf[ScalaSkysailRouter])
 

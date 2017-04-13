@@ -4,7 +4,7 @@ import io.skysail.restlet.ScalaSkysailServerResource
 import io.skysail.api.links.Link
 import org.slf4j.LoggerFactory
 import io.skysail.api.links.LinkRelation
-import io.skysail.restlet.app.ScalaSkysailApplication
+import io.skysail.restlet.app.SkysailApplication
 import org.restlet.data.MediaType
 import io.skysail.restlet.ResourceContextId
 import io.skysail.restlet.ScalaRouteBuilder
@@ -12,6 +12,30 @@ import io.skysail.restlet.ScalaRouteBuilder
 object ScalaLinkUtils {
 
   var log = LoggerFactory.getLogger(classOf[ScalaLinkUtils])
+
+  def fromResource(app: SkysailApplication, ssr: Class[_ <: ScalaSkysailServerResource], title: String = null) = {
+    //        if (noRouteBuilderFound(app, ssr)) {
+    //            log.warn("problem with linkheader for resource {}; no routeBuilder was found.", ssr.getSimpleName());
+    //            return null;
+    //        }
+    val routeBuilder = app.getRouteBuilders(ssr)(0)
+    val resource = createNewInstance(ssr);
+
+    val link = new Link.Builder(determineUri(app, routeBuilder))
+      .definingClass(ssr)
+      .relation(if (resource.isDefined) resource.get.getLinkRelation() else LinkRelation.ALTERNATE)
+      .title(if (resource.isDefined) getLinkTitleFromContextOrUnknonw(resource.get) else "unknown")
+      .authenticationNeeded(routeBuilder.needsAuthentication)
+      //.needsRoles(routeBuilder.getRolesForAuthorization())
+      .image(MediaType.TEXT_HTML, if (resource.isDefined) resource.get.getFromContext(ResourceContextId.LINK_GLYPH) else null)
+      .build();
+
+    log.debug("created link {}", link);
+    link;
+  }
+
+  private def determineUri(app: SkysailApplication, routeBuilder: ScalaRouteBuilder): String =
+    "/" + app.getName() + routeBuilder.getPathTemplate(app.apiVersion);
 
   def fromResources[_ <: ScalaSkysailServerResource](sssr: ScalaSkysailServerResource, entity: Any, classes: Seq[Class[_]]): List[Link] = {
     //    val links = Arrays.stream(classes).map(determineLink(skysailServerResource)) //
@@ -76,7 +100,7 @@ object ScalaLinkUtils {
   }
 
   private def determineUri2(sssr: ScalaSkysailServerResource, resourceClass: Class[_], routeBuilder: ScalaRouteBuilder) = {
-    val app = sssr.getApplication().asInstanceOf[ScalaSkysailApplication]
+    val app = sssr.getApplication().asInstanceOf[SkysailApplication]
     val result = "/" + app.getName() + routeBuilder.getPathTemplate(app.apiVersion)
     //    try {
     //      var theTypes = resourceClass.newInstance().getRestrictedToMediaTypes()
@@ -90,10 +114,15 @@ object ScalaLinkUtils {
   }
 
   def getTitle(resource: Option[ScalaSkysailServerResource]): String = {
-    if (resource.isDefined && resource.get.getFromContext(ResourceContextId.LINK_TITLE) != null) 
-      resource.get.getFromContext(ResourceContextId.LINK_TITLE) 
+    if (resource.isDefined && resource.get.getFromContext(ResourceContextId.LINK_TITLE) != null)
+      resource.get.getFromContext(ResourceContextId.LINK_TITLE)
     else
       "unknown"
+  }
+
+  def getLinkTitleFromContextOrUnknonw(resource: ScalaSkysailServerResource): String = {
+    val title = resource.getFromContext(ResourceContextId.LINK_TITLE);
+    if (title == null) "unknown" else title
   }
 
 }

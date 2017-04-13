@@ -9,8 +9,8 @@ import io.skysail.restlet.model.ScalaSkysailEntityModel
 import io.skysail.restlet.model.ScalaSkysailEntityModel
 import io.skysail.restlet.services.EntityApi
 
-@Component(immediate = true, service = Array(classOf[ScalaSkysailApplicationService]))
-class ScalaSkysailApplicationService {
+@Component(immediate = true, service = Array(classOf[SecurityConfigBuilderService]))
+class SecurityConfigBuilderService {
 
   var entityApis: java.util.List[EntityApi] = new java.util.ArrayList[EntityApi]()
 

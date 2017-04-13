@@ -6,7 +6,7 @@ import io.skysail.domain.Entity
 
 import scala.collection.JavaConverters._
 
-class ScalaSkysailApplicationModel(name: String) extends ApplicationModel(name) {
+class SecurityConfigBuilderModel(name: String) extends ApplicationModel(name) {
 
   override def addOnce[T <: Entity](entityModel: EntityModel[T]): ApplicationModel = {
     val appModel = super.addOnce(entityModel);

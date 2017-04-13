@@ -11,7 +11,7 @@ import org.restlet.data.MediaType
 class SkysailStatusService extends StatusService {
 
   override def toRepresentation(status: Status, request: Request, response: Response): Representation = {
-    val msg = """
+    val msg = s"""
       <u>Sorry, there was a problem processing your request:</u><br><br>
       ${status.toString()}<br><br><br>
       Proceed <a href='/' onClick='javascript:document.cookie=\"mainpage=index;path=/\";'>here</a> to get back to the application.

@@ -12,7 +12,7 @@ import io.skysail.restlet.services.SkysailStatusService
 
 @org.osgi.annotation.versioning.ProviderType
 trait ApplicationListProvider {
-  def getApplications(): List[ScalaSkysailApplication]
+  def getApplications(): List[SkysailApplication]
   def attach(skysailComponent: ScalaSkysailComponent)
   def detach(skysailComponent: ScalaSkysailComponent)
 }
@@ -20,11 +20,11 @@ trait ApplicationListProvider {
 class NoOpApplicationListProvider extends ApplicationListProvider {
   def attach(skysailComponent: ScalaSkysailComponent): Unit = {  }
   def detach(skysailComponent: ScalaSkysailComponent): Unit = {  }
-  def getApplications(): List[ScalaSkysailApplication] = List()
+  def getApplications(): List[SkysailApplication] = List()
 }
 
 object ApplicationList {
-  def getApplication(provider: ScalaApplicationProvider): ScalaSkysailApplication = {
+  def getApplication(provider: ApplicationProvider): SkysailApplication = {
     val application = provider.getSkysailApplication();
     require(application != null, "application from applicationProvider must not be null");
     return application;
@@ -35,7 +35,7 @@ object ApplicationList {
 @Component(immediate = true)
 class ApplicationList extends ApplicationListProvider {
 
-  val applications = scala.collection.mutable.ListBuffer[ScalaSkysailApplication]();
+  val applications = scala.collection.mutable.ListBuffer[SkysailApplication]();
   val log = LoggerFactory.getLogger(classOf[ApplicationList])
 
   var skysailComponent: ScalaSkysailComponent = null
@@ -56,10 +56,10 @@ class ApplicationList extends ApplicationListProvider {
     getApplications().foreach(app => detach(app, skysailComponent))
   }
 
-  def getApplications(): List[ScalaSkysailApplication] = applications.toList
+  def getApplications(): List[SkysailApplication] = applications.toList
 
   @Reference(policy = ReferencePolicy.DYNAMIC, cardinality = ReferenceCardinality.MULTIPLE)
-  def addApplicationProvider(provider: ScalaApplicationProvider): Unit = {
+  def addApplicationProvider(provider: ApplicationProvider): Unit = {
     val application = ApplicationList.getApplication(provider);
     application.setStatusService(new SkysailStatusService());
     checkExistingApplications(application);
@@ -68,14 +68,14 @@ class ApplicationList extends ApplicationListProvider {
     log.info("(+ ApplicationModel) (#{}) with name '{}'", ApplicationList.formatSize(applications), application.getName(): Any);
   }
 
-  def removeApplicationProvider(provider: ScalaApplicationProvider): Unit = {
+  def removeApplicationProvider(provider: ApplicationProvider): Unit = {
     val application = ApplicationList.getApplication(provider);
     detachFromComponent(application);
     applications -= application
     log.info("(- ApplicationModel) name '{}', count is {} now", application.getName(), ApplicationList.formatSize(applications): Any);
   }
 
-  def detachFromComponent(application: ScalaSkysailApplication): Unit = {
+  def detachFromComponent(application: SkysailApplication): Unit = {
     if (skysailComponent == null) {
       return ;
     }
@@ -87,7 +87,7 @@ class ApplicationList extends ApplicationListProvider {
     }
   }
 
-  def checkExistingApplications(application: ScalaSkysailApplication): Unit = {
+  def checkExistingApplications(application: SkysailApplication): Unit = {
     if (applications.filter(a => a.getName().equals(application.getName())).headOption.isDefined) {
       log.error("about to add application '{}' the second time!", application.getName());
       throw new IllegalStateException("application was added a second time!");
@@ -102,7 +102,7 @@ class ApplicationList extends ApplicationListProvider {
     //    if (application.isInstanceOf[SkysailRootApplication]) {
     //      rootApplication = (SkysailRootApplication) application;
     //    }
-    val skysailApplication = application.asInstanceOf[ScalaSkysailApplication];
+    val skysailApplication = application.asInstanceOf[SkysailApplication];
     // http://stackoverflow.com/questions/6810128/restlet-riap-protocol-deployed-in-java-app-server
     skysailComponent.getDefaultHost().attach("/" + skysailApplication.getName(), application);
     skysailComponent.getInternalRouter().attach("/" + skysailApplication.getName(), application);
@@ -113,7 +113,7 @@ class ApplicationList extends ApplicationListProvider {
     //    }
   }
 
-  private def detach(app: ScalaSkysailApplication, restletComponent: ScalaSkysailComponent) = {
+  private def detach(app: SkysailApplication, restletComponent: ScalaSkysailComponent) = {
     log.debug(" >>> unsetting ServerConfiguration");
     // TODO make nicer
     log.debug(" >>> attaching skysailApplication '{}' to defaultHost", "/" + app.getName());

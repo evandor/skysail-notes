@@ -1,11 +1,11 @@
 package io.skysail.restlet
 
-import io.skysail.restlet.app.ScalaSkysailApplication
+import io.skysail.restlet.app.SkysailApplication
 import io.skysail.restlet.model.ScalaSkysailEntityModel
 
 object ScalaEntityFactory {
   def createFrom( 
-		skysailApplication: ScalaSkysailApplication, 
+		skysailApplication: SkysailApplication, 
 	  identifiable: Class[_],
     resourceInstance: ScalaSkysailServerResource):ScalaSkysailEntityModel = { // <T extends Entity> SkysailEntityModel<T>
          new ScalaSkysailEntityModel(identifiable, resourceInstance);

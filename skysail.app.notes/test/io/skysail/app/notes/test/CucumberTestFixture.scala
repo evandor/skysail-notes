@@ -3,7 +3,6 @@ package io.skysail.app.notes.test
 import org.mockito.Mockito._
 
 import org.mockito.Mock
-import io.skysail.core.app.ServiceListProvider
 import io.skysail.api.um.AuthenticationService
 import java.util.concurrent.ConcurrentMap
 import io.skysail.api.um.AuthorizationService
@@ -11,8 +10,6 @@ import org.restlet.security.Authenticator
 import org.restlet.Request
 import org.restlet.data.Reference
 import org.restlet.Context
-import io.skysail.core.app.SkysailApplication
-import io.skysail.core.resources.SkysailServerResource
 import io.skysail.server.testsupport.cucumber.CucumberStepContext
 import io.skysail.app.notes.NotesApplication
 import org.mockito.MockitoAnnotations
@@ -21,7 +18,6 @@ import io.skysail.api.um.AuthenticationMode
 import io.skysail.api.validation.DefaultValidationImpl
 import io.skysail.api.metrics.NoOpMetricsCollector
 import java.util.concurrent.ConcurrentHashMap
-import io.skysail.core.app.ApplicationConfiguration
 import org.osgi.service.component.ComponentContext
 import org.osgi.service.cm.ConfigurationException
 import org.slf4j.LoggerFactory
@@ -32,12 +28,8 @@ import io.skysail.app.notes.domain.Note
 import org.hamcrest.TypeSafeMatcher
 import org.hamcrest.Description
 import java.util.Arrays
-import io.skysail.core.app.SkysailApplicationService
-import io.skysail.core.model.SkysailEntityModel
-import io.skysail.core.model.SkysailEntityModel
-import io.skysail.core.app.ApplicationListProvider
-import io.skysail.core.app.ApplicationList
-import io.skysail.restlet.app.ScalaSkysailApplication
+import io.skysail.restlet.app._
+import io.skysail.restlet.ScalaSkysailServerResource
 
 object CucumberTestFixture {
  def validNoteWith(data: java.util.Map[String, String], keys:String*): Matcher[Note] = {
@@ -67,7 +59,7 @@ object CucumberTestFixture {
 
 class CucumberTestFixture {
 
-  @Mock var serviceListProvider: ServiceListProvider = null
+  @Mock var serviceListProvider: ScalaServiceListProvider = null
   @Mock var authService: AuthenticationService = null
   @Mock var authorizationService: AuthorizationService = null
   @Mock var authenticator: Authenticator = null
@@ -77,8 +69,8 @@ class CucumberTestFixture {
 
   var requestAttributes: ConcurrentMap[String, Object] = null
   var context: Context = null
-  var application: ScalaSkysailApplication = null
-  var resource: SkysailServerResource[_] = null
+  var application: SkysailApplication = null
+  var resource: ScalaSkysailServerResource = null
   var stepContext: CucumberStepContext = null
 
   def setUp(app: NotesApplication, stepContext: CucumberStepContext): Unit = {
@@ -96,12 +88,12 @@ class CucumberTestFixture {
     when(authService.getApplicationAuthenticator(context, AuthenticationMode.ANONYMOUS)).thenReturn(authenticator)
     
     when(serviceListProvider.getAuthenticationService()).thenReturn(authService);
-    when(serviceListProvider.getAuthorizationService()).thenReturn(authorizationService);
-    when(serviceListProvider.getValidatorService()).thenReturn(new DefaultValidationImpl());
+//    when(serviceListProvider.getAuthorizationService()).thenReturn(authorizationService);
+//    when(serviceListProvider.getValidatorService()).thenReturn(new DefaultValidationImpl());
     when(serviceListProvider.getMetricsCollector()).thenReturn(new NoOpMetricsCollector());
     
     
-    val skysailApplicationService = new SkysailApplicationService()//mock(classOf[SkysailApplicationService])
+    val skysailApplicationService = new SecurityConfigBuilderService()//mock(classOf[SkysailApplicationService])
     //val entityModel: SkysailEntityModel[Note] = Mockito.mock(classOf[SkysailEntityModel[Note]])//new SkysailEntityModel[Note](null, classOf[Note],putResource)
     //when(skysailApplicationService.getEntityModel(classOf[Note].getName())).thenReturn(entityModel)
     when(serviceListProvider.getSkysailApplicationService()).thenReturn(skysailApplicationService)
@@ -109,13 +101,13 @@ class CucumberTestFixture {
     val applicationListProvider = new ApplicationList();
   //  applicationListProvider.addApplicationProvider(application)
     
-    val applicationListProviderField = classOf[SkysailApplicationService].getDeclaredField("applicationListProvider")
+    val applicationListProviderField = classOf[SecurityConfigBuilderService].getDeclaredField("applicationListProvider")
     applicationListProviderField.setAccessible(true)
     applicationListProviderField.set(skysailApplicationService, applicationListProvider)
 
         
     requestAttributes = new ConcurrentHashMap[String, Object]()
-    SkysailApplication.setServiceListProvider(serviceListProvider)
+    //application.setServiceListProvider(serviceListProvider)
 
     try {
       val appConfig = mock(classOf[ApplicationConfiguration]);
@@ -137,7 +129,7 @@ class CucumberTestFixture {
     
   }
 
-  def prepareRequest(resource: SkysailServerResource[_]): Unit = {
+  def prepareRequest(resource: ScalaSkysailServerResource): Unit = {
     val entity = stepContext.getLastResponse().getEntity().asInstanceOf[Note]
     val id = ""//entity.getId().toString();
     requestAttributes.put("id", id.replace("#", ""));

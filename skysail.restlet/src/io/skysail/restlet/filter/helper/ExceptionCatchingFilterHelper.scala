@@ -1,6 +1,6 @@
 package io.skysail.restlet.filter.helper
 
-import io.skysail.restlet.app.ScalaSkysailApplication
+import io.skysail.restlet.app.SkysailApplication
 import io.skysail.restlet.Wrapper3
 import org.slf4j.LoggerFactory
 import org.restlet.data.Status
@@ -9,7 +9,7 @@ object ExceptionCatchingFilterHelper {
 
   val log = LoggerFactory.getLogger(this.getClass)
 
-  def handleError(e: Exception, application: ScalaSkysailApplication, responseWrapper: Wrapper3, cls: Class[_]): Unit = {
+  def handleError(e: Exception, application: SkysailApplication, responseWrapper: Wrapper3, cls: Class[_]): Unit = {
     log.error(e.getMessage(), e);
     val genericErrorMessageForGui = cls.getSimpleName() + ".saved.failure"
     //responseWrapper.addError(genericErrorMessageForGui)

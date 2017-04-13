@@ -2,7 +2,7 @@ package io.skysail.restlet
 
 import io.skysail.api.text.Translation
 import io.skysail.api.links.Link
-import io.skysail.restlet.app.ScalaSkysailApplication
+import io.skysail.restlet.app.SkysailApplication
 import io.skysail.restlet.forms.ScalaFormField
 import java.util.function.Consumer
 import org.restlet.resource.ServerResource
@@ -12,6 +12,7 @@ import java.util.Locale
 import java.util.Collections
 import io.skysail.restlet.utils._
 import io.skysail.api.links.LinkRelation
+import io.skysail.api.doc.ApiMetadata
 
 object ScalaSkysailServerResource {
   //val SKYSAIL_SERVER_RESTLET_FORM = "de.twenty11.skysail.server.core.restlet.form";
@@ -21,7 +22,7 @@ object ScalaSkysailServerResource {
   val FILTER_PARAM_NAME = "_f";
   val PAGE_PARAM_NAME = "_page";
   val SEARCH_PARAM_NAME = "_search";
-  
+
   val NO_REDIRECTS = "noRedirects";
   val INSPECT_PARAM_NAME = "_inspect";
 
@@ -38,7 +39,7 @@ abstract class ScalaSkysailServerResource extends ServerResource {
 
   val stringContextMap = new java.util.HashMap[ResourceContextId, String]()
 
-  def getSkysailApplication() = getApplication().asInstanceOf[ScalaSkysailApplication]
+  def getSkysailApplication() = getApplication().asInstanceOf[SkysailApplication]
   def getMetricsCollector() = getSkysailApplication().getMetricsCollector()
   def getParameterizedType() = ScalaReflectionUtils.getParameterizedType(getClass());
 
@@ -98,7 +99,7 @@ abstract class ScalaSkysailServerResource extends ServerResource {
 
   private def addTranslation(
     msgs: java.util.Map[String, Translation],
-    application: ScalaSkysailApplication,
+    application: SkysailApplication,
     key: String,
     defaultMsg: String) = {
     val translation = application.translate(key, defaultMsg, this);
@@ -124,4 +125,5 @@ abstract class ScalaSkysailServerResource extends ServerResource {
   final def getLinks[_ <: ScalaSkysailServerResource](classes: Class[_]*): List[Link] =
     if (links.length == 0) ScalaLinkUtils.fromResources(this, entity, classes) else links
 
+  def getApiMetadata() = ApiMetadata.builder().build()
 }
