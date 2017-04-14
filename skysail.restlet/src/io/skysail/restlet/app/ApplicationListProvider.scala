@@ -9,6 +9,7 @@ import java.text.DecimalFormat
 import scala.collection.mutable.ListBuffer
 import io.skysail.restlet.ScalaSkysailComponent
 import io.skysail.restlet.services.SkysailStatusService
+import io.skysail.core.app.SkysailRootApplication
 
 @org.osgi.annotation.versioning.ProviderType
 trait ApplicationListProvider {
@@ -18,8 +19,8 @@ trait ApplicationListProvider {
 }
 
 class NoOpApplicationListProvider extends ApplicationListProvider {
-  def attach(skysailComponent: ScalaSkysailComponent): Unit = {  }
-  def detach(skysailComponent: ScalaSkysailComponent): Unit = {  }
+  def attach(skysailComponent: ScalaSkysailComponent): Unit = {}
+  def detach(skysailComponent: ScalaSkysailComponent): Unit = {}
   def getApplications(): List[SkysailApplication] = List()
 }
 
@@ -39,6 +40,7 @@ class ApplicationList extends ApplicationListProvider {
   val log = LoggerFactory.getLogger(classOf[ApplicationList])
 
   var skysailComponent: ScalaSkysailComponent = null
+  var rootApplication: SkysailRootApplication = null
 
   def attach(skysailComponent: ScalaSkysailComponent): Unit = {
     this.skysailComponent = skysailComponent;
@@ -99,18 +101,18 @@ class ApplicationList extends ApplicationListProvider {
       log.debug("could not attach application '{}' to component, as component not (yet) available", application.getName)
       return ;
     }
-    //    if (application.isInstanceOf[SkysailRootApplication]) {
-    //      rootApplication = (SkysailRootApplication) application;
-    //    }
+    if (application.isInstanceOf[SkysailRootApplication]) {
+      rootApplication = application.asInstanceOf[SkysailRootApplication]
+    }
     val skysailApplication = application.asInstanceOf[SkysailApplication];
     // http://stackoverflow.com/questions/6810128/restlet-riap-protocol-deployed-in-java-app-server
     skysailComponent.getDefaultHost().attach("/" + skysailApplication.getName(), application);
     skysailComponent.getInternalRouter().attach("/" + skysailApplication.getName(), application);
     // skysailComponent.getServers().add(riapServer);
 
-    //    if (rootApplication != null) {
-    //      skysailComponent.getDefaultHost().attachDefault(rootApplication);
-    //    }
+    if (rootApplication != null) {
+      skysailComponent.getDefaultHost().attachDefault(rootApplication);
+    }
   }
 
   private def detach(app: SkysailApplication, restletComponent: ScalaSkysailComponent) = {

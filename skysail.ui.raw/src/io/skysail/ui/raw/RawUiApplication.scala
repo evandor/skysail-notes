@@ -6,7 +6,7 @@ import org.osgi.service.component.annotations._
 import io.skysail.restlet.app._
 import io.skysail.core.app._
 import io.skysail.core.ApiVersion
-import io.skysail.core.security.config.ScalaSecurityConfigBuilder
+import io.skysail.core.security.config.SecurityConfigBuilder
 
 object RawUiApplication {
   final val APP_NAME = "_ui/" + RawTemplatesProvider.NAMESPACE;
@@ -34,7 +34,7 @@ class RawUiApplication extends SkysailApplication(RawUiApplication.APP_NAME, new
     super.activate(appConfig, componentContext);
   }
 
-  override def defineSecurityConfig(securityConfigBuilder: ScalaSecurityConfigBuilder) = {
+  override def defineSecurityConfig(securityConfigBuilder: SecurityConfigBuilder) = {
     securityConfigBuilder.authorizeRequests().startsWithMatcher("").authenticated();
   }
 }

@@ -30,7 +30,7 @@ import scala.collection.JavaConverters._
 import io.skysail.restlet.ScalaRouteBuilder
 import io.skysail.restlet.utils.CompositeClassLoader
 import io.skysail.restlet.utils.ClassLoaderDirectory
-import io.skysail.core.security.config.ScalaSecurityConfigBuilder
+import io.skysail.core.security.config.SecurityConfigBuilder
 import io.skysail.restlet.utils.ScalaReflectionUtils
 import io.skysail.restlet.filter.OriginalRequestFilter
 import io.skysail.restlet.menu.MenuItem
@@ -163,7 +163,7 @@ abstract class SkysailApplication(
     getConnectorService().getClientProtocols().add(Protocol.FILE);
     getConnectorService().getClientProtocols().add(Protocol.CLAP);
 
-    val securityConfigBuilder = new ScalaSecurityConfigBuilder(apiVersion);
+    val securityConfigBuilder = new SecurityConfigBuilder(apiVersion);
     defineSecurityConfig(securityConfigBuilder);
     securityConfigBuilder.setAuthenticationService(SkysailApplication.serviceListProvider.getAuthenticationService());
     router.setSecurityConfig(securityConfigBuilder.build())
@@ -228,7 +228,7 @@ abstract class SkysailApplication(
 
   def getSkysailApplication() = this
 
-  def defineSecurityConfig(securityConfigBuilder: ScalaSecurityConfigBuilder): Unit = {
+  def defineSecurityConfig(securityConfigBuilder: SecurityConfigBuilder): Unit = {
     securityConfigBuilder.authorizeRequests().startsWithMatcher("").authenticated();
   }
 

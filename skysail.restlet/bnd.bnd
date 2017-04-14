@@ -25,6 +25,7 @@ Import-Package: \
     
 Export-Package: \
 	io.skysail.api.doc,\
+	io.skysail.core.security.token,\
 	io.skysail.api.features,\
 	io.skysail.api.features.annotations,\
 	io.skysail.api.links,\
@@ -33,6 +34,7 @@ Export-Package: \
 	io.skysail.core.um.domain,\
 	io.skysail.api.text,\
 	io.skysail.core.security.config,\
+	io.skysail.core.security,\
 	io.skysail.api.um,\
 	io.skysail.api.validation,\
 	io.skysail.api.validation.hibernate,\

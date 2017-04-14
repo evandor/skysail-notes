@@ -8,7 +8,7 @@ import io.skysail.restlet.services.ResourceBundleProvider
 import java.util.Dictionary
 import org.osgi.service.component._
 import io.skysail.restlet.app.ScalaServiceListProvider
-import io.skysail.core.security.config.ScalaSecurityConfigBuilder
+import io.skysail.core.security.config.SecurityConfigBuilder
 import io.skysail.restlet.ScalaRouteBuilder
 import io.skysail.core.app.resources.DefaultResource
 
@@ -26,7 +26,7 @@ object SkysailRootApplication {
   immediate = true,
   property = { Array("service.pid=landingpages") },
   service = Array(classOf[ApplicationProvider], classOf[ResourceBundleProvider]))
-class SkysailRootApplication extends SkysailApplication(SkysailRootApplication.ROOT_APPLICATION_NAME)
+class SkysailRootApplication extends SkysailApplication(SkysailRootApplication.ROOT_APPLICATION_NAME, null)
     with ApplicationProvider with ResourceBundleProvider with ManagedService {
 
   var properties: Dictionary[String, _] = null
@@ -51,7 +51,7 @@ class SkysailRootApplication extends SkysailApplication(SkysailRootApplication.R
 
   def unsetApplicationListProvider(service: ScalaServiceListProvider) = SkysailApplication.unsetServiceListProvider(service)
 
-  override def defineSecurityConfig(securityConfigBuilder: ScalaSecurityConfigBuilder) = {
+  override def defineSecurityConfig(securityConfigBuilder: SecurityConfigBuilder) = {
     securityConfigBuilder.authorizeRequests().startsWithMatcher("").permitAll();
   }
 

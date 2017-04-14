@@ -4,7 +4,7 @@ import io.skysail.api.um.AuthenticationMode
 import io.skysail.api.um.AuthenticationService
 import org.restlet.Context
 
-abstract class AbstractPathToAuthenticatorMatcher(securityConfigBuilder: ScalaSecurityConfigBuilder) extends PathToAuthenticatorMatcher {
+abstract class AbstractPathToAuthenticatorMatcher(securityConfigBuilder: SecurityConfigBuilder) extends PathToAuthenticatorMatcher {
 
   var authMode: AuthenticationMode = null
 

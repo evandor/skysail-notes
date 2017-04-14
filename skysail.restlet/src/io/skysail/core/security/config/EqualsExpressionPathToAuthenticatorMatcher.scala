@@ -1,7 +1,7 @@
 package io.skysail.core.security.config
 
 class EqualsExpressionPathToAuthenticatorMatcher(
-  securityConfigBuilder: ScalaSecurityConfigBuilder,
+  securityConfigBuilder: SecurityConfigBuilder,
   var startsWith: String)
     extends AbstractPathToAuthenticatorMatcher(
       securityConfigBuilder) {

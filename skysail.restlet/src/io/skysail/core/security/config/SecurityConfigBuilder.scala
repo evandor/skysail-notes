@@ -3,7 +3,7 @@ package io.skysail.core.security.config
 import io.skysail.core.ApiVersion
 import io.skysail.api.um.AuthenticationService
 
-class ScalaSecurityConfigBuilder(val apiVersion: ApiVersion) {
+class SecurityConfigBuilder(val apiVersion: ApiVersion) {
 
   val pathToAuthenticatorMatcherRegistry = new PathToAuthenticatorMatcherRegistry(this);
   def getPathToAuthenticatorMatcherRegistry() = pathToAuthenticatorMatcherRegistry
@@ -15,12 +15,12 @@ class ScalaSecurityConfigBuilder(val apiVersion: ApiVersion) {
 
   def build(): ScalaSecurityConfig = {
     val securityConfig = new ScalaSecurityConfig(authenticationService);
-    //		 if (pathToAuthenticatorMatcherRegistry != null) {
-    //			 List<PathToAuthenticatorMatcher> matchers = pathToAuthenticatorMatcherRegistry.getMatchers();
-    //			 for (PathToAuthenticatorMatcher matcher : matchers) {
-    //				securityConfig.addPathToAuthenticatorMatcher(matcher);
-    //			}
-    //		 }
+    if (pathToAuthenticatorMatcherRegistry != null) {
+      val matchers = pathToAuthenticatorMatcherRegistry.getMatchers()
+      for (matcher <- matchers) {
+        securityConfig.addPathToAuthenticatorMatcher(matcher);
+      }
+    }
     securityConfig;
   }
 }

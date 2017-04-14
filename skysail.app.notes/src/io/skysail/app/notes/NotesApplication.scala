@@ -22,7 +22,7 @@ import io.skysail.restlet.app.ScalaServiceListProvider
 import io.skysail.repo.orientdb.ScalaDbService
 import io.skysail.core.ApiVersion
 import io.skysail.restlet.ScalaRouteBuilder
-import io.skysail.core.security.config.ScalaSecurityConfigBuilder
+import io.skysail.core.security.config.SecurityConfigBuilder
 import io.skysail.restlet.app.ApplicationConfiguration
 import io.skysail.restlet.services.MenuItemProvider
 
@@ -69,7 +69,7 @@ class NotesApplication extends SkysailApplication(
     createStaticDirectory();
   }
 
-  override def defineSecurityConfig(securityConfigBuilder: ScalaSecurityConfigBuilder) = {
+  override def defineSecurityConfig(securityConfigBuilder: SecurityConfigBuilder) = {
     securityConfigBuilder.authorizeRequests().startsWithMatcher("").permitAll();
   }
 
