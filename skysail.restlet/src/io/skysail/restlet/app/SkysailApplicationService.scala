@@ -3,17 +3,15 @@ package io.skysail.restlet.app
 import org.osgi.service.component.annotations._
 import java.util.ArrayList
 import io.skysail.restlet.model.ScalaSkysailEntityModel
-
 import scala.collection.JavaConverters._
-import io.skysail.restlet.model.ScalaSkysailEntityModel
-import io.skysail.restlet.model.ScalaSkysailEntityModel
 import io.skysail.restlet.services.EntityApi
 
-@Component(immediate = true, service = Array(classOf[SecurityConfigBuilderService]))
-class SecurityConfigBuilderService {
+@Component(immediate = true, service = Array(classOf[SkysailApplicationService]))
+class SkysailApplicationService {
 
   var entityApis: java.util.List[EntityApi] = new java.util.ArrayList[EntityApi]()
 
+  /** --- mandatory reference ---------------------------*/
   @Reference(cardinality = ReferenceCardinality.MANDATORY)
   var applicationListProvider: ApplicationListProvider = null
 

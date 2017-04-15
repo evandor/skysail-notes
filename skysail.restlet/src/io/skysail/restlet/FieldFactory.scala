@@ -3,7 +3,7 @@ package io.skysail.restlet
 import java.util.Collections
 import org.slf4j.LoggerFactory
 import scala.collection.JavaConverters._
-import io.skysail.restlet.app.SecurityConfigBuilderService
+import io.skysail.restlet.app.SkysailApplicationService
 import io.skysail.restlet.model.ScalaSkysailFieldModel
 import io.skysail.restlet.forms.ScalaFormField
 
@@ -11,11 +11,11 @@ trait FieldFactory {
 
   val log = LoggerFactory.getLogger(classOf[FieldFactory])
 
-  def determineFrom(r: ScalaSkysailServerResource, s: SecurityConfigBuilderService): Map[String, ScalaFormField]
+  def determineFrom(r: ScalaSkysailServerResource, s: SkysailApplicationService): Map[String, ScalaFormField]
 
   def determine(
       resource: ScalaSkysailServerResource, cls: Class[_], 
-      service: SecurityConfigBuilderService): Map[String, ScalaFormField] = {
+      service: SkysailApplicationService): Map[String, ScalaFormField] = {
     
     require(service != null, "service must not be null")
     val entityModel = service.getEntityModel(cls.getName());
@@ -45,17 +45,17 @@ trait FieldFactory {
 }
 
 class NoFieldFactory extends FieldFactory {
-  override def determineFrom(r: ScalaSkysailServerResource, s: SecurityConfigBuilderService) = Map()
+  override def determineFrom(r: ScalaSkysailServerResource, s: SkysailApplicationService) = Map()
 }
 
 class FormResponseEntityFieldFactory(t: Class[_]) extends FieldFactory {
-  override def determineFrom(r: ScalaSkysailServerResource, s: SecurityConfigBuilderService) = determine(r, t, s)
+  override def determineFrom(r: ScalaSkysailServerResource, s: SkysailApplicationService) = determine(r, t, s)
 }
 
 class DefaultEntityFieldFactory(t: Class[_]) extends FieldFactory {
-  override def determineFrom(r: ScalaSkysailServerResource, s: SecurityConfigBuilderService) =  determine(r, t, s)
+  override def determineFrom(r: ScalaSkysailServerResource, s: SkysailApplicationService) =  determine(r, t, s)
 }
 
 class DefaultListFieldFactory() extends FieldFactory {
-  override def determineFrom(r: ScalaSkysailServerResource, s: SecurityConfigBuilderService) = determine(r, r.getParameterizedType(), s)
+  override def determineFrom(r: ScalaSkysailServerResource, s: SkysailApplicationService) = determine(r, r.getParameterizedType(), s)
 }

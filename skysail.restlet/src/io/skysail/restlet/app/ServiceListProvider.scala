@@ -24,7 +24,7 @@ trait ScalaServiceListProvider {
   def getMetricsCollector(): MetricsCollector
   //    FacetsProvider getFacetsProvider();
   //	FilterParser getFilterParser();
-  def getSkysailApplicationService(): SecurityConfigBuilderService
+  def getSkysailApplicationService(): SkysailApplicationService
 
 }
 
@@ -44,7 +44,7 @@ class ScalaServiceList extends ScalaServiceListProvider {
   def getMetricsCollector() = metricsCollector
 
   @Reference(cardinality = ReferenceCardinality.OPTIONAL, policy = ReferencePolicy.DYNAMIC)
-  @volatile var skysailApplicationService: SecurityConfigBuilderService = null
+  @volatile var skysailApplicationService: SkysailApplicationService = null
   def getSkysailApplicationService = skysailApplicationService
 
   @Reference(cardinality = ReferenceCardinality.MANDATORY)

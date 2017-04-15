@@ -23,11 +23,12 @@ object NotesResource {
 class NotesResource extends ListServerResource2[Note](classOf[NoteResource]) {
   addToContext(ResourceContextId.LINK_TITLE, "list Notes");
   def getEntity(): List[Note] = {
-    implicit val formats = DefaultFormats
-    val filter = new Filter(getRequest());
-    val pagination = new Pagination(getRequest(), getResponse());
-    val result = NotesResource.noteRepo(getSkysailApplication()).find(filter, pagination)
-    result.map { row => row.extract[Note] }.toList
+//    implicit val formats = DefaultFormats
+//    val filter = new Filter(getRequest());
+//    val pagination = new Pagination(getRequest(), getResponse());
+//    val result = NotesResource.noteRepo(getSkysailApplication()).find(filter, pagination)
+//    result.map { row => row.extract[Note] }.toList
+    List(Note(None,"test"))
   }
   override def getLinks() = super.getLinks(classOf[PostNoteResource], classOf[NotesResource])
 }

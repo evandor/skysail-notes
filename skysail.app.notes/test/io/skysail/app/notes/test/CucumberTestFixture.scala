@@ -93,7 +93,7 @@ class CucumberTestFixture {
     when(serviceListProvider.getMetricsCollector()).thenReturn(new NoOpMetricsCollector());
     
     
-    val skysailApplicationService = new SecurityConfigBuilderService()//mock(classOf[SkysailApplicationService])
+    val skysailApplicationService = new SkysailApplicationService()//mock(classOf[SkysailApplicationService])
     //val entityModel: SkysailEntityModel[Note] = Mockito.mock(classOf[SkysailEntityModel[Note]])//new SkysailEntityModel[Note](null, classOf[Note],putResource)
     //when(skysailApplicationService.getEntityModel(classOf[Note].getName())).thenReturn(entityModel)
     when(serviceListProvider.getSkysailApplicationService()).thenReturn(skysailApplicationService)
@@ -101,7 +101,7 @@ class CucumberTestFixture {
     val applicationListProvider = new ApplicationList();
   //  applicationListProvider.addApplicationProvider(application)
     
-    val applicationListProviderField = classOf[SecurityConfigBuilderService].getDeclaredField("applicationListProvider")
+    val applicationListProviderField = classOf[SkysailApplicationService].getDeclaredField("applicationListProvider")
     applicationListProviderField.setAccessible(true)
     applicationListProviderField.set(skysailApplicationService, applicationListProvider)
 

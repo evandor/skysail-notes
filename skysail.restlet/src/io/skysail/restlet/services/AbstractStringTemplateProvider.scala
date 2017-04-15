@@ -5,6 +5,7 @@ import java.net.URL
 import org.slf4j.LoggerFactory
 import java.io.InputStreamReader
 import java.io.BufferedReader
+import scala.io.Source
 
 object AbstractStringTemplateProvider {
   val TEMPLATES_DIR = "/templates";
@@ -35,22 +36,26 @@ abstract class AbstractStringTemplateProvider extends StringTemplateProvider {
   }
 
   def addToTemplates(url: URL): Unit = {
-    try {
-      val inputStream = url.openStream();
-      val in = new BufferedReader(new InputStreamReader(inputStream));
-      val content = new StringBuilder();
-      var inputLine: String = null
-      var line = 0;
-      while ((inputLine = in.readLine()) != null) {
-        content.append(inputLine).append("\n");
-        line+=1
-      }
-      in.close();
-      //templates.put(getIdentifier(url), content.toString());    
-      templates += getIdentifier(url) -> content.toString()
-    } catch {
-      case e: Throwable => log.error(e.getMessage(), e)
-    }
+//    println(url)
+//    val source = Source.fromURI(url.toURI())
+    val source = Source.fromInputStream(url.openStream())
+//    println(source)
+    templates += getIdentifier(url) -> source.mkString
+//    try {
+//      val inputStream = url.openStream();
+//      val in = new BufferedReader(new InputStreamReader(inputStream));
+//      val content = new StringBuilder();
+//      var inputLine: String = null
+//      var line = 0;
+//      while ((inputLine = in.readLine()) != null) {
+//        content.append(inputLine).append("\n");
+//        line+=1
+//      }
+//      in.close();
+//      templates += getIdentifier(url) -> content.toString()
+//    } catch {
+//      case e: Throwable => log.error(e.getMessage(), e)
+//    }
   }
   
   def getIdentifier(url: URL) = url.toString().split(AbstractStringTemplateProvider.TEMPLATES_DIR)(1)

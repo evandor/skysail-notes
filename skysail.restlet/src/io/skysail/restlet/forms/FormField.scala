@@ -1,7 +1,7 @@
 package io.skysail.restlet.forms
 
 import java.lang.reflect.Field
-import io.skysail.restlet.app.SecurityConfigBuilderService
+import io.skysail.restlet.app.SkysailApplicationService
 import io.skysail.restlet.model.ScalaSkysailFieldModel
 import io.skysail.domain.html.InputType
 import javax.validation.constraints.NotNull
@@ -9,7 +9,7 @@ import javax.validation.constraints.Size
 import scala.beans.BeanProperty
 import java.util.Collection
 
-case class ScalaFormField(ssfm: ScalaSkysailFieldModel, currentEntity: Any, appService: SecurityConfigBuilderService) {
+case class ScalaFormField(ssfm: ScalaSkysailFieldModel, currentEntity: Any, appService: SkysailApplicationService) {
 
   //        this.type = sfm.getF().getType();
   //        this.sfm = sfm;
