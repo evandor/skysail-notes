@@ -20,7 +20,7 @@ class DefaultResource extends ListServerResource2[MenuItemDescriptor] {
   //                .authenticationNeeded(true).needsRoles(securedBy).build();
   //    }
 
-   def redirectTo() {
+  override def redirectTo(): String = {
     "" //return getSkysailApplication().asInstanceOf[SkysailRootApplication].getRedirectTo(this);
   }
 

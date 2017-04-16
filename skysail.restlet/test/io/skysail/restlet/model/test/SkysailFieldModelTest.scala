@@ -19,7 +19,6 @@ import javax.validation.constraints._
 
 import scala.annotation.meta.field
 import scala.beans.BeanProperty
-import scala.reflect.runtime.ReflectionUtils
 import io.skysail.restlet.utils.ScalaReflectionUtils
 
 class SkysailFieldModelTest {

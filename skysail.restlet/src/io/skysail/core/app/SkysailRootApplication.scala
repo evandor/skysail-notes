@@ -11,6 +11,7 @@ import io.skysail.restlet.app.ScalaServiceListProvider
 import io.skysail.core.security.config.SecurityConfigBuilder
 import io.skysail.restlet.ScalaRouteBuilder
 import io.skysail.core.app.resources.DefaultResource
+import io.skysail.core.app.resources.LoginResource
 
 object SkysailRootApplication {
   val ROOT_APPLICATION_NAME = "root";
@@ -57,7 +58,7 @@ class SkysailRootApplication extends SkysailApplication(SkysailRootApplication.R
 
   override def attach() {
     router.attach(new ScalaRouteBuilder("/", classOf[DefaultResource]))
-//    router.attach(new ScalaRouteBuilder(SkysailRootApplication.LOGIN_PATH, classOf[LoginResource]))
+    router.attach(new ScalaRouteBuilder(SkysailRootApplication.LOGIN_PATH, classOf[LoginResource]))
 //    router.attach(new ScalaRouteBuilder(SkysailRootApplication.LOGOUT_PATH, classOf[LogoutResource]))
 //    router.attach(new ScalaRouteBuilder(SkysailRootApplication.PROFILE_PATH, classOf[ProfileResource]))
 //    router.attach(new ScalaRouteBuilder("/logs", classOf[LogsResource]))

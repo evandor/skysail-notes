@@ -126,4 +126,6 @@ abstract class ScalaSkysailServerResource extends ServerResource {
     if (links.length == 0) ScalaLinkUtils.fromResources(this, entity, classes) else links
 
   def getApiMetadata() = ApiMetadata.builder().build()
+
+  def redirectTo(): String = null
 }
