@@ -48,8 +48,8 @@ abstract class PostEntityServerResource2[T: Manifest] extends ScalaSkysailServer
   def post(form: Form, variant: Variant): ScalaSkysailResponse[T] = {
     implicit val formats = DefaultFormats
     val timerMetric = getMetricsCollector().timerFor(this.getClass(), "posthtml")
-    val json = Transformations.jsonFrom[T](form)
-    val result = jsonPost(json.extract[T], variant)
+    val json = if (form != null) Transformations.jsonFrom[T](form).extract[T] else null.asInstanceOf[T]
+    val result = jsonPost(json, variant)
     timerMetric.stop()
     result
   }

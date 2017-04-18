@@ -19,7 +19,8 @@ class FormDataExtractingFilter[T:Manifest](entity: T) extends ScalaAbstractResou
       FilterResult.STOP;
     }
     try {
-      responseWrapper.asInstanceOf[ScalaResponseWrapper[T]].setEntity(entity);
+      val data = getDataFromRequest(response.getRequest(), resource);
+      responseWrapper.asInstanceOf[ScalaResponseWrapper[T]].setEntity(if (data != null) data else entity);
     } catch {
       case e: java.text.ParseException => throw new RuntimeException("could not parse form", e);
     }
