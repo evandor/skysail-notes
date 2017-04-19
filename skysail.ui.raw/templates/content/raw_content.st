@@ -56,13 +56,21 @@ raw_content(user,converter,messages,model,request)::= <<
       <div>
         <h3>Resource Model</h3>
         <h5>Form Fields</h5>
-        <small>$model.formfieldsWrapper.formfields: { row | $row$};separator="<br>\n"$</small>
+        <small><table  class="pure-table">
+        	<tr><th>Label</th><th>id</th><th>name</th><th>inputType</th></tr>
+        	$model.formfieldsWrapper.formfields: { row | 
+        		<tr><td>$row.label$</td><td>$row.id$</td><td>$row.name$</td><td>$row.inputType$</td></tr>
+        	};separator="<br>\n"$</table></small>
         <h5>Raw Data</h5>
         <small>$model.rawData: { row | $row$};separator="<br>\n"$</small>
         <h5>Data</h5>
         <small>$model.data: { row | $row$};separator="<br>\n"$</small>
         <h5>Links</h5>
-        <small>$model.links: { link | $link$};separator="<br>\n"$</small>
+        <small><table  class="pure-table">
+        	<tr><th>Title</th><th>URI</th><th>Alt</th><th>Rel</th><th>Verbs</th><th>needsAuthentication</th><th>role</th><th>rolesPredicate</th><th>refId</th><th>cls</th></tr>
+        	$model.links: { link | 
+        	<tr><td>$link.title$</td><td>$link.uri$</td><td>$link.alt$</td><td>$link.rel$</td><td>$link.verb$</td><td>$link.needsAuthentication$</td><td>$link.role$</td><td>$link.rolesPredicate$</td><td>$link.refId$</td><td>$link.cls$</td></tr>
+        };separator="<br>\n"$</table></small>
       </div> 
 
       <div>

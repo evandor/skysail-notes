@@ -6,11 +6,11 @@ import com.google.common.base.Predicate
 import org.restlet.Restlet
 import org.restlet.resource.ServerResource
 
-object ScalaRouteBuilder {
+object RouteBuilder {
   val pathVariablesPattern = Pattern.compile("\\{([^\\}])*\\}");
 }
 
-class ScalaRouteBuilder(val pathTemplate: String, val targetClass: Class[_ <: ServerResource]) {
+class RouteBuilder(val pathTemplate: String, val targetClass: Class[_ <: ServerResource]) {
 
   var restlet: Restlet = null
 
@@ -27,7 +27,7 @@ class ScalaRouteBuilder(val pathTemplate: String, val targetClass: Class[_ <: Se
 
   private def extractPathVariables(input: String): List[String] = {
     val result = scala.collection.mutable.ListBuffer[String]()
-    val m = ScalaRouteBuilder.pathVariablesPattern.matcher(input);
+    val m = RouteBuilder.pathVariablesPattern.matcher(input);
     while (m.find()) {
       result += m.group(0).replace("}", "").replace("{", "")
     }

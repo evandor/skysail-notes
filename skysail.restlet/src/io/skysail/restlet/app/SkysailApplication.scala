@@ -27,7 +27,7 @@ import org.restlet.data.Protocol
 import org.slf4j.LoggerFactory
 
 import scala.collection.JavaConverters._
-import io.skysail.restlet.ScalaRouteBuilder
+import io.skysail.restlet.RouteBuilder
 import io.skysail.restlet.utils.CompositeClassLoader
 import io.skysail.restlet.utils.ClassLoaderDirectory
 import io.skysail.core.security.config.SecurityConfigBuilder
@@ -284,9 +284,9 @@ abstract class SkysailApplication(
   def isNotInMemoryStore(translation: Translation) = IN_MEMORY_TRANSLATION_STORE != translation.getStoreName()
 
   //public <T extends ServerResource> List<RouteBuilder> getRouteBuilders(Class<T> cls) {
-  def getRouteBuilders(cls: Class[_]): List[ScalaRouteBuilder] = {
+  def getRouteBuilders(cls: Class[_]): List[RouteBuilder] = {
     if (router == null) {
-      return List[ScalaRouteBuilder]()
+      return List[RouteBuilder]()
     }
     return router.getRouteBuildersForResource(cls);
   }
@@ -298,6 +298,10 @@ abstract class SkysailApplication(
       return false;
     }
     return SkysailApplication.serviceListProvider.getAuthenticationService().isAuthenticated(request);
+  }
+
+  def getRouteBuildersForResource(cls: Class[_] /*Class<? extends ServerResource>*/ ): List[RouteBuilder] = {
+    router.getRouteBuildersForResource(cls);
   }
 
 }

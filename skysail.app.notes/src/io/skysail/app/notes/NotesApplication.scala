@@ -21,7 +21,7 @@ import io.skysail.restlet.app.ApplicationProvider
 import io.skysail.restlet.app.ScalaServiceListProvider
 import io.skysail.repo.orientdb.ScalaDbService
 import io.skysail.core.ApiVersion
-import io.skysail.restlet.ScalaRouteBuilder
+import io.skysail.restlet.RouteBuilder
 import io.skysail.core.security.config.SecurityConfigBuilder
 import io.skysail.restlet.app.ApplicationConfiguration
 import io.skysail.restlet.services.MenuItemProvider
@@ -61,11 +61,11 @@ class NotesApplication extends SkysailApplication(
   }
 
   override def attach() = {
-    router.attach(new ScalaRouteBuilder("", classOf[NotesResource]));
-    router.attach(new ScalaRouteBuilder("/notes", classOf[NotesResource]));
-    router.attach(new ScalaRouteBuilder("/notes/", classOf[PostNoteResource]));
-    router.attach(new ScalaRouteBuilder("/notes/{id}", classOf[NoteResource]));
-    router.attach(new ScalaRouteBuilder("/notes/{id}/", classOf[PutNoteResource]));
+    router.attach(new RouteBuilder("", classOf[NotesResource]));
+    router.attach(new RouteBuilder("/notes", classOf[NotesResource]));
+    router.attach(new RouteBuilder("/notes/", classOf[PostNoteResource]));
+    router.attach(new RouteBuilder("/notes/{id}", classOf[NoteResource]));
+    router.attach(new RouteBuilder("/notes/{id}/", classOf[PutNoteResource]));
     createStaticDirectory();
   }
 
