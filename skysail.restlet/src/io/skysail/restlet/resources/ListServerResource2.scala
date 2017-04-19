@@ -9,8 +9,10 @@ import io.skysail.restlet.responses.ScalaSkysailResponse
 import io.skysail.restlet.responses.ListResponse
 import io.skysail.restlet.ScalaListRequestHandler
 
-abstract class ListServerResource2[T:Manifest](cls: Class[_] = null) extends ScalaSkysailServerResource {
-
+abstract class ListServerResource2[T: Manifest](
+    cls: Class[_] = null, 
+    associatedResources: List[ScalaSkysailServerResource] = List()) extends ScalaSkysailServerResource {
+  
   @Get("html|json|yaml|xml|csv|timeline|carbon|standalone|data")
   def getEntities(variant: Variant): ListResponse[T] = {
     val timerMetric = getMetricsCollector().timerFor(this.getClass(), "getEntities");
@@ -25,4 +27,6 @@ abstract class ListServerResource2[T:Manifest](cls: Class[_] = null) extends Sca
     return responseWrapper.getEntity()
   }
 
+  def getAssociatedServerResources() = associatedResources // List<Class<? extends SkysailServerResource<?>>>
+  
 }

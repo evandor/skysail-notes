@@ -17,7 +17,7 @@ import io.skysail.api.doc.ApiMetadata
 object ScalaSkysailServerResource {
   //val SKYSAIL_SERVER_RESTLET_FORM = "de.twenty11.skysail.server.core.restlet.form";
   val SKYSAIL_SERVER_RESTLET_ENTITY = classOf[ScalaSkysailServerResource].getName + ".entity"
-  //val SKYSAIL_SERVER_RESTLET_VARIANT = "de.twenty11.skysail.server.core.restlet.variant";
+  val SKYSAIL_SERVER_RESTLET_VARIANT = classOf[ScalaSkysailServerResource].getName + ".variant"
 
   val FILTER_PARAM_NAME = "_f";
   val PAGE_PARAM_NAME = "_page";

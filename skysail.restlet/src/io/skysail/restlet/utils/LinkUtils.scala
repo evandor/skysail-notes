@@ -8,6 +8,7 @@ import io.skysail.restlet.app.SkysailApplication
 import org.restlet.data.MediaType
 import io.skysail.restlet.ResourceContextId
 import io.skysail.restlet.ScalaRouteBuilder
+import io.skysail.restlet.resources.ListServerResource2
 
 object ScalaLinkUtils {
 
@@ -45,8 +46,8 @@ object ScalaLinkUtils {
 
     //    return links
     val links = classes.map(c => ScalaLinkUtils.fromResource(sssr, c)).filter(lh => lh != null)
-    //    links.addAll(getAssociatedLinks(entity, skysailServerResource))
-    links.toList
+    val associatedLinks = getAssociatedLinks(entity, sssr)
+    (links :: associatedLinks).toList
   }
 
   def fromResource[_ <: ScalaSkysailServerResource](sssr: ScalaSkysailServerResource, c: Class[_]) = {
@@ -123,6 +124,43 @@ object ScalaLinkUtils {
   def getLinkTitleFromContextOrUnknonw(resource: ScalaSkysailServerResource): String = {
     val title = resource.getFromContext(ResourceContextId.LINK_TITLE);
     if (title == null) "unknown" else title
+  }
+
+  /**
+   * if the current resource is a {@link ListServerResource}, the associated
+   * EntityServerResource (if existent) is analyzed for its own links.
+   *
+   * <p>
+   * For each entity of the listServerResource, and for each associated link
+   * (which serves as a template), a new link is created and is having its
+   * path placeholders substituted. So, if the current ListServerResource has
+   * a list with two entities of a type which defines three classes in its
+   * getLinks method, we'll get six links in the result.
+   * </p>
+   */
+  private def getAssociatedLinks(entity: Any, sssr: ScalaSkysailServerResource): List[Link] = {
+    if (!(sssr.isInstanceOf[ListServerResource2[_]])) {
+      return List()
+    }
+    val listServerResource = sssr.asInstanceOf[ListServerResource2[_]]
+    val entityResourceClasses = listServerResource.getAssociatedServerResources() // List<Class<? extends SkysailServerResource<?>>>
+    //        List<Link> result = new ArrayList<>();
+    //
+    //        if (entityResourceClasses != null && entity instanceof List) {
+    //            List<SkysailServerResource<?>> esrs = ResourceUtils.createSkysailServerResources(entityResourceClasses,
+    //                    skysailServerResource);
+    //
+    //            for (SkysailServerResource<?> esr : esrs) {
+    //                List<Link> entityLinkTemplates = esr.getAuthorizedLinks();
+    //                for (Object object : (List<?>) entity) {
+    //                    entityLinkTemplates.stream().filter(lh ->
+    //                        lh.getRole().equals(LinkRole.DEFAULT)
+    //                    ).forEach(link -> addLink(link, object, listServerResource, result));
+    //                }
+    //            }
+    //        }
+    //        return result;
+    null
   }
 
 }
