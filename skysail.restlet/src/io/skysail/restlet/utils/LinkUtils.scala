@@ -15,12 +15,12 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import java.util.HashMap
 import scala.collection.JavaConverters._
 
-object ScalaLinkUtils {
+object LinkUtils {
 
-  private var log = LoggerFactory.getLogger(classOf[ScalaLinkUtils])
-  
+  private var log = LoggerFactory.getLogger(classOf[LinkUtils])
+
   private val mapper = new ObjectMapper()
-  
+
   def fromResource(app: SkysailApplication, ssr: Class[_ <: ScalaSkysailServerResource], title: String = null) = {
     //        if (noRouteBuilderFound(app, ssr)) {
     //            log.warn("problem with linkheader for resource {}; no routeBuilder was found.", ssr.getSimpleName());
@@ -52,7 +52,7 @@ object ScalaLinkUtils {
     //
 
     //    return links
-    val links = classes.map(c => ScalaLinkUtils.fromResource(sssr, c)).filter(lh => lh != null).toList
+    val links = classes.map(c => LinkUtils.fromResource(sssr, c)).filter(lh => lh != null).toList
     val associatedLinks = getAssociatedLinks(entity, sssr)
     links ::: associatedLinks
   }
@@ -172,57 +172,58 @@ object ScalaLinkUtils {
       //                            lh.getRole().equals(LinkRole.DEFAULT)
       //                        ).forEach(link -> addLink(link, object, listServerResource, result));
       //                    }
-      for (l <- theList) {
-        entityLinkTemplates
-          .filter { t => t.getRole == LinkRole.DEFAULT }
-          .foreach { l => addLink(l, entity, listServerResource, result) }
+      if (theList != null) {
+        for (l <- theList) {
+          entityLinkTemplates
+            .filter { t => t.getRole == LinkRole.DEFAULT }
+            .foreach { l => addLink(l, entity, listServerResource, result) }
+        }
       }
     }
     result.toList
   }
-  
-  private def addLink( linkTemplate: Link, theObject: Any , resource: ListServerResource2[_], result: ListBuffer[Link]): Unit = {
-    
-        val path = linkTemplate.getUri();
-        val linkedResourceClass = linkTemplate.getCls() // Class<? extends ServerResource>
-        val routeBuilders = resource.getSkysailApplication().getRouteBuildersForResource(linkedResourceClass); // List<RouteBuilder>
-        val pathUtils = new PathSubstitutions(resource.getRequestAttributes(), routeBuilders);
-        val substitutions = pathUtils.getFor(theObject) // Map<String, String> 
 
-        val objectsMapRepresentation = mapper.convertValue(theObject, classOf[HashMap[_,_]]); // HashMap<String,Object>
-//        objectsMapRepresentation.keySet().stream().forEach(key -> {
-//            if ("id".equals(key)) {
-//                return;
-//            }
-//            if (objectsMapRepresentation.get(key) instanceof String) {
-//                substitutions.put("entity."+key, (String)objectsMapRepresentation.get(key));
-//            }
-//        });
-       // objectsMapRepresentation.keySet().asScala
-       //   .foreach { key => ??? }
-        
+  private def addLink(linkTemplate: Link, theObject: Any, resource: ListServerResource2[_], result: ListBuffer[Link]): Unit = {
 
-        var href = path;
+    val path = linkTemplate.getUri();
+    val linkedResourceClass = linkTemplate.getCls() // Class<? extends ServerResource>
+    val routeBuilders = resource.getSkysailApplication().getRouteBuildersForResource(linkedResourceClass); // List<RouteBuilder>
+    val pathUtils = new PathSubstitutions(resource.getRequestAttributes(), routeBuilders);
+    val substitutions = pathUtils.getFor(theObject) // Map<String, String> 
 
-//        for (Entry<String, String> entry : substitutions.entrySet()) {
-//            String substitutable = new StringBuilder("{").append(entry.getKey()).append("}").toString();
-//            if (path.contains(substitutable)) {
-//                href = href.replace(substitutable, entry.getValue());
-//            }
-//        }
+    val objectsMapRepresentation = mapper.convertValue(theObject, classOf[HashMap[_, _]]); // HashMap<String,Object>
+    //        objectsMapRepresentation.keySet().stream().forEach(key -> {
+    //            if ("id".equals(key)) {
+    //                return;
+    //            }
+    //            if (objectsMapRepresentation.get(key) instanceof String) {
+    //                substitutions.put("entity."+key, (String)objectsMapRepresentation.get(key));
+    //            }
+    //        });
+    // objectsMapRepresentation.keySet().asScala
+    //   .foreach { key => ??? }
 
-        val newLink = new Link.Builder(linkTemplate)
-                .uri(href)
-                .alt(linkTemplate.getAlt())
-                .role(LinkRole.LIST_VIEW)
-                .relation(LinkRelation.ITEM)
-                //.refId(substitutions.get(pathUtils.getIdVariable()))
-            .build();
-        result += newLink
-    }
+    var href = path;
+
+    //        for (Entry<String, String> entry : substitutions.entrySet()) {
+    //            String substitutable = new StringBuilder("{").append(entry.getKey()).append("}").toString();
+    //            if (path.contains(substitutable)) {
+    //                href = href.replace(substitutable, entry.getValue());
+    //            }
+    //        }
+
+    val newLink = new Link.Builder(linkTemplate)
+      .uri(href)
+      .alt(linkTemplate.getAlt())
+      .role(LinkRole.LIST_VIEW)
+      .relation(LinkRelation.ITEM)
+      //.refId(substitutions.get(pathUtils.getIdVariable()))
+      .build();
+    result += newLink
+  }
 
 }
 
-class ScalaLinkUtils {
+class LinkUtils {
 
 }

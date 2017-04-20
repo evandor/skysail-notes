@@ -4,7 +4,7 @@ import io.skysail.restlet.ScalaSkysailServerResource
 import org.restlet.resource.Get
 import org.restlet.representation.Variant
 import io.skysail.restlet.responses.EntityResponse
-import io.skysail.restlet.utils.ScalaLinkUtils
+import io.skysail.restlet.utils.LinkUtils
 
 abstract class RedirectResource[T] extends ScalaSkysailServerResource {
 
@@ -22,7 +22,7 @@ abstract class RedirectResource[T] extends ScalaSkysailServerResource {
       return null;
     }
 
-   // val link = ScalaLinkUtils.fromResource(getApplication(), redirectToResource());
+   // val link = LinkUtils.fromResource(getApplication(), redirectToResource());
     // getPathSubstitutions().accept(link);
   //  getResponse().redirectSeeOther(link.getUri());
     timerMetric.stop()

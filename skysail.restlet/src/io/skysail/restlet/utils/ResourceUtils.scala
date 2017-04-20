@@ -3,6 +3,7 @@ package io.skysail.restlet.utils
 import java.util.Locale
 import io.skysail.restlet.ScalaSkysailServerResource
 import org.slf4j.LoggerFactory
+import org.restlet.resource.Resource
 
 object ScalaResourceUtils {
 
@@ -25,12 +26,13 @@ object ScalaResourceUtils {
     return localeToUse;
   }
 
-  def createSkysailServerResources(entityResourceClasses: List[ScalaSkysailServerResource], resource: ScalaSkysailServerResource) = {
+  def createSkysailServerResources(entityServerResources: Seq[Class[_ <: ScalaSkysailServerResource]], resource: Resource) = {
+
     val result = scala.collection.mutable.ListBuffer[ScalaSkysailServerResource]()
-    for (cls <- entityResourceClasses) {
+    for (cls <- entityServerResources) {
       var newInstance: ScalaSkysailServerResource = null
       try {
-        newInstance = cls.getClass.newInstance()
+        newInstance = cls.newInstance();
         newInstance.init(resource.getContext(), resource.getRequest(), resource.getResponse());
         newInstance.release();
         result += newInstance
@@ -38,8 +40,24 @@ object ScalaResourceUtils {
         case e: Throwable => log.error(e.getMessage(), e);
       }
     }
-    result
-
+    result;
   }
+
+//  def createSkysailServerResources(entityResourceClass: ScalaSkysailServerResource, resource: ScalaSkysailServerResource) = {
+//    val result = scala.collection.mutable.ListBuffer[ScalaSkysailServerResource]()
+//    //for (cls <- entityResourceClasses) {
+//      var newInstance: ScalaSkysailServerResource = null
+//      try {
+//        newInstance = entityResourceClass.getClass.newInstance()
+//        newInstance.init(resource.getContext(), resource.getRequest(), resource.getResponse());
+//        newInstance.release();
+//        result += newInstance
+//      } catch {
+//        case e: Throwable => log.error(e.getMessage(), e);
+//      }
+//    //}
+//    result
+//
+//  }
 
 }

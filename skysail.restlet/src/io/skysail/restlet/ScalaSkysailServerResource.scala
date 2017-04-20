@@ -123,7 +123,7 @@ abstract class ScalaSkysailServerResource extends ServerResource {
   def getLinks(): List[Link] = if (links != null) links else List()
 
   final def getLinks[_ <: ScalaSkysailServerResource](classes: Class[_]*): List[Link] =
-    if (links.length == 0) ScalaLinkUtils.fromResources(this, entity, classes) else links
+    if (links.length == 0) LinkUtils.fromResources(this, entity, classes) else links
 
   def getApiMetadata() = ApiMetadata.builder().build()
 
