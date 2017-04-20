@@ -32,8 +32,8 @@ raw_index(user, messages, converter, model, request) ::= <<
 
     <div id="main">
         <div class="header">
-            <h1>Page Title</h1>
-            <h2>A subtitle for your page goes here</h2>
+            <h1>$model.resourceSimpleName$</h1>
+            <h2>$request.request$</h2>
         </div>
 
         <div class="pure-g">

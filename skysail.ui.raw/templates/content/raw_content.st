@@ -39,7 +39,7 @@ raw_content(user,converter,messages,model,request)::= <<
 
       <div class="col-md-16" id="renderTableDiv">
         <br>
-        <table class="table table-striped table-condensed table-hover ROWCLICK">
+        <table class="pure-table">
           <tr>
             $model.formfieldsWrapper.formfields: { ff | $raw_thElement(model,ff)$ };separator="\n"$ 
 	  	    <th>Actions</th>
@@ -54,6 +54,8 @@ raw_content(user,converter,messages,model,request)::= <<
       </div>
 
       <div>
+        <br>
+        <hr>
         <h3>Resource Model</h3>
         <h5>Form Fields</h5>
         <small><table  class="pure-table">
@@ -72,7 +74,7 @@ raw_content(user,converter,messages,model,request)::= <<
         	<tr><td>$link.title$</td><td>$link.uri$</td><td>$link.alt$</td><td>$link.rel$</td><td>$link.verb$</td><td>$link.needsAuthentication$</td><td>$link.role$</td><td>$link.rolesPredicate$</td><td>$link.refId$</td><td>$link.cls$</td></tr>
         };separator="<br>\n"$</table></small>
       </div> 
-
+        
       <div>
         <h3>Request</h3>
         $request$
