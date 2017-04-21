@@ -3,7 +3,7 @@ package io.skysail.restlet.filter
 import org.slf4j.LoggerFactory
 
 import io.skysail.restlet.ScalaAbstractResourceFilter
-import io.skysail.restlet.ScalaSkysailServerResource
+import io.skysail.restlet.SkysailServerResource
 import io.skysail.restlet.Wrapper3
 import org.restlet.data.Header
 import io.skysail.restlet.ScalaAbstractListResourceFilter
@@ -18,7 +18,7 @@ class AddLinkheadersListFilter[T:Manifest] extends ScalaAbstractListResourceFilt
 
   override val log = LoggerFactory.getLogger(classOf[AddLinkheadersListFilter[T]])
 
-  override def afterHandle(resource: ScalaSkysailServerResource, responseWrapper: Wrapper3) = {
+  override def afterHandle(resource: SkysailServerResource, responseWrapper: Wrapper3) = {
     val responseHeaders = ScalaHeadersUtils.getHeaders(resource.getResponse());
     val linkheaderAuthorized = resource.getAuthorizedLinks();
 //    linkheaderAuthorized.forEach(getPathSubstitutions(resource));

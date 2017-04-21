@@ -9,14 +9,14 @@ import java.lang.annotation.Target;
 import io.skysail.api.doc.ApiMetadata;
 import io.skysail.api.links.LinkRelation;
 import io.skysail.domain.Entity;
-import io.skysail.restlet.ScalaSkysailServerResource;
+import io.skysail.restlet.SkysailServerResource;
 
 @Target({ ElementType.FIELD, ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface ListView {
 
-    public static final class DEFAULT extends ScalaSkysailServerResource {
+    public static final class DEFAULT extends SkysailServerResource {
 
         @Override
         public Entity getEntity() {
@@ -35,7 +35,7 @@ public @interface ListView {
 
     }
 
-    Class<? extends ScalaSkysailServerResource> link() default DEFAULT.class;
+    Class<? extends SkysailServerResource> link() default DEFAULT.class;
 
     int truncate() default -1;
 

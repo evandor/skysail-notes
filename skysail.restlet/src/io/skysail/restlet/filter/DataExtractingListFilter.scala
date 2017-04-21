@@ -2,7 +2,7 @@ package io.skysail.restlet.filter
 
 import org.slf4j.LoggerFactory
 import io.skysail.restlet.ScalaAbstractListResourceFilter
-import io.skysail.restlet.ScalaSkysailServerResource
+import io.skysail.restlet.SkysailServerResource
 import io.skysail.restlet.ScalaListResponseWrapper
 import io.skysail.restlet.utils.ScalaCookiesUtils
 import io.skysail.domain.ddd.ScalaEntity
@@ -13,7 +13,7 @@ class ScalaDataExtractingListFilter[T:Manifest] extends ScalaAbstractListResourc
 
   override val log = LoggerFactory.getLogger(classOf[ScalaExceptionCatchingListFilter[T]])
 
-  override def doHandle(resource: ScalaSkysailServerResource, responseWrapper: Wrapper3): FilterResult = {
+  override def doHandle(resource: SkysailServerResource, responseWrapper: Wrapper3): FilterResult = {
     log.debug("entering {}#doHandle", this.getClass().getSimpleName());
 
     //val installation = ScalaCookiesUtils.getInstallationFromCookie(resource.getRequest()).orElse(null);

@@ -29,7 +29,7 @@ import org.hamcrest.TypeSafeMatcher
 import org.hamcrest.Description
 import java.util.Arrays
 import io.skysail.restlet.app._
-import io.skysail.restlet.ScalaSkysailServerResource
+import io.skysail.restlet.SkysailServerResource
 
 object CucumberTestFixture {
  def validNoteWith(data: java.util.Map[String, String], keys:String*): Matcher[Note] = {
@@ -70,7 +70,7 @@ class CucumberTestFixture {
   var requestAttributes: ConcurrentMap[String, Object] = null
   var context: Context = null
   var application: SkysailApplication = null
-  var resource: ScalaSkysailServerResource = null
+  var resource: SkysailServerResource = null
   var stepContext: CucumberStepContext = null
 
   def setUp(app: NotesApplication, stepContext: CucumberStepContext): Unit = {
@@ -129,7 +129,7 @@ class CucumberTestFixture {
     
   }
 
-  def prepareRequest(resource: ScalaSkysailServerResource): Unit = {
+  def prepareRequest(resource: SkysailServerResource): Unit = {
     val entity = stepContext.getLastResponse().getEntity().asInstanceOf[Note]
     val id = ""//entity.getId().toString();
     requestAttributes.put("id", id.replace("#", ""));

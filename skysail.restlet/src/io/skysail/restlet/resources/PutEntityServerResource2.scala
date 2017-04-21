@@ -3,7 +3,7 @@ package io.skysail.restlet.resources
 import io.skysail.restlet._
 import io.skysail.restlet.utils.ScalaResourceUtils
 
-class PutEntityServerResource2[T] extends ScalaSkysailServerResource {
+class PutEntityServerResource2[T] extends SkysailServerResource {
 
   def copyProperties(dest: T, orig: T): Unit = {
     try {

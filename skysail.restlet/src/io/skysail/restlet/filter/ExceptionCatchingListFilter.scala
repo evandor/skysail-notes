@@ -1,7 +1,7 @@
 package io.skysail.restlet.filter
 
 import io.skysail.restlet.ScalaAbstractListResourceFilter
-import io.skysail.restlet.ScalaSkysailServerResource
+import io.skysail.restlet.SkysailServerResource
 import io.skysail.restlet.Wrapper3
 import org.slf4j.LoggerFactory
 import org.restlet.resource.ResourceException
@@ -12,7 +12,7 @@ class ScalaExceptionCatchingListFilter[T:Manifest] extends ScalaAbstractListReso
 
   override val log = LoggerFactory.getLogger(classOf[ScalaExceptionCatchingListFilter[T]])
 
-  override def doHandle(resource: ScalaSkysailServerResource, responseWrapper: Wrapper3): FilterResult = {
+  override def doHandle(resource: SkysailServerResource, responseWrapper: Wrapper3): FilterResult = {
     log.debug("entering {}#doHandle", this.getClass().getSimpleName());
     try {
       super.doHandle(resource, responseWrapper)
@@ -23,7 +23,7 @@ class ScalaExceptionCatchingListFilter[T:Manifest] extends ScalaAbstractListReso
     FilterResult.CONTINUE;
   }
 
-  override def afterHandle(resource: ScalaSkysailServerResource, responseWrapper: Wrapper3): Unit = {
+  override def afterHandle(resource: SkysailServerResource, responseWrapper: Wrapper3): Unit = {
     resource.getServerInfo().setAgent("Skysail-Server/0.0.1 " + resource.getServerInfo().getAgent());
   }
 }

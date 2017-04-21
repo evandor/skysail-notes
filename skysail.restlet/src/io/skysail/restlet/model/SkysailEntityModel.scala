@@ -1,14 +1,14 @@
 package io.skysail.restlet.model
 
 import io.skysail.domain.core.EntityModel
-import io.skysail.restlet.ScalaSkysailServerResource
+import io.skysail.restlet.SkysailServerResource
 import scala.collection.JavaConverters._
 import java.lang.reflect.Field
 import io.skysail.restlet.utils.ScalaReflectionUtils
 
 class ScalaSkysailEntityModel(
   identifiableClass: Class[_],
-  resourceInstance: ScalaSkysailServerResource)
+  resourceInstance: SkysailServerResource)
     extends EntityModel(identifiableClass.getName()) {
 
   val fields = deriveFields()

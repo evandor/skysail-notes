@@ -24,7 +24,7 @@ import org.restlet.data.Form
 import io.skysail.api.responses.EntityServerResponse
 import org.mockito.Mockito._
 import io.skysail.repo.orientdb.OrientGraphDbService
-import io.skysail.restlet.ScalaSkysailServerResource
+import io.skysail.restlet.SkysailServerResource
 import io.skysail.core.Constants
 
 class NotesStepDefinitions extends CucumberTestFixture {
@@ -131,7 +131,7 @@ class NotesStepDefinitions extends CucumberTestFixture {
     }
   }
 
-  private def setupResource[T <: ScalaSkysailServerResource](resource: T): T = {
+  private def setupResource[T <: SkysailServerResource](resource: T): T = {
     resource.setRequest(request);
     resource.init(context, request, new Response(request));
     return resource;

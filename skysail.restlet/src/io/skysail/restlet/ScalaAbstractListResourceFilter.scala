@@ -8,7 +8,7 @@ abstract class ScalaAbstractListResourceFilter[T:Manifest] extends ScalaResource
 
   override val log = LoggerFactory.getLogger(this.getClass())
 
-  final def handle(resource: ScalaSkysailServerResource, response: Response): ScalaListResponseWrapper[T] = {
+  final def handle(resource: SkysailServerResource, response: Response): ScalaListResponseWrapper[T] = {
     val responseWrapper = new ScalaListResponseWrapper[T](response)
     handleMe(resource, responseWrapper)
     responseWrapper

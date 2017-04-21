@@ -7,7 +7,6 @@ import io.skysail.core.ApiVersion
 import io.skysail.domain.Entity
 import io.skysail.domain.repo.ScalaDbRepository
 import io.skysail.restlet.router.ScalaSkysailRouter
-import io.skysail.restlet.model.SecurityConfigBuilderModel
 import io.skysail.restlet.NoOpDbRepository
 import io.skysail.restlet.utils.ScalaTranslationUtils
 import io.skysail.restlet.services._
@@ -37,6 +36,7 @@ import io.skysail.restlet.menu.MenuItem
 import io.skysail.restlet.menu.Category
 import io.skysail.restlet.menu.APPLICATION_MAIN_MENU
 import org.restlet.Request
+import io.skysail.restlet.model.SkysailApplicationModel
 
 object SkysailApplication {
   var serviceListProvider: ScalaServiceListProvider = null
@@ -59,7 +59,7 @@ abstract class SkysailApplication(
   var componentContext: ComponentContext = null
   def getComponentContext() = componentContext
 
-  var applicationModel: SecurityConfigBuilderModel = null
+  var applicationModel: SkysailApplicationModel = null
   def getApplicationModel() = applicationModel
 
   val repositories = new ArrayList[ScalaDbRepository]();
@@ -72,7 +72,7 @@ abstract class SkysailApplication(
   //getEncoderService().getIgnoredMediaTypes().add(SkysailApplication.SKYSAIL_SERVER_SENT_EVENTS);
   getEncoderService().setEnabled(true);
   log.debug("Instanciating new Skysail ApplicationModel '{}'", this.getClass().getSimpleName());
-  applicationModel = new SecurityConfigBuilderModel(name);
+  applicationModel = new SkysailApplicationModel(name);
   //entityClasses.forEach(cls -> applicationModel.addOnce(EntityFactory.createFrom(this, cls, null)));
 
   def this(name: String, apiVersion: ApiVersion) {

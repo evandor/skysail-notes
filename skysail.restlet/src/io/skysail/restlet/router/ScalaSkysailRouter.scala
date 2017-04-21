@@ -1,6 +1,6 @@
 package io.skysail.restlet.router
 
-import io.skysail.restlet.ScalaSkysailServerResource
+import io.skysail.restlet.SkysailServerResource
 import io.skysail.restlet.app.SkysailApplication
 import io.skysail.restlet.ScalaEntityFactory
 import org.restlet.routing.Router
@@ -19,7 +19,7 @@ import io.skysail.core.security.config.ScalaSecurityConfig
 import io.skysail.restlet.RolesPredicateAuthorizer
 
 object ScalaSkysailRouter {
-  def getResourcesGenericType(resourceInstance: ScalaSkysailServerResource) = resourceInstance.getParameterizedType()
+  def getResourcesGenericType(resourceInstance: SkysailServerResource) = resourceInstance.getParameterizedType()
 }
 
 class ScalaSkysailRouter(skysailApplication: SkysailApplication, apiVersion: ApiVersion) extends Router(skysailApplication.getContext()) {
@@ -81,9 +81,9 @@ class ScalaSkysailRouter(skysailApplication: SkysailApplication, apiVersion: Api
     }
 
     val targetClass = routeBuilder.targetClass
-    if (targetClass != null && classOf[ScalaSkysailServerResource].isAssignableFrom(targetClass)) {
+    if (targetClass != null && classOf[SkysailServerResource].isAssignableFrom(targetClass)) {
       try {
-        val resourceInstance = targetClass.newInstance().asInstanceOf[ScalaSkysailServerResource];
+        val resourceInstance = targetClass.newInstance().asInstanceOf[SkysailServerResource];
         val parameterizedType = ScalaSkysailRouter.getResourcesGenericType(resourceInstance);
         applicationModel.addOnce(ScalaEntityFactory.createFrom(skysailApplication, parameterizedType, resourceInstance));
       } catch {

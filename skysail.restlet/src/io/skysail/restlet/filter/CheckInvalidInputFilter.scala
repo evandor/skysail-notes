@@ -3,7 +3,7 @@ package io.skysail.restlet.filter
 import io.skysail.restlet.ScalaAbstractResourceFilter
 import org.slf4j.LoggerFactory
 import org.owasp.html.HtmlPolicyBuilder
-import io.skysail.restlet.ScalaSkysailServerResource
+import io.skysail.restlet.SkysailServerResource
 import io.skysail.restlet.Wrapper3
 import org.restlet.Request
 import scala.collection.JavaConverters._
@@ -20,14 +20,14 @@ class CheckInvalidInputFilter[T:Manifest](entity: T) extends ScalaAbstractResour
 
   override val log = LoggerFactory.getLogger(classOf[CheckInvalidInputFilter[T]])
 
-  override def doHandle(resource: ScalaSkysailServerResource, responseWrapper:  Wrapper3) = {
+  override def doHandle(resource: SkysailServerResource, responseWrapper:  Wrapper3) = {
     log.debug("entering {}#doHandle", this.getClass().getSimpleName());
 
     // do in "before"?
     val response = responseWrapper.getResponse();
     //Form form = (Form) response.getRequest().getAttributes().get(EntityServerResource.SKYSAIL_SERVER_RESTLET_FORM);
 
-    //val entity = response.getRequest().getAttributes().get(ScalaSkysailServerResource.SKYSAIL_SERVER_RESTLET_ENTITY).asInstanceOf[T]
+    //val entity = response.getRequest().getAttributes().get(SkysailServerResource.SKYSAIL_SERVER_RESTLET_ENTITY).asInstanceOf[T]
     // TODO: check entity, not form
     if (containsInvalidInput(response.getRequest(), resource, entity)) {
       log.info("Input was sanitized");
@@ -36,9 +36,9 @@ class CheckInvalidInputFilter[T:Manifest](entity: T) extends ScalaAbstractResour
     FilterResult.CONTINUE;
   }
 
-  def containsInvalidInput(request: Request, resource: ScalaSkysailServerResource, entity: T): Boolean = {
+  def containsInvalidInput(request: Request, resource: SkysailServerResource, entity: T): Boolean = {
     var foundInvalidInput = false;
-    val entityAsObject = request.getAttributes().get(ScalaSkysailServerResource.SKYSAIL_SERVER_RESTLET_ENTITY);
+    val entityAsObject = request.getAttributes().get(SkysailServerResource.SKYSAIL_SERVER_RESTLET_ENTITY);
     if (entityAsObject != null) {
       val fields = ScalaReflectionUtils.getInheritedFields(entity.getClass());
       foundInvalidInput = handleFields(foundInvalidInput, entity, fields.toList);

@@ -3,7 +3,7 @@ package io.skysail.restlet.forms
 import scala.annotation.meta._
 
 import org.mockito.Mockito
-import io.skysail.restlet.ScalaSkysailServerResource
+import io.skysail.restlet.SkysailServerResource
 import org.restlet.Request
 import org.restlet.Response
 import org.restlet.data.Reference

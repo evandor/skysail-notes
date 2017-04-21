@@ -11,10 +11,10 @@ trait FieldFactory {
 
   val log = LoggerFactory.getLogger(classOf[FieldFactory])
 
-  def determineFrom(r: ScalaSkysailServerResource, s: SkysailApplicationService): Map[String, ScalaFormField]
+  def determineFrom(r: SkysailServerResource, s: SkysailApplicationService): Map[String, ScalaFormField]
 
   def determine(
-      resource: ScalaSkysailServerResource, cls: Class[_], 
+      resource: SkysailServerResource, cls: Class[_], 
       service: SkysailApplicationService): Map[String, ScalaFormField] = {
     
     require(service != null, "service must not be null")
@@ -45,17 +45,17 @@ trait FieldFactory {
 }
 
 class NoFieldFactory extends FieldFactory {
-  override def determineFrom(r: ScalaSkysailServerResource, s: SkysailApplicationService) = Map()
+  override def determineFrom(r: SkysailServerResource, s: SkysailApplicationService) = Map()
 }
 
 class FormResponseEntityFieldFactory(t: Class[_]) extends FieldFactory {
-  override def determineFrom(r: ScalaSkysailServerResource, s: SkysailApplicationService) = determine(r, t, s)
+  override def determineFrom(r: SkysailServerResource, s: SkysailApplicationService) = determine(r, t, s)
 }
 
 class DefaultEntityFieldFactory(t: Class[_]) extends FieldFactory {
-  override def determineFrom(r: ScalaSkysailServerResource, s: SkysailApplicationService) =  determine(r, t, s)
+  override def determineFrom(r: SkysailServerResource, s: SkysailApplicationService) =  determine(r, t, s)
 }
 
 class DefaultListFieldFactory() extends FieldFactory {
-  override def determineFrom(r: ScalaSkysailServerResource, s: SkysailApplicationService) = determine(r, r.getParameterizedType(), s)
+  override def determineFrom(r: SkysailServerResource, s: SkysailApplicationService) = determine(r, r.getParameterizedType(), s)
 }

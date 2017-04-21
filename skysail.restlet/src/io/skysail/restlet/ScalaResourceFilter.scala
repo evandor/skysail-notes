@@ -18,9 +18,9 @@ trait ScalaResourceFilter[T] {
     result;
   }
 
-  protected def beforeHandle(resource: ScalaSkysailServerResource, responseWrapper: Wrapper3) = CONTINUE
+  protected def beforeHandle(resource: SkysailServerResource, responseWrapper: Wrapper3) = CONTINUE
 
-  protected final def handleMe(resource: ScalaSkysailServerResource, responseWrapper: Wrapper3): Unit = {
+  protected final def handleMe(resource: SkysailServerResource, responseWrapper: Wrapper3): Unit = {
     beforeHandle(resource, responseWrapper) match {
       case CONTINUE => {
         doHandle(resource, responseWrapper) match {
@@ -37,7 +37,7 @@ trait ScalaResourceFilter[T] {
     }
   }
 
-  protected def doHandle(resource: ScalaSkysailServerResource, responseWrapper: Wrapper3): FilterResult = {
+  protected def doHandle(resource: SkysailServerResource, responseWrapper: Wrapper3): FilterResult = {
     val next = getNext();
     if (next != null) {
       // logger.debug("next filter in chain: {}", next.getClass().getSimpleName());
@@ -53,7 +53,7 @@ trait ScalaResourceFilter[T] {
   }
 
 
-  def afterHandle(resource: ScalaSkysailServerResource, responseWrapper: Wrapper3): Unit = {}
+  def afterHandle(resource: SkysailServerResource, responseWrapper: Wrapper3): Unit = {}
 
   protected def getNext(): ScalaResourceFilter[T] = next
   private def setNext(next: ScalaResourceFilter[T]) = this.next = next

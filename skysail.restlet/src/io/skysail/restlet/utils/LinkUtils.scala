@@ -1,6 +1,6 @@
 package io.skysail.restlet.utils
 
-import io.skysail.restlet.ScalaSkysailServerResource
+import io.skysail.restlet.SkysailServerResource
 import io.skysail.api.links.Link
 import org.slf4j.LoggerFactory
 import io.skysail.api.links.LinkRelation
@@ -21,7 +21,7 @@ object LinkUtils {
 
   private val mapper = new ObjectMapper()
 
-  def fromResource(app: SkysailApplication, ssr: Class[_ <: ScalaSkysailServerResource], title: String = null) = {
+  def fromResource(app: SkysailApplication, ssr: Class[_ <: SkysailServerResource], title: String = null) = {
     //        if (noRouteBuilderFound(app, ssr)) {
     //            log.warn("problem with linkheader for resource {}; no routeBuilder was found.", ssr.getSimpleName());
     //            return null;
@@ -45,19 +45,24 @@ object LinkUtils {
   private def determineUri(app: SkysailApplication, routeBuilder: RouteBuilder): String =
     "/" + app.getName() + routeBuilder.getPathTemplate(app.apiVersion);
 
-  def fromResources[_ <: ScalaSkysailServerResource](sssr: ScalaSkysailServerResource, entity: Any, classes: Seq[Class[_]]): List[Link] = {
-    //    val links = Arrays.stream(classes).map(determineLink(skysailServerResource)) //
-    //      .filter(lh ->
-    //        lh != null).collect(Collectors.toList())
-    //
-
-    //    return links
-    val links = classes.map(c => LinkUtils.fromResource(sssr, c)).filter(lh => lh != null).toList
-    val associatedLinks = getAssociatedLinks(entity, sssr)
-    links ::: associatedLinks
+  def fromResources[_ <: SkysailServerResource](
+      currentResource: SkysailServerResource, 
+      entity: Any, 
+      classes: Seq[Class[_]]): List[Link] = {
+    
+    println(currentResource.getClass.getName + ": ")
+    println(classes)
+    println("==============================")
+    val links = classes.map(c => LinkUtils.fromResource(currentResource, c)).filter(lh => lh != null).toList
+    links.map(l => " > " + l.toString()).foreach(println)
+    val associatedLinks = getAssociatedLinks(entity, currentResource)
+    println(associatedLinks)
+    val res = links ++ associatedLinks
+    res.map(l => " > " + l.toString()).foreach(println)
+    res
   }
 
-  def fromResource[_ <: ScalaSkysailServerResource](sssr: ScalaSkysailServerResource, c: Class[_]) = {
+  def fromResource[_ <: SkysailServerResource](sssr: SkysailServerResource, c: Class[_]) = {
     //     if (noRouteBuilderFound(skysailServerResource.getApplication(), ssr)) {
     //            log.warn("problem with linkheader for resource {} no routeBuilder was found.", ssr.getSimpleName())
     //            return null
@@ -65,22 +70,22 @@ object LinkUtils {
     createLink(sssr, c)
   }
 
-  def createLink[_ <: ScalaSkysailServerResource](sssr: ScalaSkysailServerResource, resourceClass: Class[_]) = {
+  def createLink[_ <: SkysailServerResource](currentResource: SkysailServerResource, linkedResourceClass: Class[_]) = {
 
-    val mode = ScalaCookiesUtils.getModeFromCookie(sssr.getRequest())
+    val mode = ScalaCookiesUtils.getModeFromCookie(currentResource.getRequest())
 
-    val app = sssr.getSkysailApplication()
-    val routeBuilder = app.getRouteBuilders(resourceClass)(0)
-    val resource = createNewInstance(resourceClass)
+    val app = currentResource.getSkysailApplication()
+    val routeBuilder = app.getRouteBuilders(linkedResourceClass)(0)
+    val resource = createNewInstance(linkedResourceClass)
 
     var relation = if (resource.isDefined) resource.get.getLinkRelation() else LinkRelation.ALTERNATE
-    val uri = determineUri2(sssr, resourceClass, routeBuilder)
-    val resourceRef = sssr.getRequest().getResourceRef()
+    val uri = determineUri2(currentResource, linkedResourceClass, routeBuilder)
+    val resourceRef = currentResource.getRequest().getResourceRef()
     if (uri.equals(resourceRef.getPath())) {
       relation = LinkRelation.SELF
     }
     val linkBuilder = new Link.Builder(uri)
-      .definingClass(resourceClass)
+      .definingClass(linkedResourceClass)
       .relation(relation)
       .title(getTitle(resource))
       .authenticationNeeded(routeBuilder.needsAuthentication)
@@ -95,19 +100,19 @@ object LinkUtils {
     link
   }
 
-  private def createNewInstance(resource: Class[_]): Option[ScalaSkysailServerResource] = {
+  private def createNewInstance(resource: Class[_]): Option[SkysailServerResource] = {
     var newInstance = null
     try {
       val cls = resource.getClass()
       val inst = resource.newInstance()
-      return Some(inst.asInstanceOf[ScalaSkysailServerResource])
+      return Some(inst.asInstanceOf[SkysailServerResource])
     } catch {
       case e: Throwable => log.error(e.getMessage(), e)
     }
     None
   }
 
-  private def determineUri2(sssr: ScalaSkysailServerResource, resourceClass: Class[_], routeBuilder: RouteBuilder) = {
+  private def determineUri2(sssr: SkysailServerResource, resourceClass: Class[_], routeBuilder: RouteBuilder) = {
     val app = sssr.getApplication().asInstanceOf[SkysailApplication]
     val result = "/" + app.getName() + routeBuilder.getPathTemplate(app.apiVersion)
     //    try {
@@ -121,14 +126,14 @@ object LinkUtils {
     result
   }
 
-  def getTitle(resource: Option[ScalaSkysailServerResource]): String = {
+  def getTitle(resource: Option[SkysailServerResource]): String = {
     if (resource.isDefined && resource.get.getFromContext(ResourceContextId.LINK_TITLE) != null)
       resource.get.getFromContext(ResourceContextId.LINK_TITLE)
     else
       "unknown"
   }
 
-  def getLinkTitleFromContextOrUnknonw(resource: ScalaSkysailServerResource): String = {
+  def getLinkTitleFromContextOrUnknonw(resource: SkysailServerResource): String = {
     val title = resource.getFromContext(ResourceContextId.LINK_TITLE);
     if (title == null) "unknown" else title
   }
@@ -145,11 +150,11 @@ object LinkUtils {
    * getLinks method, we'll get six links in the result.
    * </p>
    */
-  private def getAssociatedLinks(entity: Any, sssr: ScalaSkysailServerResource): List[Link] = {
-    if (!(sssr.isInstanceOf[ListServerResource2[_]])) {
+  private def getAssociatedLinks(entity: Any, currentResource: SkysailServerResource): List[Link] = {
+    if (!(currentResource.isInstanceOf[ListServerResource2[_]])) {
       return List()
     }
-    val listServerResource = sssr.asInstanceOf[ListServerResource2[_]]
+    val listServerResource = currentResource.asInstanceOf[ListServerResource2[_]]
     val entityResourceClasses = listServerResource.getAssociatedServerResources() // List<Class<? extends SkysailServerResource<?>>>
     //        List<Link> result = new ArrayList<>();
     //
@@ -162,9 +167,10 @@ object LinkUtils {
     //            }
     //        }
     //        return result;
-    val esrs = ScalaResourceUtils.createSkysailServerResources(entityResourceClasses, sssr).toList
+    val esrs = ScalaResourceUtils.createSkysailServerResources(entityResourceClasses, currentResource).toList
     val result = ListBuffer[Link]()
     for (esr <- esrs) {
+      println(s"checking ${esr.getClass.getName} for links")
       val entityLinkTemplates = esr.getAuthorizedLinks();
       val theList = entity.asInstanceOf[List[_]]
       //                    for (Object object : (List<?>) entity) {

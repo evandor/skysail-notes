@@ -3,7 +3,7 @@ package io.skysail.restlet.filter
 import org.slf4j.LoggerFactory
 
 import io.skysail.restlet.ScalaAbstractResourceFilter
-import io.skysail.restlet.ScalaSkysailServerResource
+import io.skysail.restlet.SkysailServerResource
 import io.skysail.restlet.Wrapper3
 import io.skysail.restlet.ScalaResponseWrapper
 
@@ -11,7 +11,7 @@ class EntityWasAddedFilter[T:Manifest](entity: T) extends ScalaAbstractResourceF
 
   override val log = LoggerFactory.getLogger(classOf[EntityWasAddedFilter[T]])
 
-  override def doHandle(resource: ScalaSkysailServerResource, responseWrapper:  Wrapper3): FilterResult = {
+  override def doHandle(resource: SkysailServerResource, responseWrapper:  Wrapper3): FilterResult = {
     log.debug("entering {}#doHandle", this.getClass().getSimpleName());
     val infoMessage = resource.getClass().getSimpleName() + ".saved.success";
     //responseWrapper.addInfo(infoMessage);

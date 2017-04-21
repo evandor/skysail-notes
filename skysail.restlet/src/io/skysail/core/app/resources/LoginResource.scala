@@ -2,12 +2,12 @@ package io.skysail.core.app.resources
 
 import io.skysail.restlet.resources.RedirectResource
 import io.skysail.core.um.domain.Credentials
-import io.skysail.restlet.ScalaSkysailServerResource
+import io.skysail.restlet.SkysailServerResource
 
 class LoginResource extends RedirectResource[Credentials] {
   def getEntity(): Any = null
 
-  def redirectToResource(): ScalaSkysailServerResource = {
+  def redirectToResource(): SkysailServerResource = {
     null
   }
 

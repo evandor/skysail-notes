@@ -23,18 +23,18 @@ class ExtractStandardQueryParametersResourceFilter[T: Manifest] extends ScalaAbs
 
   override val log = LoggerFactory.getLogger(classOf[ExtractStandardQueryParametersResourceFilter[T]])
 
-  override def beforeHandle(resource: ScalaSkysailServerResource, responseWrapper: Wrapper3) = {
-    addToAttributes(resource, ScalaSkysailServerResource.FILTER_PARAM_NAME);
-    addToAttributes(resource, ScalaSkysailServerResource.PAGE_PARAM_NAME);
-    addToAttributes(resource, ScalaSkysailServerResource.INSPECT_PARAM_NAME);
-    addToAttributes(resource, ScalaSkysailServerResource.SEARCH_PARAM_NAME);
+  override def beforeHandle(resource: SkysailServerResource, responseWrapper: Wrapper3) = {
+    addToAttributes(resource, SkysailServerResource.FILTER_PARAM_NAME);
+    addToAttributes(resource, SkysailServerResource.PAGE_PARAM_NAME);
+    addToAttributes(resource, SkysailServerResource.INSPECT_PARAM_NAME);
+    addToAttributes(resource, SkysailServerResource.SEARCH_PARAM_NAME);
 
     //adjustSearchFilter(resource);
 
     FilterResult.CONTINUE;
   }
 
-  private def addToAttributes(resource: ScalaSkysailServerResource, queryKeyName: String) = {
+  private def addToAttributes(resource: SkysailServerResource, queryKeyName: String) = {
     val queryValue = resource.getQueryValue(queryKeyName);
     if (queryValue != null && queryValue.trim().length() > 0) {
       val sanitizedValue = sanitize(queryValue.trim());

@@ -1,9 +1,9 @@
 package io.skysail.restlet.resources
 
 import io.skysail.api.responses.SkysailResponse
-import io.skysail.restlet.ScalaSkysailServerResource
+import io.skysail.restlet.SkysailServerResource
 
-class EntityServerResource2[T] extends ScalaSkysailServerResource {
+class EntityServerResource2[T] extends SkysailServerResource {
    def eraseEntity() = new SkysailResponse[T]()
 
   def getEntity(): Any = {

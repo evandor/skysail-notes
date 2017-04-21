@@ -13,7 +13,7 @@ case class ScalaSkysailBeanUtils[T](bean: T, locale: Locale, service: SkysailApp
     beanUtilsBean.populate(bean, properties.asJava);
   }
 
-  def copyProperties(dest: T, orig: T, resource: ScalaSkysailServerResource): Unit = {
+  def copyProperties(dest: T, orig: T, resource: SkysailServerResource): Unit = {
     //        Map<String, FormField> formfields = FormfieldUtils.determineFormfields(resource, service);
     //        PropertyDescriptor[] origDescriptors = beanUtilsBean.getPropertyUtils().getPropertyDescriptors(orig);
     //        Class<?> parameterizedType = resource.getParameterizedType();

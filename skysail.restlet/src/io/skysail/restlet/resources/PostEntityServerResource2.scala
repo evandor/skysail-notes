@@ -10,7 +10,7 @@ import scala.collection.mutable.MutableList
 import org.restlet.resource.Get
 import java.util.Arrays
 import io.skysail.api.links.Link
-import io.skysail.restlet.ScalaSkysailServerResource
+import io.skysail.restlet.SkysailServerResource
 import io.skysail.restlet.responses.FormResponse
 import io.skysail.restlet.responses.ScalaSkysailResponse
 import org.restlet.data.Status
@@ -20,9 +20,9 @@ import io.skysail.restlet.transformations.Transformations
 import io.skysail.api.links.LinkRelation
 import org.restlet.data.Method
 
-abstract class PostEntityServerResource2[T: Manifest] extends ScalaSkysailServerResource {
+abstract class PostEntityServerResource2[T: Manifest] extends SkysailServerResource {
 
-  //implicit val formats = DefaultFormats 
+  override def getLinkRelation() = LinkRelation.CREATE_FORM
 
   def createEntityTemplate(): T
 

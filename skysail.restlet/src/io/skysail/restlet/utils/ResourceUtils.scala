@@ -1,7 +1,7 @@
 package io.skysail.restlet.utils
 
 import java.util.Locale
-import io.skysail.restlet.ScalaSkysailServerResource
+import io.skysail.restlet.SkysailServerResource
 import org.slf4j.LoggerFactory
 import org.restlet.resource.Resource
 
@@ -9,7 +9,7 @@ object ScalaResourceUtils {
 
   var log = LoggerFactory.getLogger(this.getClass())
 
-  def determineLocale(resource: ScalaSkysailServerResource): Locale = {
+  def determineLocale(resource: SkysailServerResource): Locale = {
     if (resource.getRequest() == null || resource.getRequest().getClientInfo() == null) {
       return Locale.getDefault();
     }
@@ -26,11 +26,11 @@ object ScalaResourceUtils {
     return localeToUse;
   }
 
-  def createSkysailServerResources(entityServerResources: Seq[Class[_ <: ScalaSkysailServerResource]], resource: Resource) = {
+  def createSkysailServerResources(entityServerResources: Seq[Class[_ <: SkysailServerResource]], resource: Resource) = {
 
-    val result = scala.collection.mutable.ListBuffer[ScalaSkysailServerResource]()
+    val result = scala.collection.mutable.ListBuffer[SkysailServerResource]()
     for (cls <- entityServerResources) {
-      var newInstance: ScalaSkysailServerResource = null
+      var newInstance: SkysailServerResource = null
       try {
         newInstance = cls.newInstance();
         newInstance.init(resource.getContext(), resource.getRequest(), resource.getResponse());
@@ -43,10 +43,10 @@ object ScalaResourceUtils {
     result;
   }
 
-//  def createSkysailServerResources(entityResourceClass: ScalaSkysailServerResource, resource: ScalaSkysailServerResource) = {
-//    val result = scala.collection.mutable.ListBuffer[ScalaSkysailServerResource]()
+//  def createSkysailServerResources(entityResourceClass: SkysailServerResource, resource: SkysailServerResource) = {
+//    val result = scala.collection.mutable.ListBuffer[SkysailServerResource]()
 //    //for (cls <- entityResourceClasses) {
-//      var newInstance: ScalaSkysailServerResource = null
+//      var newInstance: SkysailServerResource = null
 //      try {
 //        newInstance = entityResourceClass.getClass.newInstance()
 //        newInstance.init(resource.getContext(), resource.getRequest(), resource.getResponse());

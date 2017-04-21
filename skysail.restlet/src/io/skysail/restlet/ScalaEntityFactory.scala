@@ -7,7 +7,7 @@ object ScalaEntityFactory {
   def createFrom( 
 		skysailApplication: SkysailApplication, 
 	  identifiable: Class[_],
-    resourceInstance: ScalaSkysailServerResource):ScalaSkysailEntityModel = { // <T extends Entity> SkysailEntityModel<T>
+    resourceInstance: SkysailServerResource):ScalaSkysailEntityModel = { // <T extends Entity> SkysailEntityModel<T>
          new ScalaSkysailEntityModel(identifiable, resourceInstance);
     }
 }
