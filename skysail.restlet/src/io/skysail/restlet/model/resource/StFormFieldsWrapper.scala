@@ -39,7 +39,7 @@ case class StFormFieldsWrapper(scalaformfields: Iterable[ScalaFormField], reques
         val split = key.split("\\|")
         return split(1)
       }
-      return translation.get.getValue
+      return translation.get.value
     }
 
     override def toString() = {

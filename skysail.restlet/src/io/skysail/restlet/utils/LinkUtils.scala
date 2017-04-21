@@ -29,14 +29,14 @@ object LinkUtils {
     val routeBuilder = app.getRouteBuilders(ssr)(0)
     val resource = createNewInstance(ssr);
 
-    val link = new Link.Builder(determineUri(app, routeBuilder))
-      .definingClass(ssr)
-      .relation(if (resource.isDefined) resource.get.getLinkRelation() else LinkRelation.ALTERNATE)
-      .title(if (resource.isDefined) getLinkTitleFromContextOrUnknonw(resource.get) else "unknown")
-      .authenticationNeeded(routeBuilder.needsAuthentication)
-      //.needsRoles(routeBuilder.getRolesForAuthorization())
-      .image(MediaType.TEXT_HTML, if (resource.isDefined) resource.get.getFromContext(ResourceContextId.LINK_GLYPH) else null)
-      .build();
+    val link = new Link(
+      determineUri(app, routeBuilder),
+      cls = ssr,
+      relation = (if (resource.isDefined) resource.get.getLinkRelation() else LinkRelation.ALTERNATE),
+      title = (if (resource.isDefined) getLinkTitleFromContextOrUnknonw(resource.get) else "unknown"),
+      needsAuth = routeBuilder.needsAuthentication
+    )
+    //.needsRoles(routeBuilder.getRolesForAuthorization())
 
     log.debug("created link {}", link);
     link;
@@ -46,10 +46,10 @@ object LinkUtils {
     "/" + app.getName() + routeBuilder.getPathTemplate(app.apiVersion);
 
   def fromResources[_ <: SkysailServerResource](
-      currentResource: SkysailServerResource, 
-      entity: Any, 
-      classes: Seq[Class[_]]): List[Link] = {
-    
+    currentResource: SkysailServerResource,
+    entity: Any,
+    classes: Seq[Class[_]]): List[Link] = {
+
     println(currentResource.getClass.getName + ": ")
     println(classes)
     println("==============================")
@@ -84,18 +84,23 @@ object LinkUtils {
     if (uri.equals(resourceRef.getPath())) {
       relation = LinkRelation.SELF
     }
-    val linkBuilder = new Link.Builder(uri)
-      .definingClass(linkedResourceClass)
-      .relation(relation)
-      .title(getTitle(resource))
-      .authenticationNeeded(routeBuilder.needsAuthentication)
-      .needsRoles(routeBuilder.rolesForAuthorization)
-      .image(MediaType.TEXT_HTML,
-        if (resource.isDefined) resource.get.getFromContext(ResourceContextId.LINK_GLYPH) else null)
-    //            if (mode.equals(RenderingMode.DEBUG)) {
-    //                linkBuilder.alt(if (mode.equals(RenderingMode.DEBUG)) renderDebugInfo(linkBuilder, resourceClass) else "title")
-    //            }
-    val link = linkBuilder.build()
+    
+    val link = new Link(
+      uri = uri,
+      cls = linkedResourceClass,
+      relation = relation,
+      title = getTitle(resource),
+      //needsAuth = routeBuilder.rolesForAuthorization,
+      needsAuth=routeBuilder.needsAuthentication
+    )
+
+//    val linkBuilder = new Link.Builder(uri)
+//      .relation(relation)
+//      .title(getTitle(resource))
+//      .authenticationNeeded(routeBuilder.needsAuthentication)
+//      .needsRoles(routeBuilder.rolesForAuthorization)
+//      .image(MediaType.TEXT_HTML,
+//        if (resource.isDefined) resource.get.getFromContext(ResourceContextId.LINK_GLYPH) else null)
     log.debug("created link {}", link)
     link
   }
@@ -181,7 +186,7 @@ object LinkUtils {
       if (theList != null) {
         for (l <- theList) {
           entityLinkTemplates
-            .filter { t => t.getRole == LinkRole.DEFAULT }
+            .filter { t => t.linkRole == LinkRole.DEFAULT }
             .foreach { l => addLink(l, entity, listServerResource, result) }
         }
       }
@@ -191,8 +196,8 @@ object LinkUtils {
 
   private def addLink(linkTemplate: Link, theObject: Any, resource: ListServerResource2[_], result: ListBuffer[Link]): Unit = {
 
-    val path = linkTemplate.getUri();
-    val linkedResourceClass = linkTemplate.getCls() // Class<? extends ServerResource>
+    val path = linkTemplate.uri
+    val linkedResourceClass = linkTemplate.cls // Class<? extends ServerResource>
     val routeBuilders = resource.getSkysailApplication().getRouteBuildersForResource(linkedResourceClass); // List<RouteBuilder>
     val pathUtils = new PathSubstitutions(resource.getRequestAttributes(), routeBuilders);
     val substitutions = pathUtils.getFor(theObject) // Map<String, String> 
@@ -217,14 +222,14 @@ object LinkUtils {
     //                href = href.replace(substitutable, entry.getValue());
     //            }
     //        }
-
-    val newLink = new Link.Builder(linkTemplate)
-      .uri(href)
-      .alt(linkTemplate.getAlt())
-      .role(LinkRole.LIST_VIEW)
-      .relation(LinkRelation.ITEM)
-      //.refId(substitutions.get(pathUtils.getIdVariable()))
-      .build();
+    val newLink = Link(href,alt=linkTemplate.alt, linkRole=LinkRole.LIST_VIEW,relation=LinkRelation.ITEM)
+//    val newLink = new Link.Builder(linkTemplate)
+//      .uri(href)
+//      .alt(linkTemplate.alt)
+//      .role(LinkRole.LIST_VIEW)
+//      .relation(LinkRelation.ITEM)
+//      //.refId(substitutions.get(pathUtils.getIdVariable()))
+//      .build();
     result += newLink
   }
 

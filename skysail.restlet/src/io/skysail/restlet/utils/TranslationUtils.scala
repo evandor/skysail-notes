@@ -44,7 +44,7 @@ object ScalaTranslationUtils {
   //
   def render(translationRenderServices: Set[ScalaTranslationRenderServiceHolder], translation: Translation): Translation = {
     getSortedTranslationRenderServices(translationRenderServices)
-      .filter(_.service.applicable(translation.getValue()))
+      .filter(_.service.applicable(translation.value))
       .map(renderService => {
         translation.setValue(renderService.service.render(translation));
         translation.setRenderer(renderService.service.getClass().getSimpleName());
@@ -82,8 +82,8 @@ object ScalaTranslationUtils {
       return new Translation(
         result,
         store.storeRef.get(),
-        Locale.getDefault(),
-        messageArguments.get(key));
+        Locale.getDefault()/*,
+        messageArguments.get(key)*/);
     }
     return new Translation(
       result,

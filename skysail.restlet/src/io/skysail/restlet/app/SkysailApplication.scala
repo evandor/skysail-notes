@@ -275,7 +275,7 @@ abstract class SkysailApplication(
       val t = stores
         .filter(IN_MEMORY_TRANSLATION_STORE == _.props.get("name"))
         .headOption
-        .exists { _.store.persist(key, renderedTranslation.getValue(), translation.getLocale(), null) }
+        .exists { _.store.persist(key, renderedTranslation.value, translation.locale, null) }
     }
 
     return null; // renderedTranslation;

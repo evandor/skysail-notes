@@ -35,13 +35,13 @@ abstract class PostEntityServerResource2[T: Manifest] extends SkysailServerResou
     val timerMetric = getMetricsCollector().timerFor(this.getClass(), "getPostTemplate")
     val templatePaths = getSkysailApplication().getTemplatePaths(this.getClass())
     val formTarget = templatePaths.stream().findFirst().orElse(".")
-    val links = Arrays.asList(new Link.Builder(formTarget).build())
+    val links = Arrays.asList(Link(formTarget))
     //links.stream().forEach(getPathSubstitutions())
 
     val entity: T = createEntityTemplate()
     //this.setEntity(entity)
     timerMetric.stop()
-    new FormResponse[T](getResponse(), entity, links.get(0).getUri())
+    new FormResponse[T](getResponse(), entity, links(0).uri)
   }
 
   @Post("x-www-form-urlencoded:html")
@@ -71,10 +71,6 @@ abstract class PostEntityServerResource2[T: Manifest] extends SkysailServerResou
     new ScalaRequestHandler[T](entity, variant).createForPost().handle(this, getResponse())
   }
 
-  override def getLinks() = {
-    val postLink = new Link.Builder(".").relation(LinkRelation.NEXT).title("form target").verbs(Method.POST)
-      .build()
-    List(postLink)
-  }
+  override def getLinks() = List(Link(".", relation = LinkRelation.NEXT, title = "form target", verbs = Set(Method.POST)))
 
 }

@@ -103,10 +103,10 @@ abstract class SkysailServerResource extends ServerResource {
     key: String,
     defaultMsg: String) = {
     val translation = application.translate(key, defaultMsg, this);
-    if (translation != null && translation.getValue() != null) {
+    if (translation != null && translation.value != null) {
       msgs.put(key, translation);
     } else if (defaultMsg != null) {
-      msgs.put(key, new Translation(defaultMsg, null, Locale.getDefault(), Collections.emptySet()));
+      msgs.put(key, new Translation(defaultMsg, null, Locale.getDefault(), Seq()));
     }
   }
 
@@ -135,7 +135,7 @@ abstract class SkysailServerResource extends ServerResource {
       return null;
     }
     //getPathSubstitutions().accept(linkheader);
-    linkheader.getUri();
+    linkheader.uri
   }
 
 }

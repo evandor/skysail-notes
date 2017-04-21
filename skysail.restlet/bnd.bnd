@@ -15,7 +15,7 @@ Import-Package: \
 	${commons},\
 	${javax},\
 	${fasterxml},\
-    skysail.api;version=${skysail.api.version},\
+    skysail.api;version=0.1.0,\
 	skysail.domain;version=${skysail.domain.version},\
 	com.thoughtworks.paranamer;version=2.8,\
 	com.google.guava;version='[16.0,16.1)',\
