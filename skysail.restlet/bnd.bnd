@@ -16,7 +16,7 @@ Import-Package: \
 	${javax},\
 	${fasterxml},\
     skysail.api;version=0.1.0,\
-	skysail.domain;version=${skysail.domain.version},\
+	skysail.domain;version=0.1.0,\
 	com.thoughtworks.paranamer;version=2.8,\
 	com.google.guava;version='[16.0,16.1)',\
 	io.skysail.bundled.json4s_2.11-3.5.1;version=3.5,\
@@ -29,17 +29,17 @@ Export-Package: \
 	io.skysail.api.features,\
 	io.skysail.api.features.annotations,\
 	io.skysail.api.links,\
-	io.skysail.core.osgi.services,\
 	io.skysail.api.metrics,\
-	io.skysail.api.responses,\
-	io.skysail.core.um.domain,\
 	io.skysail.api.text,\
-	io.skysail.core.security.config,\
-	io.skysail.core.security,\
+	io.skysail.api.responses,\
 	io.skysail.api.um,\
 	io.skysail.api.validation,\
 	io.skysail.api.validation.hibernate,\
 	io.skysail.api.weaving,\
+	io.skysail.core.osgi.services,\
+	io.skysail.core.um.domain,\
+	io.skysail.core.security.config,\
+	io.skysail.core.security,\
 	io.skysail.core,\
 	io.skysail.core.resources,\
 	io.skysail.core.app,\
@@ -50,6 +50,7 @@ Export-Package: \
 	io.skysail.domain.core.repos,\
 	io.skysail.domain.ddd,\
 	io.skysail.domain.html,\
+    io.skysail.domain.model,\
 	io.skysail.domain.repo,\
 	io.skysail.restlet,\
 	io.skysail.restlet.app,\

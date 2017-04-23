@@ -37,6 +37,7 @@ import io.skysail.restlet.menu.Category
 import io.skysail.restlet.menu.APPLICATION_MAIN_MENU
 import org.restlet.Request
 import io.skysail.restlet.model.SkysailApplicationModel
+import io.skysail.restlet.model.SkysailApplicationModel2
 
 object SkysailApplication {
   var serviceListProvider: ScalaServiceListProvider = null
@@ -62,6 +63,9 @@ abstract class SkysailApplication(
   var applicationModel: SkysailApplicationModel = null
   def getApplicationModel() = applicationModel
 
+  var applicationModel2: SkysailApplicationModel2 = null
+  def getApplicationModel2() = applicationModel2
+  
   val repositories = new ArrayList[ScalaDbRepository]();
 
   var router: ScalaSkysailRouter = null
@@ -72,7 +76,8 @@ abstract class SkysailApplication(
   //getEncoderService().getIgnoredMediaTypes().add(SkysailApplication.SKYSAIL_SERVER_SENT_EVENTS);
   getEncoderService().setEnabled(true);
   log.debug("Instanciating new Skysail ApplicationModel '{}'", this.getClass().getSimpleName());
-  applicationModel = new SkysailApplicationModel(name);
+  applicationModel = new SkysailApplicationModel(name)
+  applicationModel2 = new SkysailApplicationModel2(name)
   //entityClasses.forEach(cls -> applicationModel.addOnce(EntityFactory.createFrom(this, cls, null)));
 
   def this(name: String, apiVersion: ApiVersion) {

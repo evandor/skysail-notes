@@ -9,17 +9,23 @@ Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.txt
 Bundle-ActivationPolicy: lazy
 
 # for skysail.domain, this list should be as short as possible
--buildpath:  \
-    ${osgi},\
+-buildpath: \
+	${osgi},\
+    ${logging},\
+	lombok;version=1.16,\
     ${testlibs},\
-    ${cucumber}
+    ${cucumber},\
+    org.scalatest;version=3.0,\
+    org.scalactic;version=3.0,\
+    org.scala-lang.modules.scala-xml;version=1.0
         
 Export-Package: \
 	io.skysail.domain.core,\
 	io.skysail.domain.core.resources,\
 	io.skysail.domain.core.repos,\
 	io.skysail.domain,\
-	io.skysail.domain.html
+	io.skysail.domain.html,\
+	io.skysail.domain.model
 
 Import-Package: \
     io.skysail.api.weaving,\
