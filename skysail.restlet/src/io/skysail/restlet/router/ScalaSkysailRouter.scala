@@ -17,7 +17,6 @@ import io.skysail.core.ApiVersion
 import io.skysail.restlet.RouteBuilder
 import io.skysail.core.security.config.ScalaSecurityConfig
 import io.skysail.restlet.RolesPredicateAuthorizer
-import io.skysail.domain.model.ResourceModel
 import io.skysail.core.model.SkysailResourceModel
 
 object ScalaSkysailRouter {

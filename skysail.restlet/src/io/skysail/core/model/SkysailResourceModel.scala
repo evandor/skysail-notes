@@ -7,25 +7,45 @@ import java.lang.reflect.Field
 import io.skysail.restlet.utils.ScalaReflectionUtils
 import io.skysail.restlet.router.ScalaSkysailRouter
 
+//case class ResourceModel(
+//    val path: String,
+//    val targetClass: Class[_]
+//  ) {
+//  
+//  
+//}
+
 class SkysailResourceModel(
-    override val path: String,
-    override val targetClass: Class[_]
-  )
-  extends io.skysail.domain.model.ResourceModel(path, targetClass) {
-  
-  
-  if (targetClass != null && classOf[SkysailServerResource[_]].isAssignableFrom(targetClass)) {
-      try {
-        val resourceInstance = targetClass.newInstance().asInstanceOf[SkysailServerResource[_]];
-        println(s"Resource: ${resourceInstance.getClass.getName}")
-        val parameterizedType = ScalaSkysailRouter.getResourcesGenericType(resourceInstance);
-        println(parameterizedType)
-      } catch {
-        case e: Throwable =>
-      }
+    val path: String,
+    val targetClass: Class[_]) {
+
+  require(path != null, "A ResourceModel's path must not be null")
+  require(path.trim().length() > 0, "A ResourceModel's path must not be empty")
+
+  require(targetClass != null, "A ResourceModel's target class must not be null")
+
+  val targetResource: Option[SkysailServerResource[_]] = determineTargetResource()
+
+  val targetEntity: Option[Class[_]] = determineTargetEntity()
+
+  private def determineTargetResource() = {
+    if (targetClass != null && classOf[SkysailServerResource[_]].isAssignableFrom(targetClass)) {
+      val resourceInstance = targetClass.newInstance().asInstanceOf[SkysailServerResource[_]];
+      Some(resourceInstance)
+    } else {
+      null
+    }
   }
 
- /* val fields = deriveFields()
+  private def determineTargetEntity() = {
+    if (targetResource.isDefined) {
+      Some(ScalaSkysailRouter.getResourcesGenericType(targetResource.get))
+    } else {
+      None
+    }
+  }
+
+  /* val fields = deriveFields()
   def getScalaFields() = fields
 
   val relations = deriveRelations()

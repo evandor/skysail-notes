@@ -12,7 +12,7 @@
   </class>  
   <class id="2" language="java" name="io.skysail.domain.model.ResourceModel" project="skysail.domain" 
     file="/skysail.domain/src/io/skysail/domain/model/ResourceModel.scala" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="899" y="195"/>    
+    <position height="-1" width="-1" x="804" y="130"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      

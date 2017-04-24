@@ -14,11 +14,8 @@ Bundle-ActivationPolicy: lazy
     ${logging},\
 	lombok;version=1.16,\
     ${testlibs},\
-    ${cucumber},\
-    org.scalatest;version=3.0,\
-    org.scalactic;version=3.0,\
-    org.scala-lang.modules.scala-xml;version=1.0
-        
+    ${cucumber}
+            
 Export-Package: \
 	io.skysail.domain.core,\
 	io.skysail.domain.core.resources,\
