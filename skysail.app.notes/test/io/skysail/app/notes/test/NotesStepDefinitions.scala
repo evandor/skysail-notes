@@ -131,7 +131,7 @@ class NotesStepDefinitions extends CucumberTestFixture {
     }
   }
 
-  private def setupResource[T <: SkysailServerResource](resource: T): T = {
+  private def setupResource[T <: SkysailServerResource[_]](resource: T): T = {
     resource.setRequest(request);
     resource.init(context, request, new Response(request));
     return resource;

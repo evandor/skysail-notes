@@ -20,7 +20,7 @@ class CheckInvalidInputFilter[T:Manifest](entity: T) extends ScalaAbstractResour
 
   override val log = LoggerFactory.getLogger(classOf[CheckInvalidInputFilter[T]])
 
-  override def doHandle(resource: SkysailServerResource, responseWrapper:  Wrapper3) = {
+  override def doHandle(resource: SkysailServerResource[_], responseWrapper:  Wrapper3) = {
     log.debug("entering {}#doHandle", this.getClass().getSimpleName());
 
     // do in "before"?
@@ -36,7 +36,7 @@ class CheckInvalidInputFilter[T:Manifest](entity: T) extends ScalaAbstractResour
     FilterResult.CONTINUE;
   }
 
-  def containsInvalidInput(request: Request, resource: SkysailServerResource, entity: T): Boolean = {
+  def containsInvalidInput(request: Request, resource: SkysailServerResource[_], entity: T): Boolean = {
     var foundInvalidInput = false;
     val entityAsObject = request.getAttributes().get(SkysailServerResource.SKYSAIL_SERVER_RESTLET_ENTITY);
     if (entityAsObject != null) {

@@ -36,8 +36,8 @@ import io.skysail.restlet.menu.MenuItem
 import io.skysail.restlet.menu.Category
 import io.skysail.restlet.menu.APPLICATION_MAIN_MENU
 import org.restlet.Request
-import io.skysail.restlet.model.SkysailApplicationModel
-import io.skysail.restlet.model.SkysailApplicationModel2
+import io.skysail.core.model.SkysailApplicationModel
+import io.skysail.core.model.SkysailApplicationModel2
 
 object SkysailApplication {
   var serviceListProvider: ScalaServiceListProvider = null

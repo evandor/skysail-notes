@@ -11,7 +11,7 @@ class PostRedirectGetFilter[T: Manifest](variant: Variant) extends ScalaAbstract
 
   override val log = LoggerFactory.getLogger(classOf[PostRedirectGetFilter[T]])
 
-  override def afterHandle(resource: SkysailServerResource, responseWrapper: Wrapper3): Unit = {
+  override def afterHandle(resource: SkysailServerResource[_], responseWrapper: Wrapper3): Unit = {
     if (resource.getQuery() == null) {
       return
     }

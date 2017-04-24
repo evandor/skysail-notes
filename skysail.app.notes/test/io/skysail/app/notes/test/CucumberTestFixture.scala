@@ -70,7 +70,7 @@ class CucumberTestFixture {
   var requestAttributes: ConcurrentMap[String, Object] = null
   var context: Context = null
   var application: SkysailApplication = null
-  var resource: SkysailServerResource = null
+  var resource: SkysailServerResource[_] = null
   var stepContext: CucumberStepContext = null
 
   def setUp(app: NotesApplication, stepContext: CucumberStepContext): Unit = {
@@ -129,7 +129,7 @@ class CucumberTestFixture {
     
   }
 
-  def prepareRequest(resource: SkysailServerResource): Unit = {
+  def prepareRequest(resource: SkysailServerResource[_]): Unit = {
     val entity = stepContext.getLastResponse().getEntity().asInstanceOf[Note]
     val id = ""//entity.getId().toString();
     requestAttributes.put("id", id.replace("#", ""));

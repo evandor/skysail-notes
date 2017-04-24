@@ -8,11 +8,11 @@ import io.skysail.restlet.app.SkysailApplicationService
 import io.skysail.restlet.forms.ScalaFormField
 
 object ScalaFormfieldUtils {
-  def determineFormfields(resource: SkysailServerResource, appService: SkysailApplicationService): java.util.Map[String, ScalaFormField] = {
+  def determineFormfields(resource: SkysailServerResource[_], appService: SkysailApplicationService): java.util.Map[String, ScalaFormField] = {
     null//FieldsFactory.getFactory(resource).determineFrom(resource, appService);
   }
 
-  def determineFormfields(response: ScalaSkysailResponse[_], resource: SkysailServerResource, appService: SkysailApplicationService) = {
+  def determineFormfields(response: ScalaSkysailResponse[_], resource: SkysailServerResource[_], appService: SkysailApplicationService) = {
     val f = FieldsFactory.getFactory(response)
     f.determineFrom(resource, appService);
   }

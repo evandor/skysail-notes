@@ -2,7 +2,7 @@ package io.skysail.restlet.app
 
 import org.osgi.service.component.annotations._
 import java.util.ArrayList
-import io.skysail.restlet.model.ScalaSkysailEntityModel
+import io.skysail.core.model.ScalaSkysailEntityModel
 import scala.collection.JavaConverters._
 import io.skysail.restlet.services.EntityApi
 

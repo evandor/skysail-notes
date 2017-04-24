@@ -2,7 +2,7 @@ package io.skysail.restlet.forms
 
 import java.lang.reflect.Field
 import io.skysail.restlet.app.SkysailApplicationService
-import io.skysail.restlet.model.ScalaSkysailFieldModel
+import io.skysail.core.model.ScalaSkysailFieldModel
 import io.skysail.domain.html.InputType
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size

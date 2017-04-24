@@ -11,7 +11,7 @@ class CheckBusinessViolationsFilter[T:Manifest](entity: T) extends ScalaAbstract
 
   override val log = LoggerFactory.getLogger(classOf[CheckBusinessViolationsFilter[T]])
 
-  override def doHandle(resource: SkysailServerResource, responseWrapper:  Wrapper3): FilterResult = {
+  override def doHandle(resource: SkysailServerResource[_], responseWrapper:  Wrapper3): FilterResult = {
     log.debug("entering {}#doHandle", this.getClass().getSimpleName());
     val  violations = validate(entity);
     val response = responseWrapper.getResponse();

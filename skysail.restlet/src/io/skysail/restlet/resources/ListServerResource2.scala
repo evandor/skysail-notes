@@ -11,7 +11,7 @@ import io.skysail.restlet.ScalaListRequestHandler
 
 abstract class ListServerResource2[T: Manifest](
     //cls: Class[_] = null, 
-    associatedResources: Class[_ <: SkysailServerResource]*) 
+    associatedResources: Class[_ <: SkysailServerResource[_]]*) 
   extends SkysailServerResource {
   
   @Get("html|json|yaml|xml|csv|timeline|carbon|standalone|data")

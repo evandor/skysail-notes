@@ -13,7 +13,7 @@ class ScalaDataExtractingListFilter[T:Manifest] extends ScalaAbstractListResourc
 
   override val log = LoggerFactory.getLogger(classOf[ScalaExceptionCatchingListFilter[T]])
 
-  override def doHandle(resource: SkysailServerResource, responseWrapper: Wrapper3): FilterResult = {
+  override def doHandle(resource: SkysailServerResource[_], responseWrapper: Wrapper3): FilterResult = {
     log.debug("entering {}#doHandle", this.getClass().getSimpleName());
 
     //val installation = ScalaCookiesUtils.getInstallationFromCookie(resource.getRequest()).orElse(null);

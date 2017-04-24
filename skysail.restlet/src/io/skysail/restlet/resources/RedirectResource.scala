@@ -8,7 +8,7 @@ import io.skysail.restlet.utils.LinkUtils
 
 abstract class RedirectResource[T] extends SkysailServerResource {
 
-  protected def redirectToResource(): SkysailServerResource
+  protected def redirectToResource(): SkysailServerResource[_]
 
   @Get def redirectToEntity(variant: Variant): EntityResponse[T] = {
     val timerMetric = getMetricsCollector().timerFor(this.getClass(), "redirectToEntity")

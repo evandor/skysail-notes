@@ -7,7 +7,7 @@ import io.skysail.restlet.SkysailServerResource
 class LoginResource extends RedirectResource[Credentials] {
   def getEntity(): Any = null
 
-  def redirectToResource(): SkysailServerResource = {
+  def redirectToResource(): SkysailServerResource[_] = {
     null
   }
 

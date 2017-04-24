@@ -9,7 +9,7 @@ object ScalaResourceUtils {
 
   var log = LoggerFactory.getLogger(this.getClass())
 
-  def determineLocale(resource: SkysailServerResource): Locale = {
+  def determineLocale(resource: SkysailServerResource[_]): Locale = {
     if (resource.getRequest() == null || resource.getRequest().getClientInfo() == null) {
       return Locale.getDefault();
     }
@@ -26,11 +26,11 @@ object ScalaResourceUtils {
     return localeToUse;
   }
 
-  def createSkysailServerResources(entityServerResources: Seq[Class[_ <: SkysailServerResource]], resource: Resource) = {
+  def createSkysailServerResources(entityServerResources: Seq[Class[_ <: SkysailServerResource[_]]], resource: Resource) = {
 
-    val result = scala.collection.mutable.ListBuffer[SkysailServerResource]()
+    val result = scala.collection.mutable.ListBuffer[SkysailServerResource[_]]()
     for (cls <- entityServerResources) {
-      var newInstance: SkysailServerResource = null
+      var newInstance: SkysailServerResource[_] = null
       try {
         newInstance = cls.newInstance();
         newInstance.init(resource.getContext(), resource.getRequest(), resource.getResponse());
@@ -43,7 +43,7 @@ object ScalaResourceUtils {
     result;
   }
 
-//  def createSkysailServerResources(entityResourceClass: SkysailServerResource, resource: SkysailServerResource) = {
+//  def createSkysailServerResources(entityResourceClass: SkysailServerResource[_], resource: SkysailServerResource[_]) = {
 //    val result = scala.collection.mutable.ListBuffer[SkysailServerResource]()
 //    //for (cls <- entityResourceClasses) {
 //      var newInstance: SkysailServerResource = null

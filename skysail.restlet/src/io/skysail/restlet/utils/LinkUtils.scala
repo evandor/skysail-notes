@@ -21,7 +21,7 @@ object LinkUtils {
 
   private val mapper = new ObjectMapper()
 
-  def fromResource(app: SkysailApplication, ssr: Class[_ <: SkysailServerResource], title: String = null) = {
+  def fromResource(app: SkysailApplication, ssr: Class[_ <: SkysailServerResource[_]], title: String = null) = {
     //        if (noRouteBuilderFound(app, ssr)) {
     //            log.warn("problem with linkheader for resource {}; no routeBuilder was found.", ssr.getSimpleName());
     //            return null;
@@ -45,8 +45,8 @@ object LinkUtils {
   private def determineUri(app: SkysailApplication, routeBuilder: RouteBuilder): String =
     "/" + app.getName() + routeBuilder.getPathTemplate(app.apiVersion);
 
-  def fromResources[_ <: SkysailServerResource](
-    currentResource: SkysailServerResource,
+  def fromResources[_ <: SkysailServerResource[_]](
+    currentResource: SkysailServerResource[_],
     entity: Any,
     classes: Seq[Class[_]]): List[Link] = {
 
@@ -62,7 +62,7 @@ object LinkUtils {
     res
   }
 
-  def fromResource[_ <: SkysailServerResource](sssr: SkysailServerResource, c: Class[_]) = {
+  def fromResource[_ <: SkysailServerResource[_]](sssr: SkysailServerResource[_], c: Class[_]) = {
     //     if (noRouteBuilderFound(skysailServerResource.getApplication(), ssr)) {
     //            log.warn("problem with linkheader for resource {} no routeBuilder was found.", ssr.getSimpleName())
     //            return null
@@ -70,7 +70,7 @@ object LinkUtils {
     createLink(sssr, c)
   }
 
-  def createLink[_ <: SkysailServerResource](currentResource: SkysailServerResource, linkedResourceClass: Class[_]) = {
+  def createLink[_ <: SkysailServerResource[_]](currentResource: SkysailServerResource[_], linkedResourceClass: Class[_]) = {
 
     val mode = ScalaCookiesUtils.getModeFromCookie(currentResource.getRequest())
 
@@ -105,19 +105,19 @@ object LinkUtils {
     link
   }
 
-  private def createNewInstance(resource: Class[_]): Option[SkysailServerResource] = {
+  private def createNewInstance(resource: Class[_]): Option[SkysailServerResource[_]] = {
     var newInstance = null
     try {
       val cls = resource.getClass()
       val inst = resource.newInstance()
-      return Some(inst.asInstanceOf[SkysailServerResource])
+      return Some(inst.asInstanceOf[SkysailServerResource[_]])
     } catch {
       case e: Throwable => log.error(e.getMessage(), e)
     }
     None
   }
 
-  private def determineUri2(sssr: SkysailServerResource, resourceClass: Class[_], routeBuilder: RouteBuilder) = {
+  private def determineUri2(sssr: SkysailServerResource[_], resourceClass: Class[_], routeBuilder: RouteBuilder) = {
     val app = sssr.getApplication().asInstanceOf[SkysailApplication]
     val result = "/" + app.getName() + routeBuilder.getPathTemplate(app.apiVersion)
     //    try {
@@ -131,14 +131,14 @@ object LinkUtils {
     result
   }
 
-  def getTitle(resource: Option[SkysailServerResource]): String = {
+  def getTitle(resource: Option[SkysailServerResource[_]]): String = {
     if (resource.isDefined && resource.get.getFromContext(ResourceContextId.LINK_TITLE) != null)
       resource.get.getFromContext(ResourceContextId.LINK_TITLE)
     else
       "unknown"
   }
 
-  def getLinkTitleFromContextOrUnknonw(resource: SkysailServerResource): String = {
+  def getLinkTitleFromContextOrUnknonw(resource: SkysailServerResource[_]): String = {
     val title = resource.getFromContext(ResourceContextId.LINK_TITLE);
     if (title == null) "unknown" else title
   }
@@ -155,7 +155,7 @@ object LinkUtils {
    * getLinks method, we'll get six links in the result.
    * </p>
    */
-  private def getAssociatedLinks(entity: Any, currentResource: SkysailServerResource): List[Link] = {
+  private def getAssociatedLinks(entity: Any, currentResource: SkysailServerResource[_]): List[Link] = {
     if (!(currentResource.isInstanceOf[ListServerResource2[_]])) {
       return List()
     }
@@ -165,7 +165,7 @@ object LinkUtils {
     //
     //        if (entityResourceClasses != null && entity instanceof List) {
     //            List<SkysailServerResource<?>> esrs = ResourceUtils.createSkysailServerResources(entityResourceClasses,
-    //                    skysailServerResource);
+    //                    SkysailServerResource[_]);
     //
     //            for (SkysailServerResource<?> esr : esrs) {
     //                

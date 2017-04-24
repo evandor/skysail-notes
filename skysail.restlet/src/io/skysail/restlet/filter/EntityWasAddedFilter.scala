@@ -11,7 +11,7 @@ class EntityWasAddedFilter[T:Manifest](entity: T) extends ScalaAbstractResourceF
 
   override val log = LoggerFactory.getLogger(classOf[EntityWasAddedFilter[T]])
 
-  override def doHandle(resource: SkysailServerResource, responseWrapper:  Wrapper3): FilterResult = {
+  override def doHandle(resource: SkysailServerResource[_], responseWrapper:  Wrapper3): FilterResult = {
     log.debug("entering {}#doHandle", this.getClass().getSimpleName());
     val infoMessage = resource.getClass().getSimpleName() + ".saved.success";
     //responseWrapper.addInfo(infoMessage);

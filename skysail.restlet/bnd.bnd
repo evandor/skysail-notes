@@ -50,7 +50,7 @@ Export-Package: \
 	io.skysail.domain.core.repos,\
 	io.skysail.domain.ddd,\
 	io.skysail.domain.html,\
-    io.skysail.domain.model,\
+	io.skysail.domain.model,\
 	io.skysail.domain.repo,\
 	io.skysail.restlet,\
 	io.skysail.restlet.app,\
@@ -63,7 +63,7 @@ Export-Package: \
 	io.skysail.restlet.forms,\
 	io.skysail.restlet.model,\
 	io.skysail.restlet.queries,\
-	io.skysail.restlet.model.resource
+	io.skysail.core.model.resource
 Private-Package: \
 	io.skysail.restlet.queries.impl,\
 	io.skysail.restlet.filter.helper,\

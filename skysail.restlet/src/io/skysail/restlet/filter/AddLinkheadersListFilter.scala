@@ -18,7 +18,7 @@ class AddLinkheadersListFilter[T:Manifest] extends ScalaAbstractListResourceFilt
 
   override val log = LoggerFactory.getLogger(classOf[AddLinkheadersListFilter[T]])
 
-  override def afterHandle(resource: SkysailServerResource, responseWrapper: Wrapper3) = {
+  override def afterHandle(resource: SkysailServerResource[_], responseWrapper: Wrapper3) = {
     val responseHeaders = ScalaHeadersUtils.getHeaders(resource.getResponse());
     val linkheaderAuthorized = resource.getAuthorizedLinks();
 //    linkheaderAuthorized.forEach(getPathSubstitutions(resource));

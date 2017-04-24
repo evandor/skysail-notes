@@ -13,11 +13,12 @@ import java.util.Collections
 import io.skysail.restlet.utils._
 import io.skysail.api.links.LinkRelation
 import io.skysail.api.doc.ApiMetadata
+import scala.reflect.runtime.universe._
 
 object SkysailServerResource {
   //val SKYSAIL_SERVER_RESTLET_FORM = "de.twenty11.skysail.server.core.restlet.form";
-  val SKYSAIL_SERVER_RESTLET_ENTITY = classOf[SkysailServerResource].getName + ".entity"
-  val SKYSAIL_SERVER_RESTLET_VARIANT = classOf[SkysailServerResource].getName + ".variant"
+  val SKYSAIL_SERVER_RESTLET_ENTITY = classOf[SkysailServerResource[_]].getName + ".entity"
+  val SKYSAIL_SERVER_RESTLET_VARIANT = classOf[SkysailServerResource[_]].getName + ".variant"
 
   val FILTER_PARAM_NAME = "_f";
   val PAGE_PARAM_NAME = "_page";
@@ -28,7 +29,7 @@ object SkysailServerResource {
 
 }
 
-abstract class SkysailServerResource extends ServerResource {
+abstract class SkysailServerResource[T:TypeTag] extends ServerResource {
 
   var entity: AnyRef = null
   def setEntity(e: AnyRef) = entity = e
@@ -122,14 +123,14 @@ abstract class SkysailServerResource extends ServerResource {
 
   def getLinks(): List[Link] = if (links != null) links else List()
 
-  final def getLinks[_ <: SkysailServerResource](classes: Class[_]*): List[Link] =
+  final def getLinks[_ <: SkysailServerResource[_]](classes: Class[_]*): List[Link] =
     if (links.length == 0) LinkUtils.fromResources(this, entity, classes) else links
 
   def getApiMetadata() = ApiMetadata.builder().build()
 
   def redirectTo(): String = null
 
-  def redirectTo(cls: Class[_ <: SkysailServerResource]): String = {
+  def redirectTo(cls: Class[_ <: SkysailServerResource[_]]): String = {
     val linkheader = LinkUtils.fromResource(getSkysailApplication(), cls);
     if (linkheader == null) {
       return null;

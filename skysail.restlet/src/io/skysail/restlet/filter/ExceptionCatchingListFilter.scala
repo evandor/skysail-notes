@@ -12,7 +12,7 @@ class ScalaExceptionCatchingListFilter[T:Manifest] extends ScalaAbstractListReso
 
   override val log = LoggerFactory.getLogger(classOf[ScalaExceptionCatchingListFilter[T]])
 
-  override def doHandle(resource: SkysailServerResource, responseWrapper: Wrapper3): FilterResult = {
+  override def doHandle(resource: SkysailServerResource[_], responseWrapper: Wrapper3): FilterResult = {
     log.debug("entering {}#doHandle", this.getClass().getSimpleName());
     try {
       super.doHandle(resource, responseWrapper)
@@ -23,7 +23,7 @@ class ScalaExceptionCatchingListFilter[T:Manifest] extends ScalaAbstractListReso
     FilterResult.CONTINUE;
   }
 
-  override def afterHandle(resource: SkysailServerResource, responseWrapper: Wrapper3): Unit = {
+  override def afterHandle(resource: SkysailServerResource[_], responseWrapper: Wrapper3): Unit = {
     resource.getServerInfo().setAgent("Skysail-Server/0.0.1 " + resource.getServerInfo().getAgent());
   }
 }

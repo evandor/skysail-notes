@@ -11,13 +11,13 @@ abstract class ScalaAbstractResourceFilter[T:Manifest] extends ScalaResourceFilt
 
   override val log = LoggerFactory.getLogger(this.getClass())
 
-  final def handle(resource: SkysailServerResource, response: Response): ScalaResponseWrapper[T] = {
+  final def handle(resource: SkysailServerResource[_], response: Response): ScalaResponseWrapper[T] = {
     val responseWrapper = new ScalaResponseWrapper[T](response)
     handleMe(resource, responseWrapper)
     responseWrapper
   }
 
-  protected def getDataFromRequest(request: Request, resource: SkysailServerResource): Any = {
+  protected def getDataFromRequest(request: Request, resource: SkysailServerResource[_]): Any = {
     val entityAsObject = request.getAttributes().get(SkysailServerResource.SKYSAIL_SERVER_RESTLET_ENTITY).asInstanceOf[T]
     if (entityAsObject != null) {
       if (resource.isInstanceOf[EntityServerResource2[T]]) {

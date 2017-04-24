@@ -4,17 +4,17 @@ import java.util.Collections
 import org.slf4j.LoggerFactory
 import scala.collection.JavaConverters._
 import io.skysail.restlet.app.SkysailApplicationService
-import io.skysail.restlet.model.ScalaSkysailFieldModel
+import io.skysail.core.model.ScalaSkysailFieldModel
 import io.skysail.restlet.forms.ScalaFormField
 
 trait FieldFactory {
 
   val log = LoggerFactory.getLogger(classOf[FieldFactory])
 
-  def determineFrom(r: SkysailServerResource, s: SkysailApplicationService): Map[String, ScalaFormField]
+  def determineFrom(r: SkysailServerResource[_], s: SkysailApplicationService): Map[String, ScalaFormField]
 
   def determine(
-      resource: SkysailServerResource, cls: Class[_], 
+      resource: SkysailServerResource[_], cls: Class[_], 
       service: SkysailApplicationService): Map[String, ScalaFormField] = {
     
     require(service != null, "service must not be null")
@@ -45,17 +45,17 @@ trait FieldFactory {
 }
 
 class NoFieldFactory extends FieldFactory {
-  override def determineFrom(r: SkysailServerResource, s: SkysailApplicationService) = Map()
+  override def determineFrom(r: SkysailServerResource[_], s: SkysailApplicationService) = Map()
 }
 
 class FormResponseEntityFieldFactory(t: Class[_]) extends FieldFactory {
-  override def determineFrom(r: SkysailServerResource, s: SkysailApplicationService) = determine(r, t, s)
+  override def determineFrom(r: SkysailServerResource[_], s: SkysailApplicationService) = determine(r, t, s)
 }
 
 class DefaultEntityFieldFactory(t: Class[_]) extends FieldFactory {
-  override def determineFrom(r: SkysailServerResource, s: SkysailApplicationService) =  determine(r, t, s)
+  override def determineFrom(r: SkysailServerResource[_], s: SkysailApplicationService) =  determine(r, t, s)
 }
 
 class DefaultListFieldFactory() extends FieldFactory {
-  override def determineFrom(r: SkysailServerResource, s: SkysailApplicationService) = determine(r, r.getParameterizedType(), s)
+  override def determineFrom(r: SkysailServerResource[_], s: SkysailApplicationService) = determine(r, r.getParameterizedType(), s)
 }

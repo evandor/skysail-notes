@@ -16,8 +16,8 @@ import org.restlet.data.Form
 import org.restlet.util.Series
 import org.junit.runner.RunWith
 import org.junit.Ignore
-import io.skysail.restlet.model.ScalaSkysailFieldModel
-import io.skysail.restlet.model.ScalaSkysailEntityModel
+import io.skysail.core.model.ScalaSkysailFieldModel
+import io.skysail.core.model.ScalaSkysailEntityModel
 import javax.validation.constraints._
 import io.skysail.restlet.resources.PostEntityServerResource2
 import org.restlet.representation.Variant
