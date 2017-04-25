@@ -4,9 +4,12 @@ import collection.mutable.Stack
 import org.scalatest._
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
+import org.slf4j.LoggerFactory
 
 @RunWith(classOf[JUnitRunner])
 class SkysailApplicationModel2Spec extends FlatSpec with BeforeAndAfterEach {
+  
+  val log = LoggerFactory.getLogger(this.getClass())
   
   var model: SkysailApplicationModel2 = null
 
@@ -14,49 +17,44 @@ class SkysailApplicationModel2Spec extends FlatSpec with BeforeAndAfterEach {
     model = SkysailApplicationModel2("appName")
   }
 
-  "An ApplicationModel" should "not accept a null value as its id" in {
+  "An ApplicationModel" should "not accept a null value as its name" in {
     assertThrows[IllegalArgumentException] {
       new SkysailApplicationModel2(null)
     }
   }
 
-  "An ApplicationModel" should "not accept an empty value as its id" in {
+  "An ApplicationModel" should "not accept an empty value as its name" in {
     assertThrows[IllegalArgumentException] { new SkysailApplicationModel2("") }
     assertThrows[IllegalArgumentException] { new SkysailApplicationModel2(" ") }
   }
 
-  "An empty ApplicationModel" should "be created successfully for a given id and name" in {
+  "An empty ApplicationModel" should "be created successfully for a given name" in {
     assert(model != null)
-    //assert(model.id == "qualifier.appId")
     assert(model.name == "appName")
-  }
-
-  "An simple ApplicationModel" should "be created successfully for a given id without name" in {
-    val model = new SkysailApplicationModel2("onlyId")
-    assert(model != null)
-    assert(model.name == "onlyId")
-   // assert(model.toString() == "Name: onlyId, ID: onlyId,\nEntities: Map()")
+    assert(model.toString() == "SkysailApplicationModel2(appName)")
   }
 
   "An ApplicationModel" should "add a new minimal ResourceModel" in {
     val resourceModel = new SkysailResourceModel2("/path", classOf[TestResource])
-    model.addOnce(resourceModel)
+    model.addResource(resourceModel)
     val resourceModelFromAppModel = model.resources.get("/path").get
     assert(model.resources.size == 1)
     assert(resourceModelFromAppModel == resourceModel)
   }
 
-  "An ApplicationModel" should "add an ResourceModel (identified by its id), only once" in {
-    model.addOnce(new SkysailResourceModel2("/path", classOf[TestResource]))
-    model.addOnce(new SkysailResourceModel2("/path", classOf[TestResource]))
+  "An ApplicationModel" should "add an ResourceModel (identified by its path), only once" in {
+    model.addResource(new SkysailResourceModel2("/path", classOf[TestResource]))
+    model.addResource(new SkysailResourceModel2("/path", classOf[TestResource]))
     assert(model.resources.size == 1)
   }
 
   "An ApplicationModel" should "provide the entity from a ResourceModel" in {
     val resourceModel = new SkysailResourceModel2("/path", classOf[TestResource])
-    model.addOnce(resourceModel)
-    val entityModelsFromAppModel = model.entityModels.get(classOf[TestResource].getName).get
-    assert(model.entityModels.size == 1)
+    model.addResource(resourceModel)
+    val id = classOf[TestEntity].getName
+    log.info(s"trying to retrieve entity with id '$id'")
+    val entityModelsFromAppModel = model.entities.get(id).get
+    assert(model.entities.size == 1)
   }
 
 }

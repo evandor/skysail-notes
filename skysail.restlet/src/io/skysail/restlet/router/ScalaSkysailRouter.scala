@@ -90,7 +90,7 @@ class ScalaSkysailRouter(skysailApplication: SkysailApplication, apiVersion: Api
         applicationModel.addOnce(ScalaEntityFactory.createFrom(skysailApplication, parameterizedType, resourceInstance))
         
         val resourceId = routeBuilder.pathTemplate
-        applicationModel2.addOnce(new SkysailResourceModel2(resourceId, targetClass.asInstanceOf[Class[SkysailServerResource[_]]]))
+        applicationModel2.addResource(new SkysailResourceModel2(resourceId, targetClass.asInstanceOf[Class[SkysailServerResource[_]]]))
         
       } catch {
         case e: Throwable => log.error(e.getMessage(), e);

@@ -14,7 +14,7 @@ import scala.collection.mutable.HashMap
  */
 case class SkysailApplicationModel2(val name: String) {
 
-  var log = LoggerFactory.getLogger(this.getClass())
+  private val log = LoggerFactory.getLogger(this.getClass())
 
   require(name != null, "The application's name should be unique and must not be null")
   require(name.trim().length() > 0, "The application's name must not be empty")
@@ -24,9 +24,7 @@ case class SkysailApplicationModel2(val name: String) {
    */
   val resources: LinkedHashMap[String, SkysailResourceModel2] = scala.collection.mutable.LinkedHashMap()
 
-  val entityModels: LinkedHashMap[String, SkysailEntityModel2] = scala.collection.mutable.LinkedHashMap()
-
-  //def this(id: String) = this(id, id)
+  val entities: LinkedHashMap[String, SkysailEntityModel2] = scala.collection.mutable.LinkedHashMap()
 
   /**
    * adds an non-null resource model identified by its path.
@@ -36,21 +34,18 @@ case class SkysailApplicationModel2(val name: String) {
    *
    * Otherwise, the resource model will be added to the map of managed resources.
    */
-  def addOnce[T <: SkysailResourceModel2](resourceModel: T): Unit = {
+  def addResource[T <: SkysailResourceModel2](resourceModel: T): Unit = {
     if (resources.get(resourceModel.path).isDefined) {
       log.info(s"trying to add entity ${resourceModel.path} again, ignoring")
       return
     }
-    val entity = resourceModel.targetEntity
-    if (!entityModels.get(entity.getClass.getName).isDefined) {
-      entityModels += entity.getClass.getName -> SkysailEntityModel2(entity)
+    val entityClass = resourceModel.entityClass
+    if (!entities.get(entityClass.getName).isDefined) {
+      entities += entityClass.getName -> SkysailEntityModel2(entityClass)
     }
-    //log.info(s"trying to add entity ${resourceModel.path} again, ignoring")
     resources += resourceModel.path -> resourceModel
   }
 
   //override def toString() = s"Name: ${name}, ID: ${id},\\nEntities: ${resources}"
-
-  private def entityToMapEntry(e: SkysailResourceModel2) = e.path -> e //.copy(applicationModel = this)
 
 }

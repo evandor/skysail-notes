@@ -23,12 +23,15 @@ class SkysailResourceModel2Spec extends FlatSpec with BeforeAndAfterEach {
   }
 
   "A ResourceModel" should "provide access to the target resource" in {
-    assert(model.targetResource.getClass.getName == classOf[TestResource].getName)
+    assert(model.resource.getClass.getName == classOf[TestResource].getName)
   }
 
   "A ResourceModel" should "provide access to the target entity" in {
-    println(model.targetEntity.toString)
-    assert(model.targetEntity.toString == "class io.skysail.core.model.TestEntity")
+    assert(model.entityClass.toString == "class io.skysail.core.model.TestEntity")
+  }
+  
+  "A ResourceModel" should "provide the resource type" in {
+    assert(model.resourceType == UNSPECIFIED_RESOURCE)
   }
 
 }

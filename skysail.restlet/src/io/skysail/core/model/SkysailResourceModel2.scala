@@ -6,6 +6,11 @@ import scala.collection.JavaConverters._
 import java.lang.reflect.Field
 import io.skysail.restlet.utils.ScalaReflectionUtils
 import io.skysail.restlet.router.ScalaSkysailRouter
+import io.skysail.restlet.resources.ListServerResource2
+import io.skysail.restlet.resources.EntityServerResource2
+import io.skysail.restlet.resources.PutEntityServerResource2
+import io.skysail.restlet.resources.PostEntityServerResource2
+import org.slf4j.LoggerFactory
 
 /**
  * A ResourceModel captures the link between a path and a SkysailServerResource, defining
@@ -16,45 +21,28 @@ import io.skysail.restlet.router.ScalaSkysailRouter
  *  @param path the uri path relative to the application
  *  @param targetClass a SkysailServerResource class to handle requests to the given path
  */
-case class SkysailResourceModel2(val path: String, val targetClass: Class[_ <: SkysailServerResource[_]]) {
+case class SkysailResourceModel2(val path: String, val targetResource: Class[_ <: SkysailServerResource[_]]) {
 
+  private val log = LoggerFactory.getLogger(this.getClass())
+  
   require(path != null, "A ResourceModel's path must not be null")
   require(path.trim().length() > 0, "A ResourceModel's path must not be empty")
-  require(targetClass != null, "A ResourceModel's target class must not be null")
+  require(targetResource != null, "A ResourceModel's target class must not be null")
 
-  val targetResource: SkysailServerResource[_] = determineTargetResource()
-  val targetEntity: Class[_] = determineTargetEntity()
+  val resource: SkysailServerResource[_] = determineTargetResource()
+  val entityClass: Class[_] = determineTargetEntity()
 
-  private def determineTargetResource() = targetClass.newInstance().asInstanceOf[SkysailServerResource[_]]
-  private def determineTargetEntity() = ScalaSkysailRouter.getResourcesGenericType(targetResource)
-
-  /* val fields = deriveFields()
-  def getScalaFields() = fields
-
-  val relations = deriveRelations()
-
-  //  setAssociatedResourceClass(resourceInstance);
-
-  def identifiableClass(): Class[_] = identifiableClass
-
-  private def deriveFields() = {
-    ScalaReflectionUtils.getInheritedFields(identifiableClass)
-  
-    .filter { filterFormFields(_) }
-      .map { f => new ScalaSkysailFieldModel(this, f) }
-      .map(m => m.getId -> m)
-      .toMap
+  def resourceType() = {
+    resource match {
+      case l: ListServerResource2[_] => LIST_RESOURCE
+      case e: EntityServerResource2[_] => ENTITY_RESOURCE
+      case p: PutEntityServerResource2[_] => UPDATE_ENTITY_RESOURCE
+      case p: PostEntityServerResource2[_] => CREATE_ENTITY_RESOURCE
+      case _ => UNSPECIFIED_RESOURCE
+    }
   }
 
-  private def filterFormFields(f: Field): Boolean = f.getAnnotation(classOf[io.skysail.domain.html.Field]) != null
+  private def determineTargetResource() = targetResource.newInstance().asInstanceOf[SkysailServerResource[_]]
+  private def determineTargetEntity() = ScalaSkysailRouter.getResourcesGenericType(resource)
 
-  def deriveRelations() = {
-    val fields = ScalaReflectionUtils.getInheritedFields(identifiableClass)
-    fields
-      .filter { filterFormFields(_) }
-      .map { _.getName }
-      //.map { r => new ScalaEntityRelation(r,null, EntityRelationType.ONE_TO_MANY))}
-      .toList
-
-  }*/
 }
