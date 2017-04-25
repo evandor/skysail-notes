@@ -17,7 +17,7 @@ import io.skysail.core.ApiVersion
 import io.skysail.restlet.RouteBuilder
 import io.skysail.core.security.config.ScalaSecurityConfig
 import io.skysail.restlet.RolesPredicateAuthorizer
-import io.skysail.core.model.SkysailResourceModel
+import io.skysail.core.model.SkysailResourceModel2
 
 object ScalaSkysailRouter {
   def getResourcesGenericType(resourceInstance: SkysailServerResource[_]) = resourceInstance.getParameterizedType()
@@ -90,7 +90,7 @@ class ScalaSkysailRouter(skysailApplication: SkysailApplication, apiVersion: Api
         applicationModel.addOnce(ScalaEntityFactory.createFrom(skysailApplication, parameterizedType, resourceInstance))
         
         val resourceId = routeBuilder.pathTemplate
-        applicationModel2.addOnce(new SkysailResourceModel(resourceId, targetClass))
+        applicationModel2.addOnce(new SkysailResourceModel2(resourceId, targetClass.asInstanceOf[Class[SkysailServerResource[_]]]))
         
       } catch {
         case e: Throwable => log.error(e.getMessage(), e);

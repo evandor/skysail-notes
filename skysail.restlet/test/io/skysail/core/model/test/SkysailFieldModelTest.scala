@@ -27,7 +27,7 @@ class SkysailFieldModelTest {
 
   @Test
   def atest2(): Unit = {
-    val entityModel = mock(classOf[ScalaSkysailEntityModel])
+    val entityModel = mock(classOf[SkysailEntityModel])
     val fields = ScalaReflectionUtils.getInheritedFields(classOf[TestNote])
     val ssfm = new ScalaSkysailFieldModel(entityModel, fields(0))
     assertThat(ssfm.isMandatory(), is(true))

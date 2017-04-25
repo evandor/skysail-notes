@@ -8,7 +8,7 @@ import java.util.Collection
 import io.skysail.restlet.utils.ScalaReflectionUtils
 
 class ScalaSkysailFieldModel(
-  entityModel: ScalaSkysailEntityModel,
+  entityModel: SkysailEntityModel,
   val f: java.lang.reflect.Field)
     extends FieldModel(
       entityModel,

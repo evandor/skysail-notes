@@ -6,34 +6,25 @@ import scala.collection.mutable.HashMap
 
 /**
  * This is the root class of skysail's core domain, describing an application,
- * which aggregates entities which in turn aggregate fields.
+ * which aggregates resources and their entities, which in turn aggregate fields.
  *
- * According to specific needs, the core domain can be adapted by extending the
- * corresponding classes. For example, there's a domain extension dealing with
- * the creation of java source files and classes according to a specific core
- * domain model.
+ *  @constructor create a new application model, identified by its name.
  *
- * This core domain is, in terms of dependencies, kept as clean as possible; not
- * even lombok or a logging framework is being used.
- *
- *  @constructor create a new application model with an id and a name.
- *
- *  @param id a unique identifier, could be a full qualified class name
- *  @param name the model's (descriptive) name, for example a class's simple name
+ *  @param name the model's (unique and descriptive) name
  */
-case class SkysailApplicationModel2(
-    //val id: String,
-    val name: String
-    ) {
-
-  //require(id != null, "The application id should be unique and must not be null")
-  //require(id.trim().length() > 0, "The application id must not be empty")
+case class SkysailApplicationModel2(val name: String) {
 
   var log = LoggerFactory.getLogger(this.getClass())
-  
-  val resources: LinkedHashMap[String, SkysailResourceModel] = scala.collection.mutable.LinkedHashMap()
-  
- // val entityModels:  LinkedHashMap[String, SkysailEntityModel] = scala.collection.mutable.LinkedHashMap()
+
+  require(name != null, "The application's name should be unique and must not be null")
+  require(name.trim().length() > 0, "The application's name must not be empty")
+
+  /**
+   * Use the addOnce method to add Resource Models. 
+   */
+  val resources: LinkedHashMap[String, SkysailResourceModel2] = scala.collection.mutable.LinkedHashMap()
+
+  val entityModels: LinkedHashMap[String, SkysailEntityModel2] = scala.collection.mutable.LinkedHashMap()
 
   //def this(id: String) = this(id, id)
 
@@ -45,52 +36,21 @@ case class SkysailApplicationModel2(
    *
    * Otherwise, the resource model will be added to the map of managed resources.
    */
-  def addOnce[T <: SkysailResourceModel](resourceModel: T ): Unit = {
+  def addOnce[T <: SkysailResourceModel2](resourceModel: T): Unit = {
     if (resources.get(resourceModel.path).isDefined) {
       log.info(s"trying to add entity ${resourceModel.path} again, ignoring")
       return
     }
+    val entity = resourceModel.targetEntity
+    if (!entityModels.get(entity.getClass.getName).isDefined) {
+      entityModels += entity.getClass.getName -> SkysailEntityModel2(entity)
+    }
+    //log.info(s"trying to add entity ${resourceModel.path} again, ignoring")
     resources += resourceModel.path -> resourceModel
   }
-  
+
   //override def toString() = s"Name: ${name}, ID: ${id},\\nEntities: ${resources}"
 
-  private def entityToMapEntry(e: SkysailResourceModel) = e.path -> e//.copy(applicationModel = this)
-  
-  //    public Set<String> getEntityIds() {
-  //        return entities.keySet();
-  //    }
-  //
-  //    /**
-  //     * returns the entity model for the given entity name, if existent.
-  //     */
-  //    public EntityModel<? extends Entity> getEntity(String entityId) {// NOSONAR
-  //        return entities.get(entityId);
-  //    }
-  //
-  //    public Collection<EntityModel<? extends Entity>> getEntityValues() {// NOSONAR
-  //        return entities.values();
-  //    }
-  //
-  //    public List<EntityModel<? extends Entity>> getRootEntities() {// NOSONAR
-  //        return entities.values().stream().filter(e -> e.isAggregate()).collect(Collectors.toList());
-  //    }
-  //
-  //    @Override
-  //    public String toString() {
-  //        StringBuilder sb = new StringBuilder(this.getClass().getSimpleName()).append(": ");
-  //        sb.append(name).append("\n");
-  //        entitiesToString(sb);
-  //        return sb.toString();
-  //    }
-  //
-  //    protected void entitiesToString(StringBuilder sb) {
-  //        if (entities.isEmpty()) {
-  //            return;
-  //        }
-  //        sb.append("Entities: \n");
-  //        entities.keySet().stream()
-  //            .forEach(key -> sb.append(" * ").append(entities.get(key).toString(3)).append("\n"));
-  //    }
+  private def entityToMapEntry(e: SkysailResourceModel2) = e.path -> e //.copy(applicationModel = this)
 
 }

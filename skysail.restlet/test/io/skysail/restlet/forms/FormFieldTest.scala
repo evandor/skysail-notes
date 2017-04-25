@@ -17,7 +17,7 @@ import org.restlet.util.Series
 import org.junit.runner.RunWith
 import org.junit.Ignore
 import io.skysail.core.model.ScalaSkysailFieldModel
-import io.skysail.core.model.ScalaSkysailEntityModel
+import io.skysail.core.model.SkysailEntityModel
 import javax.validation.constraints._
 import io.skysail.restlet.utils.ScalaReflectionUtils
 
@@ -27,7 +27,7 @@ class FormFieldTest {
 
   @Test
   def atest(): Unit = {
-    val entityModel = mock(classOf[ScalaSkysailEntityModel])
+    val entityModel = mock(classOf[SkysailEntityModel])
     val fields = ScalaReflectionUtils.getInheritedFields(classOf[TestNote])
     val ssfm = new ScalaSkysailFieldModel(entityModel, fields(0))
     val sff = new ScalaFormField(ssfm, TestNote("content"), null)

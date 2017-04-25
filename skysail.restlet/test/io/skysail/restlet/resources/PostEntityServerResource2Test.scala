@@ -17,7 +17,7 @@ import org.restlet.util.Series
 import org.junit.runner.RunWith
 import org.junit.Ignore
 import io.skysail.core.model.ScalaSkysailFieldModel
-import io.skysail.core.model.ScalaSkysailEntityModel
+import io.skysail.core.model.SkysailEntityModel
 import javax.validation.constraints._
 import io.skysail.restlet.resources.PostEntityServerResource2
 import org.restlet.representation.Variant
@@ -45,7 +45,7 @@ class PostEntityServerResource2Test {
     //postResource.post(form, Variant.A)
     
     
-//    val entityModel = mock(classOf[ScalaSkysailEntityModel])
+//    val entityModel = mock(classOf[SkysailEntityModel])
 //    val fields = ReflectionUtils.getInheritedFields(classOf[TestNote])
 //    val ssfm = new ScalaSkysailFieldModel(entityModel, fields.get(0))
 //    val sff = new ScalaFormField(ssfm, TestNote("content"), null)

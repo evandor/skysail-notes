@@ -6,7 +6,7 @@ import scala.collection.JavaConverters._
 import java.lang.reflect.Field
 import io.skysail.restlet.utils.ScalaReflectionUtils
 
-class ScalaSkysailEntityModel(
+class SkysailEntityModel(
   identifiableClass: Class[_],
   resourceInstance: SkysailServerResource[_])
     extends EntityModel(identifiableClass.getName()) {

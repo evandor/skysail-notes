@@ -18,8 +18,8 @@ class SkysailApplicationModel(name: String) extends ApplicationModel(name) {
     getEntityIds().asScala.foreach { entityKey =>
       for (otherEntityKey <- getEntityIds().asScala) {
         if (!entityKey.equals(otherEntityKey)) {
-          val entityModel = getEntity(entityKey).asInstanceOf[ScalaSkysailEntityModel]
-          val otherEntityModel = getEntity(otherEntityKey).asInstanceOf[ScalaSkysailEntityModel]
+          val entityModel = getEntity(entityKey).asInstanceOf[SkysailEntityModel]
+          val otherEntityModel = getEntity(otherEntityKey).asInstanceOf[SkysailEntityModel]
           if (entityModel.identifiableClass.isAssignableFrom(otherEntityModel.identifiableClass)) {
             //supertypes.put(otherEntityModel, entityModel);
             //subtypes.put(entityModel, otherEntityModel);

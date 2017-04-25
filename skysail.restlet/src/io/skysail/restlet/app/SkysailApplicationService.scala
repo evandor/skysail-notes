@@ -2,7 +2,7 @@ package io.skysail.restlet.app
 
 import org.osgi.service.component.annotations._
 import java.util.ArrayList
-import io.skysail.core.model.ScalaSkysailEntityModel
+import io.skysail.core.model.SkysailEntityModel
 import scala.collection.JavaConverters._
 import io.skysail.restlet.services.EntityApi
 
@@ -51,17 +51,17 @@ class SkysailApplicationService {
   //                .findFirst().orElse(new SkysailApplicationModel("unknown"));
   //    }
   //
-  def getEntityModel(name: String): ScalaSkysailEntityModel = {
+  def getEntityModel(name: String): SkysailEntityModel = {
     getEntityValues
       .filter { entityModel => entityModel.getId.equals(name) }
-      .map { e => e.asInstanceOf[ScalaSkysailEntityModel] }
+      .map { e => e.asInstanceOf[SkysailEntityModel] }
       .head
 
   }
 
-  def getEntityModels(): List[ScalaSkysailEntityModel] = {
+  def getEntityModels(): List[SkysailEntityModel] = {
     getEntityValues()
-      .map { e => e.asInstanceOf[ScalaSkysailEntityModel] }
+      .map { e => e.asInstanceOf[SkysailEntityModel] }
       .toList
   }
   
