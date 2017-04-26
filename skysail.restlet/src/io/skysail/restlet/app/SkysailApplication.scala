@@ -7,7 +7,6 @@ import io.skysail.core.ApiVersion
 import io.skysail.domain.Entity
 import io.skysail.domain.repo.ScalaDbRepository
 import io.skysail.restlet.router.ScalaSkysailRouter
-import io.skysail.restlet.NoOpDbRepository
 import io.skysail.restlet.utils.ScalaTranslationUtils
 import io.skysail.restlet.services._
 import java.util.ResourceBundle

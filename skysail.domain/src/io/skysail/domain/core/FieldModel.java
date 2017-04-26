@@ -9,10 +9,10 @@ import lombok.Setter;
 /**
  * Part of skysail's core domain: A FieldModel belongs to an entityModel which
  * belongs to 0..n applicationModels.
- * 
+ *
  * This Model is supposed to be extended to provide additional functionality in a
  * more detailed domain.
- * 
+ *
  * The FieldModel's class attribute defines the (java) type which is referenced by the field.
  * The FieldModel's inputType is a hint of how the fieldModel should be rendered.
  *
@@ -21,8 +21,8 @@ import lombok.Setter;
 @EqualsAndHashCode(of = {"id"})
 public class FieldModel {
 
-    /** 
-     * the fields unique identifier, e.g. "io.skysail.someapp.someentity.title". 
+    /**
+     * the fields unique identifier, e.g. "io.skysail.someapp.someentity.title".
      */
     private final String id;
 

@@ -2,14 +2,14 @@ package io.skysail.restlet.forms
 
 import java.lang.reflect.Field
 import io.skysail.restlet.app.SkysailApplicationService
-import io.skysail.core.model.ScalaSkysailFieldModel
 import io.skysail.domain.html.InputType
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size
 import scala.beans.BeanProperty
 import java.util.Collection
+import io.skysail.core.model.SkysailFieldModel2
 
-case class ScalaFormField(ssfm: ScalaSkysailFieldModel, currentEntity: Any, appService: SkysailApplicationService) {
+case class ScalaFormField(ssfm: SkysailFieldModel2, currentEntity: Any, appService: SkysailApplicationService) {
 
   //        this.type = sfm.getF().getType();
   //        this.sfm = sfm;
@@ -21,7 +21,7 @@ case class ScalaFormField(ssfm: ScalaSkysailFieldModel, currentEntity: Any, appS
   //        this.currentEntity = currentEntity;
   //        tab = postViewAnnotation != null ? postViewAnnotation.tab() : null;
 
-  def getId() = ssfm.getId
+  def getId() = "xxx"//ssfm.getId
   def getLabel() = ssfm.f.getName()
 
   @BeanProperty val inputType: InputType = getFromFieldAnnotation(ssfm.f)

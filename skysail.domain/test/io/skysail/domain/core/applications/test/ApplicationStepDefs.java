@@ -8,8 +8,6 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import io.skysail.domain.Entity;
 import io.skysail.domain.core.ApplicationModel;
-import io.skysail.domain.core.EntityModel;
-import io.skysail.domain.core.FieldModel;
 import lombok.Data;
 
 public class ApplicationStepDefs {
@@ -44,17 +42,17 @@ public class ApplicationStepDefs {
 		//currentAppName = applicationModel.getName();
 	}
 
-	@When("^I add a field called '(.+)' of type '(.+)' to that entity$")
-	public void add_Field_To_Entity(String fieldName, String fieldType) throws ClassNotFoundException {
-		EntityModel<? extends Entity> entity = applicationModel.getEntity(currentEntityName);
-		entity.add(new FieldModel(entity, fieldName, Class.forName(fieldType)));
-	}
-
-	@When("^I add a field called '(.+)' of type '(.+)' to that other entity$")
-	public void add_Field_To_OtherEntity(String fieldName, String fieldType) throws ClassNotFoundException {
-		EntityModel<?> entity = applicationModel.getEntity(currentEntityName);
-		entity.add(new FieldModel(entity, fieldName, Class.forName(fieldType)));
-	}
+//	@When("^I add a field called '(.+)' of type '(.+)' to that entity$")
+//	public void add_Field_To_Entity(String fieldName, String fieldType) throws ClassNotFoundException {
+//		EntityModel<? extends Entity> entity = applicationModel.getEntity(currentEntityName);
+//		entity.add(new FieldModel(entity, fieldName, Class.forName(fieldType)));
+//	}
+//
+//	@When("^I add a field called '(.+)' of type '(.+)' to that other entity$")
+//	public void add_Field_To_OtherEntity(String fieldName, String fieldType) throws ClassNotFoundException {
+//		EntityModel<?> entity = applicationModel.getEntity(currentEntityName);
+//		entity.add(new FieldModel(entity, fieldName, Class.forName(fieldType)));
+//	}
 
 
 }

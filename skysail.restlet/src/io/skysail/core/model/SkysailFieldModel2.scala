@@ -1,6 +1,5 @@
 package io.skysail.core.model
 
-import io.skysail.domain.core.FieldModel
 import java.lang.reflect.Field
 import io.skysail.domain.html.InputType
 import java.lang.reflect.Type

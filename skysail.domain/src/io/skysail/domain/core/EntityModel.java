@@ -41,9 +41,9 @@ public class EntityModel<T extends Entity> {
     /** the entities fields in a map with their id as key. */
     private Map<String, FieldModel> fields = new LinkedHashMap<>();
 
-    @Setter
-    /** names of related entities in other applications. */
-    private Map<String, FieldRelationModel> fieldRelations = new LinkedHashMap<>();
+//    @Setter
+//    /** names of related entities in other applications. */
+//    private Map<String, FieldRelationModel> fieldRelations = new LinkedHashMap<>();
 
     @Setter
     /** names of related entities. */
@@ -83,9 +83,9 @@ public class EntityModel<T extends Entity> {
         return fields.values();
     }
 
-    public Collection<FieldRelationModel> getFieldRelationValues() {
-        return fieldRelations.values();
-    }
+//    public Collection<FieldRelationModel> getFieldRelationValues() {
+//        return fieldRelations.values();
+//    }
 
     public String getPackageName() {
         int indexOfLastDot = id.lastIndexOf(DOT);
@@ -146,15 +146,15 @@ public class EntityModel<T extends Entity> {
         );
     }
 
-    protected void fieldRelationsToString(StringBuilder sb) {
-        if (fieldRelations.isEmpty()) {
-            return;
-        }
-        sb.append(repeat(" ", 3)).append("FieldRelations:\n");
-        fieldRelations.keySet().stream().forEach(
-                key -> sb.append(repeat(" ", 3)).append(" - ").append(fields.get(key).toString()).append("\n")
-        );
-    }
+//    protected void fieldRelationsToString(StringBuilder sb) {
+//        if (fieldRelations.isEmpty()) {
+//            return;
+//        }
+//        sb.append(repeat(" ", 3)).append("FieldRelations:\n");
+//        fieldRelations.keySet().stream().forEach(
+//                key -> sb.append(repeat(" ", 3)).append(" - ").append(fields.get(key).toString()).append("\n")
+//        );
+//    }
 
     protected void fieldsToString(StringBuilder sb) {
         if (fields.isEmpty()) {

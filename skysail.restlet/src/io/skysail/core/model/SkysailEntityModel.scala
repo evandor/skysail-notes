@@ -11,7 +11,7 @@ class SkysailEntityModel(
   resourceInstance: SkysailServerResource[_])
     extends EntityModel(identifiableClass.getName()) {
 
-  val fields = deriveFields()
+  val fields = null//deriveFields()
   def getScalaFields() = fields
 
   val relations = deriveRelations()
@@ -20,14 +20,14 @@ class SkysailEntityModel(
 
   def identifiableClass(): Class[_] = identifiableClass
 
-  private def deriveFields() = {
-    ScalaReflectionUtils.getInheritedFields(identifiableClass)
-  
-    .filter { filterFormFields(_) }
-      .map { f => new ScalaSkysailFieldModel(this, f) }
-      .map(m => m.getId -> m)
-      .toMap
-  }
+//  private def deriveFields() = {
+//    ScalaReflectionUtils.getInheritedFields(identifiableClass)
+//  
+//    .filter { filterFormFields(_) }
+//      .map { f => new ScalaSkysailFieldModel(this, f) }
+//      .map(m => m.getId -> m)
+//      .toMap
+//  }
 
   private def filterFormFields(f: Field): Boolean = f.getAnnotation(classOf[io.skysail.domain.html.Field]) != null
 

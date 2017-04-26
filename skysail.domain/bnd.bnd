@@ -19,10 +19,8 @@ Bundle-ActivationPolicy: lazy
 Export-Package: \
 	io.skysail.domain.core,\
 	io.skysail.domain.core.resources,\
-	io.skysail.domain.core.repos,\
 	io.skysail.domain,\
-	io.skysail.domain.html,\
-	io.skysail.domain.model
+	io.skysail.domain.html
 
 Import-Package: \
     io.skysail.api.weaving,\

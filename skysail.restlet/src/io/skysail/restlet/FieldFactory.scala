@@ -4,7 +4,6 @@ import java.util.Collections
 import org.slf4j.LoggerFactory
 import scala.collection.JavaConverters._
 import io.skysail.restlet.app.SkysailApplicationService
-import io.skysail.core.model.ScalaSkysailFieldModel
 import io.skysail.restlet.forms.ScalaFormField
 
 trait FieldFactory {
@@ -27,11 +26,11 @@ trait FieldFactory {
       return Map()
     }
 
-    entityModel.getScalaFields().values
-      .map { field => new ScalaFormField(field, resource.entity, service) }
-      .map { sff => sff.getId() -> sff }
-      .toMap
-    
+//    entityModel.getScalaFields().values
+//      .map { field => new ScalaFormField(field, resource.entity, service) }
+//      .map { sff => sff.getId() -> sff }
+//      .toMap
+    Map()
 //    if (entityModel.getFieldValues() == null) {
 //      return Map()
 //    }
