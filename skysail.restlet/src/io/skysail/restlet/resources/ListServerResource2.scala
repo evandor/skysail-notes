@@ -26,7 +26,8 @@ abstract class ListServerResource2[T: Manifest](
   }
 
   private final def listEntities(variant: Variant): List[T] = {
-    val requestHandler = new ScalaListRequestHandler[T](variant);
+    val appModel = getSkysailApplication().getApplicationModel2()
+    val requestHandler = new ScalaListRequestHandler[T](variant, appModel)
     val responseWrapper = requestHandler.createForList(Method.GET).handle(this, getResponse())
     return responseWrapper.getEntity()
   }

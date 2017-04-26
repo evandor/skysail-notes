@@ -3,8 +3,9 @@ package io.skysail.restlet
 import org.restlet.data.Method
 import org.restlet.representation.Variant
 import io.skysail.restlet.filter._
+import io.skysail.core.model.SkysailApplicationModel2
 
-class ScalaListRequestHandler[T:Manifest](variant: Variant) {
+class ScalaListRequestHandler[T:Manifest](variant: Variant, appModel: SkysailApplicationModel2) {
   
   def createForList(method: Method): ScalaAbstractListResourceFilter[T] = {
     if (method.equals(Method.GET)) {
@@ -20,7 +21,7 @@ class ScalaListRequestHandler[T:Manifest](variant: Variant) {
     new ScalaExceptionCatchingListFilter[T]()
       // .calling(new ExtractStandardQueryParametersResourceFilter<>())
       .calling(new ScalaDataExtractingListFilter[T]())
-      .calling(new AddLinkheadersListFilter[T]())
+      .calling(new AddLinkheadersListFilter[T](appModel))
 //      .calling(new SetExecutionTimeInListResponseFilter())
 //      .calling(new RedirectListFilter());
       .asInstanceOf[ScalaAbstractListResourceFilter[T]]

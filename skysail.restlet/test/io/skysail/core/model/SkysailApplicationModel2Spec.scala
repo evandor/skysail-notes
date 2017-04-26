@@ -36,25 +36,32 @@ class SkysailApplicationModel2Spec extends FlatSpec with BeforeAndAfterEach {
 
   "An ApplicationModel" should "add a new minimal ResourceModel" in {
     val resourceModel = new SkysailResourceModel2("/path", classOf[TestResource])
-    model.addResource(resourceModel)
-    val resourceModelFromAppModel = model.resources.get("/path").get
-    assert(model.resources.size == 1)
+    model.addResourceModel(resourceModel)
+    val resourceModelFromAppModel = model.resourceModelFor("/path").get
+   // assert(model.resourcesMap.size == 1)
     assert(resourceModelFromAppModel == resourceModel)
   }
 
-  "An ApplicationModel" should "add an ResourceModel (identified by its path), only once" in {
+  /*"An ApplicationModel" should "add an ResourceModel (identified by its path), only once" in {
     model.addResource(new SkysailResourceModel2("/path", classOf[TestResource]))
     model.addResource(new SkysailResourceModel2("/path", classOf[TestResource]))
-    assert(model.resources.size == 1)
-  }
+    assert(model.resourcesMap.size == 1)
+  }*/
 
   "An ApplicationModel" should "provide the entity from a ResourceModel" in {
     val resourceModel = new SkysailResourceModel2("/path", classOf[TestResource])
-    model.addResource(resourceModel)
+    model.addResourceModel(resourceModel)
     val id = classOf[TestEntity].getName
     log.info(s"trying to retrieve entity with id '$id'")
-    val entityModelsFromAppModel = model.entities.get(id).get
-    assert(model.entities.size == 1)
+    val entityModelsFromAppModel = model.entityFor(id).get
+    //assert(model.entitiesMap.size == 1)
+  }
+  
+  "An ApplicationMOdel" should "provide the LinkModel for a resource identified by its class" in {
+    val resourceModel = new SkysailResourceModel2("/path", classOf[TestListResource])
+    model.addResourceModel(resourceModel)
+    val links = model.linksFor(classOf[TestListResource])
+    assert(links.size == 1)
   }
 
 }

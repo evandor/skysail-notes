@@ -47,7 +47,9 @@ case class SkysailResourceModel2(val path: String, val targetResource: Class[_ <
     resource.associatedResources.filter(p => p._1 == `type`).map(p => p._2).toList
   }
   
-  
+  def links():List[LinkModel] = {
+    resource.associatedResources.map(r => LinkModel(r._1,r._2)).toList
+  }
 
   private def determineTargetResource() = targetResource.newInstance().asInstanceOf[SkysailServerResource[_]]
   private def determineTargetEntity() = ScalaSkysailRouter.getResourcesGenericType(resource)
