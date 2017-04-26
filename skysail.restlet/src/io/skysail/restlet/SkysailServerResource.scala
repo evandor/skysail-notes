@@ -41,7 +41,6 @@ abstract class SkysailServerResource[T: TypeTag] extends ServerResource {
 
   val stringContextMap = new java.util.HashMap[ResourceContextId, String]()
 
-  val associatedResources = scala.collection.mutable.ListBuffer[Tuple2[ResourceAssociationType, Class[_ <: SkysailServerResource[_]]]]()
 
   def getSkysailApplication() = getApplication().asInstanceOf[SkysailApplication]
   def getMetricsCollector() = getSkysailApplication().getMetricsCollector()
@@ -142,12 +141,10 @@ abstract class SkysailServerResource[T: TypeTag] extends ServerResource {
     linkheader.uri
   }
 
-  def addAssociatedResource(inputTuple: Tuple2[ResourceAssociationType, Class[_ <: SkysailServerResource[_]]]) = {
-    if (inputTuple._2 != null) {
-      associatedResources += Tuple2(inputTuple._1, inputTuple._2)
-    }
-  }
+ 
   
   def linkedResources():List[Class[_ <: SkysailServerResource[_]]] = List()
+  
+  def associatedResources():List[Tuple2[ResourceAssociationType, Class[_ <: SkysailServerResource[_]]]] = List()
 
 }

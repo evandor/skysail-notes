@@ -11,12 +11,10 @@ import io.skysail.restlet.ScalaListRequestHandler
 import io.skysail.core.model.ENTITY_RESOURCE_FOR_LIST_RESOURCE
 import io.skysail.core.model.ResourceAssociationType
 
-abstract class ListServerResource2[T: Manifest](
-    associatedEntiyResource: Class[_ <: EntityServerResource2[_]] = null) 
-  extends SkysailServerResource {
-  
-  addAssociatedResource((ENTITY_RESOURCE_FOR_LIST_RESOURCE, associatedEntiyResource))
-    
+abstract class ListServerResource2[T: Manifest](associatedEntiyResource: Class[_ <: EntityServerResource2[_]] = null) extends SkysailServerResource {
+
+  override def associatedResources() = List((ENTITY_RESOURCE_FOR_LIST_RESOURCE,associatedEntiyResource))
+
   @Get("html|json|yaml|xml|csv|timeline|carbon|standalone|data")
   def getEntities(variant: Variant): ListResponse[T] = {
     val timerMetric = getMetricsCollector().timerFor(this.getClass(), "getEntities");
@@ -32,6 +30,6 @@ abstract class ListServerResource2[T: Manifest](
     return responseWrapper.getEntity()
   }
 
- // def getAssociatedServerResources() = associatedResources // List<Class<? extends SkysailServerResource<?>>>
-  
+  // def getAssociatedServerResources() = associatedResources // List<Class<? extends SkysailServerResource<?>>>
+
 }
