@@ -160,7 +160,7 @@ object LinkUtils {
       return List()
     }
     val listServerResource = currentResource.asInstanceOf[ListServerResource2[_]]
-    val entityResourceClasses = listServerResource.getAssociatedServerResources() // List<Class<? extends SkysailServerResource<?>>>
+ //   val entityResourceClasses = listServerResource.getAssociatedServerResources() // List<Class<? extends SkysailServerResource<?>>>
     //        List<Link> result = new ArrayList<>();
     //
     //        if (entityResourceClasses != null && entity instanceof List) {
@@ -172,8 +172,8 @@ object LinkUtils {
     //            }
     //        }
     //        return result;
-    val esrs = ScalaResourceUtils.createSkysailServerResources(entityResourceClasses, currentResource).toList
-    val result = ListBuffer[Link]()
+            val result = ListBuffer[Link]()
+/*    val esrs = ScalaResourceUtils.createSkysailServerResources(entityResourceClasses, currentResource).toList
     for (esr <- esrs) {
       println(s"checking ${esr.getClass.getName} for links")
       val entityLinkTemplates = esr.getAuthorizedLinks();
@@ -190,7 +190,7 @@ object LinkUtils {
             .foreach { l => addLink(l, entity, listServerResource, result) }
         }
       }
-    }
+    }*/
     result.toList
   }
 

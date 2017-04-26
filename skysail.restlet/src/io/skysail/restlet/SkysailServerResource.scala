@@ -14,6 +14,7 @@ import io.skysail.restlet.utils._
 import io.skysail.api.links.LinkRelation
 import io.skysail.api.doc.ApiMetadata
 import scala.reflect.runtime.universe._
+import io.skysail.core.model.ResourceAssociationType
 
 object SkysailServerResource {
   //val SKYSAIL_SERVER_RESTLET_FORM = "de.twenty11.skysail.server.core.restlet.form";
@@ -29,7 +30,7 @@ object SkysailServerResource {
 
 }
 
-abstract class SkysailServerResource[T:TypeTag] extends ServerResource {
+abstract class SkysailServerResource[T: TypeTag] extends ServerResource {
 
   var entity: AnyRef = null
   def setEntity(e: AnyRef) = entity = e
@@ -39,6 +40,8 @@ abstract class SkysailServerResource[T:TypeTag] extends ServerResource {
   var links = List[Link]()
 
   val stringContextMap = new java.util.HashMap[ResourceContextId, String]()
+
+  val associatedResources = scala.collection.mutable.ListBuffer[Tuple2[ResourceAssociationType, Class[_ <: SkysailServerResource[_]]]]()
 
   def getSkysailApplication() = getApplication().asInstanceOf[SkysailApplication]
   def getMetricsCollector() = getSkysailApplication().getMetricsCollector()
@@ -138,5 +141,13 @@ abstract class SkysailServerResource[T:TypeTag] extends ServerResource {
     //getPathSubstitutions().accept(linkheader);
     linkheader.uri
   }
+
+  def addAssociatedResource(inputTuple: Tuple2[ResourceAssociationType, Class[_ <: SkysailServerResource[_]]]) = {
+    if (inputTuple._2 != null) {
+      associatedResources += Tuple2(inputTuple._1, inputTuple._2)
+    }
+  }
+  
+  def linkedResources():List[Class[_ <: SkysailServerResource[_]]] = List()
 
 }

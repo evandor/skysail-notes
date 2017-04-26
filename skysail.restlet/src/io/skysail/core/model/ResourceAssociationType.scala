@@ -1,0 +1,5 @@
+package io.skysail.core.model
+
+sealed trait ResourceAssociationType 
+case object ENTITY_RESOURCE_FOR_LIST_RESOURCE extends ResourceAssociationType
+case object LINKED_RESOURCE extends ResourceAssociationType

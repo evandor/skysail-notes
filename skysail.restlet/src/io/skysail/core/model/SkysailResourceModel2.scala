@@ -1,15 +1,12 @@
 package io.skysail.core.model
 
 import io.skysail.domain.core.EntityModel
-import io.skysail.restlet.SkysailServerResource
 import scala.collection.JavaConverters._
 import java.lang.reflect.Field
 import io.skysail.restlet.utils.ScalaReflectionUtils
+import io.skysail.restlet.SkysailServerResource
 import io.skysail.restlet.router.ScalaSkysailRouter
-import io.skysail.restlet.resources.ListServerResource2
-import io.skysail.restlet.resources.EntityServerResource2
-import io.skysail.restlet.resources.PutEntityServerResource2
-import io.skysail.restlet.resources.PostEntityServerResource2
+import io.skysail.restlet.resources._
 import org.slf4j.LoggerFactory
 
 /**
@@ -31,16 +28,26 @@ case class SkysailResourceModel2(val path: String, val targetResource: Class[_ <
 
   val resource: SkysailServerResource[_] = determineTargetResource()
   val entityClass: Class[_] = determineTargetEntity()
+  
+  resource.linkedResources.foreach { 
+    linkedResource => resource.addAssociatedResource((LINKED_RESOURCE, linkedResource)) 
+  }
 
   def resourceType() = {
     resource match {
-      case l: ListServerResource2[_] => LIST_RESOURCE
-      case e: EntityServerResource2[_] => ENTITY_RESOURCE
-      case p: PutEntityServerResource2[_] => UPDATE_ENTITY_RESOURCE
-      case p: PostEntityServerResource2[_] => CREATE_ENTITY_RESOURCE
+      case _: ListServerResource2[_] => LIST_RESOURCE
+      case _: EntityServerResource2[_] => ENTITY_RESOURCE
+      case _: PutEntityServerResource2[_] => UPDATE_ENTITY_RESOURCE
+      case _: PostEntityServerResource2[_] => CREATE_ENTITY_RESOURCE
       case _ => UNSPECIFIED_RESOURCE
     }
   }
+  
+  def getAssociatedResources(`type`: ResourceAssociationType) = {
+    resource.associatedResources.filter(p => p._1 == `type`).map(p => p._2).toList
+  }
+  
+  
 
   private def determineTargetResource() = targetResource.newInstance().asInstanceOf[SkysailServerResource[_]]
   private def determineTargetEntity() = ScalaSkysailRouter.getResourcesGenericType(resource)
