@@ -87,7 +87,7 @@ class ScalaSkysailRouter(skysailApplication: SkysailApplication, apiVersion: Api
       try {
         val resourceInstance = targetClass.newInstance().asInstanceOf[SkysailServerResource[_]];
         val parameterizedType = ScalaSkysailRouter.getResourcesGenericType(resourceInstance);
-        applicationModel.addOnce(ScalaEntityFactory.createFrom(skysailApplication, parameterizedType, resourceInstance))
+        //applicationModel.addOnce(ScalaEntityFactory.createFrom(skysailApplication, parameterizedType, resourceInstance))
         
         val resourceId = routeBuilder.pathTemplate
         applicationModel2.addResourceModel(new SkysailResourceModel2(resourceId, targetClass.asInstanceOf[Class[SkysailServerResource[_]]]))
