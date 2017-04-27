@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory
 case class SkysailResourceModel2(val path: String, val targetResource: Class[_ <: SkysailServerResource[_]]) {
 
   require(path != null, "A ResourceModel's path must not be null")
-  require(path.trim().length() > 0, "A ResourceModel's path must not be empty")
+ // require(path.trim().length() > 0, "A ResourceModel's path must not be empty")
   require(targetResource != null, "A ResourceModel's target class must not be null")
 
   private val log = LoggerFactory.getLogger(this.getClass())
@@ -31,7 +31,7 @@ case class SkysailResourceModel2(val path: String, val targetResource: Class[_ <
   val associatedResources = scala.collection.mutable.ListBuffer[Tuple2[ResourceAssociationType, Class[_ <: SkysailServerResource[_]]]]()
 
   resource.associatedResources.foreach { ar => addAssociatedResource(ar) }
-  resource.linkedResources.foreach { linkedResource => addAssociatedResource((LINKED_RESOURCE, linkedResource)) }
+  resource.linkedResources.foreach { lr => addAssociatedResource((LINKED_RESOURCE, lr)) }
 
   def resourceType() = {
     resource match {

@@ -5,6 +5,7 @@ import java.util.ArrayList
 import io.skysail.core.model.SkysailEntityModel
 import scala.collection.JavaConverters._
 import io.skysail.restlet.services.EntityApi
+import io.skysail.core.model.SkysailEntityModel2
 
 @Component(immediate = true, service = Array(classOf[SkysailApplicationService]))
 class SkysailApplicationService {
@@ -51,11 +52,13 @@ class SkysailApplicationService {
   //                .findFirst().orElse(new SkysailApplicationModel("unknown"));
   //    }
   //
-  def getEntityModel(name: String): SkysailEntityModel = {
-    getEntityValues
-      .filter { entityModel => entityModel.getId.equals(name) }
-      .map { e => e.asInstanceOf[SkysailEntityModel] }
-      .head
+  def getEntityModel(name: String): SkysailEntityModel2 = {
+    
+    null
+//    getEntityValues
+//      .filter { entityModel => entityModel.getId.equals(name) }
+//      .map { e => e.asInstanceOf[SkysailEntityModel] }
+//      .head
 
   }
 

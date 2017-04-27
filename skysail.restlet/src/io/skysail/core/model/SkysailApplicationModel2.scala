@@ -25,7 +25,7 @@ case class SkysailApplicationModel2(val name: String) {
 
   def resourceModelFor(path: String) = resourcesMap.get(path)
   def entityFor(id: String) = entitiesMap.get(id)
-  
+
   /**
    * adds an non-null resource model identified by its path.
    *
@@ -45,18 +45,15 @@ case class SkysailApplicationModel2(val name: String) {
     }
     resourcesMap += resourceModel.path -> resourceModel
   }
-  
+
   def linksFor(resourceClass: Class[_ <: io.skysail.restlet.SkysailServerResource[_]]): List[LinkModel] = {
     println(resourcesMap)
     val r = resourcesMap.values.filter { resourceModel => resourceModel.resource.getClass == resourceClass }.headOption
     if (r.isDefined) {
       r.get.links
     } else {
-    	List()
+      List()
     }
-    
+
   }
-
-  //override def toString() = s"Name: ${name}, ID: ${id},\\nEntities: ${resources}"
-
 }
