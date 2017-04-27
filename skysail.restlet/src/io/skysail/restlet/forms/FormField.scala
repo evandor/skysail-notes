@@ -9,7 +9,7 @@ import scala.beans.BeanProperty
 import java.util.Collection
 import io.skysail.core.model.SkysailFieldModel2
 
-case class ScalaFormField(ssfm: SkysailFieldModel2, currentEntity: Any, appService: SkysailApplicationService) {
+case class ScalaFormField(ssfm: SkysailFieldModel2, currentEntity: Any) {
 
   //        this.type = sfm.getF().getType();
   //        this.sfm = sfm;
@@ -21,7 +21,7 @@ case class ScalaFormField(ssfm: SkysailFieldModel2, currentEntity: Any, appServi
   //        this.currentEntity = currentEntity;
   //        tab = postViewAnnotation != null ? postViewAnnotation.tab() : null;
 
-  def getId() = "xxx"//ssfm.getId
+  def getId() = ssfm.f.getDeclaringClass().getName() + "|" + ssfm.f.getName()
   def getLabel() = ssfm.f.getName()
 
   @BeanProperty val inputType: InputType = getFromFieldAnnotation(ssfm.f)

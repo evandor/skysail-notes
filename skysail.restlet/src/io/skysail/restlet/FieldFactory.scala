@@ -10,27 +10,37 @@ trait FieldFactory {
 
   val log = LoggerFactory.getLogger(classOf[FieldFactory])
 
-  def determineFrom(r: SkysailServerResource[_], s: SkysailApplicationService): Map[String, ScalaFormField]
+  def determineFrom(r: SkysailServerResource[_]): Map[String, ScalaFormField]
 
   def determine(
-      resource: SkysailServerResource[_], cls: Class[_], 
-      service: SkysailApplicationService): Map[String, ScalaFormField] = {
+      resource: SkysailServerResource[_], cls: Class[_]): Map[String, ScalaFormField] = {
     
-    require(service != null, "service must not be null")
-    val entityModel = service.getEntityModel(cls.getName());
+    //require(appService != null, "service must not be null")
+    val appModel = resource.getSkysailApplication().applicationModel2
+    
+    val entityModel = appModel.entityFor(cls.getName)
+    
+    //val entityModel = appService.getEntityModel(cls.getName());
 
-    if (entityModel == null) {
+    if (entityModel.isEmpty) {
       log.warn("entity Model for '{}' was null.", cls.getName());
       log.warn("existing models are:");
-      service.getEntityModels().foreach { model => log.info("{}", model.getName()) }
+     // appService.getEntityModels().foreach { model => log.info("{}", model.getName()) }
       return Map()
     }
+    
+    val fields = entityModel.get.fields
+    println(fields)
 
+    fields.values
+      .map { field => new ScalaFormField(field, resource.entity) }
+      .map { sff => sff.getId() -> sff}
+      .toMap
+      
 //    entityModel.getScalaFields().values
 //      .map { field => new ScalaFormField(field, resource.entity, service) }
 //      .map { sff => sff.getId() -> sff }
 //      .toMap
-    Map()
 //    if (entityModel.getFieldValues() == null) {
 //      return Map()
 //    }
@@ -44,17 +54,17 @@ trait FieldFactory {
 }
 
 class NoFieldFactory extends FieldFactory {
-  override def determineFrom(r: SkysailServerResource[_], s: SkysailApplicationService) = Map()
+  override def determineFrom(r: SkysailServerResource[_]) = Map()
 }
 
 class FormResponseEntityFieldFactory(t: Class[_]) extends FieldFactory {
-  override def determineFrom(r: SkysailServerResource[_], s: SkysailApplicationService) = determine(r, t, s)
+  override def determineFrom(r: SkysailServerResource[_]) = determine(r, t)
 }
 
 class DefaultEntityFieldFactory(t: Class[_]) extends FieldFactory {
-  override def determineFrom(r: SkysailServerResource[_], s: SkysailApplicationService) =  determine(r, t, s)
+  override def determineFrom(r: SkysailServerResource[_]) =  determine(r, t)
 }
 
 class DefaultListFieldFactory() extends FieldFactory {
-  override def determineFrom(r: SkysailServerResource[_], s: SkysailApplicationService) = determine(r, r.getParameterizedType(), s)
+  override def determineFrom(r: SkysailServerResource[_]) = determine(r, r.getParameterizedType())
 }

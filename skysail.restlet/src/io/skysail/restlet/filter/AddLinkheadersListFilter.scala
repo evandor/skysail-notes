@@ -25,7 +25,6 @@ class AddLinkheadersListFilter[T:Manifest](appModel: SkysailApplicationModel2) e
     
     val s = resource.getClass
     val links = appModel.linksFor(s)
-    println(links)
     
 //    linkheaderAuthorized.forEach(getPathSubstitutions(resource));
 //    val links = linkheaderAuthorized.stream().map(link -> link.toString(""))

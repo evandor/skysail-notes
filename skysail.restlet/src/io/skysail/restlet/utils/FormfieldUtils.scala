@@ -14,7 +14,7 @@ object ScalaFormfieldUtils {
 
   def determineFormfields(response: ScalaSkysailResponse[_], resource: SkysailServerResource[_], appService: SkysailApplicationService) = {
     val f = FieldsFactory.getFactory(response)
-    f.determineFrom(resource, appService);
+    f.determineFrom(resource);
   }
 
 }

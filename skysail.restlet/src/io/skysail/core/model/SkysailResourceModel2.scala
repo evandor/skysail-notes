@@ -26,12 +26,19 @@ case class SkysailResourceModel2(val path: String, val targetResource: Class[_ <
 
   private val log = LoggerFactory.getLogger(this.getClass())
 
-  val resource: SkysailServerResource[_] = targetResource.newInstance().asInstanceOf[SkysailServerResource[_]]
+  val resource: SkysailServerResource[_] = {
+    targetResource.newInstance().asInstanceOf[SkysailServerResource[_]]
+  }
   val entityClass: Class[_] = ScalaSkysailRouter.getResourcesGenericType(resource)
   val associatedResources = scala.collection.mutable.ListBuffer[Tuple2[ResourceAssociationType, Class[_ <: SkysailServerResource[_]]]]()
 
-  resource.associatedResources.foreach { ar => addAssociatedResource(ar) }
-  resource.linkedResources.foreach { lr => addAssociatedResource((LINKED_RESOURCE, lr)) }
+  resource.associatedResources.foreach { 
+    ar => addAssociatedResource(ar) 
+  }
+  
+  resource.linkedResources.foreach { 
+    lr => addAssociatedResource((LINKED_RESOURCE, lr)) 
+  }
 
   def resourceType() = {
     resource match {
@@ -48,10 +55,11 @@ case class SkysailResourceModel2(val path: String, val targetResource: Class[_ <
   }
 
   def links(): List[LinkModel] = {
-    associatedResources.map(r => LinkModel(path, r._1, r._2)).toList
+    associatedResources.map(r => new LinkModel(path, r._1, r._2)).toList
   }
 
   def addAssociatedResource(inputTuple: Tuple2[ResourceAssociationType, Class[_ <: SkysailServerResource[_]]]) = {
+    log.info(s"adding associatedResource: $inputTuple")
     if (inputTuple._2 != null) {
       associatedResources += Tuple2(inputTuple._1, inputTuple._2)
     }

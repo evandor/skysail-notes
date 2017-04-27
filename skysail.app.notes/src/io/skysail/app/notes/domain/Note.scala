@@ -11,9 +11,7 @@ import scala.beans.BeanProperty
 
 import javax.validation.constraints._
 import io.skysail.domain.ddd.ScalaEntity
-import io.skysail.restlet.forms.PostView
-import io.skysail.restlet.forms.PutView
-import io.skysail.restlet.forms.Visibility
+import io.skysail.restlet.forms._
 
 //@JsonIgnoreProperties(ignoreUnknown = true)
 @BeanProperty

@@ -69,9 +69,9 @@ raw_content(user,converter,messages,model,request)::= <<
         <small>$model.data: { row | $row$};separator="<br>\n"$</small>
         <h5>Links</h5>
         <small><table  class="pure-table">
-        	<tr><th>Title</th><th>URI</th><th>Alt</th><th>Rel</th><th>Verbs</th><th>needsAuthentication</th><th>role</th><th>rolesPredicate</th><th>refId</th><th>cls</th></tr>
+        	<tr><th>Title</th><th>URI</th><th>Alt</th><th>Rel</th><th>Verbs</th><th>needsAuthentication</th><th>role</th><th>refId</th><th>cls</th></tr>
         	$model.links: { link | 
-        	<tr><td>$link.title$</td><td>$link.uri$</td><td>$link.alt$</td><td>$link.rel$</td><td>$link.verb$</td><td>$link.needsAuthentication$</td><td>$link.role$</td><td>$link.rolesPredicate$</td><td>$link.refId$</td><td>$link.cls$</td></tr>
+        	<tr><td>$link.title$</td><td><a href='$link.uri$'>[$link.uri$]</a></td><td>$link.alt$</td><td>$link.relation$</td><td>$link.verbs$</td><td>$link.needsAuth$</td><td>$link.linkRole$</td><td>$link.refId$</td><td>$link.resourceClass$</td></tr>
         };separator="<br>\n"$</table></small>
       </div> 
         

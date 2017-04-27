@@ -53,7 +53,9 @@ class SkysailApplicationService {
   //    }
   //
   def getEntityModel(name: String): SkysailEntityModel2 = {
-    
+    println(name) //io.skysail.app.notes.domain.Note
+    val appModels = applicationListProvider.getApplications().map(a => a.getApplicationModel2()).toList
+    println(appModels)
     null
 //    getEntityValues
 //      .filter { entityModel => entityModel.getId.equals(name) }

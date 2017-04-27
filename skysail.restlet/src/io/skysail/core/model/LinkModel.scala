@@ -2,17 +2,19 @@ package io.skysail.core.model
 
 import org.restlet.data.Method
 import io.skysail.restlet.SkysailServerResource
+import scala.annotation.meta.field
+import scala.beans.BeanProperty
 
-case class LinkModel(uri: String, rat: ResourceAssociationType, resourceClass: Class[_ <: SkysailServerResource[_]]) {
+case class LinkModel(uri: String, rat: ResourceAssociationType = null, 
+    @BeanProperty val resourceClass: Class[_ <: SkysailServerResource[_]] = null) {
 
-  
-  val title: String = "unknown"
-  val alt: String = ""
-  val relation: LinkRelation = LinkRelation.CANONICAL
-  val verbs: Set[Method] = Set()
-  val needsAuth: Boolean = false
-  val linkRole: LinkRole = LinkRole.DEFAULT
-  var refId: String = _
-  var cls: Class[_] = _
+  @BeanProperty val title: String = "unknown"
+  @BeanProperty val alt: String = "-"
+  @BeanProperty val relation: LinkRelation = LinkRelation.CANONICAL
+  @BeanProperty val verbs: Set[Method] = Set()
+  @BeanProperty val needsAuth: Boolean = false
+  @BeanProperty val linkRole: LinkRole = LinkRole.DEFAULT
+  @BeanProperty var refId: String = _
+  @BeanProperty var cls: Class[_] = _
 
 }
