@@ -133,12 +133,12 @@ abstract class SkysailServerResource[T: TypeTag] extends ServerResource {
   def redirectTo(): String = null
 
   def redirectTo(cls: Class[_ <: SkysailServerResource[_]]): String = {
-    val linkheader = LinkUtils.fromResource(getSkysailApplication(), cls);
-    if (linkheader == null) {
+//    val linkheader = LinkUtils.fromResource(getSkysailApplication(), cls);
+//    if (linkheader == null) {
       return null;
-    }
-    //getPathSubstitutions().accept(linkheader);
-    linkheader.uri
+//    }
+//    //getPathSubstitutions().accept(linkheader);
+//    linkheader.uri
   }
 
  

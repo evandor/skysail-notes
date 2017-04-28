@@ -1,6 +1,5 @@
 package io.skysail.core.model
 
-import io.skysail.domain.core.EntityModel
 import io.skysail.restlet.SkysailServerResource
 import scala.collection.JavaConverters._
 import java.lang.reflect.Field
@@ -13,6 +12,8 @@ case class SkysailEntityModel2(entityClass: Class[_]) {
   def name() = entityClass.getName
 
   val fields = deriveFields()
+  
+  def fieldFor(id: String): Option[SkysailFieldModel2] = fields.get(id) 
 
   private def deriveFields() = {
     ScalaReflectionUtils.getInheritedFields(entityClass)

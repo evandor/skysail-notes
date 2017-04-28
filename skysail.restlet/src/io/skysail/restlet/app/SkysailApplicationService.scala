@@ -2,7 +2,6 @@ package io.skysail.restlet.app
 
 import org.osgi.service.component.annotations._
 import java.util.ArrayList
-import io.skysail.core.model.SkysailEntityModel
 import scala.collection.JavaConverters._
 import io.skysail.restlet.services.EntityApi
 import io.skysail.core.model.SkysailEntityModel2
@@ -64,17 +63,17 @@ class SkysailApplicationService {
 
   }
 
-  def getEntityModels(): List[SkysailEntityModel] = {
-    getEntityValues()
-      .map { e => e.asInstanceOf[SkysailEntityModel] }
-      .toList
-  }
+//  def getEntityModels(): List[SkysailEntityModel] = {
+//    getEntityValues()
+//      .map { e => e.asInstanceOf[SkysailEntityModel] }
+//      .toList
+//  }
   
-  private def getEntityValues() = {
-     applicationListProvider.getApplications()
-      .map { a => a.getApplicationModel() }
-      .map { m => m.getEntityValues }
-      .flatten { e => e.asScala }
-  }
+//  private def getEntityValues() = {
+//     applicationListProvider.getApplications()
+//      .map { a => a.getApplicationModel() }
+//      .map { m => m.getEntityValues }
+//      .flatten { e => e.asScala }
+//  }
 
 }

@@ -17,8 +17,6 @@ Bundle-ActivationPolicy: lazy
     ${cucumber}
             
 Export-Package: \
-	io.skysail.domain.core,\
-	io.skysail.domain.core.resources,\
 	io.skysail.domain,\
 	io.skysail.domain.html
 

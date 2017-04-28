@@ -21,7 +21,7 @@ object LinkUtils {
 
   private val mapper = new ObjectMapper()
 
-  def fromResource(app: SkysailApplication, ssr: Class[_ <: SkysailServerResource[_]], title: String = null) = {
+  @deprecated def fromResource(app: SkysailApplication, ssr: Class[_ <: SkysailServerResource[_]], title: String = null) = {
     //        if (noRouteBuilderFound(app, ssr)) {
     //            log.warn("problem with linkheader for resource {}; no routeBuilder was found.", ssr.getSimpleName());
     //            return null;
@@ -45,7 +45,7 @@ object LinkUtils {
   private def determineUri(app: SkysailApplication, routeBuilder: RouteBuilder): String =
     "/" + app.getName() + routeBuilder.getPathTemplate(app.apiVersion);
 
-  def fromResources[_ <: SkysailServerResource[_]](
+  @deprecated def fromResources[_ <: SkysailServerResource[_]](
     currentResource: SkysailServerResource[_],
     entity: Any,
     classes: Seq[Class[_]]): List[Link] = {
@@ -62,7 +62,7 @@ object LinkUtils {
     res
   }
 
-  def fromResource[_ <: SkysailServerResource[_]](sssr: SkysailServerResource[_], c: Class[_]) = {
+  @deprecated def fromResource[_ <: SkysailServerResource[_]](sssr: SkysailServerResource[_], c: Class[_]) = {
     //     if (noRouteBuilderFound(skysailServerResource.getApplication(), ssr)) {
     //            log.warn("problem with linkheader for resource {} no routeBuilder was found.", ssr.getSimpleName())
     //            return null

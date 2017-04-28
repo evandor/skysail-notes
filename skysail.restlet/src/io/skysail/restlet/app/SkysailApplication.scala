@@ -35,7 +35,6 @@ import io.skysail.restlet.menu.MenuItem
 import io.skysail.restlet.menu.Category
 import io.skysail.restlet.menu.APPLICATION_MAIN_MENU
 import org.restlet.Request
-import io.skysail.core.model.SkysailApplicationModel
 import io.skysail.core.model.SkysailApplicationModel2
 
 object SkysailApplication {
@@ -59,9 +58,6 @@ abstract class SkysailApplication(
   var componentContext: ComponentContext = null
   def getComponentContext() = componentContext
 
-  var applicationModel: SkysailApplicationModel = null
-  def getApplicationModel() = applicationModel
-
   var applicationModel2: SkysailApplicationModel2 = null
   def getApplicationModel2() = applicationModel2
   
@@ -75,7 +71,6 @@ abstract class SkysailApplication(
   //getEncoderService().getIgnoredMediaTypes().add(SkysailApplication.SKYSAIL_SERVER_SENT_EVENTS);
   getEncoderService().setEnabled(true);
   log.debug("Instanciating new Skysail ApplicationModel '{}'", this.getClass().getSimpleName());
-  applicationModel = new SkysailApplicationModel(name)
   applicationModel2 = new SkysailApplicationModel2(name)
   //entityClasses.forEach(cls -> applicationModel.addOnce(EntityFactory.createFrom(this, cls, null)));
 
@@ -130,14 +125,6 @@ abstract class SkysailApplication(
   }
 
   def attach(): Unit = {
-    if (applicationModel == null) {
-      //log.warn("no applicationModel defined");
-      return ;
-    }
-    if (applicationModel.getEntityIds().isEmpty()) {
-      //log.warn("there are no entities defined for the applicationModel {}", applicationModel);
-      return ;
-    }
     //    val firstClassEntity = (SkysailEntityModel<?>) applicationModel
     //                    .getEntity(applicationModel.getEntityIds().iterator().next());
 

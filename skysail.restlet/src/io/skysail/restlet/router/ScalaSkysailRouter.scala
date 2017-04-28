@@ -2,7 +2,6 @@ package io.skysail.restlet.router
 
 import io.skysail.restlet.SkysailServerResource
 import io.skysail.restlet.app.SkysailApplication
-import io.skysail.restlet.ScalaEntityFactory
 import org.restlet.routing.Router
 import org.restlet.resource.ServerResource
 import org.restlet.routing.TemplateRoute
@@ -75,9 +74,9 @@ class ScalaSkysailRouter(skysailApplication: SkysailApplication, apiVersion: Api
   }
 
   private def updateApplicationModel(routeBuilder: RouteBuilder): Unit = {
-    var applicationModel = skysailApplication.getApplicationModel();
+    //var applicationModel = skysailApplication.getApplicationModel();
     var applicationModel2 = skysailApplication.getApplicationModel2();
-    if (applicationModel == null) {
+    if (applicationModel2 == null) {
       log.warn("applicationModel is null");
       return
     }
@@ -90,7 +89,7 @@ class ScalaSkysailRouter(skysailApplication: SkysailApplication, apiVersion: Api
         //applicationModel.addOnce(ScalaEntityFactory.createFrom(skysailApplication, parameterizedType, resourceInstance))
         
         val resourceId = routeBuilder.pathTemplate
-        applicationModel2.addResourceModel(new SkysailResourceModel2(resourceId, targetClass.asInstanceOf[Class[SkysailServerResource[_]]]))
+        applicationModel2.addResourceModel(routeBuilder.pathTemplate, targetClass.asInstanceOf[Class[SkysailServerResource[_]]])
         
       } catch {
         case e: Throwable => log.error(e.getMessage(), e);

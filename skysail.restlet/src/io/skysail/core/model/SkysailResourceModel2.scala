@@ -1,6 +1,5 @@
 package io.skysail.core.model
 
-import io.skysail.domain.core.EntityModel
 import scala.collection.JavaConverters._
 import java.lang.reflect.Field
 import io.skysail.restlet.utils.ScalaReflectionUtils
@@ -18,14 +17,14 @@ import org.slf4j.LoggerFactory
  *  @param path the uri path relative to the application
  *  @param targetClass a SkysailServerResource class to handle requests to the given path
  */
-case class SkysailResourceModel2(val path: String, val targetResource: Class[_ <: SkysailServerResource[_]]) {
+case class SkysailResourceModel2(val path: String, val targetResourceClass: Class[_ <: SkysailServerResource[_]]) {
 
   require(path != null, "A ResourceModel's path must not be null")
-  require(targetResource != null, "A ResourceModel's target class must not be null")
+  require(targetResourceClass != null, "A ResourceModel's target class must not be null")
 
   private val log = LoggerFactory.getLogger(this.getClass())
 
-  val resource: SkysailServerResource[_] = targetResource.newInstance().asInstanceOf[SkysailServerResource[_]]
+  val resource: SkysailServerResource[_] = targetResourceClass.newInstance().asInstanceOf[SkysailServerResource[_]]
   val entityClass: Class[_] = ScalaSkysailRouter.getResourcesGenericType(resource)
   //val associatedResourceModels = scala.collection.mutable.ListBuffer[Tuple2[ResourceAssociationType, Class[_ <: SkysailServerResource[_]]]]()
 
@@ -62,7 +61,7 @@ case class SkysailResourceModel2(val path: String, val targetResource: Class[_ <
   //    }
   //  }
 
-  override def toString() = s"""${this.getClass.getSimpleName}($path, ${targetResource}, ${entityClass})
+  override def toString() = s"""${this.getClass.getSimpleName}($path, ${targetResourceClass}, ${entityClass})
         Links: ${printList(linkModels)}"""
   //    Entities: ${printMap(entitiesMap)}"""
 

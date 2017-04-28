@@ -10,9 +10,7 @@ import org.slf4j.LoggerFactory
 class SkysailApplicationModel2Spec extends FlatSpec {
 
   "An ApplicationModel" should "not accept a null value as its name" in {
-    assertThrows[IllegalArgumentException] {
-      new SkysailApplicationModel2(null)
-    }
+    assertThrows[IllegalArgumentException] { new SkysailApplicationModel2(null) }
   }
 
   "An ApplicationModel" should "not accept an empty value as its name" in {
@@ -27,45 +25,54 @@ class SkysailApplicationModel2Spec extends FlatSpec {
   }
 
   "An ApplicationModel" should "add a new minimal ResourceModel" in {
-    val model = SkysailApplicationModel2("appName")
-    val resourceModel = new SkysailResourceModel2("/path", classOf[TestResource])
-    model.addResourceModel(resourceModel)
-    val resourceModelFromAppModel = model.resourceModelFor("/path").get
-    // assert(model.resourcesMap.size == 1)
-    assert(resourceModelFromAppModel == resourceModel)
+    val appModel = SkysailApplicationModel2("appName")
+
+    appModel.addResourceModel("/path", classOf[TestResource])
+
+    val resourceModel = appModel.resourceModelFor(classOf[TestResource])
+    assert(resourceModel.isDefined)
+    assert(resourceModel.get.path == "/path")
+    assert(resourceModel.get.resource.isInstanceOf[TestResource])
+    assert(resourceModel.get.targetResourceClass == classOf[TestResource])
+    assert(resourceModel.get.entityClass == classOf[TestEntity])
   }
 
-  /*"An ApplicationModel" should "add an ResourceModel (identified by its path), only once" in {
+  "An ApplicationModel" should "add an ResourceModel (identified by its path), only once" in {
     val model = SkysailApplicationModel2("appName")
-    model.addResource(new SkysailResourceModel2("/path", classOf[TestResource]))
-    model.addResource(new SkysailResourceModel2("/path", classOf[TestResource]))
-    assert(model.resourcesMap.size == 1)
-  }*/
+    val entityClass1 = model.addResourceModel("/path", classOf[TestResource])
+    val entityClass2 = model.addResourceModel("/path", classOf[TestResource])
+    assert(entityClass1.isDefined)
+    assert(entityClass2.isEmpty)
+  }
 
-  "An ApplicationModel" should "provide the entity from a ResourceModel" in {
+  "An ApplicationModel" should "return a resourceModel identified by its class" in {
     val model = SkysailApplicationModel2("appName")
-    val resourceModel = new SkysailResourceModel2("/path", classOf[TestResource])
-    model.addResourceModel(resourceModel)
+    model.addResourceModel("/path", classOf[TestResource])
+    val resourceModel = model.resourceModelFor(classOf[TestResource])
+    assert(resourceModel.isDefined)
+  }
+
+  "An ApplicationModel" should "retrieve the entity associated with a Resource" in {
+    val appModel = SkysailApplicationModel2("appName")
+    appModel.addResourceModel("/path", classOf[TestResource])
     val id = classOf[TestEntity].getName
-    println(s"trying to retrieve entity with id '$id'")
-    val entityModelsFromAppModel = model.entityFor(id).get
-    //assert(model.entitiesMap.size == 1)
+    assert(appModel.entityModelFor(id).isDefined)
   }
 
   "An ApplicationModel" should "provide the LinkModel for a resource identified by its class" in {
     val model = SkysailApplicationModel2("appName")
-    val resourceModel = new SkysailResourceModel2("/path", classOf[TestListResource])
-    model.addResourceModel(resourceModel)
+    model.addResourceModel("/list", classOf[TestListResource])
+    model.addResourceModel("/list/{id}", classOf[TestEntityResource])
+    model.build()
     val links = model.linksFor(classOf[TestListResource])
-    assert(links.size == 2)
+    assert(links.size == 1)
   }
 
   "An ApplicationModel" should "provide a decent toString representation" in {
     val appModel = SkysailApplicationModel2("appName")
-    val resourceModel1 = new SkysailResourceModel2("/path1", classOf[TestListResource])
-    val resourceModel2 = new SkysailResourceModel2("/path2", classOf[TestListResource])
-    appModel.addResourceModel(resourceModel1)
-    appModel.addResourceModel(resourceModel2)
+    appModel.addResourceModel("/path1", classOf[TestListResource])
+    appModel.addResourceModel("/path2", classOf[TestListResource])
+    appModel.build()
     println(appModel)
   }
 

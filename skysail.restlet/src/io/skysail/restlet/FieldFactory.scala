@@ -18,7 +18,7 @@ trait FieldFactory {
     //require(appService != null, "service must not be null")
     val appModel = resource.getSkysailApplication().applicationModel2
     
-    val entityModel = appModel.entityFor(cls.getName)
+    val entityModel = appModel.entityModelFor(cls.getName)
     
     //val entityModel = appService.getEntityModel(cls.getName());
 
