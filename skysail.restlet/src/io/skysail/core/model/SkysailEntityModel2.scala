@@ -23,6 +23,6 @@ case class SkysailEntityModel2(entityClass: Class[_]) {
       .toMap
   }
 
-  private def filterFormFields(f: Field): Boolean = f.getAnnotation(classOf[io.skysail.domain.html.Field]) != null
+  private def filterFormFields(f: Field): Boolean = f.getAnnotation(classOf[io.skysail.core.html.Field]) != null
 
 }

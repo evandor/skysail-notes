@@ -1,7 +1,7 @@
 package io.skysail.restlet.menu;
 
-import io.skysail.domain.Entity;
-import io.skysail.domain.html.Field;
+import io.skysail.core.Entity;
+import io.skysail.core.html.Field;
 
 public class MenuItemDescriptorJava implements Entity {
 

@@ -16,7 +16,6 @@ Import-Package: \
 	${javax},\
 	${fasterxml},\
     skysail.api;version=0.1.0,\
-	skysail.domain;version=0.1.0,\
 	com.thoughtworks.paranamer;version=2.8,\
 	com.google.guava;version='[16.0,16.1)',\
 	io.skysail.bundled.json4s_2.11-3.5.1;version=3.5,\
@@ -46,14 +45,11 @@ Export-Package: \
 	io.skysail.core,\
 	io.skysail.core.resources,\
 	io.skysail.core.app,\
+	io.skysail.core.html,\
 	io.skysail.core.model,\
 	io.skysail.core.utils,\
-	io.skysail.domain,\
-	io.skysail.domain.core,\
 	io.skysail.domain.core.repos,\
 	io.skysail.domain.ddd,\
-	io.skysail.domain.html,\
-	io.skysail.domain.model,\
 	io.skysail.domain.repo,\
 	io.skysail.restlet,\
 	io.skysail.restlet.app,\
@@ -68,7 +64,6 @@ Export-Package: \
 	io.skysail.restlet.queries,\
 	io.skysail.core.model.resource
 Private-Package: \
-	io.skysail.restlet.queries.impl,\
 	io.skysail.restlet.filter.helper,\
 	io.skysail.core.security.config,\
 	io.skysail.restlet.menu,\

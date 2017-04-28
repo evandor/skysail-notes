@@ -1,6 +1,6 @@
 package io.skysail.app.notes.domain
 
-import io.skysail.domain.html._
+import io.skysail.core.html._
 import javax.validation.constraints.Size
 import com.fasterxml.jackson.annotation.JsonFormat
 import java.util.Date

@@ -2,9 +2,10 @@ package io.skysail.core.um.domain;
 
 import javax.validation.constraints.Size;
 
-import io.skysail.domain.Entity;
-import io.skysail.domain.html.Field;
-import io.skysail.domain.html.InputType;
+import io.skysail.core.Entity;
+import io.skysail.core.html.Field;
+import io.skysail.core.html.InputType;
+
 
 public class Credentials implements Entity {
 

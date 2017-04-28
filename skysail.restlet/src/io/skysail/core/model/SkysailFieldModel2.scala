@@ -1,7 +1,6 @@
 package io.skysail.core.model
 
 import java.lang.reflect.Field
-import io.skysail.domain.html.InputType
 import java.lang.reflect.Type
 import java.util.Collection
 import io.skysail.restlet.utils.ScalaReflectionUtils
@@ -12,7 +11,7 @@ case class SkysailFieldModel2(val f: java.lang.reflect.Field) {
 
   val name = f.getName
   
-  def getInputType(): String = f.getAnnotation(classOf[io.skysail.domain.html.Field]).inputType().name();
+  def getInputType(): String = f.getAnnotation(classOf[io.skysail.core.html.Field]).inputType().name();
 
   def isMandatory(): Boolean = {
     val notNullAnnotation = f.getAnnotation(classOf[javax.validation.constraints.NotNull]);

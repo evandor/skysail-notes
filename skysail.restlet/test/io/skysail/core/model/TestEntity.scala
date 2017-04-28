@@ -3,7 +3,7 @@ package io.skysail.core.model
 import scala.annotation.meta.field
 import scala.beans.BeanProperty
 import io.skysail.domain.ddd.ScalaEntity
-import io.skysail.domain.html.Field
+import io.skysail.core.html.Field
 
 @BeanProperty
 case class TestEntity (

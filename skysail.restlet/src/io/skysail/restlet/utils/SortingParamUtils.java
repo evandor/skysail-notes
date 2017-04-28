@@ -13,7 +13,7 @@ import org.restlet.Request;
 import org.restlet.data.Form;
 import org.restlet.data.Parameter;
 
-import io.skysail.domain.Entity;
+import io.skysail.core.Entity;
 
 public class SortingParamUtils extends ParamsUtils {
 

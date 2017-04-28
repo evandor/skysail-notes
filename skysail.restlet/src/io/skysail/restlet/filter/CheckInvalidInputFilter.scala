@@ -49,7 +49,7 @@ class CheckInvalidInputFilter[T:Manifest](entity: T) extends ScalaAbstractResour
 
   def handleFields(foundInvalidInput: Boolean, entity: T, fields: List[java.lang.reflect.Field]): Boolean = {
     for (field <- fields) {
-      val formField = field.getAnnotation(classOf[io.skysail.domain.html.Field]);
+      val formField = field.getAnnotation(classOf[io.skysail.core.html.Field]);
       if (formField != null) {
         val htmlPolicy = formField.htmlPolicy();
 //        val htmlPolicyBuilder = createHtmlPolicyBuilder(htmlPolicy);

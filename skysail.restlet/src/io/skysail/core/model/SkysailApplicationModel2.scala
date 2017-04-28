@@ -14,7 +14,7 @@ import io.skysail.restlet.SkysailServerResource
  *
  *  @param name the model's (unique and descriptive) name
  */
-case class SkysailApplicationModel2(val name: String) {
+case class ApplicationModel(val name: String) {
 
   private val log = LoggerFactory.getLogger(this.getClass())
 

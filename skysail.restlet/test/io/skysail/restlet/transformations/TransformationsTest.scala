@@ -14,12 +14,11 @@ import org.restlet.data.Form
 
 import com.fasterxml.jackson.annotation.JsonFormat
 
-import io.skysail.domain.Entity
-import io.skysail.domain.html.Field
+import io.skysail.core.Entity
 import javax.validation.constraints._
 import scala.annotation.meta.field
 import scala.beans.BeanProperty
-import io.skysail.domain.html._
+import io.skysail.core.html._
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 
 class FormDeserializerTest {

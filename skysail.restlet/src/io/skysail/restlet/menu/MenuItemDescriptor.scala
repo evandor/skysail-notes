@@ -1,7 +1,7 @@
 package io.skysail.restlet.menu
 
 import io.skysail.domain.ddd.ScalaEntity
-import io.skysail.domain.html.Field
+import io.skysail.core.html.Field
 import io.skysail.restlet.forms.ListView
 
 class MenuItemDescriptor(menuItem: MenuItem) extends ScalaEntity[String] {

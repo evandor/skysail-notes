@@ -3,8 +3,8 @@ package io.skysail.restlet.filter
 import io.skysail.restlet._
 import io.skysail.restlet.Wrapper3
 import org.slf4j.LoggerFactory
-import io.skysail.domain.html._;
 import org.owasp.html._;
+import io.skysail.core.html.HtmlPolicy
 
 object ExtractStandardQueryParametersResourceFilter {
 

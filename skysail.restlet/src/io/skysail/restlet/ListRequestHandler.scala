@@ -3,9 +3,9 @@ package io.skysail.restlet
 import org.restlet.data.Method
 import org.restlet.representation.Variant
 import io.skysail.restlet.filter._
-import io.skysail.core.model.SkysailApplicationModel2
+import io.skysail.core.model.ApplicationModel
 
-class ScalaListRequestHandler[T:Manifest](variant: Variant, appModel: SkysailApplicationModel2) {
+class ScalaListRequestHandler[T:Manifest](variant: Variant, appModel: ApplicationModel) {
   
   def createForList(method: Method): ScalaAbstractListResourceFilter[T] = {
     if (method.equals(Method.GET)) {
