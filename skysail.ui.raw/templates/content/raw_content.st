@@ -56,7 +56,11 @@ raw_content(user,converter,messages,model,request)::= <<
       <div>
         <br>
         <hr>
-        <h3>Resource Model</h3>
+        <h3>Resource Rendering Model</h3>
+        <h5>Application Model</h5>
+        <small>
+            <code><pre>$model.appModelHtmlRepresentation$</pre></code>
+        </small>
         <h5>Form Fields</h5>
         <small><table  class="pure-table">
         	<tr><th>Label</th><th>id</th><th>name</th><th>inputType</th></tr>

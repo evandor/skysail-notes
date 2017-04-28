@@ -176,6 +176,8 @@ abstract class SkysailApplication(
 
     log.debug("attaching application-specific routes");
     attach();
+    
+    getApplicationModel2().build()
 
     log.debug("attaching i18n route");
     //attachI18N();

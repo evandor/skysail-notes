@@ -21,7 +21,7 @@ class AddLinkheadersListFilter[T:Manifest](appModel: SkysailApplicationModel2) e
 
   override def afterHandle(resource: SkysailServerResource[_], responseWrapper: Wrapper3) = {
     val responseHeaders = ScalaHeadersUtils.getHeaders(resource.getResponse());
-    val linkheaderAuthorized = resource.getAuthorizedLinks();
+    //val linkheaderAuthorized = resource.getAuthorizedLinks();
     
     val s = resource.getClass
     val links = appModel.linksFor(s)

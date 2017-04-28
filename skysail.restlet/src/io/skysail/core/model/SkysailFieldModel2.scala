@@ -12,13 +12,6 @@ case class SkysailFieldModel2(val f: java.lang.reflect.Field) {
 
   val name = f.getName
   
-  //        setReadonly(false);
-  //        setTruncateTo(determineTruncation(f));
-  //
-  //        listViewLink = determineListViewLink(f);
-  //        format = determineFormat(f);
-  //        facet = determineFacet(facetsProvider,f);
-
   def getInputType(): String = f.getAnnotation(classOf[io.skysail.domain.html.Field]).inputType().name();
 
   def isMandatory(): Boolean = {
@@ -35,7 +28,7 @@ case class SkysailFieldModel2(val f: java.lang.reflect.Field) {
     return false;
   }
 
-  def getEntityType() = {
+  private def getEntityType() = {
     if (classOf[Collection[_]].isAssignableFrom(f.getType())) 
       ScalaReflectionUtils.getParameterizedType(f);
     else

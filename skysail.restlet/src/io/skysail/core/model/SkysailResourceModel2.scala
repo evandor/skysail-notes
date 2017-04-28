@@ -21,24 +21,15 @@ import org.slf4j.LoggerFactory
 case class SkysailResourceModel2(val path: String, val targetResource: Class[_ <: SkysailServerResource[_]]) {
 
   require(path != null, "A ResourceModel's path must not be null")
- // require(path.trim().length() > 0, "A ResourceModel's path must not be empty")
   require(targetResource != null, "A ResourceModel's target class must not be null")
 
   private val log = LoggerFactory.getLogger(this.getClass())
 
-  val resource: SkysailServerResource[_] = {
-    targetResource.newInstance().asInstanceOf[SkysailServerResource[_]]
-  }
+  val resource: SkysailServerResource[_] = targetResource.newInstance().asInstanceOf[SkysailServerResource[_]]
   val entityClass: Class[_] = ScalaSkysailRouter.getResourcesGenericType(resource)
-  val associatedResources = scala.collection.mutable.ListBuffer[Tuple2[ResourceAssociationType, Class[_ <: SkysailServerResource[_]]]]()
+  //val associatedResourceModels = scala.collection.mutable.ListBuffer[Tuple2[ResourceAssociationType, Class[_ <: SkysailServerResource[_]]]]()
 
-  resource.associatedResources.foreach { 
-    ar => addAssociatedResource(ar) 
-  }
-  
-  resource.linkedResources.foreach { 
-    lr => addAssociatedResource((LINKED_RESOURCE, lr)) 
-  }
+  var linkModels: List[LinkModel] = List()
 
   def resourceType() = {
     resource match {
@@ -50,19 +41,48 @@ case class SkysailResourceModel2(val path: String, val targetResource: Class[_ <
     }
   }
 
-  def getAssociatedResources(`type`: ResourceAssociationType) = {
-    associatedResources.filter(p => p._1 == `type`).map(p => p._2).toList
-  }
+  //  private def links(): List[LinkModel] = {
+  //    val l = associatedResourceModels.map(r => {
+  //      println(s"Path: $path")
+  //      
+  //      new LinkModel(path, r._1, r._2)
+  //    }).toList
+  //    println(l)
+  //    l
+  //  }
 
-  def links(): List[LinkModel] = {
-    associatedResources.map(r => new LinkModel(path, r._1, r._2)).toList
-  }
+  //  private def associatedResourcesFor(`type`: ResourceAssociationType) = {
+  //    associatedResourceModels.filter(p => p._1 == `type`).map(p => p._2).toList
+  //  }
+  //
+  //  private def addAssociatedResourceToModel(inputTuple: Tuple2[ResourceAssociationType, Class[_ <: SkysailServerResource[_]]]) = {
+  //    log.info(s"adding associatedResource: $inputTuple")
+  //    if (inputTuple._2 != null) {
+  //      associatedResourceModels += Tuple2(inputTuple._1, inputTuple._2)
+  //    }
+  //  }
 
-  def addAssociatedResource(inputTuple: Tuple2[ResourceAssociationType, Class[_ <: SkysailServerResource[_]]]) = {
-    log.info(s"adding associatedResource: $inputTuple")
-    if (inputTuple._2 != null) {
-      associatedResources += Tuple2(inputTuple._1, inputTuple._2)
-    }
-  }
+  override def toString() = s"""${this.getClass.getSimpleName}($path, ${targetResource}, ${entityClass})
+        Links: ${printList(linkModels)}"""
+  //    Entities: ${printMap(entitiesMap)}"""
+
+  private def printList(list: List[_]) = list.map(v => s"""
+          ${v.toString()}""").mkString("")
+
+//  def generateLinkModels(resourceModelsMap: Map[String,SkysailResourceModel2]): Unit = {
+//    var result = scala.collection.mutable.ListBuffer[LinkModel]()
+//    resource.linkedResourceClasses().foreach { lr => result += new LinkModel(path, LINKED_RESOURCE, lr) }
+//    println(result)
+//    
+//    val r = resource.associatedResourceClasses().map(r => resourceModelsMap.values.filter { resourceModel => resourceModel.targetResource == r }.headOption).toList
+//    r.foreach { res => {
+//      if (res.isDefined) {
+//        result += new LinkModel(res.get.path, LINKED_RESOURCE, res.get.resource.getClass ) }
+//      }
+//    }
+//    
+//    println(result)
+//    linkModels = result.toList
+//  }
 
 }

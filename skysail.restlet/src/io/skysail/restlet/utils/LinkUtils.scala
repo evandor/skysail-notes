@@ -50,13 +50,13 @@ object LinkUtils {
     entity: Any,
     classes: Seq[Class[_]]): List[Link] = {
 
-    println(currentResource.getClass.getName + ": ")
-    println(classes)
-    println("==============================")
+    //println(currentResource.getClass.getName + ": ")
+//    println(classes)
+//    println("==============================")
     val links = classes.map(c => LinkUtils.fromResource(currentResource, c)).filter(lh => lh != null).toList
     links.map(l => " > " + l.toString()).foreach(println)
     val associatedLinks = getAssociatedLinks(entity, currentResource)
-    println(associatedLinks)
+    //println(associatedLinks)
     val res = links ++ associatedLinks
     res.map(l => " > " + l.toString()).foreach(println)
     res

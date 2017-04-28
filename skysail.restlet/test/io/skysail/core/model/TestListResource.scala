@@ -7,5 +7,5 @@ class TestListResource extends ListServerResource2[TestEntity](classOf[TestEntit
   
   def getEntity(): Any = "hi"
   
-  override def linkedResources() = List(classOf[TestEntityResource])
+  override def linkedResourceClasses() = List(classOf[TestEntityResource])
 }

@@ -6,13 +6,13 @@ import io.skysail.core.app.SkysailRootApplication
 
 class DefaultResource extends ListServerResource2[MenuItemDescriptor] {
 
-  override def getLinks() = {
-    val defaultApp = getSkysailApplication().asInstanceOf[SkysailRootApplication]
-    // val menuItems = defaultApp.getMenuItems();
-    //        return menuItems.stream().map(this::createLinkForApp)
-    //                .sorted((l1, l2) -> l1.getTitle().compareTo(l2.getTitle())).collect(Collectors.toList());
-    List()
-  }
+//  override def getLinks() = {
+//    val defaultApp = getSkysailApplication().asInstanceOf[SkysailRootApplication]
+//    // val menuItems = defaultApp.getMenuItems();
+//    //        return menuItems.stream().map(this::createLinkForApp)
+//    //                .sorted((l1, l2) -> l1.getTitle().compareTo(l2.getTitle())).collect(Collectors.toList());
+//    List()
+//  }
 
   //    private Link createLinkForApp(MenuItem mi) {
   //        Predicate<String[]> securedBy = null;

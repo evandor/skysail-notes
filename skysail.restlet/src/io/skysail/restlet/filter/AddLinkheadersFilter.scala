@@ -18,7 +18,7 @@ class AddLinkheadersFilter[T:Manifest] extends ScalaAbstractResourceFilter[T] {
 
   override def afterHandle(resource: SkysailServerResource[_], responseWrapper: Wrapper3) = {
     val responseHeaders = ScalaHeadersUtils.getHeaders(resource.getResponse());
-    val linkheaderAuthorized = resource.getAuthorizedLinks();
+    //val linkheaderAuthorized = resource.getAuthorizedLinks();
 //    linkheaderAuthorized.forEach(getPathSubstitutions(resource));
 //    val links = linkheaderAuthorized.stream().map(link -> link.toString(""))
 //      .collect(Collectors.joining(","));

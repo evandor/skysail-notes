@@ -113,20 +113,20 @@ abstract class SkysailServerResource[T: TypeTag] extends ServerResource {
     }
   }
 
-  def getAuthorizedLinks(): List[Link] = {
-    val allLinks = getLinks();
-    if (allLinks == null) {
-      return List[Link]()
-    }
-    allLinks //.filter(l => l.isAu)
-  }
+//  def getAuthorizedLinks(): List[Link] = {
+//    val allLinks = getLinks();
+//    if (allLinks == null) {
+//      return List[Link]()
+//    }
+//    allLinks //.filter(l => l.isAu)
+//  }
 
   def getLinkRelation() = LinkRelation.CANONICAL
 
-  def getLinks(): List[Link] = if (links != null) links else List()
+//  def getLinks(): List[Link] = if (links != null) links else List()
 
-  final def getLinks[_ <: SkysailServerResource[_]](classes: Class[_]*): List[Link] =
-    if (links.length == 0) LinkUtils.fromResources(this, entity, classes) else links
+//  final def getLinks[_ <: SkysailServerResource[_]](classes: Class[_]*): List[Link] =
+//    if (links.length == 0) LinkUtils.fromResources(this, entity, classes) else links
 
   def getApiMetadata() = ApiMetadata.builder().build()
 
@@ -143,8 +143,8 @@ abstract class SkysailServerResource[T: TypeTag] extends ServerResource {
 
  
   
-  def linkedResources():List[Class[_ <: SkysailServerResource[_]]] = List()
+  def linkedResourceClasses():List[Class[_ <: SkysailServerResource[_]]] = List()
   
-  def associatedResources():List[Tuple2[ResourceAssociationType, Class[_ <: SkysailServerResource[_]]]] = List()
+  def associatedResourceClasses():List[Tuple2[ResourceAssociationType, Class[_ <: SkysailServerResource[_]]]] = List()
 
 }

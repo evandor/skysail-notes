@@ -19,8 +19,12 @@ import io.skysail.restlet.ScalaResponseWrapper
 import io.skysail.restlet.transformations.Transformations
 import io.skysail.api.links.LinkRelation
 import org.restlet.data.Method
+import io.skysail.core.model.FORM_TARGET_RESOURCE
 
 abstract class PostEntityServerResource2[T: Manifest] extends SkysailServerResource {
+  
+  //   override def getLinks() = List(Link(".", relation = LinkRelation.NEXT, title = "form target", verbs = Set(Method.POST)))
+  //override def associatedResourceClasses() = List((FORM_TARGET_RESOURCE,associatedEntiyResource))
 
   override def getLinkRelation() = LinkRelation.CREATE_FORM
 
@@ -71,6 +75,5 @@ abstract class PostEntityServerResource2[T: Manifest] extends SkysailServerResou
     new ScalaRequestHandler[T](entity, variant).createForPost().handle(this, getResponse())
   }
 
-  override def getLinks() = List(Link(".", relation = LinkRelation.NEXT, title = "form target", verbs = Set(Method.POST)))
 
 }

@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory
 
 @RunWith(classOf[JUnitRunner])
 class SkysailApplicationModel2Spec extends FlatSpec {
-  
+
   "An ApplicationModel" should "not accept a null value as its name" in {
     assertThrows[IllegalArgumentException] {
       new SkysailApplicationModel2(null)
@@ -24,7 +24,6 @@ class SkysailApplicationModel2Spec extends FlatSpec {
     val model = SkysailApplicationModel2("appName")
     assert(model != null)
     assert(model.name == "appName")
-    assert(model.toString() == "SkysailApplicationModel2(appName)")
   }
 
   "An ApplicationModel" should "add a new minimal ResourceModel" in {
@@ -32,7 +31,7 @@ class SkysailApplicationModel2Spec extends FlatSpec {
     val resourceModel = new SkysailResourceModel2("/path", classOf[TestResource])
     model.addResourceModel(resourceModel)
     val resourceModelFromAppModel = model.resourceModelFor("/path").get
-   // assert(model.resourcesMap.size == 1)
+    // assert(model.resourcesMap.size == 1)
     assert(resourceModelFromAppModel == resourceModel)
   }
 
@@ -52,13 +51,22 @@ class SkysailApplicationModel2Spec extends FlatSpec {
     val entityModelsFromAppModel = model.entityFor(id).get
     //assert(model.entitiesMap.size == 1)
   }
-  
+
   "An ApplicationModel" should "provide the LinkModel for a resource identified by its class" in {
     val model = SkysailApplicationModel2("appName")
     val resourceModel = new SkysailResourceModel2("/path", classOf[TestListResource])
     model.addResourceModel(resourceModel)
     val links = model.linksFor(classOf[TestListResource])
     assert(links.size == 2)
+  }
+
+  "An ApplicationModel" should "provide a decent toString representation" in {
+    val appModel = SkysailApplicationModel2("appName")
+    val resourceModel1 = new SkysailResourceModel2("/path1", classOf[TestListResource])
+    val resourceModel2 = new SkysailResourceModel2("/path2", classOf[TestListResource])
+    appModel.addResourceModel(resourceModel1)
+    appModel.addResourceModel(resourceModel2)
+    println(appModel)
   }
 
 }
