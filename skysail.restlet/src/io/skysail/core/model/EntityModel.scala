@@ -5,7 +5,7 @@ import scala.collection.JavaConverters._
 import java.lang.reflect.Field
 import io.skysail.restlet.utils.ScalaReflectionUtils
 
-case class SkysailEntityModel2(entityClass: Class[_]) {
+case class EntityModel(entityClass: Class[_]) {
   
   require(entityClass != null, "The provided entity class must not be null")
   
@@ -13,12 +13,12 @@ case class SkysailEntityModel2(entityClass: Class[_]) {
 
   val fields = deriveFields()
   
-  def fieldFor(id: String): Option[SkysailFieldModel2] = fields.get(id) 
+  def fieldFor(id: String): Option[FieldModel] = fields.get(id) 
 
   private def deriveFields() = {
     ScalaReflectionUtils.getInheritedFields(entityClass)
       .filter { filterFormFields(_) }
-      .map { f => new SkysailFieldModel2(f) }
+      .map { f => new FieldModel(f) }
       .map(m => m.name -> m)
       .toMap
   }

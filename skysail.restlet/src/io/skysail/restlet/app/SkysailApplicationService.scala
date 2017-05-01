@@ -4,7 +4,7 @@ import org.osgi.service.component.annotations._
 import java.util.ArrayList
 import scala.collection.JavaConverters._
 import io.skysail.restlet.services.EntityApi
-import io.skysail.core.model.SkysailEntityModel2
+import io.skysail.core.model.EntityModel
 
 @Component(immediate = true, service = Array(classOf[SkysailApplicationService]))
 class SkysailApplicationService {
@@ -51,7 +51,7 @@ class SkysailApplicationService {
   //                .findFirst().orElse(new SkysailApplicationModel("unknown"));
   //    }
   //
-  def getEntityModel(name: String): SkysailEntityModel2 = {
+  def getEntityModel(name: String): EntityModel = {
     println(name) //io.skysail.app.notes.domain.Note
     val appModels = applicationListProvider.getApplications().map(a => a.getApplicationModel2()).toList
     println(appModels)

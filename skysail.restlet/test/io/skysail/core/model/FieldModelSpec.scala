@@ -12,12 +12,12 @@ class SkysailFieldModel2Spec extends FlatSpec {
     
 //    typeOf[TestEntity].members
     
-    val model = SkysailFieldModel2(classOf[TestEntity].getDeclaredField("content"))
-    assertThrows[IllegalArgumentException] { new SkysailFieldModel2(null) }
+    val model = FieldModel(classOf[TestEntity].getDeclaredField("content"))
+    assertThrows[IllegalArgumentException] { new FieldModel(null) }
   }
 
   "A FieldModel" should "have the entities name as its model name" in {
-    val model = SkysailFieldModel2(classOf[TestEntity].getDeclaredField("content"))
+    val model = FieldModel(classOf[TestEntity].getDeclaredField("content"))
     assert(model.name == "content")
   }
 

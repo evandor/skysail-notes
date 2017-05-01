@@ -15,26 +15,39 @@ object AddLinkheadersListFilter {
   val MAX_LINK_HEADER_SIZE = 2048
 }
 
-class AddLinkheadersListFilter[T:Manifest](appModel: ApplicationModel) extends ScalaAbstractListResourceFilter[T] {
+class AddLinkheadersListFilter[T: Manifest](appModel: ApplicationModel) extends ScalaAbstractListResourceFilter[T] {
 
   override val log = LoggerFactory.getLogger(classOf[AddLinkheadersListFilter[T]])
 
   override def afterHandle(resource: SkysailServerResource[_], responseWrapper: Wrapper3) = {
     val responseHeaders = ScalaHeadersUtils.getHeaders(resource.getResponse());
     //val linkheaderAuthorized = resource.getAuthorizedLinks();
-    
+
     val s = resource.getClass
     val links = appModel.linksFor(s)
-    
-//    linkheaderAuthorized.forEach(getPathSubstitutions(resource));
-//    val links = linkheaderAuthorized.stream().map(link -> link.toString(""))
-//      .collect(Collectors.joining(","));
+
+    //    linkheaderAuthorized.forEach(getPathSubstitutions(resource));
+    //    val links = linkheaderAuthorized.stream().map(link -> link.toString(""))
+    //      .collect(Collectors.joining(","));
     val linkCount = 50;
-    val limitedLinks = "50" //shrinkLinkHeaderSizeIfNecessary(linkCount, links);
+   // val limitedLinks = shrinkLinkHeaderSizeIfNecessary(linkCount, links.map(l => l.asLinkheaderElement()).mkString(","))
+   	val limitedLinks = links.map(l => l.asLinkheaderElement()).mkString(",")
     //    if (limitedLinks.length() < links.length()) {
     //      responseHeaders.add(new Header("X-Link-Error", "link header was too large: " + links.length() + " bytes, cutting down to " + limitedLinks.length() + " bytes."));
     //    }
     responseHeaders.add(new Header("Link", limitedLinks));
   }
+
+ /* private def shrinkLinkHeaderSizeIfNecessary(linkCount: Int, links: String): String = {
+    if (linkCount <= 0) {
+      return ""
+    }
+    if (links.length() > AddLinkheadersListFilter.MAX_LINK_HEADER_SIZE) {
+      val reducedLinks = Arrays.stream(links.split(",", linkCount)).limit(linkCount - 1)
+        .collect(Collectors.joining(",")); // NOSONAR
+      return shrinkLinkHeaderSizeIfNecessary(linkCount - 10, reducedLinks);
+    }
+    return links;
+  }*/
 
 }

@@ -6,16 +6,16 @@ import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
-class SkysailEnttiyModel2Spec extends FlatSpec with BeforeAndAfterEach {
+class EntityModelSpec extends FlatSpec with BeforeAndAfterEach {
 
-  var model: SkysailEntityModel2 = null
+  var model: EntityModel = null
 
   override def beforeEach() {
-    model = SkysailEntityModel2(new TestEntity(Some("id"),"content").getClass())
+    model = EntityModel(new TestEntity(Some("id"),"content").getClass())
   }
 
   "An EntityModel" should "not accept a null entity in constructor" in {
-    assertThrows[IllegalArgumentException] { new SkysailEntityModel2(null) }
+    assertThrows[IllegalArgumentException] { new EntityModel(null) }
   }
   
    "An EntityModel" should "have the entities name as its model name" in {

@@ -13,7 +13,9 @@ import io.skysail.core.model.ResourceAssociationType
 
 abstract class ListServerResource2[T: Manifest](associatedEntiyResource: Class[_ <: EntityServerResource2[_]] = null) extends SkysailServerResource {
 
-  override def associatedResourceClasses() = List((ENTITY_RESOURCE_FOR_LIST_RESOURCE,associatedEntiyResource))
+  override def associatedResourceClasses() = List((ENTITY_RESOURCE_FOR_LIST_RESOURCE, associatedEntiyResource))
+
+  override def getVerbs(): Set[Method] = Set(Method.GET)
 
   @Get("html|json|yaml|xml|csv|timeline|carbon|standalone|data")
   def getEntities(variant: Variant): ListResponse[T] = {

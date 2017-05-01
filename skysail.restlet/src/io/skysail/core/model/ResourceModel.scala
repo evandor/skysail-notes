@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory
  *  @param path the uri path relative to the application
  *  @param targetClass a SkysailServerResource class to handle requests to the given path
  */
-case class SkysailResourceModel2(val path: String, val targetResourceClass: Class[_ <: SkysailServerResource[_]]) {
+case class ResourceModel(val path: String, val targetResourceClass: Class[_ <: SkysailServerResource[_]]) {
 
   require(path != null, "A ResourceModel's path must not be null")
   require(targetResourceClass != null, "A ResourceModel's target class must not be null")
@@ -61,12 +61,11 @@ case class SkysailResourceModel2(val path: String, val targetResourceClass: Clas
   //    }
   //  }
 
-  override def toString() = s"""${this.getClass.getSimpleName}($path, ${targetResourceClass}, ${entityClass})
-        Links: ${printList(linkModels)}"""
+  override def toString() = s"""$path => ${targetResourceClass.getSimpleName}[${entityClass.getSimpleName}]
+        Links: ${linkModels.map { v => sys.props("line.separator") + " " * 10 + v }.mkString("")}"""
   //    Entities: ${printMap(entitiesMap)}"""
 
-  private def printList(list: List[_]) = list.map(v => s"""
-          ${v.toString()}""").mkString("")
+  private def printList(list: List[_]) = list.map(v => v).mkString("")
 
 //  def generateLinkModels(resourceModelsMap: Map[String,SkysailResourceModel2]): Unit = {
 //    var result = scala.collection.mutable.ListBuffer[LinkModel]()

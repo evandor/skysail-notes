@@ -2,8 +2,11 @@ package io.skysail.restlet.resources
 
 import io.skysail.restlet._
 import io.skysail.restlet.utils.ScalaResourceUtils
+import org.restlet.data.Method
 
 class PutEntityServerResource2[T] extends SkysailServerResource {
+
+  override def getVerbs(): Set[Method] = Set(Method.GET, Method.PUT)
 
   def copyProperties(dest: T, orig: T): Unit = {
     try {

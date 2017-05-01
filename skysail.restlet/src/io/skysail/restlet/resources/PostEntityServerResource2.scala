@@ -9,7 +9,6 @@ import scala.collection.JavaConversions._
 import scala.collection.mutable.MutableList
 import org.restlet.resource.Get
 import java.util.Arrays
-import io.skysail.api.links.Link
 import io.skysail.restlet.SkysailServerResource
 import io.skysail.restlet.responses.FormResponse
 import io.skysail.restlet.responses.ScalaSkysailResponse
@@ -17,16 +16,18 @@ import org.restlet.data.Status
 import io.skysail.restlet.ScalaRequestHandler
 import io.skysail.restlet.ScalaResponseWrapper
 import io.skysail.restlet.transformations.Transformations
-import io.skysail.api.links.LinkRelation
 import org.restlet.data.Method
 import io.skysail.core.model.FORM_TARGET_RESOURCE
+import io.skysail.core.model.LinkRelation
 
 abstract class PostEntityServerResource2[T: Manifest] extends SkysailServerResource {
-  
+
   //   override def getLinks() = List(Link(".", relation = LinkRelation.NEXT, title = "form target", verbs = Set(Method.POST)))
   //override def associatedResourceClasses() = List((FORM_TARGET_RESOURCE,associatedEntiyResource))
 
   override def getLinkRelation() = LinkRelation.CREATE_FORM
+
+  override def getVerbs(): Set[Method] = Set(Method.GET, Method.POST)
 
   def createEntityTemplate(): T
 
@@ -39,13 +40,13 @@ abstract class PostEntityServerResource2[T: Manifest] extends SkysailServerResou
     val timerMetric = getMetricsCollector().timerFor(this.getClass(), "getPostTemplate")
     val templatePaths = getSkysailApplication().getTemplatePaths(this.getClass())
     val formTarget = templatePaths.stream().findFirst().orElse(".")
-    val links = Arrays.asList(Link(formTarget))
+    //val links = Arrays.asList(Link(formTarget))
     //links.stream().forEach(getPathSubstitutions())
 
     val entity: T = createEntityTemplate()
     //this.setEntity(entity)
     timerMetric.stop()
-    new FormResponse[T](getResponse(), entity, links(0).uri)
+    new FormResponse[T](getResponse(), entity, "." /*links(0).uri*/ )
   }
 
   @Post("x-www-form-urlencoded:html")
@@ -74,6 +75,5 @@ abstract class PostEntityServerResource2[T: Manifest] extends SkysailServerResou
     getResponse().setStatus(Status.SUCCESS_CREATED)
     new ScalaRequestHandler[T](entity, variant).createForPost().handle(this, getResponse())
   }
-
 
 }

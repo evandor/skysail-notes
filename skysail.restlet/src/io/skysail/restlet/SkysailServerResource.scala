@@ -1,7 +1,6 @@
 package io.skysail.restlet
 
 import io.skysail.api.text.Translation
-import io.skysail.api.links.Link
 import io.skysail.restlet.app.SkysailApplication
 import io.skysail.restlet.forms.ScalaFormField
 import java.util.function.Consumer
@@ -11,10 +10,11 @@ import org.restlet.Application
 import java.util.Locale
 import java.util.Collections
 import io.skysail.restlet.utils._
-import io.skysail.api.links.LinkRelation
 import io.skysail.api.doc.ApiMetadata
 import scala.reflect.runtime.universe._
 import io.skysail.core.model.ResourceAssociationType
+import io.skysail.core.model.LinkRelation
+import org.restlet.data.Method
 
 object SkysailServerResource {
   //val SKYSAIL_SERVER_RESTLET_FORM = "de.twenty11.skysail.server.core.restlet.form";
@@ -37,7 +37,7 @@ abstract class SkysailServerResource[T: TypeTag] extends ServerResource {
 
   def getEntity(): Any
 
-  var links = List[Link]()
+  //var links = List[LinkModel]()
 
   val stringContextMap = new java.util.HashMap[ResourceContextId, String]()
 
@@ -122,6 +122,7 @@ abstract class SkysailServerResource[T: TypeTag] extends ServerResource {
 //  }
 
   def getLinkRelation() = LinkRelation.CANONICAL
+  def getVerbs():Set[Method] = Set()
 
 //  def getLinks(): List[Link] = if (links != null) links else List()
 

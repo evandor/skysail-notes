@@ -16,7 +16,6 @@ import io.skysail.core.ApiVersion
 import io.skysail.restlet.RouteBuilder
 import io.skysail.core.security.config.ScalaSecurityConfig
 import io.skysail.restlet.RolesPredicateAuthorizer
-import io.skysail.core.model.SkysailResourceModel2
 
 object ScalaSkysailRouter {
   def getResourcesGenericType(resourceInstance: SkysailServerResource[_]) = resourceInstance.getParameterizedType()

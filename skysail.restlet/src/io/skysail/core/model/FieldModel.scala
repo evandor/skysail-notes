@@ -5,7 +5,7 @@ import java.lang.reflect.Type
 import java.util.Collection
 import io.skysail.restlet.utils.ScalaReflectionUtils
 
-case class SkysailFieldModel2(val f: java.lang.reflect.Field) {
+case class FieldModel(val f: java.lang.reflect.Field) {
   
   require(f != null, "you must provide a non-null field to construct a FieldModel")
 

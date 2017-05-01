@@ -69,4 +69,5 @@ Private-Package: \
 	io.skysail.restlet.menu,\
 	io.skysail.restlet.filter,\
 	io.skysail.core.text,\
-	io.skysail.core.app.resources
+	io.skysail.core.app.resources,\
+	io.skysail.restlet.queries.impl

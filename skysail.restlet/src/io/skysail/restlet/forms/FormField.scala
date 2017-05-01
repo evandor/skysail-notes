@@ -7,9 +7,9 @@ import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size
 import scala.beans.BeanProperty
 import java.util.Collection
-import io.skysail.core.model.SkysailFieldModel2
+import io.skysail.core.model.FieldModel
 
-case class ScalaFormField(ssfm: SkysailFieldModel2, currentEntity: Any) {
+case class ScalaFormField(ssfm: FieldModel, currentEntity: Any) {
 
   //        this.type = sfm.getF().getType();
   //        this.sfm = sfm;
