@@ -7,7 +7,6 @@ raw_formElement(model,converter,ff) ::= <<
       </div>
     </div>
   $else$
-  
     
     <!-- $ff.name$: $first(model.data)$ -->
     <sky-form-element 

@@ -4,6 +4,7 @@ import org.restlet.data.Method
 import io.skysail.restlet.SkysailServerResource
 import scala.annotation.meta.field
 import scala.beans.BeanProperty
+import io.skysail.restlet.ResourceContextId
 
 case class LinkModel(
     @BeanProperty uri: String,
@@ -13,7 +14,7 @@ case class LinkModel(
 
   @BeanProperty val relation: LinkRelation = resource.getLinkRelation()
   @BeanProperty val verbs = resource.getVerbs()
-  @BeanProperty val title: String = "unknown"
+  @BeanProperty val title = determineTitle()
   @BeanProperty val alt: String = "-"
   @BeanProperty val needsAuth: Boolean = false
   @BeanProperty val linkRole: LinkRole = LinkRole.DEFAULT
@@ -34,6 +35,11 @@ case class LinkModel(
     sb.append("; verbs=\"")
       .append(verbs.map(verb => verb.getName()).mkString(",")).append("\"");
     return sb.toString();
+  }
+  
+  def determineTitle(): String = {
+    val title = resource.getFromContext(ResourceContextId.LINK_TITLE)
+    if (title == null) "unknown" else title
   }
 
 }

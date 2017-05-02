@@ -1,27 +1,23 @@
 package io.skysail.app.notes.domain
 
-import io.skysail.core.html._
-import javax.validation.constraints.Size
-import com.fasterxml.jackson.annotation.JsonFormat
+import javax.validation.constraints._
+import com.fasterxml.jackson.annotation._
 import java.util.Date
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 
 import scala.annotation.meta.field
 import scala.beans.BeanProperty
 
-import javax.validation.constraints._
+import io.skysail.core.html._
 import io.skysail.domain.ddd.ScalaEntity
 import io.skysail.restlet.forms._
 
 //@JsonIgnoreProperties(ignoreUnknown = true)
 @BeanProperty
 case class Note (
-    var id: Option[String],
-    @BeanProperty @(Field @field) /*@(NotNull @field) @Size(min=1)*/ var content: String
+    var id: Option[String] = None,
+    @BeanProperty @(Field @field) /*@(NotNull @field) @Size(min=1)*/ var content: String = ""
   ) extends ScalaEntity[String] {
   
-  def this() = this(None,"") 
-
   @Field(inputType = InputType.DATE)
   @PostView(visibility = Visibility.HIDE)
   @PutView(visibility = Visibility.HIDE)

@@ -26,6 +26,8 @@ case class FieldModel(val f: java.lang.reflect.Field) {
     }
     return false;
   }
+  
+  override def toString() = s"""${this.getClass.getSimpleName}(inputType: $getInputType, mandatory: $isMandatory)"""
 
   private def getEntityType() = {
     if (classOf[Collection[_]].isAssignableFrom(f.getType())) 

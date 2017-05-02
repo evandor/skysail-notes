@@ -91,12 +91,12 @@ case class ApplicationModel(val name: String, apiVersion: ApiVersion) {
     }
   }
 
-  override def toString() = s"""${this.getClass.getSimpleName}($name) [Build: ${built}]
-    Resources: ${resourceModels.map { v => sys.props("line.separator") + " " * 6 + v }.mkString("")}
+  override def toString() = s"""${this.getClass.getSimpleName}("$name","$apiVersion") [Built: ${built}]
+    Resources: ${resourceModels.map { v => sys.props("line.separator") + " " * 6 + " - " + v }.mkString("")}
     Entities: ${printMap(entityModelsMap)}"""
 
   private def printMap(map: scala.collection.mutable.Map[_, _]) = map.map(v => s"""
-      ${v._1} => ${v._2.toString()}""").mkString("")
+      "${v._1}" -> ${v._2.toString()}""").mkString("")
 
   private def appPath() = "/" + name + (if (apiVersion != null) apiVersion.getVersionPath() else "")
 

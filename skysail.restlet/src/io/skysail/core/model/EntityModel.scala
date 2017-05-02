@@ -23,6 +23,12 @@ case class EntityModel(entityClass: Class[_]) {
       .toMap
   }
 
+  override def toString() = s"""${this.getClass.getSimpleName}("$name")
+        Fields: ${printMap(fields)}"""
+  
   private def filterFormFields(f: Field): Boolean = f.getAnnotation(classOf[io.skysail.core.html.Field]) != null
+
+  private def printMap(map: Map[_, _]) = map.map(v => s"""
+          "${v._1}" -> ${v._2.toString()}""").mkString("")
 
 }

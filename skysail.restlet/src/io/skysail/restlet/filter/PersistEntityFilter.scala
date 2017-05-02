@@ -4,7 +4,7 @@ import io.skysail.restlet.ScalaAbstractResourceFilter
 import org.slf4j.LoggerFactory
 import io.skysail.restlet.SkysailServerResource
 import io.skysail.restlet.Wrapper3
-import io.skysail.restlet.resources.PostEntityServerResource2
+import io.skysail.restlet.resources.PostEntityServerResource
 import io.skysail.restlet.ScalaResponseWrapper
 
 class PersistEntityFilter[T:Manifest](entity: T) extends ScalaAbstractResourceFilter[T] {
@@ -14,7 +14,7 @@ class PersistEntityFilter[T:Manifest](entity: T) extends ScalaAbstractResourceFi
   override def doHandle(resource: SkysailServerResource[_], responseWrapper:  Wrapper3): FilterResult = {
     log.debug("entering {}#doHandle", this.getClass().getSimpleName());
     val response = responseWrapper.getResponse();
-    resource.asInstanceOf[PostEntityServerResource2[T]].addEntity(entity);
+    resource.asInstanceOf[PostEntityServerResource[T]].addEntity(entity);
     //        val id = entity.asInstanceOf[T].getId();
     //        if (id != null) {
     //            response.setLocationRef(response.getRequest().getResourceRef().addSegment(id.replace("#", "")));

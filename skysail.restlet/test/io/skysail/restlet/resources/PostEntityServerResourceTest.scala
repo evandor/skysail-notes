@@ -17,23 +17,20 @@ import org.restlet.util.Series
 import org.junit.runner.RunWith
 import org.junit.Ignore
 import javax.validation.constraints._
-import io.skysail.restlet.resources.PostEntityServerResource2
+import io.skysail.restlet.resources._
 import org.restlet.representation.Variant
 
-class PostEntityServerResource2Test {
+class PostEntityServerResourceTest {
 
   case class TestNote(@(NotNull @field) val content: String)
   
-  class PostTestNoteServerResource extends PostEntityServerResource2[TestNote] {
+  class PostTestNoteServerResource extends PostEntityServerResource[TestNote] {
     def createEntityTemplate(): TestNote = new TestNote("hi")
 
     def addEntity(entity: TestNote): Unit = {
       ???
     }
 
-    def getEntity(): Any = {
-      ???
-    }
   }
 
   @Test

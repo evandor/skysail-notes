@@ -4,8 +4,7 @@ import org.restlet.Response
 import io.skysail.restlet.responses.ListResponse
 import org.slf4j.LoggerFactory
 import org.restlet.Request
-import io.skysail.restlet.resources.EntityServerResource2
-import io.skysail.restlet.resources.PostEntityServerResource2
+import io.skysail.restlet.resources._
 
 abstract class ScalaAbstractResourceFilter[T:Manifest] extends ScalaResourceFilter[T] {
 
@@ -20,8 +19,8 @@ abstract class ScalaAbstractResourceFilter[T:Manifest] extends ScalaResourceFilt
   protected def getDataFromRequest(request: Request, resource: SkysailServerResource[_]): Any = {
     val entityAsObject = request.getAttributes().get(SkysailServerResource.SKYSAIL_SERVER_RESTLET_ENTITY).asInstanceOf[T]
     if (entityAsObject != null) {
-      if (resource.isInstanceOf[EntityServerResource2[T]]) {
-      } else if (resource.isInstanceOf[PostEntityServerResource2[T]]) {
+      if (resource.isInstanceOf[EntityServerResource[T]]) {
+      } else if (resource.isInstanceOf[PostEntityServerResource[T]]) {
         return null //resource.asInstanceOf[PostEntityServerResource2[T]].getData(entityAsObject);
       }
 

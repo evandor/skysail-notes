@@ -10,7 +10,6 @@ raw_content(user,converter,messages,model,request)::= <<
     <div class="row">
     
     $if(model.form)$
-    
       <div class="pure-g">
         <div class="pure-u-4-5">
           <form class="pure-form pure-form-aligned" action="$model.formTarget$" method="POST" id="form" name="form">
@@ -52,8 +51,16 @@ raw_content(user,converter,messages,model,request)::= <<
     	    </div>
         </div>
       </div>
-
-      <div>
+    
+    $else$
+      <div class="col-md-16" id="renderEntityDiv">
+        <br>
+        $raw_renderEntity(user, model)$
+      </div>
+    $endif$
+    
+    
+          <div>
         <br>
         <hr>
         <h3>Resource Rendering Model</h3>
@@ -98,13 +105,8 @@ raw_content(user,converter,messages,model,request)::= <<
         <h3>Messages</h3>
         $messages$
       </div> 
-      
-    $else$
-      <div class="col-md-16" id="renderEntityDiv">
-        <br>
-        $raw_renderEntity(user, model)$
-      </div>
-    $endif$
+  
+    
   </div>
   
 </div>

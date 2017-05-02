@@ -16,7 +16,7 @@ object NotesResource {
   def noteRepo(app: SkysailApplication) = app.getRepository[NotesRepository](classOf[Note])
 }
 
-class NotesResource extends ListServerResource2[Note](classOf[NoteResource]) {
+class NotesResource extends ListServerResource[Note](classOf[NoteResource]) {
   addToContext(ResourceContextId.LINK_TITLE, "list Notes");
   def getEntity(): List[Note] = {
     implicit val formats = DefaultFormats
@@ -29,7 +29,7 @@ class NotesResource extends ListServerResource2[Note](classOf[NoteResource]) {
   override def linkedResourceClasses() = List(classOf[PostNoteResource])
 }
 
-class NoteResource extends EntityServerResource2[Note] {
+class NoteResource extends EntityServerResource[Note] {
   override def getEntity(): Option[Note] = NotesResource.noteRepo(getSkysailApplication()).findOne(getAttribute("id"))
   override def eraseEntity() = {
     //NotesResource.noteRepo(getSkysailApplication()).delete(getAttribute("id"))
@@ -39,10 +39,10 @@ class NoteResource extends EntityServerResource2[Note] {
  // override def getLinks() = super.getLinks(classOf[PutNoteResource])
 }
 
-class PostNoteResource extends PostEntityServerResource2[Note] {
+class PostNoteResource extends PostEntityServerResource[Note] {
+  setDescription("adds a note to the repository")
   addToContext(ResourceContextId.LINK_TITLE, "create Note");
-  def createEntityTemplate() = Note(Some("1"), "hi")
-  override def getEntity() = Note(None, "").asInstanceOf[Nothing]
+  def createEntityTemplate() = Note()
   def addEntity(entity: Note): Unit = {
     entity.setCreated(new Date())
     entity.setModified(new Date())
@@ -51,11 +51,10 @@ class PostNoteResource extends PostEntityServerResource2[Note] {
     // entity.setId(vertex.getId().toString())
     // entity.copy(id=vertex.getId.toString())
   }
-
   override def redirectTo() = super.redirectTo(classOf[NotesResource])
 }
 
-class PutNoteResource extends PutEntityServerResource2[Note] {
+class PutNoteResource extends PutEntityServerResource[Note] {
   override def getEntity() = NotesResource.noteRepo(getSkysailApplication()).findOne(getAttribute("id"))
   //override def redirectTo() = super.redirectTo(classOf[NotesResource])
   def updateEntity(entity: Note): Unit = {

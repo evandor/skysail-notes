@@ -20,7 +20,7 @@ import org.restlet.data.Method
 import io.skysail.core.model.FORM_TARGET_RESOURCE
 import io.skysail.core.model.LinkRelation
 
-abstract class PostEntityServerResource2[T: Manifest] extends SkysailServerResource {
+abstract class PostEntityServerResource[T: Manifest] extends SkysailServerResource {
 
   //   override def getLinks() = List(Link(".", relation = LinkRelation.NEXT, title = "form target", verbs = Set(Method.POST)))
   //override def associatedResourceClasses() = List((FORM_TARGET_RESOURCE,associatedEntiyResource))
@@ -33,7 +33,7 @@ abstract class PostEntityServerResource2[T: Manifest] extends SkysailServerResou
 
   def addEntity(entity: T)
 
-  //def getEntity():Note = createEntityTemplate()
+  def getEntity():T = createEntityTemplate()
 
   @Get("htmlform|html")
   def getPostTemplate() = {
@@ -42,7 +42,6 @@ abstract class PostEntityServerResource2[T: Manifest] extends SkysailServerResou
     val formTarget = templatePaths.stream().findFirst().orElse(".")
     //val links = Arrays.asList(Link(formTarget))
     //links.stream().forEach(getPathSubstitutions())
-
     val entity: T = createEntityTemplate()
     //this.setEntity(entity)
     timerMetric.stop()

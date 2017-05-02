@@ -1,10 +1,10 @@
 package io.skysail.core.app.resources
 
-import io.skysail.restlet.resources.ListServerResource2
+import io.skysail.restlet.resources._
 import io.skysail.restlet.menu.MenuItemDescriptor
 import io.skysail.core.app.SkysailRootApplication
 
-class DefaultResource extends ListServerResource2[MenuItemDescriptor] {
+class DefaultResource extends ListServerResource[MenuItemDescriptor] {
 
 //  override def getLinks() = {
 //    val defaultApp = getSkysailApplication().asInstanceOf[SkysailRootApplication]
