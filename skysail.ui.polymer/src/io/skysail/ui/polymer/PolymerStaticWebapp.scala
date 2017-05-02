@@ -8,6 +8,6 @@ import io.skysail.restlet.app.ApplicationProvider
   immediate = true,
   service = Array(classOf[ApplicationProvider]))
 
-class PolymerStaticWebapp("") extends SkysailApplication {
-  
-}
+//class PolymerStaticWebapp("xxx") extends SkysailApplication {
+//  
+//}

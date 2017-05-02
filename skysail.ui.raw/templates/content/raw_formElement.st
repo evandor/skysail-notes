@@ -8,8 +8,8 @@ raw_formElement(model,converter,ff) ::= <<
     </div>
   $else$
     
-    <!-- $ff.name$: $first(model.data)$ -->
-    <sky-form-element 
+    <!-- $ff.name$: $first(model.data)$ 
+   <pre><code> sky-form-element 
         label="$ff.label$"
         name="$ff.name$"
         id="$ff.id$"
@@ -23,7 +23,10 @@ raw_formElement(model,converter,ff) ::= <<
         $if(ff.cssClass)$css-class="$ff.cssClass$" $endif$
         $if(ff.cssStyle)$css-style="$ff.cssStyle$" $endif$
         $if(ff.mandatory)$ required $endif$
-        edit-base-url='$converter.editBaseUrl$'>
-    </sky-form-element>
+        edit-base-url='$converter.editBaseUrl$'
+    /sky-form-element</code></pre>-->
+    
+    <b>$ff.label$:</b><br>
+    <input type="$ff.inputType$" id="$ff.id$" name="$ff.name$" value="$first(model.data).(ff.name)$" /><br><br>
   $endif$
 >>
