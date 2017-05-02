@@ -60,7 +60,7 @@ raw_content(user,converter,messages,model,request)::= <<
     $endif$
     
     
-          <div>
+      <div>
         <br>
         <hr>
         <h3>Resource Rendering Model</h3>
@@ -68,6 +68,12 @@ raw_content(user,converter,messages,model,request)::= <<
         <small>
             <code><pre>$model.appModelHtmlRepresentation$</pre></code>
         </small>
+        <h5>Links</h5>
+        <small><table  class="pure-table">
+        	<tr><th>Title</th><th>URI</th><th>Alt</th><th>Rel</th><th>Verbs</th><th>needsAuthentication</th><th>role</th><th>refId</th><th>cls</th></tr>
+        	$model.links: { link | 
+        	<tr><td>$link.title$</td><td><a href='$link.uri$'>[$link.uri$]</a></td><td>$link.alt$</td><td>$link.relation$</td><td>$link.verbs$</td><td>$link.needsAuth$</td><td>$link.linkRole$</td><td>$link.refId$</td><td>$link.resourceClass$</td></tr>
+        };separator="<br>\n"$</table></small>
         <h5>Form Fields</h5>
         <small><table  class="pure-table">
         	<tr><th>Label</th><th>id</th><th>name</th><th>inputType</th></tr>
@@ -78,12 +84,6 @@ raw_content(user,converter,messages,model,request)::= <<
         <small>$model.rawData: { row | $row$};separator="<br>\n"$</small>
         <h5>Data</h5>
         <small>$model.data: { row | $row$};separator="<br>\n"$</small>
-        <h5>Links</h5>
-        <small><table  class="pure-table">
-        	<tr><th>Title</th><th>URI</th><th>Alt</th><th>Rel</th><th>Verbs</th><th>needsAuthentication</th><th>role</th><th>refId</th><th>cls</th></tr>
-        	$model.links: { link | 
-        	<tr><td>$link.title$</td><td><a href='$link.uri$'>[$link.uri$]</a></td><td>$link.alt$</td><td>$link.relation$</td><td>$link.verbs$</td><td>$link.needsAuth$</td><td>$link.linkRole$</td><td>$link.refId$</td><td>$link.resourceClass$</td></tr>
-        };separator="<br>\n"$</table></small>
       </div> 
         
       <div>

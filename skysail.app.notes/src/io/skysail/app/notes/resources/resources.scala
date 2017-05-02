@@ -45,7 +45,7 @@ class PostNoteResource extends PostEntityServerResource[Note] {
   def createEntityTemplate() = Note()
   def addEntity(entity: Note): Unit = {
     entity.setCreated(new Date())
-    entity.setModified(new Date())
+    entity.setModified(null)
     val repo = NotesResource.noteRepo(getSkysailApplication())
     val vertex = repo.save(entity, getSkysailApplication().applicationModel2)
     // entity.setId(vertex.getId().toString())

@@ -15,17 +15,10 @@ raw_index(user, messages, converter, model, request) ::= <<
 
     <div id="menu">
         <div class="pure-menu">
-            <a class="pure-menu-heading" href="#">skysail</a>
+            <a class="pure-menu-heading" href="/">skysail</a>
 
             <ul class="pure-menu-list">
-                <li class="pure-menu-item"><a href="#" class="pure-menu-link">Home</a></li>
-                <li class="pure-menu-item"><a href="#" class="pure-menu-link">About</a></li>
-
-                <li class="pure-menu-item" class="menu-item-divided pure-menu-selected">
-                    <a href="#" class="pure-menu-link">Services</a>
-                </li>
-
-                <li class="pure-menu-item"><a href="#" class="pure-menu-link">Contact</a></li>
+                <li class="pure-menu-item"><a href="/notes/v1/notes" class="pure-menu-link">notes</a></li>
             </ul>
         </div>
     </div>
