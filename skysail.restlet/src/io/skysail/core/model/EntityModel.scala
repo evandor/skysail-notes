@@ -23,10 +23,16 @@ case class EntityModel(entityClass: Class[_]) {
       .toMap
   }
 
+  def toHtml() = s"""${this.getClass.getSimpleName}("$name")<br>
+        <br><u>Fields</u>: <ul>${printHtmlMap(fields)}</ul>"""
+  
   override def toString() = s"""${this.getClass.getSimpleName}("$name")
         Fields: ${printMap(fields)}"""
   
   private def filterFormFields(f: Field): Boolean = f.getAnnotation(classOf[io.skysail.core.html.Field]) != null
+
+  private def printHtmlMap(map: Map[_, _]) = map.map(v => s"""
+          <li>"${v._1}" -> ${v._2.toString()}</li>""").mkString("")
 
   private def printMap(map: Map[_, _]) = map.map(v => s"""
           "${v._1}" -> ${v._2.toString()}""").mkString("")

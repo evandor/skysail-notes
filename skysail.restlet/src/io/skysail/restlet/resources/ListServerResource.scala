@@ -15,8 +15,6 @@ abstract class ListServerResource[T: Manifest](associatedEntityResource: Class[_
   
   addAssociatedResourceClasses(List((ENTITY_RESOURCE_FOR_LIST_RESOURCE, associatedEntityResource)))
 
-  //override def associatedResourceClasses() = List((ENTITY_RESOURCE_FOR_LIST_RESOURCE, associatedEntityResource))
-
   override def getVerbs(): Set[Method] = Set(Method.GET)
 
   @Get("html|json|yaml|xml|csv|timeline|carbon|standalone|data")
@@ -33,7 +31,5 @@ abstract class ListServerResource[T: Manifest](associatedEntityResource: Class[_
     val responseWrapper = requestHandler.createForList(Method.GET).handle(this, getResponse())
     return responseWrapper.getEntity()
   }
-
-  // def getAssociatedServerResources() = associatedResources // List<Class<? extends SkysailServerResource<?>>>
 
 }

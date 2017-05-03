@@ -66,8 +66,7 @@ case class ApplicationModel(val name: String, apiVersion: ApiVersion) {
                 }
               }
           }
-
-          /*val associatedResourceModels = resourceModel.resource.associatedResourceClasses()
+          val associatedResourceModels = resourceModel.resource.associatedResourceClasses
             .map(r => resourceModelFor(r._2))
             .filter(r => r.isDefined)
             .map(r => r.get)
@@ -75,15 +74,18 @@ case class ApplicationModel(val name: String, apiVersion: ApiVersion) {
           
           associatedResourceModels.foreach { resModel =>
             {
-                result += new LinkModel(appPath() + resModel.path, LINKED_RESOURCE, resModel.resource, resModel.resource.getClass)
+                result += new LinkModel(appPath(), resModel.path, LINKED_RESOURCE, resModel.resource, resModel.resource.getClass)
             }
-          }*/
+          }
           resourceModel.linkModels = result.toList
         }
     }
   }
 
-  def resourceModelFor(cls: Class[_ <: SkysailServerResource[_]]) = resourceModels.filter { model => model.targetResourceClass == cls }.headOption
+  def resourceModelFor(cls: Class[_ <: SkysailServerResource[_]]) = {
+    log.info(s"resourceModelFor($cls): checking ${resourceModels.map(m => m.targetResourceClass).mkString(";")}")
+    resourceModels.filter { model => model.targetResourceClass == cls }.headOption
+  }
 
   def entityModelFor(id: String) = entityModelsMap.get(id)
 
@@ -96,16 +98,19 @@ case class ApplicationModel(val name: String, apiVersion: ApiVersion) {
     }
   }
 
-  def toHtml(request: Request) = s"""<b>${this.getClass.getSimpleName}</b>("$name","$apiVersion") [Built: ${built}]<br>
-    <u>Resources</u>: <ul>${resourceModels.map { v => "<li>" + v.toHtml(name, apiVersion, request) + "</li>" }.mkString("")}</ul>
-    <u>Entities</u>: <ul>${printMap(entityModelsMap)}</ul>"""
+  def toHtml(request: Request) = s"""<b>${this.getClass.getSimpleName}</b>("$name","$apiVersion") [Built: ${built}]<br><br>
+    &nbsp;&nbsp;&nbsp;<u>Resources</u>: <ul>${resourceModels.map { v => "<li>" + v.toHtml(name, apiVersion, request) + "</li>" }.mkString("")}</ul>
+    &nbsp;&nbsp;&nbsp;<u>Entities</u>: <ul>${printHtmlMap(entityModelsMap)}</ul>"""
 
   override def toString() = s"""${this.getClass.getSimpleName}("$name","$apiVersion") [Built: ${built}]
     Resources: ${resourceModels.map { v => sys.props("line.separator") + " " * 6 + " - " + v }.mkString("")}
     Entities: ${printMap(entityModelsMap)}"""
 
-  private def printMap(map: scala.collection.mutable.Map[_, _]) = map.map(v => s"""
-      <li>"${v._1}" -> ${v._2.toString()}</li>""").mkString("")
+  private def printHtmlMap(map: scala.collection.mutable.Map[String, EntityModel]) = map.map(v => s"""
+      <li>"${v._1}" -> ${v._2.toHtml}</li>""").mkString("")
+
+  private def printMap(map: scala.collection.mutable.Map[String, EntityModel]) = map.map(v => s"""
+      "${v._1}" -> ${v._2.toHtml}""").mkString("")
 
   private def appPath() = "/" + name + (if (apiVersion != null) apiVersion.getVersionPath() else "")
 
