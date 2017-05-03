@@ -66,7 +66,7 @@ raw_content(user,converter,messages,model,request)::= <<
         <h3>Resource Rendering Model</h3>
         <h5>Application Model</h5>
         <small>
-            <code><pre>$model.appModelHtmlRepresentation$</pre></code>
+           $model.appModelHtmlRepresentation$
         </small>
         <h5>Links</h5>
         <small><table  class="pure-table">

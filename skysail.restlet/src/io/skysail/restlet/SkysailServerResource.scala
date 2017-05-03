@@ -15,6 +15,10 @@ import scala.reflect.runtime.universe._
 import io.skysail.core.model.ResourceAssociationType
 import io.skysail.core.model.LinkRelation
 import org.restlet.data.Method
+import io.skysail.restlet.resources.ListServerResource
+import io.skysail.core.model.ResourceAssociationType
+import io.skysail.core.model.ENTITY_RESOURCE_FOR_LIST_RESOURCE
+import org.slf4j.LoggerFactory
 
 object SkysailServerResource {
   //val SKYSAIL_SERVER_RESTLET_FORM = "de.twenty11.skysail.server.core.restlet.form";
@@ -30,17 +34,18 @@ object SkysailServerResource {
 
 }
 
-abstract class SkysailServerResource[T: TypeTag] extends ServerResource {
+abstract class SkysailServerResource[T] extends ServerResource {
+  
+  private val log = LoggerFactory.getLogger(this.getClass())
 
   var entity: AnyRef = null
   def setEntity(e: AnyRef) = entity = e
 
   def getEntity(): Any
 
-  //var links = List[LinkModel]()
-
   val stringContextMap = new java.util.HashMap[ResourceContextId, String]()
-
+  
+  val associatedResourceClasses = scala.collection.mutable.ListBuffer[Tuple2[ResourceAssociationType, Class[_ <: SkysailServerResource[_]]]]()
 
   def getSkysailApplication() = getApplication().asInstanceOf[SkysailApplication]
   def getMetricsCollector() = getSkysailApplication().getMetricsCollector()
@@ -113,22 +118,8 @@ abstract class SkysailServerResource[T: TypeTag] extends ServerResource {
     }
   }
 
-//  def getAuthorizedLinks(): List[Link] = {
-//    val allLinks = getLinks();
-//    if (allLinks == null) {
-//      return List[Link]()
-//    }
-//    allLinks //.filter(l => l.isAu)
-//  }
-
   def getLinkRelation() = LinkRelation.CANONICAL
   def getVerbs():Set[Method] = Set()
-
-//  def getLinks(): List[Link] = if (links != null) links else List()
-
-//  final def getLinks[_ <: SkysailServerResource[_]](classes: Class[_]*): List[Link] =
-//    if (links.length == 0) LinkUtils.fromResources(this, entity, classes) else links
-
   def getApiMetadata() = ApiMetadata.builder().build()
 
   def redirectTo(): String = null
@@ -146,6 +137,16 @@ abstract class SkysailServerResource[T: TypeTag] extends ServerResource {
   
   def linkedResourceClasses():List[Class[_ <: SkysailServerResource[_]]] = List()
   
-  def associatedResourceClasses():List[Tuple2[ResourceAssociationType, Class[_ <: SkysailServerResource[_]]]] = List()
+  protected def addAssociatedResourceClasses(typeAndClassTuples: List[Tuple2[ResourceAssociationType, Class[_ <: SkysailServerResource[_]]]]): Unit = {
+    typeAndClassTuples.foreach(tupel => {
+      if (tupel._1 == ENTITY_RESOURCE_FOR_LIST_RESOURCE) {
+        if (associatedResourceClasses.map(arc => arc._1).filter(theType => theType == ENTITY_RESOURCE_FOR_LIST_RESOURCE).headOption.isDefined) {
+          log.warn(s"associated Resource Class for type ENTITY_RESOURCE_FOR_LIST_RESOURCE is already defined. Ignoring new one.")
+        }
+      }
+      associatedResourceClasses += tupel
+    })
+  }
 
+  
 }

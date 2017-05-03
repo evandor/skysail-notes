@@ -11,9 +11,11 @@ import io.skysail.restlet.ScalaListRequestHandler
 import io.skysail.core.model.ENTITY_RESOURCE_FOR_LIST_RESOURCE
 import io.skysail.core.model.ResourceAssociationType
 
-abstract class ListServerResource[T: Manifest](associatedEntiyResource: Class[_ <: EntityServerResource[_]] = null) extends SkysailServerResource {
+abstract class ListServerResource[T: Manifest](associatedEntityResource: Class[_ <: EntityServerResource[_]] = null) extends SkysailServerResource {
+  
+  addAssociatedResourceClasses(List((ENTITY_RESOURCE_FOR_LIST_RESOURCE, associatedEntityResource)))
 
-  override def associatedResourceClasses() = List((ENTITY_RESOURCE_FOR_LIST_RESOURCE, associatedEntiyResource))
+  //override def associatedResourceClasses() = List((ENTITY_RESOURCE_FOR_LIST_RESOURCE, associatedEntityResource))
 
   override def getVerbs(): Set[Method] = Set(Method.GET)
 

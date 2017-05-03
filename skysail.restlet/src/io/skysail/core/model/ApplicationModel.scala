@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory
 import scala.collection.mutable.HashMap
 import io.skysail.restlet.SkysailServerResource
 import io.skysail.core.ApiVersion
+import scala.None
+import org.restlet.Request
 
 /**
  * This is the root class of skysail's core domain, describing an application,
@@ -60,19 +62,22 @@ case class ApplicationModel(val name: String, apiVersion: ApiVersion) {
               {
                 val res = resourceModelFor(lrCls)
                 if (res.isDefined) {
-                  result += new LinkModel(appPath() + res.get.path, LINKED_RESOURCE, res.get.resource, lrCls)
+                  result += new LinkModel(appPath(), res.get.path, LINKED_RESOURCE, res.get.resource, lrCls)
                 }
               }
           }
 
-          val r = resourceModel.resource.associatedResourceClasses().map(r => resourceModels.filter { resourceModel => resourceModel.targetResourceClass == r }.headOption).toList
-          r.foreach { res =>
+          /*val associatedResourceModels = resourceModel.resource.associatedResourceClasses()
+            .map(r => resourceModelFor(r._2))
+            .filter(r => r.isDefined)
+            .map(r => r.get)
+            .toList
+          
+          associatedResourceModels.foreach { resModel =>
             {
-              if (res.isDefined) {
-                result += new LinkModel(appPath() + res.get.path, LINKED_RESOURCE, res.get.resource, res.get.resource.getClass)
-              }
+                result += new LinkModel(appPath() + resModel.path, LINKED_RESOURCE, resModel.resource, resModel.resource.getClass)
             }
-          }
+          }*/
           resourceModel.linkModels = result.toList
         }
     }
@@ -91,12 +96,16 @@ case class ApplicationModel(val name: String, apiVersion: ApiVersion) {
     }
   }
 
+  def toHtml(request: Request) = s"""<b>${this.getClass.getSimpleName}</b>("$name","$apiVersion") [Built: ${built}]<br>
+    <u>Resources</u>: <ul>${resourceModels.map { v => "<li>" + v.toHtml(name, apiVersion, request) + "</li>" }.mkString("")}</ul>
+    <u>Entities</u>: <ul>${printMap(entityModelsMap)}</ul>"""
+
   override def toString() = s"""${this.getClass.getSimpleName}("$name","$apiVersion") [Built: ${built}]
     Resources: ${resourceModels.map { v => sys.props("line.separator") + " " * 6 + " - " + v }.mkString("")}
     Entities: ${printMap(entityModelsMap)}"""
 
   private def printMap(map: scala.collection.mutable.Map[_, _]) = map.map(v => s"""
-      "${v._1}" -> ${v._2.toString()}""").mkString("")
+      <li>"${v._1}" -> ${v._2.toString()}</li>""").mkString("")
 
   private def appPath() = "/" + name + (if (apiVersion != null) apiVersion.getVersionPath() else "")
 

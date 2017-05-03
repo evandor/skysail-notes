@@ -66,10 +66,22 @@ class ApplicationModelSpec extends FlatSpec {
     model.addResourceModel("/list/", classOf[PostTestEntityResource])
     model.addResourceModel("/list/{id}", classOf[TestEntityResource])
     model.build()
+    //println(model)
+    val links = model.linksFor(classOf[TestEntitiesResource])
+    assert(links.size == 1)
+    assert(links.head.getUri == "/appName/v1/list/")
+  }
+  
+  "An ApplicationModel" should "provide the link to the update resource for an entity of the list resource" in {
+    val model = ApplicationModel("appName",new ApiVersion(1))
+    model.addResourceModel("/list", classOf[TestEntitiesResource])
+    model.addResourceModel("/list/", classOf[PostTestEntityResource])
+    model.addResourceModel("/list/{id}", classOf[TestEntityResource])
+    model.build()
     println(model)
     val links = model.linksFor(classOf[TestEntitiesResource])
     assert(links.size == 1)
-    assert(links.head.uri == "/appName/v1/list/")
+    assert(links.head.getUri == "/appName/v1/list/")
   }
 
   "An ApplicationModel" should "provide a decent toString representation" in {

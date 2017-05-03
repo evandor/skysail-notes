@@ -7,7 +7,8 @@ import scala.beans.BeanProperty
 import io.skysail.restlet.ResourceContextId
 
 case class LinkModel(
-    @BeanProperty uri: String,
+    val context: String,
+    val path: String,
     @BeanProperty rat: ResourceAssociationType = null,
     resource: SkysailServerResource[_],
     @BeanProperty val resourceClass: Class[_ <: SkysailServerResource[_]] = null) {
@@ -21,7 +22,9 @@ case class LinkModel(
   @BeanProperty var refId: String = _
   @BeanProperty var cls: Class[_] = _
 
-  override def toString() = s"${uri}: ${resourceClass.getSimpleName} ($rat)"
+  def getUri() = context + path
+
+  override def toString() = s"${path}: ${resourceClass.getSimpleName} ($rat)"
 
   def asLinkheaderElement(): String = {
     val sb = new StringBuilder().append("<").append(getUri()).append(">");

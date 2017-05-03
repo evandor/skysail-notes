@@ -7,6 +7,8 @@ import io.skysail.restlet.SkysailServerResource
 import io.skysail.restlet.router.ScalaSkysailRouter
 import io.skysail.restlet.resources._
 import org.slf4j.LoggerFactory
+import org.restlet.Request
+import io.skysail.core.ApiVersion
 
 /**
  * A ResourceModel captures the link between a path and a SkysailServerResource, defining
@@ -39,6 +41,14 @@ case class ResourceModel(val path: String, val targetResourceClass: Class[_ <: S
     }
   }
 
+  def toHtml(name: String, apiVersion: ApiVersion, request: Request) = {
+    println(s"${request.getResourceRef.getPath} - /${name}${apiVersion.getVersionPath()}$path")
+    val isCurrentResource = request.getResourceRef.getPath == path
+    val str = if (isCurrentResource) "***" else ""
+    s""""$path": ${str}${targetResourceClass.getSimpleName}[${entityClass.getSimpleName}]<br>
+        <u>Links</u>: <ul>${linkModels.map { v => "<li>" + v + "</li>"}.mkString("")}</ul>"""
+  }
+  
   override def toString() = s""""$path": ${targetResourceClass.getSimpleName}[${entityClass.getSimpleName}]
         Links: ${linkModels.map { v => sys.props("line.separator") + " " * 10 + v }.mkString("")}"""
   //    Entities: ${printMap(entitiesMap)}"""

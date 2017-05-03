@@ -49,8 +49,7 @@ class NotesApplication extends SkysailApplication(
   }
 
   override def attach() = {
-    //router.attach(new RouteBuilder("", classOf[NotesResource]));
-
+    router.attach(new RouteBuilder("", classOf[NotesResource]));
     router.attach(new RouteBuilder("/notes", classOf[NotesResource]));
     router.attach(new RouteBuilder("/notes/", classOf[PostNoteResource]));
     //router.attach(new RouteBuilder("/notes/{id}", classOf[NoteResource]));
