@@ -12,6 +12,4 @@ final case class FormResponse[T](response: Response, entity: T, target: String) 
 
 final case class ListResponse[T](response: Response, entity: List[T]) extends ScalaSkysailResponse[List[T]]
 
-final case class EntityResponse[T](response: Response) extends ScalaSkysailResponse[T] {
-  def entity() = null.asInstanceOf[T]
-}
+final case class EntityResponse[T](response: Response, entity: T) extends ScalaSkysailResponse[T]

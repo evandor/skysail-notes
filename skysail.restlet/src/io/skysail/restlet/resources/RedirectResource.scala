@@ -28,6 +28,6 @@ abstract class RedirectResource[T] extends SkysailServerResource {
     // getPathSubstitutions().accept(link);
     //  getResponse().redirectSeeOther(link.getUri());
     timerMetric.stop()
-    EntityResponse[T](getResponse());
+    EntityResponse[T](getResponse(), null.asInstanceOf[T])
   }
 }

@@ -30,7 +30,11 @@ class NotesResource extends ListServerResource[Note](classOf[NoteResource]) {
 }
 
 class NoteResource extends EntityServerResource[Note] {
-  override def getEntity(): Option[Note] = NotesResource.noteRepo(getSkysailApplication()).findOne(getAttribute("id"))
+  override def getEntity(): Option[Note] = {
+    implicit val formats = DefaultFormats
+    val noteJValue = NotesResource.noteRepo(getSkysailApplication()).findOne(getAttribute("id"))
+    if (noteJValue.isDefined) Some(noteJValue.get.extract[Note]) else None
+  }
   override def eraseEntity() = {
     //NotesResource.noteRepo(getSkysailApplication()).delete(getAttribute("id"))
     new SkysailResponse[Note]()
