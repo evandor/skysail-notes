@@ -58,7 +58,7 @@ class EntityServerResource[T:Manifest] extends SkysailServerResource {
   
     final def getEntity3():T = {
           val appModel = getSkysailApplication().getApplicationModel2()
-      val requestHandler = new ScalaRequestHandler[T](null.asInstanceOf[T])//, appModel)
+      val requestHandler = new ScalaRequestHandler[T](null.asInstanceOf[T], null)//, appModel)
       val responseWrapper = requestHandler.createForGet(Method.GET).handle(this, getResponse())
       return responseWrapper.getEntity()
 
