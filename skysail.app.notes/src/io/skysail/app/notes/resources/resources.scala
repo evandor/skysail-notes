@@ -58,7 +58,7 @@ class PutNoteResource extends PutEntityServerResource[Note] {
   override def getEntity() = NotesResource.noteRepo(getSkysailApplication()).findOne(getAttribute("id"))
   //override def redirectTo() = super.redirectTo(classOf[NotesResource])
   def updateEntity(entity: Note): Unit = {
-    //    val original = getEntity()
+    val original = getEntity()
     //    val originalCreated = original.getCreated()
     //    copyProperties(original, entity)
     //    original.setCreated(originalCreated)

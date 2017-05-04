@@ -18,4 +18,9 @@ class ScalaRequestHandler[T:Manifest](entity: T, variant: Variant) {
                 .calling(new PostRedirectGetFilter[T](variant))
                 .asInstanceOf[ScalaAbstractResourceFilter[T]]
       }
+      
+      def createForGet(): ScalaAbstractResourceFilter[T] = {
+        null
+      }
+
 }
