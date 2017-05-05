@@ -5,8 +5,8 @@ import org.restlet.representation.Variant
 import io.skysail.restlet.filter._
 import io.skysail.core.model.ApplicationModel
 
-class ScalaListRequestHandler[T:Manifest](variant: Variant, appModel: ApplicationModel) {
-  
+class ScalaListRequestHandler[T: Manifest](variant: Variant, appModel: ApplicationModel) {
+
   def createForList(method: Method): ScalaAbstractListResourceFilter[T] = {
     if (method.equals(Method.GET)) {
       return chainForListGet();
@@ -22,8 +22,8 @@ class ScalaListRequestHandler[T:Manifest](variant: Variant, appModel: Applicatio
       // .calling(new ExtractStandardQueryParametersResourceFilter<>())
       .calling(new ScalaDataExtractingListFilter[T]())
       .calling(new AddLinkheadersListFilter[T](appModel))
-//      .calling(new SetExecutionTimeInListResponseFilter())
-//      .calling(new RedirectListFilter());
+      //      .calling(new SetExecutionTimeInListResponseFilter())
+      .calling(new RedirectListFilter[T]())
       .asInstanceOf[ScalaAbstractListResourceFilter[T]]
   }
 }

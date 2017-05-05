@@ -21,7 +21,7 @@ class DefaultResource extends ListServerResource[MenuItemDescriptor] {
   //    }
 
   override def redirectTo(): String = {
-    "" //return getSkysailApplication().asInstanceOf[SkysailRootApplication].getRedirectTo(this);
+    getSkysailApplication().asInstanceOf[SkysailRootApplication].getRedirectTo(this);
   }
 
   override def getEntity() = {

@@ -1,10 +1,10 @@
-package io.skysail.app.notes;
+package io.skysail.app.demo;
 
 import org.osgi.service.component.annotations._
 import org.restlet.data.Protocol
 import java.util.Arrays
-import io.skysail.app.notes.repository.NotesRepository
-import io.skysail.app.notes.resources._
+import io.skysail.app.demo.repository.TodosRepository
+import io.skysail.app.demo.resources._
 import io.skysail.core.security.config.SecurityConfigBuilder
 import io.skysail.restlet.app._
 import io.skysail.repo.orientdb.ScalaDbService
@@ -15,22 +15,17 @@ import io.skysail.restlet.services.MenuItemProvider
 import org.osgi.service.component.ComponentContext
 import io.skysail.core.model.APPLICATION_CONTEXT_RESOURCE
 
-object NotesApplication {
-  final val APP_NAME = "notes"
+object DemoApplication {
+  final val APP_NAME = "demo"
 }
 
-@Component(
-  immediate = true,
-  configurationPolicy = ConfigurationPolicy.OPTIONAL,
-  service = Array(classOf[ApplicationProvider]))
-class NotesApplication extends SkysailApplication(
-  NotesApplication.APP_NAME,
-  new ApiVersion(int2Integer(1))) {
-
-  setDescription("notes app")
-  getConnectorService().getClientProtocols().add(Protocol.HTTPS)
+@Component(immediate = true, configurationPolicy = ConfigurationPolicy.OPTIONAL, service = Array(classOf[ApplicationProvider]))
+class DemoApplication extends SkysailApplication(DemoApplication.APP_NAME, new ApiVersion(int2Integer(1))) {
   
-  addAssociatedResourceClasses(List((APPLICATION_CONTEXT_RESOURCE, classOf[NotesResource])))
+  setDescription("demo app")
+  getConnectorService().getClientProtocols().add(Protocol.HTTPS)
+
+  addAssociatedResourceClasses(List((APPLICATION_CONTEXT_RESOURCE, classOf[TodosResource])))
 
   @Reference(cardinality = ReferenceCardinality.MANDATORY)
   var dbService: ScalaDbService = null
@@ -48,15 +43,15 @@ class NotesApplication extends SkysailApplication(
   @Activate
   override def activate(appConfig: ApplicationConfiguration, componentContext: ComponentContext) = {
     super.activate(appConfig, componentContext);
-    addRepository(new NotesRepository(dbService));
+    addRepository(new TodosRepository(dbService));
   }
 
   override def attach() = {
-    router.attach(new RouteBuilder("", classOf[NotesResource]));
-    router.attach(new RouteBuilder("/notes", classOf[NotesResource]));
-    router.attach(new RouteBuilder("/notes/", classOf[PostNoteResource]));
-    router.attach(new RouteBuilder("/notes/{id}", classOf[NoteResource]));
-    router.attach(new RouteBuilder("/notes/{id}/", classOf[PutNoteResource]));
+    router.attach(new RouteBuilder("", classOf[TodosResource]));
+    router.attach(new RouteBuilder("/todos", classOf[TodosResource]));
+    router.attach(new RouteBuilder("/todos/", classOf[PostTodoResource]));
+    router.attach(new RouteBuilder("/todos/{id}", classOf[TodoResource]));
+    router.attach(new RouteBuilder("/todos/{id}/", classOf[PutTodoResource]));
     createStaticDirectory();
   }
 

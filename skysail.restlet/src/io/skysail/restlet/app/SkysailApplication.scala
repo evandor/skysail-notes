@@ -36,6 +36,8 @@ import io.skysail.restlet.menu.Category
 import io.skysail.restlet.menu.APPLICATION_MAIN_MENU
 import org.restlet.Request
 import io.skysail.core.model.ApplicationModel
+import io.skysail.restlet.SkysailServerResource
+import io.skysail.core.model.ResourceAssociationType
 
 object SkysailApplication {
   var serviceListProvider: ScalaServiceListProvider = null
@@ -55,12 +57,14 @@ abstract class SkysailApplication(
 
   val log = LoggerFactory.getLogger(classOf[SkysailApplication])
 
+  val associatedResourceClasses = scala.collection.mutable.ListBuffer[Tuple2[ResourceAssociationType, Class[_ <: SkysailServerResource[_]]]]()
+
   var componentContext: ComponentContext = null
   def getComponentContext() = componentContext
 
   var applicationModel2: ApplicationModel = null
   def getApplicationModel2() = applicationModel2
-  
+
   val repositories = new ArrayList[ScalaDbRepository]();
 
   var router: ScalaSkysailRouter = null
@@ -163,7 +167,7 @@ abstract class SkysailApplication(
 
     log.debug("attaching application-specific routes");
     attach();
-    
+
     getApplicationModel2().build()
 
     log.debug("attaching i18n route");
@@ -295,6 +299,12 @@ abstract class SkysailApplication(
 
   def getRouteBuildersForResource(cls: Class[_] /*Class<? extends ServerResource>*/ ): List[RouteBuilder] = {
     router.getRouteBuildersForResource(cls);
+  }
+
+  protected def addAssociatedResourceClasses(typeAndClassTuples: List[Tuple2[ResourceAssociationType, Class[_ <: SkysailServerResource[_]]]]): Unit = {
+    typeAndClassTuples.foreach(tupel => {
+      associatedResourceClasses += tupel
+    })
   }
 
 }

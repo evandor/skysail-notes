@@ -17,7 +17,10 @@ import org.restlet.Request
  *
  *  @param name the model's (unique and descriptive) name
  */
-case class ApplicationModel(val name: String, apiVersion: ApiVersion) {
+case class ApplicationModel(
+    val name: String, 
+    apiVersion: ApiVersion, 
+    associatedResourceClasses: List[Tuple2[ResourceAssociationType, Class[_ <: SkysailServerResource[_]]]]) {
 
   private val log = LoggerFactory.getLogger(this.getClass())
 
@@ -71,10 +74,10 @@ case class ApplicationModel(val name: String, apiVersion: ApiVersion) {
             .filter(r => r.isDefined)
             .map(r => r.get)
             .toList
-          
+
           associatedResourceModels.foreach { resModel =>
             {
-                result += new LinkModel(appPath(), resModel.path, LINKED_RESOURCE, resModel.resource, resModel.resource.getClass)
+              result += new LinkModel(appPath(), resModel.path, LINKED_RESOURCE, resModel.resource, resModel.resource.getClass)
             }
           }
           resourceModel.linkModels = result.toList
@@ -88,6 +91,15 @@ case class ApplicationModel(val name: String, apiVersion: ApiVersion) {
   }
 
   def entityModelFor(id: String) = entityModelsMap.get(id)
+
+  def entityModelFor(resourceClass: Class[_ <: io.skysail.restlet.SkysailServerResource[_]]): Option[EntityModel] = {
+    val resModel = resourceModelFor(resourceClass)
+    if (resModel.isDefined) {
+      entityModelFor(resModel.get.entityClass.getName)
+    } else {
+      None
+    }
+  }
 
   def linksFor(resourceClass: Class[_ <: io.skysail.restlet.SkysailServerResource[_]]): List[LinkModel] = {
     val r = resourceModels.filter { resourceModel => resourceModel.resource.getClass == resourceClass }.headOption
