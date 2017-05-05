@@ -11,7 +11,7 @@ import io.skysail.core.ApiVersion
 class ApplicationModelSpec extends FlatSpec {
 
   "An ApplicationModel" should "not accept a null value as its name" in {
-    assertThrows[IllegalArgumentException] { new ApplicationModel(null,null) }
+    assertThrows[IllegalArgumentException] { new ApplicationModel(null,null,List()) }
   }
 
   "An ApplicationModel" should "not accept an empty value as its name" in {
