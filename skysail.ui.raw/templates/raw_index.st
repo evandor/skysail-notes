@@ -28,6 +28,12 @@ raw_index(user, messages, converter, model, request) ::= <<
             <h1>$model.resourceSimpleName$</h1>
             <h2>$request.request$</h2>
         </div>
+        
+        <div class="pure-g">
+          <div class="pure-u-lg-1-24">&nbsp;</div>
+          <div class="pure-u-lg-22-24">$model.applicationContextLinks$</div>
+          <div class="pure-u-lg-1-24">&nbsp;</div>
+        </div>
 
         <div class="pure-g">
           <div class="pure-u-lg-1-24">&nbsp;</div>

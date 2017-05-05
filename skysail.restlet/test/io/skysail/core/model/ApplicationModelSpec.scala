@@ -15,18 +15,18 @@ class ApplicationModelSpec extends FlatSpec {
   }
 
   "An ApplicationModel" should "not accept an empty value as its name" in {
-    assertThrows[IllegalArgumentException] { new ApplicationModel("",null) }
-    assertThrows[IllegalArgumentException] { new ApplicationModel(" ",null) }
+    assertThrows[IllegalArgumentException] { new ApplicationModel("",null,List()) }
+    assertThrows[IllegalArgumentException] { new ApplicationModel(" ",null,List()) }
   }
 
   "An empty ApplicationModel" should "be created successfully for a given name" in {
-    val model = ApplicationModel("appName",null)
+    val model = ApplicationModel("appName",null,List())
     assert(model != null)
     assert(model.name == "appName")
   }
 
   "An ApplicationModel" should "add a new minimal ResourceModel" in {
-    val appModel = ApplicationModel("appName",null)
+    val appModel = ApplicationModel("appName",null,List())
 
     appModel.addResourceModel("/path", classOf[TestResource])
 
@@ -39,7 +39,7 @@ class ApplicationModelSpec extends FlatSpec {
   }
 
   "An ApplicationModel" should "add an ResourceModel (identified by its path), only once" in {
-    val model = ApplicationModel("appName",null)
+    val model = ApplicationModel("appName",null,List())
     val entityClass1 = model.addResourceModel("/path", classOf[TestResource])
     val entityClass2 = model.addResourceModel("/path", classOf[TestResource])
     assert(entityClass1.isDefined)
@@ -47,21 +47,21 @@ class ApplicationModelSpec extends FlatSpec {
   }
 
   "An ApplicationModel" should "return a resourceModel identified by its class" in {
-    val model = ApplicationModel("appName",null)
+    val model = ApplicationModel("appName",null,List())
     model.addResourceModel("/path", classOf[TestResource])
     val resourceModel = model.resourceModelFor(classOf[TestResource])
     assert(resourceModel.isDefined)
   }
 
   "An ApplicationModel" should "retrieve the entity associated with a Resource" in {
-    val appModel = ApplicationModel("appName",null)
+    val appModel = ApplicationModel("appName",null,List())
     appModel.addResourceModel("/path", classOf[TestResource])
     val id = classOf[TestEntity].getName
     assert(appModel.entityModelFor(id).isDefined)
   }
 
   "An ApplicationModel" should "provide the LinkModel for a resource identified by its class" in {
-    val model = ApplicationModel("appName",new ApiVersion(1))
+    val model = ApplicationModel("appName",new ApiVersion(1),List())
     model.addResourceModel("/list", classOf[TestEntitiesResource])
     model.addResourceModel("/list/", classOf[PostTestEntityResource])
     model.addResourceModel("/list/{id}", classOf[TestEntityResource])
@@ -73,7 +73,7 @@ class ApplicationModelSpec extends FlatSpec {
   }
   
   "An ApplicationModel" should "provide the link to the update resource for an entity of the list resource" in {
-    val model = ApplicationModel("appName",new ApiVersion(1))
+    val model = ApplicationModel("appName",new ApiVersion(1),List())
     model.addResourceModel("/list", classOf[TestEntitiesResource])
     model.addResourceModel("/list/", classOf[PostTestEntityResource])
     model.addResourceModel("/list/{id}", classOf[TestEntityResource])
@@ -85,7 +85,7 @@ class ApplicationModelSpec extends FlatSpec {
   }
 
   "An ApplicationModel" should "provide a decent toString representation" in {
-    val model = ApplicationModel("appName",null)
+    val model = ApplicationModel("appName",null,List())
     model.addResourceModel("/list", classOf[TestEntitiesResource])
     model.addResourceModel("/list/{id}", classOf[TestEntityResource])
     model.build()
