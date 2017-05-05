@@ -18,8 +18,8 @@ import org.restlet.Request
  *  @param name the model's (unique and descriptive) name
  */
 case class ApplicationModel(
-    val name: String, 
-    apiVersion: ApiVersion, 
+    val name: String,
+    apiVersion: ApiVersion,
     associatedResourceClasses: List[Tuple2[ResourceAssociationType, Class[_ <: SkysailServerResource[_]]]]) {
 
   private val log = LoggerFactory.getLogger(this.getClass())
@@ -55,10 +55,10 @@ case class ApplicationModel(
   }
 
   def build(): Unit = {
-    built = true
     resourceModels.foreach {
       resourceModel =>
         {
+          resourceModel.linkModel = new LinkModel(appPath(), resourceModel.path, APPLICATION_CONTEXT_RESOURCE, resourceModel.resource, resourceModel.resource.getClass)
           var result = scala.collection.mutable.ListBuffer[LinkModel]()
           resourceModel.resource.linkedResourceClasses().foreach {
             lrCls =>
@@ -83,6 +83,7 @@ case class ApplicationModel(
           resourceModel.linkModels = result.toList
         }
     }
+    built = true
   }
 
   def resourceModelFor(cls: Class[_ <: SkysailServerResource[_]]) = {

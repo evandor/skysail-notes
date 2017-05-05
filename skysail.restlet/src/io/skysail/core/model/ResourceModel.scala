@@ -29,6 +29,7 @@ case class ResourceModel(val path: String, val targetResourceClass: Class[_ <: S
   val resource: SkysailServerResource[_] = targetResourceClass.newInstance().asInstanceOf[SkysailServerResource[_]]
   val entityClass: Class[_] = ScalaSkysailRouter.getResourcesGenericType(resource)
 
+  var linkModel: LinkModel = _
   var linkModels: List[LinkModel] = List()
 
   def resourceType() = {

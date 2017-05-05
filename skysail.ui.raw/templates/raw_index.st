@@ -16,9 +16,9 @@ raw_index(user, messages, converter, model, request) ::= <<
     <div id="menu">
         <div class="pure-menu">
             <a class="pure-menu-heading" href="/">skysail</a>
-
+            <br>
             <ul class="pure-menu-list">
-                <li class="pure-menu-item"><a href="/notes/v1/notes" class="pure-menu-link">notes</a></li>
+                $model.applicationContextLinks: { link | <li class="pure-menu-item"><a href='$link.uri$'>$link.title$</a></li>}$
             </ul>
         </div>
     </div>

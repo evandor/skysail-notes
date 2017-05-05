@@ -15,7 +15,7 @@ case class LinkModel(
 
   @BeanProperty val relation: LinkRelation = resource.getLinkRelation()
   @BeanProperty val verbs = resource.getVerbs()
-  @BeanProperty val title = determineTitle()
+  @BeanProperty var title = determineTitle()
   @BeanProperty val alt: String = "-"
   @BeanProperty val needsAuth: Boolean = false
   @BeanProperty val linkRole: LinkRole = LinkRole.DEFAULT
@@ -24,7 +24,7 @@ case class LinkModel(
 
   def getUri() = context + path
 
-  override def toString() = s"${path}: ${resourceClass.getSimpleName} ($rat)"
+  override def toString() = s"'${path}': ${resourceClass.getSimpleName} ($rat) [title: $getTitle()]"
 
   def asLinkheaderElement(): String = {
     val sb = new StringBuilder().append("<").append(getUri()).append(">");
