@@ -20,7 +20,7 @@ import org.restlet.Request
 case class ApplicationModel(
     val name: String,
     apiVersion: ApiVersion,
-    associatedResourceClasses: List[Tuple2[ResourceAssociationType, Class[_ <: SkysailServerResource[_]]]]) {
+    associatedResourceClasses: List[Tuple2[ResourceAssociationType, Class[_ <: SkysailServerResource[_]]]] = List()) {
 
   private val log = LoggerFactory.getLogger(this.getClass())
 
@@ -112,8 +112,8 @@ case class ApplicationModel(
   }
 
   def toHtml(request: Request) = s"""<b>${this.getClass.getSimpleName}</b>("$name","$apiVersion") [Built: ${built}]<br><br>
-    &nbsp;&nbsp;&nbsp;<u>Resources</u>: <ul>${resourceModels.map { v => "<li>" + v.toHtml(name, apiVersion, request) + "</li>" }.mkString("")}</ul>
-    &nbsp;&nbsp;&nbsp;<u>Entities</u>: <ul>${printHtmlMap(entityModelsMap)}</ul>"""
+    &nbsp;&nbsp;&nbsp;<u>Entities</u>: <ul>${printHtmlMap(entityModelsMap)}</ul>
+    &nbsp;&nbsp;&nbsp;<u>Resources</u>: <ul>${resourceModels.map { v => "<li>" + v.toHtml(name, apiVersion, request) + "</li>" }.mkString("")}</ul>"""
 
   override def toString() = s"""${this.getClass.getSimpleName}("$name","$apiVersion") [Built: ${built}]
     Resources: ${resourceModels.map { v => sys.props("line.separator") + " " * 6 + " - " + v }.mkString("")}

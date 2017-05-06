@@ -31,12 +31,6 @@ raw_index(user, messages, converter, model, request) ::= <<
         
         <div class="pure-g">
           <div class="pure-u-lg-1-24">&nbsp;</div>
-          <div class="pure-u-lg-22-24">$model.applicationContextLinks$</div>
-          <div class="pure-u-lg-1-24">&nbsp;</div>
-        </div>
-
-        <div class="pure-g">
-          <div class="pure-u-lg-1-24">&nbsp;</div>
           <div class="pure-u-lg-22-24">$content/raw_content(user,converter,messages,model,request)$</div>
           <div class="pure-u-lg-1-24">&nbsp;</div>
         </div>

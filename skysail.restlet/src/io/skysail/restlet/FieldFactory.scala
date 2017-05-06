@@ -30,7 +30,7 @@ trait FieldFactory {
     }
     
     val fields = entityModel.get.fields
-    println(fields)
+   // println(fields)
 
     fields.values
       .map { field => new ScalaFormField(field, resource.entity) }
@@ -62,7 +62,7 @@ class FormResponseEntityFieldFactory(t: Class[_]) extends FieldFactory {
 }
 
 class DefaultEntityFieldFactory(t: Class[_]) extends FieldFactory {
-  override def determineFrom(r: SkysailServerResource[_]) =  determine(r, t)
+  override def determineFrom(r: SkysailServerResource[_]) =  determine(r, r.getParameterizedType())
 }
 
 class DefaultListFieldFactory() extends FieldFactory {

@@ -11,22 +11,32 @@ import io.skysail.core.ApiVersion
 class ApplicationModelSpec extends FlatSpec {
 
   "An ApplicationModel" should "not accept a null value as its name" in {
-    assertThrows[IllegalArgumentException] { new ApplicationModel(null,null,List()) }
+    assertThrows[IllegalArgumentException] { new ApplicationModel(null,ApiVersion(1)) }
   }
 
   "An ApplicationModel" should "not accept an empty value as its name" in {
-    assertThrows[IllegalArgumentException] { new ApplicationModel("",null,List()) }
-    assertThrows[IllegalArgumentException] { new ApplicationModel(" ",null,List()) }
+    assertThrows[IllegalArgumentException] { new ApplicationModel("",ApiVersion(1)) }
+    assertThrows[IllegalArgumentException] { new ApplicationModel(" ",ApiVersion(1)) }
   }
 
   "An empty ApplicationModel" should "be created successfully for a given name" in {
-    val model = ApplicationModel("appName",null,List())
+    val model = ApplicationModel("appName",ApiVersion(1))
     assert(model != null)
     assert(model.name == "appName")
   }
 
+  "An ApplicationModel" should "create links without API version if no apiVersion is provided" in {
+    val model = ApplicationModel("appName",null)
+    model.addResourceModel("/list", classOf[TestEntitiesResource])
+    model.addResourceModel("/list/", classOf[PostTestEntityResource])
+    model.build()
+    val links = model.linksFor(classOf[TestEntitiesResource])//.filter { l => l. }
+    assert(links.size == 1)
+    assert(links.head.getUri == "/appName/list/")
+  }
+
   "An ApplicationModel" should "add a new minimal ResourceModel" in {
-    val appModel = ApplicationModel("appName",null,List())
+    val appModel = ApplicationModel("appName",null)
 
     appModel.addResourceModel("/path", classOf[TestResource])
 
@@ -64,7 +74,7 @@ class ApplicationModelSpec extends FlatSpec {
     val model = ApplicationModel("appName",new ApiVersion(1),List())
     model.addResourceModel("/list", classOf[TestEntitiesResource])
     model.addResourceModel("/list/", classOf[PostTestEntityResource])
-    model.addResourceModel("/list/{id}", classOf[TestEntityResource])
+   // model.addResourceModel("/list/{id}", classOf[TestEntityResource])
     model.build()
     //println(model)
     val links = model.linksFor(classOf[TestEntitiesResource])
@@ -76,9 +86,8 @@ class ApplicationModelSpec extends FlatSpec {
     val model = ApplicationModel("appName",new ApiVersion(1),List())
     model.addResourceModel("/list", classOf[TestEntitiesResource])
     model.addResourceModel("/list/", classOf[PostTestEntityResource])
-    model.addResourceModel("/list/{id}", classOf[TestEntityResource])
+    //model.addResourceModel("/list/{id}", classOf[TestEntityResource])
     model.build()
-    println(model)
     val links = model.linksFor(classOf[TestEntitiesResource])
     assert(links.size == 1)
     assert(links.head.getUri == "/appName/v1/list/")
