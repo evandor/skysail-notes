@@ -47,11 +47,11 @@ class PostTodoResource extends PostEntityServerResource[Todo] {
   setDescription("adds a Todo to the repository")
   addToContext(ResourceContextId.LINK_TITLE, "create Todo");
   def createEntityTemplate() = Todo()
-  def addEntity(entity: Todo): Unit = {
+  def addEntity(entity: Todo): Todo = {
     val repo = TodosResource.todoRepo(getSkysailApplication())
     val vertex = repo.save(entity, getSkysailApplication().applicationModel2)
     // entity.setId(vertex.getId().toString())
-    // entity.copy(id=vertex.getId.toString())
+    entity.copy(id=Some(vertex.get.id.toString()))
   }
   override def redirectTo() = super.redirectTo(classOf[TodosResource])
 }

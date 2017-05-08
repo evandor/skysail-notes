@@ -16,11 +16,13 @@ class ScalaSecurityConfig(authenticationService: AuthenticationService) {
     val t = matchers
       .filter(matcher => matcher.`match`(path))
       .headOption
-    val authenticator = matchers
+    val authenticator: Authenticator = matchers
       .filter(matcher => matcher.`match`(path))
-      .headOption
       .map(matcher => matcher.getAuthenticator(context, authenticationService))
-      .getOrElse(new NeverAuthenticatedAuthenticator(context))
+      .headOption
+      .getOrElse[Authenticator](new NeverAuthenticatedAuthenticator(context))
+//      .map(matcher => matcher.getAuthenticator(context, authenticationService))
+//      .getOrElse(new NeverAuthenticatedAuthenticator(context))
     log.debug(s"matched authenticators against path '$path', found '${authenticator.getClass().getSimpleName()}'")
     return authenticator;
   }

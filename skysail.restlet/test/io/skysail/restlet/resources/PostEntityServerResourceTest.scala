@@ -27,14 +27,14 @@ class PostEntityServerResourceTest {
   class PostTestNoteServerResource extends PostEntityServerResource[TestNote] {
     def createEntityTemplate(): TestNote = new TestNote("hi")
 
-    def addEntity(entity: TestNote): Unit = {
-      ???
+    def addEntity(entity: TestNote): TestNote = {
+      null
     }
 
   }
 
   @Test
-  def atest(): Unit = {
+  def atest(): TestNote = {
     val postResource = new PostTestNoteServerResource()
     val form = new Form()
     //postResource.post(form, Variant.A)
@@ -45,6 +45,7 @@ class PostEntityServerResourceTest {
 //    val ssfm = new ScalaSkysailFieldModel(entityModel, fields.get(0))
 //    val sff = new ScalaFormField(ssfm, TestNote("content"), null)
 //    assertThat(sff.isMandatory(), is(true))
+    null
   }
 
 }

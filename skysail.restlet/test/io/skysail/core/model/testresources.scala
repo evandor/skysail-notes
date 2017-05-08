@@ -16,7 +16,7 @@ class PostTestEntityResource extends PostEntityServerResource[TestEntity] {
   addToContext(ResourceContextId.LINK_TITLE, "create TestEntity");
   def createEntityTemplate() = TestEntity(Some("1"), "hi")
   override def getEntity() = TestEntity(None, "").asInstanceOf[Nothing]
-  def addEntity(entity: TestEntity): Unit = {  }
+  def addEntity(entity: TestEntity): TestEntity = { null }
   override def redirectTo() = super.redirectTo(classOf[TestEntitiesResource])
 }
 

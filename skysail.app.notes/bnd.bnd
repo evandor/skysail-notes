@@ -38,7 +38,8 @@ Include-Resource: resources
 	org.scalactic;version=3.0,\
 	org.scala-lang.modules.scala-xml;version=1.0,\
 	org.eclipse.jetty.server;version=9.2,\
-	org.eclipse.jetty.util;version=9.2
+	org.eclipse.jetty.util;version=9.2,\
+	com.thoughtworks.paranamer;version=2.8
 
 
 Export-Package: \

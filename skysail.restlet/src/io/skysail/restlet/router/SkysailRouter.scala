@@ -134,6 +134,9 @@ class SkysailRouter(skysailApplication: SkysailApplication, apiVersion: ApiVersi
   }
 
   private def routeToString(sb: StringBuilder, restlet: Restlet): StringBuilder = {
+    if (restlet == null) {
+      return sb
+    }
     sb.append(restlet.getClass().getSimpleName());
     if (restlet.isInstanceOf[Filter]) {
       sb.append(" -> ").append(routeToString(new StringBuilder(), restlet.asInstanceOf[Filter].getNext()));

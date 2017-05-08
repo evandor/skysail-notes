@@ -31,7 +31,7 @@ abstract class PostEntityServerResource[T: Manifest] extends SkysailServerResour
 
   def createEntityTemplate(): T
 
-  def addEntity(entity: T)
+  def addEntity(entity: T): T
 
   def getEntity():T = createEntityTemplate()
 

@@ -50,13 +50,13 @@ class PostNoteResource extends PostEntityServerResource[Note] {
   setDescription("adds a note to the repository")
   addToContext(ResourceContextId.LINK_TITLE, "create Note");
   def createEntityTemplate() = Note()
-  def addEntity(entity: Note): Unit = {
+  def addEntity(entity: Note): Note = {
     entity.setCreated(new Date())
     entity.setModified(null)
     val repo = NotesResource.noteRepo(getSkysailApplication())
     val vertex = repo.save(entity, getSkysailApplication().applicationModel2)
     // entity.setId(vertex.getId().toString())
-    // entity.copy(id=vertex.getId.toString())
+    entity.copy(id=Some(vertex.get.id.toString()))
   }
   override def redirectTo() = super.redirectTo(classOf[NotesResource])
 }

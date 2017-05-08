@@ -1,6 +1,5 @@
 package io.skysail.app.notes.resources
 
-import collection.mutable.Stack
 import org.scalatest._
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
@@ -9,43 +8,109 @@ import io.skysail.core.ApiVersion
 import io.skysail.app.notes.NotesApplication
 import io.skysail.restlet.app.SkysailApplication
 import org.mockito._
+import org.mockito.Mockito.{ mock, when }
 import org.mockito.MockitoAnnotations
 import io.skysail.restlet.app.ScalaServiceListProvider
-import io.skysail.api.um.AuthenticationService
-import io.skysail.api.um.AuthorizationService
-import io.skysail.api.um.AuthenticationMode
+import io.skysail.api.um._
 import org.restlet.security.Authenticator
+import io.skysail.restlet.app.ApplicationConfiguration
+import org.osgi.service.component.ComponentContext
+import io.skysail.repo.orientdb._
+import io.skysail.app.notes.domain.Note
+import org.json4s._
+import org.json4s.jackson.JsonMethods._
+import org.json4s.native.Serialization
+import org.json4s.native.Serialization.{ read, write }
+import io.skysail.app.notes.domain.Note
+import org.restlet.Context
+import org.restlet.Request
+import org.restlet.Response
+import scala.util.Try
+import com.tinkerpop.blueprints.impls.orient.OrientVertex
+import com.tinkerpop.blueprints.impls.orient.OrientElement
 
 @RunWith(classOf[JUnitRunner])
-class NotesResourceSpec extends FlatSpec {
+class NotesResourceSpec extends FlatSpec with BeforeAndAfterEach {
 
-  val serviceListProvider = Mockito.mock(classOf[ScalaServiceListProvider])
-  val authenticationService = Mockito.mock(classOf[AuthenticationService])
-  val authorizationService = Mockito.mock(classOf[AuthorizationService])
+  val serviceListProvider = mock(classOf[ScalaServiceListProvider])
+  val authenticationService = mock(classOf[AuthenticationService])
+  val authorizationService = mock(classOf[AuthorizationService])
 
-  /*"A NotesResource" should "contain a link to the PostNoteResource" in {
-    val classes = new NotesResource().linkedResourceClasses()
-    assert(classes.contains(classOf[PostNoteResource]))
-  }*/
+  val dbService = mock(classOf[ScalaDbService])
 
-  "A NotesResource" should "" in {
+  var notesResource: NotesResource = _
 
-    val context = new org.restlet.Context()
-    val app = new NotesApplication()
+  implicit val formats = Serialization.formats(NoTypeHints)
+  val testNote = parse(write(Note(Some("1"), "test")))
+
+  var app: NotesApplication = _
+  
+  var context: Context = _
+  var request: Request = _
+  var response: Response = _
+
+  var requestAttributes:java.util.concurrent.ConcurrentMap[String,Object] = _
+  
+  override def beforeEach() {
+    context = new org.restlet.Context()
+    request = mock(classOf[Request])
+    response = mock(classOf[Response])
+    app = new NotesApplication()
     app.setContext(context)
-    
-    val resourceAuthenticator = Mockito.mock(classOf[Authenticator])
-    Mockito.when(authenticationService.getResourceAuthenticator(context, AuthenticationMode.ANONYMOUS)).thenReturn(resourceAuthenticator)
+    app.dbService = dbService
+    app.activate(mock(classOf[ApplicationConfiguration]), mock(classOf[ComponentContext]))
 
-    Mockito.when(serviceListProvider.getAuthenticationService()).thenReturn(authenticationService)
+    val resourceAuthenticator = mock(classOf[Authenticator])
+    val applicationAuthenticator = mock(classOf[Authenticator])
+    when(authenticationService.getResourceAuthenticator(context, AuthenticationMode.PERMIT_ALL)).thenReturn(resourceAuthenticator)
+    when(authenticationService.getApplicationAuthenticator(context, AuthenticationMode.ANONYMOUS)).thenReturn(applicationAuthenticator)
+
+    when(serviceListProvider.getAuthenticationService()).thenReturn(authenticationService)
     //Mockito.when(serviceListProvider.getAuthorizationService()).thenReturn(authorizationService)
     SkysailApplication.setServiceListProvider(serviceListProvider);
 
     app.createInboundRoot();
     org.restlet.Application.setCurrent(app)
+    
+    requestAttributes = new java.util.concurrent.ConcurrentHashMap()
 
-    val notesResource = new NotesResource()
-    val notes = notesResource.getEntity()
-    assert(notes.size == 0)
+    request = mock(classOf[Request])
+    
+    when(request.getAttributes).thenReturn(requestAttributes)
   }
+
+  "A NotesResource" should "contain a link to the PostNoteResource" in {
+    val classes = new NotesResource().linkedResourceClasses()
+    assert(classes.contains(classOf[PostNoteResource]))
+  }
+
+  "A NotesResource" should "provide the notes from the repository" in {
+    Mockito.when(dbService.findGraphs(classOf[Note], "SELECT * from io_skysail_app_notes_domain_Note", Map())).thenReturn(List(testNote))
+    val notes = new NotesResource().getEntity()
+    assert(notes.size == 1)
+    assert(notes.head.content == "test")
+  }
+
+  "A NoteResource" should "provide a note referenced by its id" in {
+    when(dbService.findOne("1")).thenReturn(Some(testNote))
+    val noteResource = new NoteResource()
+    requestAttributes.put("id","1")
+    noteResource.init(context, request, response)
+    val optionalEntity = noteResource.getEntity()
+    assert(optionalEntity.isDefined)
+    assert(optionalEntity.get.content == "test")
+  }
+  
+  "A PostNoteResource" should "" in {
+    val postNote = Note(None,"postNote")
+    val dummy = mock(classOf[OrientVertex])
+    when(dummy.getId()).thenReturn("2", Nil: _*)
+    when(dbService.persist(postNote, app.getApplicationModel2())).thenReturn(Try(dummy))
+    val postNoteResource = new PostNoteResource()
+    requestAttributes.put("id","1")
+    postNoteResource.init(context, request, response)
+    val addedEntity = postNoteResource.addEntity(postNote)
+    assert(addedEntity.id.isDefined)
+  }
+
 }
