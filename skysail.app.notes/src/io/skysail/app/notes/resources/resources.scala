@@ -16,8 +16,13 @@ object NotesResource {
   def noteRepo(app: SkysailApplication) = app.getRepository[NotesRepository](classOf[Note])
 }
 
+/**
+ * resource class responsible of handling requests to get a list of all notes.
+ *
+ */
 class NotesResource extends ListServerResource[Note](classOf[NoteResource]) {
   addToContext(ResourceContextId.LINK_TITLE, "list Notes");
+  override def linkedResourceClasses() = List(classOf[PostNoteResource])
   def getEntity(): List[Note] = {
     implicit val formats = DefaultFormats
     val filter = new Filter(getRequest());
@@ -25,8 +30,6 @@ class NotesResource extends ListServerResource[Note](classOf[NoteResource]) {
     val result = NotesResource.noteRepo(getSkysailApplication()).find(filter, pagination)
     result.map { row => row.extract[Note] }.toList
   }
-  //override def getLinks() = super.getLinks(classOf[PostNoteResource]/*, classOf[NotesResource]*/)
-  override def linkedResourceClasses() = List(classOf[PostNoteResource])
 }
 
 class NoteResource extends EntityServerResource[Note] {

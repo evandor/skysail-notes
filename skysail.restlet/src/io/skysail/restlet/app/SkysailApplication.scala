@@ -6,7 +6,7 @@ import io.skysail.api.um.AuthenticationMode
 import io.skysail.core.ApiVersion
 import io.skysail.core.Entity
 import io.skysail.domain.repo.ScalaDbRepository
-import io.skysail.restlet.router.ScalaSkysailRouter
+import io.skysail.restlet.router.SkysailRouter
 import io.skysail.restlet.utils.ScalaTranslationUtils
 import io.skysail.restlet.services._
 import java.util.ResourceBundle
@@ -67,7 +67,7 @@ abstract class SkysailApplication(
 
   val repositories = new ArrayList[ScalaDbRepository]();
 
-  var router: ScalaSkysailRouter = null
+  var router: SkysailRouter = null
 
   val stringContextMap = new java.util.HashMap[ApplicationContextId, String]()
 
@@ -146,7 +146,7 @@ abstract class SkysailApplication(
 
   override def createInboundRoot(): Restlet = {
     log.info("creating new Router in {}", this.getClass().getName());
-    router = new ScalaSkysailRouter(this, apiVersion)
+    router = new SkysailRouter(this, apiVersion)
 
     log.info("adding extensions to metadata service");
     getMetadataService().addExtension("x-www-form-urlencoded", MediaType.APPLICATION_WWW_FORM);

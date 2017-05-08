@@ -13,6 +13,9 @@ class ScalaSecurityConfig(authenticationService: AuthenticationService) {
   val matchers = scala.collection.mutable.ListBuffer[PathToAuthenticatorMatcher]()
 
   def authenticatorFor(context: Context, path: String): Authenticator = {
+    val t = matchers
+      .filter(matcher => matcher.`match`(path))
+      .headOption
     val authenticator = matchers
       .filter(matcher => matcher.`match`(path))
       .headOption

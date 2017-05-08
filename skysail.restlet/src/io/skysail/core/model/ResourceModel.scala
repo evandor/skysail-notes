@@ -4,7 +4,7 @@ import scala.collection.JavaConverters._
 import java.lang.reflect.Field
 import io.skysail.restlet.utils.ScalaReflectionUtils
 import io.skysail.restlet.SkysailServerResource
-import io.skysail.restlet.router.ScalaSkysailRouter
+import io.skysail.restlet.router.SkysailRouter
 import io.skysail.restlet.resources._
 import org.slf4j.LoggerFactory
 import org.restlet.Request
@@ -27,7 +27,7 @@ case class ResourceModel(val path: String, val targetResourceClass: Class[_ <: S
   private val log = LoggerFactory.getLogger(this.getClass())
 
   val resource: SkysailServerResource[_] = targetResourceClass.newInstance().asInstanceOf[SkysailServerResource[_]]
-  val entityClass: Class[_] = ScalaSkysailRouter.getResourcesGenericType(resource)
+  val entityClass: Class[_] = SkysailRouter.getResourcesGenericType(resource)
 
   var linkModel: LinkModel = _
   var linkModels: List[LinkModel] = List()
