@@ -20,6 +20,7 @@ import javax.validation.constraints._
 import io.skysail.restlet.resources._
 import org.restlet.representation.Variant
 
+@Ignore
 class PostEntityServerResourceTest {
 
   case class TestNote(@(NotNull @field) val content: String)
