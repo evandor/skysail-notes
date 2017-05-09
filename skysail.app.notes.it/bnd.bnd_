@@ -13,12 +13,13 @@ Test-Cases: ${classes;CONCRETE;EXTENDS;io.skysail.client.testsupport.BrowserTest
     ${fasterxml},\
     lombok;version=1.16.2,\
     skysail.server;version=${skysail.server.version},\
-    skysail.server.um.httpbasic;version=${skysail.server.um.httpbasic.version},\
-    skysail.server.um.verifier.filebased;version=${skysail.server.um.verifier.filebased.version},\
-    skysail.client.testsupport;version=${skysail.client.testsupport.version},\
-    skysail.server.app.ref.fields;version=latest,\
+    skysail.testsupport;version=lastest,\
+    skysail.app.notes;version=latest,\
     ${logging},\
     org.assertj.core;version=3.5
+
+#    skysail.server.um.httpbasic;version=${skysail.server.um.httpbasic.version},\
+#    skysail.server.um.verifier.filebased;version=${skysail.server.um.verifier.filebased.version},\
 
 -runsystemcapabilities: ${native_capability}
 -runsystempackages: ${runsystempackages}
