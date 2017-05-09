@@ -1,3 +1,6 @@
+moved to skysail-core
+
+
 Bundle-Name: SKYSAIL :: api
 
 Bundle-Version: 0.1.0.${tstamp}

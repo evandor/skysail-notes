@@ -34,7 +34,7 @@ skysail.server.um:\
 	${jetty},\
 	skysail.converter;version=latest,\
 	skysail.queryfilter;version=latest,\
-	skysail.restlet;version=latest,\
+	skysail.core;version=latest,\
 	skysail.http.jetty;version=latest,\
 	skysail.repo.orientdb;version=latest,\
 	skysail.ui.raw;version=latest,\
