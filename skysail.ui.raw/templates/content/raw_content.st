@@ -65,10 +65,6 @@ raw_content(user,converter,messages,model,request)::= <<
         <hr>
             [<a href='$model.modelLink.uri$'>Application Model</a>]&nbsp;[...]
         <hr>
-        <h3>Resource Rendering Model</h3>
-        <small>
-           $model.appModelHtmlRepresentation$
-        </small>
         <h5>Links</h5>
         <small><table  class="pure-table">
         	<tr><th>Title</th><th>URI</th><th>Alt</th><th>Rel</th><th>Verbs</th><th>needsAuthentication</th><th>role</th><th>refId</th><th>cls</th></tr>

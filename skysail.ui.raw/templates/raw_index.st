@@ -17,6 +17,10 @@ raw_index(user, messages, converter, model, request) ::= <<
             <br>
             <ul class="pure-menu-list">
                 $model.applicationContextLinks: { link | <li class="pure-menu-item"><a href='$link.uri$'>$link.title$</a></li>}$
+              <li class="pure-menu-item">&nbsp;</li>
+              <li class="pure-menu-item"><a href='/_doc/swagger/2.0/api/$model.applicationName$/v1'>swagger (JSON)</a></li>
+              <li class="pure-menu-item"><a href='http://swagger.skysail.io?url=http://$model.host$/_doc/swagger/2.0/api/$model.applicationName$/v1'>swagger (UI)</a></li>
+              <li class="pure-menu-item">&nbsp;</li>
             $if(user.principal)$
               <li class="pure-menu-item"><a href='/_logout?targetUri=/'>Logout</a></li>
             $else$
