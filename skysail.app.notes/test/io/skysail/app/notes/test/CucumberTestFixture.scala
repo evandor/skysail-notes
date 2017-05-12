@@ -28,7 +28,7 @@ import io.skysail.app.notes.domain.Note
 import org.hamcrest.TypeSafeMatcher
 import org.hamcrest.Description
 import java.util.Arrays
-import io.skysail.restlet.app._
+import io.skysail.core.app._
 import io.skysail.restlet.SkysailServerResource
 
 object CucumberTestFixture {

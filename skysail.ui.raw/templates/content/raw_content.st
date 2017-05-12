@@ -63,6 +63,8 @@ raw_content(user,converter,messages,model,request)::= <<
       <div>
         <br>
         <hr>
+            [<a href='$model.modelLink.uri$'>Application Model</a>]&nbsp;[...]
+        <hr>
         <h3>Resource Rendering Model</h3>
         <small>
            $model.appModelHtmlRepresentation$

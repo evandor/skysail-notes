@@ -7,9 +7,7 @@ raw_index(user, messages, converter, model, request) ::= <<
 <body>
 
   <div id="layout">
-    <!-- Menu toggle -->
     <a href="#menu" id="menuLink" class="menu-link">
-        <!-- Hamburger icon -->
         <span></span>
     </a>
 
@@ -19,6 +17,11 @@ raw_index(user, messages, converter, model, request) ::= <<
             <br>
             <ul class="pure-menu-list">
                 $model.applicationContextLinks: { link | <li class="pure-menu-item"><a href='$link.uri$'>$link.title$</a></li>}$
+            $if(user.principal)$
+              <li class="pure-menu-item"><a href='/_logout?targetUri=/'>Logout</a></li>
+            $else$
+              <li class="pure-menu-item"><a href='/_login'>Login</a></li>
+            $endif$
             </ul>
         </div>
     </div>

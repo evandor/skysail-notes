@@ -3,7 +3,7 @@ package io.skysail.ui.raw
 import org.osgi.service.cm.ConfigurationException
 import org.osgi.service.component.ComponentContext
 import org.osgi.service.component.annotations._
-import io.skysail.restlet.app._
+import io.skysail.core.app._
 import io.skysail.core.app._
 import io.skysail.core.ApiVersion
 import io.skysail.core.security.config.SecurityConfigBuilder

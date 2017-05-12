@@ -6,14 +6,14 @@ import org.scalatest.junit.JUnitRunner
 import org.slf4j.LoggerFactory
 import io.skysail.core.ApiVersion
 import io.skysail.app.notes.NotesApplication
-import io.skysail.restlet.app.SkysailApplication
+import io.skysail.core.app.SkysailApplication
 import org.mockito._
 import org.mockito.Mockito.{ mock, when }
 import org.mockito.MockitoAnnotations
-import io.skysail.restlet.app.ScalaServiceListProvider
+import io.skysail.core.app.ScalaServiceListProvider
 import io.skysail.api.um._
 import org.restlet.security.Authenticator
-import io.skysail.restlet.app.ApplicationConfiguration
+import io.skysail.core.app.ApplicationConfiguration
 import org.osgi.service.component.ComponentContext
 import io.skysail.repo.orientdb._
 import io.skysail.app.notes.domain.Note

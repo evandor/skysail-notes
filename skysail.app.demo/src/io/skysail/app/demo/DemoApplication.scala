@@ -6,11 +6,11 @@ import java.util.Arrays
 import io.skysail.app.demo.repository.TodosRepository
 import io.skysail.app.demo.resources._
 import io.skysail.core.security.config.SecurityConfigBuilder
-import io.skysail.restlet.app._
+import io.skysail.core.app._
 import io.skysail.repo.orientdb.ScalaDbService
 import io.skysail.core.ApiVersion
 import io.skysail.restlet.RouteBuilder
-import io.skysail.restlet.app.ApplicationConfiguration
+import io.skysail.core.app.ApplicationConfiguration
 import io.skysail.restlet.services.MenuItemProvider
 import org.osgi.service.component.ComponentContext
 import io.skysail.core.model.APPLICATION_CONTEXT_RESOURCE

@@ -4,7 +4,7 @@ import io.skysail.api.responses.SkysailResponse
 import io.skysail.app.notes.NotesApplication
 import io.skysail.app.notes.domain.Note
 import io.skysail.app.notes.repository.NotesRepository
-import io.skysail.restlet.app.SkysailApplication
+import io.skysail.core.app.SkysailApplication
 import io.skysail.restlet.ResourceContextId
 import io.skysail.restlet.resources._
 import io.skysail.queryfilter.filter.Filter
