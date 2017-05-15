@@ -13,7 +13,7 @@ Provide-Capability: io.skysail.server.ui;styling="raw"
     org.osgi.service.event;version=1.3,\
     ${testlibs},\
     ${restlet},\
-    skysail.core;version=latest,\
+    skysail.core;version=${skysail.core.version},\
     skysail.server.testsupport;version=${skysail.server.testsupport.version},\
     ${logging},\
     ${commons},\

@@ -15,10 +15,14 @@ import io.skysail.restlet.forms._
 @BeanProperty
 case class Note (
     var id: Option[String] = None,
-    @BeanProperty @(Field @field) /*@(NotNull @field) @Size(min=1)*/ var content: String = ""
-  ) extends ScalaEntity[String] {
+    
+    @(Field @field)(description = "The note's content") 
+    /*@(NotNull @field) @Size(min=1)*/ 
+    @BeanProperty var content: String = ""
   
-  @Field(inputType = InputType.DATE)
+) extends ScalaEntity[String] {
+  
+  @Field(inputType = InputType.DATE, description = "auto-set field containing the note's creation date")
   @PostView(visibility = Visibility.HIDE)
   @PutView(visibility = Visibility.HIDE)
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
@@ -26,7 +30,7 @@ case class Note (
   def setCreated(c: Date) = created = c
   def getCreated() = created
 
-  @Field(inputType = InputType.DATE)
+  @Field(inputType = InputType.DATE, description = "auto-set field containing the note's modified date, if any.")
   @PostView(visibility = Visibility.HIDE)
   @PutView(visibility = Visibility.HIDE)
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")

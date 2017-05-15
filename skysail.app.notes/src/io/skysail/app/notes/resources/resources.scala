@@ -11,18 +11,22 @@ import io.skysail.queryfilter.filter.Filter
 import io.skysail.queryfilter.pagination.Pagination
 import org.json4s.DefaultFormats
 import java.util.Date
+import io.skysail.api.doc.ApiSummary
+import io.skysail.api.doc.ApiDescription
+import io.skysail.api.doc.ApiTags
 
 object NotesResource {
   def noteRepo(app: SkysailApplication) = app.getRepository[NotesRepository](classOf[Note])
 }
 
-/**
- * resource class responsible of handling requests to get a list of all notes.
- *
- */
 class NotesResource extends ListServerResource[Note](classOf[NoteResource]) {
+  setDescription("resource class responsible of handling requests to get the list of all notes")
   addToContext(ResourceContextId.LINK_TITLE, "list Notes");
   override def linkedResourceClasses() = List(classOf[PostNoteResource])
+
+  @ApiSummary("returns the (potentially filtered, sorted and paginated) notes")
+  @ApiDescription("some description")
+  @ApiTags(Array("Note","Testing Swagger"))
   def getEntity(): List[Note] = {
     implicit val formats = DefaultFormats
     val filter = new Filter(getRequest());
@@ -30,14 +34,25 @@ class NotesResource extends ListServerResource[Note](classOf[NoteResource]) {
     val result = NotesResource.noteRepo(getSkysailApplication()).find(filter, pagination)
     result.map { row => row.extract[Note] }.toList
   }
+  
 }
 
 class NoteResource extends EntityServerResource[Note] {
+
+  setDescription("resource dealing with retrieving and deleting notes (by id)")
+
+  @ApiSummary("returns the note identified by the provided path id")
+  @ApiDescription("some description")
+  @ApiTags(Array("Note","Testing Swagger"))
   override def getEntity(): Option[Note] = {
     implicit val formats = DefaultFormats
     val noteJValue = NotesResource.noteRepo(getSkysailApplication()).findOne(getAttribute("id"))
     if (noteJValue.isDefined) Some(noteJValue.get.extract[Note]) else None
   }
+  
+  @ApiSummary("deletes the note identfied by its id")
+  @ApiDescription("some description")
+  @ApiTags(Array("Note","Testing Swagger"))
   override def eraseEntity() = {
     //NotesResource.noteRepo(getSkysailApplication()).delete(getAttribute("id"))
     new SkysailResponse[Note]()
@@ -50,6 +65,10 @@ class PostNoteResource extends PostEntityServerResource[Note] {
   setDescription("adds a note to the repository")
   addToContext(ResourceContextId.LINK_TITLE, "create Note");
   def createEntityTemplate() = Note()
+
+  @ApiSummary("...")
+  @ApiDescription("some description")
+  @ApiTags(Array("Note","Testing Swagger"))
   def addEntity(entity: Note): Note = {
     entity.setCreated(new Date())
     entity.setModified(null)
@@ -64,6 +83,9 @@ class PostNoteResource extends PostEntityServerResource[Note] {
 class PutNoteResource extends PutEntityServerResource[Note] {
   override def getEntity() = NotesResource.noteRepo(getSkysailApplication()).findOne(getAttribute("id"))
   //override def redirectTo() = super.redirectTo(classOf[NotesResource])
+  @ApiSummary("...")
+  @ApiDescription("some description")
+  @ApiTags(Array("Note","Testing Swagger"))
   def updateEntity(entity: Note): Unit = {
     val original = getEntity()
     //    val originalCreated = original.getCreated()
