@@ -17,9 +17,10 @@ import org.restlet.representation.Representation;
 import org.restlet.resource.ClientResource;
 import org.restlet.util.Series;
 
-import io.skysail.api.links.Link;
-import io.skysail.api.links.LinkRelation;
-import io.skysail.core.resources.SkysailServerResource;
+import com.fasterxml.jackson.module.jsonSchema.annotation.Link;
+
+import io.skysail.core.model.LinkRelation;
+import io.skysail.restlet.SkysailServerResource;
 import io.skysail.testsupport.authentication.AuthenticationStrategy2;
 import lombok.Getter;
 import lombok.NonNull;
