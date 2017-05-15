@@ -5,11 +5,11 @@ import java.util.function.Predicate;
 import org.restlet.data.Header;
 import org.restlet.util.Series;
 
-import io.skysail.api.links.Link;
+import io.skysail.core.model.LinkModel;
 import lombok.Getter;
 
 @Getter
-public abstract class LinkPredicate implements Predicate<Link> {
+public abstract class LinkPredicate implements Predicate<LinkModel> {
 
     protected String link;
 
@@ -18,7 +18,7 @@ public abstract class LinkPredicate implements Predicate<Link> {
     }
 
     @Override
-    public abstract boolean test(Link l);
+    public abstract boolean test(LinkModel l);
 
     @Override
     public String toString() {

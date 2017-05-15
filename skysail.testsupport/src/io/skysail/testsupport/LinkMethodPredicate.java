@@ -4,7 +4,7 @@ import org.restlet.data.Header;
 import org.restlet.data.Method;
 import org.restlet.util.Series;
 
-import io.skysail.api.links.Link;
+import io.skysail.core.model.LinkModel;
 import lombok.ToString;
 
 @ToString(callSuper = true)
@@ -19,7 +19,7 @@ public class LinkMethodPredicate extends LinkPredicate {
     }
 
     @Override
-    public boolean test(Link l) {
+    public boolean test(LinkModel l) {
         return l.getVerbs().contains(method);
     }
 

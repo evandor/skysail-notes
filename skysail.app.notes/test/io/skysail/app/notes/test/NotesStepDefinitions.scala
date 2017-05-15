@@ -10,9 +10,6 @@ import io.skysail.app.notes.resources.PutNoteResource
 import io.skysail.app.notes.resources.PostNoteResource
 import java.security.Principal
 import org.restlet.Response
-import org.hamcrest.CoreMatchers.containsString
-import org.hamcrest.CoreMatchers.hasItem
-import org.hamcrest.CoreMatchers.not
 import org.junit.Assert.assertThat
 import org.mockito.Mockito
 import org.restlet.Request
@@ -95,22 +92,22 @@ class NotesStepDefinitions extends CucumberTestFixture {
 
   @Then("^the notes list page contains such a note:$")
   def the_result_contains_an_account_with(data: java.util.Map[String, String]) {
-    assertThat(notes, hasItem(CucumberTestFixture.validNoteWith(stepContext.substitute(addEntityClassIdentifier(data.toMap)), "content")));
+    assertThat(notes, org.hamcrest.Matchers.hasItem(CucumberTestFixture.validNoteWith(stepContext.substitute(addEntityClassIdentifier(data.toMap)), "content")));
   }
 
   @Then("^I get a 'Created \\((\\d+)\\)' response$")
   def i_get_a_Created_response(statusCode: String) {
-    assertThat(stepContext.getLastResponse().toString(), containsString(statusCode));
+    assertThat(stepContext.getLastResponse().toString(), org.hamcrest.Matchers.containsString(statusCode));
   }
 
   @Then("^I get a response containing '(.+)'$")
   def i_get_a_certain_response(responseValue: String) {
-    assertThat(stepContext.getLastResponse().toString(), containsString(responseValue));
+    assertThat(stepContext.getLastResponse().toString(), org.hamcrest.Matchers.containsString(responseValue));
   }
 
   @Then("^the page contains '(.+)'$")
   def the_page_contains_theString(name: String) {
-    assertThat(noteResponse.getEntity.content, containsString(name));
+    assertThat(noteResponse.getEntity.content, org.hamcrest.Matchers.containsString(name));
   }
 
   //  @Then("^the page contains '(.+)'$")

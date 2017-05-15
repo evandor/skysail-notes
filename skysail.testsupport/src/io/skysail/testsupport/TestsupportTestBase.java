@@ -21,7 +21,6 @@ import org.restlet.data.MediaType;
 import org.restlet.engine.resource.VariantInfo;
 import org.restlet.representation.Variant;
 
-import io.skysail.server.services.InstallationProvider;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -42,7 +41,7 @@ public class TestsupportTestBase {
         protected void starting(Description description) {
             log.info("");
             log.info("--------------------------------------------");
-            log.info("{}running test '{}'", ApplicationClient.TESTTAG, description.getMethodName());
+            log.info("{}running test '{}'", ApplicationClient2.TESTTAG, description.getMethodName());
             log.info("--------------------------------------------");
             log.info("");
         }
@@ -50,10 +49,10 @@ public class TestsupportTestBase {
 
     protected int determinePort() {
         log.info("setting up test case...");
-        ServiceReference<InstallationProvider> serviceReference = this.thisBundle.getBundleContext().getServiceReference(InstallationProvider.class);
-        InstallationProvider service = thisBundle.getBundleContext().getService(serviceReference);
-        log.info("setting test port to {}", service.getPort());
-        return service.getPort();
+//        ServiceReference<InstallationProvider> serviceReference = this.thisBundle.getBundleContext().getServiceReference(InstallationProvider.class);
+//        InstallationProvider service = thisBundle.getBundleContext().getService(serviceReference);
+//        log.info("setting test port to {}", service.getPort());
+        return 2015;//service.getPort();
     }
 
     protected void stopAndStartBundle(Class<?> cls) throws BundleException {

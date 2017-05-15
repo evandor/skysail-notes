@@ -3,8 +3,8 @@ package io.skysail.testsupport;
 import org.restlet.data.Header;
 import org.restlet.util.Series;
 
-import io.skysail.api.links.Link;
-import io.skysail.api.links.LinkRelation;
+import io.skysail.core.model.LinkModel;
+import io.skysail.core.model.LinkRelation;
 import lombok.ToString;
 
 @ToString(callSuper = true)
@@ -19,8 +19,8 @@ public class LinkRelationPredicate extends LinkPredicate {
     }
 
     @Override
-    public boolean test(Link l) {
-        return l.getRel().equals(linkRelation);
+    public boolean test(LinkModel l) {
+        return l.getRelation().equals(linkRelation);
     }
 
 }

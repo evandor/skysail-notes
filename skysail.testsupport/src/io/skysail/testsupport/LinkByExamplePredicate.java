@@ -3,19 +3,19 @@ package io.skysail.testsupport;
 import org.restlet.data.Header;
 import org.restlet.util.Series;
 
-import io.skysail.api.links.Link;
+import io.skysail.core.model.LinkModel;
 
 public class LinkByExamplePredicate extends LinkPredicate {
 
-    private Link exampleLink;
+    private LinkModel exampleLink;
 
-    public LinkByExamplePredicate(Link exampleLink, Series<Header> series) {
+    public LinkByExamplePredicate(LinkModel exampleLink, Series<Header> series) {
         super(series);
         this.exampleLink = exampleLink;
     }
 
     @Override
-    public boolean test(Link l) {
+    public boolean test(LinkModel l) {
         String title = exampleLink.getTitle();
         if (title != null && (!(l.getTitle().equals(title)))) {
             return false;

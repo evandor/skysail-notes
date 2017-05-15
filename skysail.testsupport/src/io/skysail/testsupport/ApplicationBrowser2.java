@@ -47,7 +47,7 @@ public abstract class ApplicationBrowser2 {
         this.mediaType = mediaType;
         url = HOST + ":" + port;
         log.info("{}creating new browser client with url '{}' for Application '{}' and mediaType '{}'",
-                ApplicationClient.TESTTAG, url, appName, MediaType.TEXT_HTML);
+                ApplicationClient2.TESTTAG, url, appName, MediaType.TEXT_HTML);
         client = new ApplicationClient2(url, appName, mediaType);
     }
 
@@ -66,7 +66,7 @@ public abstract class ApplicationBrowser2 {
     }
 
     protected ApplicationBrowser2 loginAs(String username, String password) {
-        log.info("{}logging in as user '{}'", ApplicationClient.TESTTAG, username);
+        log.info("{}logging in as user '{}'", ApplicationClient2.TESTTAG, username);
         client.loginAs(getAuthenticationStrategy(), username, password);
         return this;
     }

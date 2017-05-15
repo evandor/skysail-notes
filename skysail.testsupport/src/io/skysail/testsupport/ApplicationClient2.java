@@ -17,9 +17,9 @@ import org.restlet.representation.Representation;
 import org.restlet.resource.ClientResource;
 import org.restlet.util.Series;
 
-import io.skysail.api.links.Link;
-import io.skysail.api.links.LinkRelation;
-import io.skysail.core.resources.SkysailServerResource;
+import io.skysail.core.model.LinkModel;
+import io.skysail.core.model.LinkRelation;
+import io.skysail.restlet.SkysailServerResource;
 import io.skysail.testsupport.authentication.AuthenticationStrategy2;
 import lombok.Getter;
 import lombok.NonNull;
@@ -89,7 +89,7 @@ public class ApplicationClient2 {
 
     public Representation post(Object entity) {
         log.info("{}issuing POST on '{}', providing credentials {}", TESTTAG, url, credentials);
-        url = (url.contains("?") ? url + "&" : url + "?") + SkysailServerResource.NO_REDIRECTS ;
+        url = (url.contains("?") ? url + "&" : url + "?") + "xxx";//SkysailServerResource.NO_REDIRECTS ;
         cr = new ClientResource(url);
         cr.setFollowingRedirects(false);
         cr.getCookies().add("Credentials", credentials);
@@ -113,7 +113,7 @@ public class ApplicationClient2 {
     }
 
     public ApplicationClient2 followLinkTitleAndRefId(String linkTitle, String refId) {
-        Link example = new Link.Builder("").title(linkTitle).refId(refId).build();
+    	LinkModel example = new LinkModel(refId, "", null, null, null);//new LinkModel.Builder("").title(linkTitle).refId(refId).build();
         return follow(new LinkByExamplePredicate(example, cr.getResponse().getHeaders()));
     }
 
@@ -135,8 +135,8 @@ public class ApplicationClient2 {
         if (linkheader == null) {
             throw new IllegalStateException("no link header found");
         }
-        List<Link> links = Arrays.stream(linkheader.split(",")).map(l -> Link.valueOf(l)).collect(Collectors.toList());
-        Link theLink = getTheOnlyLink(predicate, links);
+        List<LinkModel> links = Arrays.asList();//Arrays.stream(linkheader.split(",")).map(l -> LinkModel.valueOf(l)).collect(Collectors.toList());
+        LinkModel theLink = getTheOnlyLink(predicate, links);
 
         boolean isAbsolute = false;
         try {
@@ -179,15 +179,15 @@ public class ApplicationClient2 {
         return follow(predicate, null, null);
     }
 
-    private Link getTheOnlyLink(LinkPredicate predicate, List<Link> links) {
-        List<Link> filteredLinks = links.stream().filter(predicate).collect(Collectors.toList());
+    private LinkModel getTheOnlyLink(LinkPredicate predicate, List<LinkModel> links) {
+        List<LinkModel> filteredLinks = links.stream().filter(predicate).collect(Collectors.toList());
         if (filteredLinks.size() == 0) {
             throw new IllegalStateException("could not find link for predicate " + predicate);
         }
         if (filteredLinks.size() > 1) {
             throw new IllegalStateException("too many candidates found for predicate " + predicate);
         }
-        Link theLink = filteredLinks.get(0);
+        LinkModel theLink = filteredLinks.get(0);
         return theLink;
     }
 

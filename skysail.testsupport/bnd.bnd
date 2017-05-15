@@ -25,6 +25,5 @@ Bundle-Description: Utility classes for writing integration tests
     
     #,\
     #org.objenesis;version=2.1
-Private-Package: \
-	io.skysail.testsupport.authentication,\
-	io.skysail.testsupport
+Private-Package: io.skysail.testsupport.authentication
+Export-Package: io.skysail.testsupport

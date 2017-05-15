@@ -3,7 +3,8 @@ package io.skysail.testsupport;
 import org.restlet.data.Header;
 import org.restlet.util.Series;
 
-import io.skysail.api.links.Link;
+import io.skysail.core.model.LinkModel;
+
 
 public class LinkTitlePredicate extends LinkPredicate {
 
@@ -15,7 +16,7 @@ public class LinkTitlePredicate extends LinkPredicate {
     }
 
     @Override
-    public boolean test(Link l) {
+    public boolean test(LinkModel l) {
         return l.getTitle().equals(title);
     }
 
