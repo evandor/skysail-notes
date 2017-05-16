@@ -76,7 +76,6 @@ skysail.server.um:\
 	skysail.repo.orientdb;version=latest,\
 	skysail.doc.swagger;version=latest,\
 	skysail.ui.raw;version=latest,\
-	skysail.ext.config;version=latest,\
 	skysail.app.demo;version=latest,\
 	skysail.app.wyt;version=latest,\
 	skysail.app.notes;version=latest,\
@@ -90,3 +89,4 @@ skysail.server.um:\
     de.twentyeleven.skysail.org.hamcrest.hamcrest-all-osgi;version=1.3,\
 	joda-time;version=2.9.3
     
+#	skysail.ext.config;version=latest,\

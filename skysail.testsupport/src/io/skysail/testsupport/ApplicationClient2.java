@@ -135,7 +135,7 @@ public class ApplicationClient2 {
         if (linkheader == null) {
             throw new IllegalStateException("no link header found");
         }
-        List<LinkModel> links = Arrays.asList();//Arrays.stream(linkheader.split(",")).map(l -> LinkModel.valueOf(l)).collect(Collectors.toList());
+        List<LinkModel> links = Arrays.stream(linkheader.split(",")).map(l -> LinkModel.fromLinkheader(l)).collect(Collectors.toList());
         LinkModel theLink = getTheOnlyLink(predicate, links);
 
         boolean isAbsolute = false;

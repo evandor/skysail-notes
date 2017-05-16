@@ -14,6 +14,8 @@ import io.skysail.core.app.ApplicationConfiguration
 import io.skysail.restlet.services.MenuItemProvider
 import org.osgi.service.component.ComponentContext
 import io.skysail.core.model.APPLICATION_CONTEXT_RESOURCE
+import org.restlet.Request
+import org.restlet.Response
 
 object NotesApplication {
   final val APP_NAME = "notes"
@@ -62,6 +64,10 @@ class NotesApplication extends SkysailApplication(
 
   override def defineSecurityConfig(securityConfigBuilder: SecurityConfigBuilder) = {
     securityConfigBuilder.authorizeRequests().startsWithMatcher("").permitAll();
+  }
+  
+  override def handle(request: Request, response: Response) = {
+    super.handle(request,response) 
   }
 
 }
