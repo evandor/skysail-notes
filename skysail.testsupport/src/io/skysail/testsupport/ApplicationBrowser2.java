@@ -65,7 +65,7 @@ public abstract class ApplicationBrowser2 {
         return loginAs(defaultUser, "skysail");
     }
 
-    protected ApplicationBrowser2 loginAs(String username, String password) {
+    public ApplicationBrowser2 loginAs(String username, String password) {
         log.info("{}logging in as user '{}'", ApplicationClient2.TESTTAG, username);
         client.loginAs(getAuthenticationStrategy(), username, password);
         return this;
