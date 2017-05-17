@@ -1,17 +1,20 @@
 package io.skysail.app.notes.it
 
-import io.skysail.testsupport.ApplicationBrowser2
 import org.restlet.data.MediaType
 import org.restlet.data.Form
 import org.json.JSONObject
 import java.math.BigInteger
 import org.slf4j.LoggerFactory
-import io.skysail.testsupport.ApplicationClient2
 import org.restlet.ext.json.JsonRepresentation
+import io.skysail.testsupport.ScalaApplicationBrowser
+import io.skysail.testsupport.ScalaApplicationClient
+import java.util.Random
 
-class NotesBrowser(mediaType: MediaType, port: Integer) extends ApplicationBrowser2("notes", mediaType, port) {
+class NotesBrowser(mediaType: MediaType, port: Integer) extends ScalaApplicationBrowser("notes", mediaType, port) {
 
   private val log = LoggerFactory.getLogger(this.getClass())
+  
+  private val random = new Random()
 
   def createRandomEntity(): JSONObject = {
     val jo = new JSONObject();
@@ -40,14 +43,14 @@ class NotesBrowser(mediaType: MediaType, port: Integer) extends ApplicationBrows
     ???
   }
 
-  private def createEntity(client: ApplicationClient2, entity: JSONObject) = {
+  private def createEntity(client: ScalaApplicationClient, entity: JSONObject) = {
     navigateToPostEntityPage(client);
     // client.post(createForm(entity));
     client.post(new JsonRepresentation(entity));
     setId(client.getLocation().getLastSegment(true));
   }
 
-  private def navigateToPostEntityPage(client: ApplicationClient2) {
+  private def navigateToPostEntityPage(client: ScalaApplicationClient) {
     client.gotoAppRoot().followLinkTitle("create");
   }
 

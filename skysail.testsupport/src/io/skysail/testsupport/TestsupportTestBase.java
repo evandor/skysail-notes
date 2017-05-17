@@ -16,7 +16,6 @@ import org.junit.runner.Description;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleException;
 import org.osgi.framework.FrameworkUtil;
-import org.osgi.framework.ServiceReference;
 import org.restlet.data.MediaType;
 import org.restlet.engine.resource.VariantInfo;
 import org.restlet.representation.Variant;
@@ -41,7 +40,7 @@ public class TestsupportTestBase {
         protected void starting(Description description) {
             log.info("");
             log.info("--------------------------------------------");
-            log.info("{}running test '{}'", ApplicationClient2.TESTTAG, description.getMethodName());
+            log.info("running test '{}'", description.getMethodName());
             log.info("--------------------------------------------");
             log.info("");
         }

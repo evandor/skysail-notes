@@ -1,6 +1,6 @@
 package io.skysail.testsupport;
 
-public class BrowserTests2<T extends ApplicationBrowser2>  extends TestsupportTestBase {
+public class BrowserTests2<T extends ScalaApplicationBrowser>  extends TestsupportTestBase {
 
     // doesnt seem to work in integration tests
     //@Rule

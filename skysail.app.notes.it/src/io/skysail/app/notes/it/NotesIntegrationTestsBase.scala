@@ -13,7 +13,7 @@ class NotesIntegrationTestsBase extends BrowserTests2[NotesBrowser] {
   @Before
   def setUp() {
     browser = new NotesBrowser(MediaType.APPLICATION_JSON, 2018/*determinePort()*/);
-    browser.setUser("admin");
+ //   browser.setUser("admin");
     entityAsJson = browser.createRandomEntity();
   }
 

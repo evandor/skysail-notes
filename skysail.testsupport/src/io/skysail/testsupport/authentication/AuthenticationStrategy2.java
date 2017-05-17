@@ -2,10 +2,10 @@ package io.skysail.testsupport.authentication;
 
 import org.restlet.resource.ClientResource;
 
-import io.skysail.testsupport.ApplicationClient2;
+import io.skysail.testsupport.ScalaApplicationClient;
 
 public interface AuthenticationStrategy2 {
 
-	ClientResource login(ApplicationClient2 client, String username, String password);
+	ClientResource login(ScalaApplicationClient client, String username, String password);
 
 }
