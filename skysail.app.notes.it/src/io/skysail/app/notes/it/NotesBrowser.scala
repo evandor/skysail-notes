@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory
 import io.skysail.testsupport.ApplicationClient2
 import org.restlet.ext.json.JsonRepresentation
 
-class NotesBrowser(mediaType: MediaType, port: Integer) extends ApplicationBrowser2("notesit", mediaType, port) {
+class NotesBrowser(mediaType: MediaType, port: Integer) extends ApplicationBrowser2("notes", mediaType, port) {
 
   private val log = LoggerFactory.getLogger(this.getClass())
 

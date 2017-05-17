@@ -19,7 +19,6 @@ import org.restlet.util.Series;
 
 import io.skysail.core.model.LinkModel;
 import io.skysail.core.model.LinkRelation;
-import io.skysail.restlet.SkysailServerResource;
 import io.skysail.testsupport.authentication.AuthenticationStrategy2;
 import lombok.Getter;
 import lombok.NonNull;
@@ -135,7 +134,7 @@ public class ApplicationClient2 {
         if (linkheader == null) {
             throw new IllegalStateException("no link header found");
         }
-        List<LinkModel> links = Arrays.stream(linkheader.split(",")).map(l -> LinkModel.fromLinkheader(l)).collect(Collectors.toList());
+        List<LinkModel> links = Arrays.stream(linkheader.split(",")).map(l -> LinkModel.fromLinkheader(null, l)).collect(Collectors.toList());
         LinkModel theLink = getTheOnlyLink(predicate, links);
 
         boolean isAbsolute = false;
@@ -181,6 +180,10 @@ public class ApplicationClient2 {
 
     private LinkModel getTheOnlyLink(LinkPredicate predicate, List<LinkModel> links) {
         List<LinkModel> filteredLinks = links.stream().filter(predicate).collect(Collectors.toList());
+        if (filteredLinks.size() == 0 && predicate instanceof LinkTitlePredicate && !(predicate instanceof LinkSubTitlePredicate)) {
+            log.info("didn't find exact link, trying substring");
+            return getTheOnlyLink(new LinkSubTitlePredicate((LinkTitlePredicate)predicate), links);
+        }
         if (filteredLinks.size() == 0) {
             throw new IllegalStateException("could not find link for predicate " + predicate);
         }

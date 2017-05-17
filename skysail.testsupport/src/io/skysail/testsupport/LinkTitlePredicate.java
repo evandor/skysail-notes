@@ -8,7 +8,7 @@ import io.skysail.core.model.LinkModel;
 
 public class LinkTitlePredicate extends LinkPredicate {
 
-    private String title;
+    protected String title;
 
     public LinkTitlePredicate(String title, Series<Header> series) {
         super(series);

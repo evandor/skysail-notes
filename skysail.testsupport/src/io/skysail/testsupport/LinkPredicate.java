@@ -12,8 +12,10 @@ import lombok.Getter;
 public abstract class LinkPredicate implements Predicate<LinkModel> {
 
     protected String link;
+    protected Series<Header> series;
 
     public LinkPredicate(Series<Header> series) {
+        this.series = series;
         this.link = series.getFirstValue("Link");
     }
 
