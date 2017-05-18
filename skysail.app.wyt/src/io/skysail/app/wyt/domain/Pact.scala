@@ -16,5 +16,7 @@ case class Pact (
     @BeanProperty @(Field @field) /*@(NotNull @field) @Size(min=1)*/ var content: String = ""
   ) extends ScalaEntity[String] {
 
+  // title, selectionStrategy & confirmationS
+  
   
 }
