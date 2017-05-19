@@ -9,7 +9,8 @@ class WytSpec extends FlatSpec with BeforeAndAfterEach {
   var browser: WytBrowser = _
   
   override def beforeEach() {
-    browser = new WytBrowser(MediaType.APPLICATION_JSON, 2018 /*determinePort()*/ );
+    println("hier")
+    //browser = new WytBrowser(MediaType.APPLICATION_JSON, 2018 /*determinePort()*/ );
     //   browser.setUser("admin");
    // entityAsJson = browser.createRandomEntity();
   }
