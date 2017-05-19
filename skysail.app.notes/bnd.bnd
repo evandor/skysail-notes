@@ -43,9 +43,9 @@ Include-Resource: resources
 
 
 Export-Package: \
-  	io.skysail.app.notes
+	io.skysail.app.notes,\
+	io.skysail.app.notes.domain
 
 Private-Package: \
-	io.skysail.app.notes.domain,\
 	io.skysail.app.notes.resources,\
 	io.skysail.app.notes.repository

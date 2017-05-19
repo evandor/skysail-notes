@@ -4,7 +4,7 @@ Bundle-Version: 0.1.0.${tstamp}
 
 Bundle-Description: integration tests for wyt backend (Wait your turn)
 
-Test-Cases: ${classes;CONCRETE;EXTENDS;io.skysail.testsupport.BrowserTests2}
+Test-Cases: ${classes;CONCRETE;EXTENDS;org.scalatest.FlatSpec}
 
 -buildpath: \
     ${osgi},\
@@ -86,6 +86,9 @@ skysail.server.um:\
     org.scala-lang.scala-library;version=2.11.8,\
     org.scala-lang.scala-reflect;version=2.11.8,\
     osgi.enroute.junit.wrapper;version=4.11,\
+    org.scalatest;version=3.0,\
+    org.scalactic;version=3.0,\
+    org.scala-lang.modules.scala-xml;version=1.0,\
     de.twentyeleven.skysail.org.hamcrest.hamcrest-all-osgi;version=1.3,\
     joda-time;version=2.9.3
     

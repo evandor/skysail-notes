@@ -33,11 +33,11 @@ class SchemasResource extends ListServerResource[SchemaDetails] { //(classOf[Con
     val ds = connService.getDataSourceForConnection(connection.get)
     val dsConnection = ds.getConnection()
     val meta = dsConnection.getMetaData()
-    val columnItr = resultSetItr(meta.getColumns(null, null, "MyTable", null))
+    val columnItr = resultSetItr(meta.getCatalogs)//meta.getColumns(null, null, "MyTable", null))
     val t = columnItr.map(col => {
-      val columnType = col.getString("TYPE_NAME")
-      val columnName = col.getString("COLUMN_NAME")
-      val columnSize = col.getString("COLUMN_SIZE")
+//      val columnType = col.getString("TYPE_NAME")
+//      val columnName = col.getString("COLUMN_NAME")
+//      val columnSize = col.getString("COLUMN_SIZE")
       SchemaDetails(Some(col.getString("TABLE_CAT")))
     }).toList
     t

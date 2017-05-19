@@ -5,6 +5,7 @@ import org.junit.Before
 import org.restlet.data.MediaType
 import org.junit.Test
 import org.json.JSONObject
+import io.skysail.app.notes.domain.Note
 
 class NotesIntegrationTestsBase extends BrowserTests2[NotesBrowser] {
 
@@ -25,11 +26,12 @@ class NotesIntegrationTestsBase extends BrowserTests2[NotesBrowser] {
   //    }
 
   @Test
-  def create_and_read_entity() {
+  def createWithForm_and_read_entity() {
     println("hier")
     browser
       .loginAs("admin", "skysail")
-      .create(entityAsJson);
+     // .create(entityAsJson);
+      .postForm(Note(None, "content"))
     //        String html = browser.getEntities().getText();
     //        System.out.println(html);
     //        assertFalse(html.contains("\"created\":null"));

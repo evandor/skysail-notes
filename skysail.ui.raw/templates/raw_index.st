@@ -32,9 +32,10 @@ raw_index(user, messages, converter, model, request) ::= <<
 
     <div id="main">
         <div class="header">
-            <h1>$model.resourceSimpleName$</h1>
             <h2>$request.request$</h2>
+            <h1>$model.resourceSimpleName$</h1>
             <h4>$model.resource.description$</h4>
+            <h5>$model.responseStatusAsHtml$</h5>
         </div>
         
         <div class="pure-g">

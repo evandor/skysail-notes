@@ -69,7 +69,7 @@ class ScalaApplicationClient(val baseUrl: String, appName: String, mediaType: Me
   //    }
   //
   //
-  def post(entity: AnyRef): Representation = {
+  def post(entity: AnyRef, mediaType: MediaType): Representation = {
     log.info(s"$ScalaApplicationClient.TESTTAG issuing POST on '$url', providing credentials $credentials");
     //url = if (url.contains("?")) url + "&" else url + "?") + "xxx";//SkysailServerResource.NO_REDIRECTS ;
     cr = new ClientResource(url);

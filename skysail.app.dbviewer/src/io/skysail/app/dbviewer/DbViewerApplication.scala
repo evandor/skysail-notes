@@ -19,6 +19,7 @@ import io.skysail.app.dbviewer.resources.ConnectionsResource
 import io.skysail.app.dbviewer.repository.DbViewerRepository
 import javax.sql.DataSource
 import io.skysail.app.dbviewer.services.ConnectionService
+import io.skysail.app.dbviewer.services.ConnectionService
 
 object DbViewerApplication {
   final val APP_NAME = "dbviewer"
@@ -37,7 +38,6 @@ class DbViewerApplication extends SkysailApplication(
 
   addAssociatedResourceClasses(List((APPLICATION_CONTEXT_RESOURCE, classOf[ConnectionsResource])))
 
-  @Reference(cardinality = ReferenceCardinality.MANDATORY)
   var connectionService: ConnectionService = null
   
   @Reference(cardinality = ReferenceCardinality.MANDATORY)
@@ -55,7 +55,7 @@ class DbViewerApplication extends SkysailApplication(
   @Activate
   override def activate(appConfig: ApplicationConfiguration, componentContext: ComponentContext) = {
     super.activate(appConfig, componentContext);
-    addRepository(new DbViewerRepository(dbService));
+    connectionService = new ConnectionService(dbService, getApplicationModel2())
   }
 
   override def attach() = {

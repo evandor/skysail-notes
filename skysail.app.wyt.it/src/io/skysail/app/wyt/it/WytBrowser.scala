@@ -46,7 +46,7 @@ class WytBrowser(mediaType: MediaType, port: Integer) extends ScalaApplicationBr
   private def createEntity(client: ScalaApplicationClient, entity: JSONObject) = {
     navigateToPostEntityPage(client);
     // client.post(createForm(entity));
-    client.post(new JsonRepresentation(entity));
+    client.post(new JsonRepresentation(entity), MediaType.APPLICATION_JSON)
     setId(client.getLocation().getLastSegment(true));
   }
 
