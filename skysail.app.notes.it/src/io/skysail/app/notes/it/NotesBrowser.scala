@@ -43,7 +43,7 @@ class NotesBrowser(mediaType: MediaType, port: Integer) extends ScalaApplication
 
   def postForm(entity: Note): Representation = {
     log.info(s"{}creating new AnEntity $entity");
-    return createWithForm(client, entity);
+    createWithForm(client, entity);
   }
 
   def createForm(entity: Note): Form = {

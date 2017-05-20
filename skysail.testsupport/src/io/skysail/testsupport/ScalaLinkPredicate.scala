@@ -6,6 +6,7 @@ import org.restlet.data.Header
 import com.google.common.base.Predicate
 import io.skysail.core.model.LinkModel
 import org.slf4j.LoggerFactory
+import ScalaApplicationClient.{TESTTAG => logPrefix} 
 
 abstract class ScalaLinkPredicate(series: Series[Header]) extends Predicate[LinkModel] {
   protected val log = LoggerFactory.getLogger(this.getClass())
@@ -15,14 +16,14 @@ abstract class ScalaLinkPredicate(series: Series[Header]) extends Predicate[Link
 
 class ScalaLinkTitlePredicate(val title: String, val series: Series[Header]) extends ScalaLinkPredicate(series) {
   def apply(l: LinkModel): Boolean ={
-    log.info(s"comparing '${l.getTitle()}' with '${title}' [exact]")
+    log.info(s"$logPrefix comparing '${l.getTitle()}' with '${title}' [exact]")
     l.getTitle().equals(title)
   }
 }
 
 class ScalaLinkSubTitlePredicate(title: String, series: Series[Header]) extends ScalaLinkTitlePredicate(title, series) {
   override def apply(l: LinkModel): Boolean = {
-    log.info(s"comparing '${l.getTitle()}' with '${title}' [contains lowercase]")
+    log.info(s"$logPrefix comparing '${l.getTitle()}' with '${title}' [contains lowercase]")
     l.getTitle().toLowerCase().contains(title.toLowerCase())
   }
 }

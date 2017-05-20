@@ -9,9 +9,10 @@ import org.restlet.representation.Representation
 import org.restlet.data.Method
 import io.skysail.core.model.LinkModel
 import java.net.URI
+import ScalaApplicationClient.{ TESTTAG => logPrefix }
 
 object ScalaApplicationClient {
-  val TESTTAG = " > TEST: ";
+  val TESTTAG = " > TEST:";
 }
 
 class ScalaApplicationClient(val baseUrl: String, appName: String, mediaType: MediaType) {
@@ -41,7 +42,7 @@ class ScalaApplicationClient(val baseUrl: String, appName: String, mediaType: Me
 
   def get(): Representation = {
     val currentUrl = baseUrl + url;
-    log.info(s"$ScalaApplicationClient.TESTTAG issuing GET on '$currentUrl', providing credentials $credentials")
+    log.info(s"$logPrefix issuing GET on '$currentUrl', providing credentials $credentials")
     cr = new ClientResource(currentUrl);
     //cr.setFollowingRedirects(false);
     if (credentials != null && credentials.trim().size > 0) {
@@ -70,7 +71,7 @@ class ScalaApplicationClient(val baseUrl: String, appName: String, mediaType: Me
   //
   //
   def post(entity: AnyRef, mediaType: MediaType): Representation = {
-    log.info(s"$ScalaApplicationClient.TESTTAG issuing POST on '$url', providing credentials $credentials");
+    log.info(s"$logPrefix issuing POST on '$url', providing credentials $credentials");
     //url = if (url.contains("?")) url + "&" else url + "?") + "xxx";//SkysailServerResource.NO_REDIRECTS ;
     cr = new ClientResource(url);
     cr.setFollowingRedirects(false);
@@ -139,13 +140,13 @@ class ScalaApplicationClient(val baseUrl: String, appName: String, mediaType: Me
       //                throw new IllegalStateException("method " + method + " not eligible for link " + theLink);
       //            }
       if (Method.DELETE.equals(method)) {
-        log.info(s"issuing DELETE on '$url', providing credentials $credentials");
+        log.info(s"$logPrefix issuing DELETE on '$url', providing credentials $credentials");
         currentRepresentation = cr.delete(mediaType);
       } else if (Method.POST.equals(method)) {
-        log.info(s"issuing POST on '$url' with entity '$entity', providing credentials $credentials");
+        log.info(s"$logPrefix issuing POST on '$url' with entity '$entity', providing credentials $credentials");
         currentRepresentation = cr.post(entity, mediaType);
       } else if (Method.PUT.equals(method)) {
-        log.info(s"issuing PUT on '$url' with entity '$entity', providing credentials $credentials");
+        log.info(s"$logPrefix issuing PUT on '$url' with entity '$entity', providing credentials $credentials");
         currentRepresentation = cr.put(entity, mediaType);
       } else {
         throw new UnsupportedOperationException();
@@ -162,7 +163,7 @@ class ScalaApplicationClient(val baseUrl: String, appName: String, mediaType: Me
   private def getTheOnlyLink(predicate: ScalaLinkPredicate, links: List[LinkModel]): LinkModel = {
     val filteredLinks = links.filter(l => predicate.apply(l)).toList
     if (filteredLinks.size == 0 && predicate.isInstanceOf[ScalaLinkTitlePredicate] && !(predicate.isInstanceOf[ScalaLinkSubTitlePredicate])) {
-      log.info("didn't find exact link, trying substring");
+      log.info(s"$logPrefix didn't find exact link, trying substring");
       val t = predicate.asInstanceOf[ScalaLinkTitlePredicate]
       return getTheOnlyLink(new ScalaLinkSubTitlePredicate(t.title, t.series), links);
     }

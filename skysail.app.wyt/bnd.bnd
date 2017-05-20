@@ -43,5 +43,6 @@ Include-Resource: resources
 
 Private-Package: \
 	io.skysail.app.wyt,\
-	io.skysail.app.wyt.domain,\
-	io.skysail.app.wyt.repository
+	io.skysail.app.wyt.repository,\
+	io.skysail.app.wyt.resources
+Export-Package: io.skysail.app.wyt.domain

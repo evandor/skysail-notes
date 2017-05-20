@@ -3,6 +3,7 @@ package io.skysail.testsupport
 import org.restlet.data.MediaType
 import org.slf4j.LoggerFactory
 import io.skysail.testsupport.authentication.HttpBasicAuthenticationStrategy2
+import ScalaApplicationClient.{TESTTAG => logPrefix} 
 
 object ScalaApplicationBrowser {
   val HOST = "http://localhost"
@@ -38,7 +39,7 @@ class ScalaApplicationBrowser(appName: String, mediaType: MediaType, port: Integ
   val authenticationStrategy = new HttpBasicAuthenticationStrategy2();
 
   val url = ScalaApplicationBrowser.HOST + ":" + port
-  log.info(s"$ScalaApplicationClient.TESTTAG creating new browser client with url '$url' for Application '$appName' and mediaType 'MediaType.TEXT_HTML'")
+  log.info(s"$logPrefix creating new browser client with url '$url' for Application '$appName' and mediaType 'MediaType.TEXT_HTML'")
   client = new ScalaApplicationClient(url, appName, mediaType)
 
   def this(url: String) = this(url, MediaType.TEXT_HTML, 2014)
