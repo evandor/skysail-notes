@@ -1,27 +1,26 @@
 package io.skysail.app.notes.resources
 
+import io.skysail.core.ApiVersion
+import io.skysail.app.notes.NotesApplication
+import io.skysail.core.app.SkysailApplication
+import io.skysail.core.app.ScalaServiceListProvider
+import io.skysail.api.um._
+import io.skysail.core.app.ApplicationConfiguration
+import io.skysail.repo.orientdb._
+import io.skysail.app.notes.domain.Note
 import org.scalatest._
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.slf4j.LoggerFactory
-import io.skysail.core.ApiVersion
-import io.skysail.app.notes.NotesApplication
-import io.skysail.core.app.SkysailApplication
 import org.mockito._
 import org.mockito.Mockito.{ mock, when }
 import org.mockito.MockitoAnnotations
-import io.skysail.core.app.ScalaServiceListProvider
-import io.skysail.api.um._
 import org.restlet.security.Authenticator
-import io.skysail.core.app.ApplicationConfiguration
 import org.osgi.service.component.ComponentContext
-import io.skysail.repo.orientdb._
-import io.skysail.app.notes.domain.Note
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 import org.json4s.native.Serialization
 import org.json4s.native.Serialization.{ read, write }
-import io.skysail.app.notes.domain.Note
 import org.restlet.Context
 import org.restlet.Request
 import org.restlet.Response
@@ -96,9 +95,8 @@ class NotesResourceSpec extends FlatSpec with BeforeAndAfterEach {
     val noteResource = new NoteResource()
     requestAttributes.put("id","1")
     noteResource.init(context, request, response)
-    val optionalEntity = noteResource.getEntity()
-    assert(optionalEntity.isDefined)
-    assert(optionalEntity.get.content == "test")
+    val entity = noteResource.getEntity()
+    assert(entity.content == "test")
   }
   
   "A PostNoteResource" should "" in {

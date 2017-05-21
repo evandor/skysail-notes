@@ -20,7 +20,8 @@ class WytBrowser(mediaType: MediaType, port: Integer) extends ScalaApplicationBr
   def getNextTurn(): Turn = {
     log.info(s"$logPrefix getting next turn")
     navigateToTurnResourceEndpoint()
-    val r = client.get()
+    //val r = client.get()
+    println("xxx: "+ client.currentRepresentation.getText())
     Turn(Some("1"))
   }
 
@@ -84,7 +85,7 @@ class WytBrowser(mediaType: MediaType, port: Integer) extends ScalaApplicationBr
   }
 
   private def navigateToTurnResourceEndpoint() = {
-    client.gotoAppRoot().followLinkTitle("wyt");
+    client.gotoAppRoot().followLinkTitle("show");
   }
 
 }

@@ -1,6 +1,5 @@
 package io.skysail.app.demo.resources
 
-import io.skysail.api.responses.SkysailResponse
 import io.skysail.app.demo.DemoApplication
 import io.skysail.app.demo.domain.Todo
 import io.skysail.app.demo.repository.TodosRepository
@@ -16,7 +15,7 @@ object TodosResource {
   def todoRepo(app: SkysailApplication) = app.getRepository[TodosRepository](classOf[Todo])
 }
 
-class TodosResource extends ListServerResource[Todo](classOf[TodoResource]) {
+class TodosResource extends ListServerResource[List[Todo]](classOf[TodoResource]) {
   addToContext(ResourceContextId.LINK_TITLE, "list Todos");
   def getEntity(): List[Todo] = {
     implicit val formats = DefaultFormats
@@ -30,14 +29,16 @@ class TodosResource extends ListServerResource[Todo](classOf[TodoResource]) {
 }
 
 class TodoResource extends EntityServerResource[Todo] {
-  override def getEntity(): Option[Todo] = {
+  override def getEntity(): Todo = {
     implicit val formats = DefaultFormats
     val TodoJValue = TodosResource.todoRepo(getSkysailApplication()).findOne(getAttribute("id"))
-    if (TodoJValue.isDefined) Some(TodoJValue.get.extract[Todo]) else None
+    //if (TodoJValue.isDefined) Some(TodoJValue.get.extract[Todo]) else None
+    TodoJValue.get.extract[Todo]
   }
   override def eraseEntity() = {
     //TodosResource.TodoRepo(getSkysailApplication()).delete(getAttribute("id"))
-    new SkysailResponse[Todo]()
+    //new SkysailResponse[Todo]()
+    null
   }
   override def redirectTo() = super.redirectTo(classOf[TodosResource])
  // override def getLinks() = super.getLinks(classOf[PutTodoResource])
@@ -57,7 +58,10 @@ class PostTodoResource extends PostEntityServerResource[Todo] {
 }
 
 class PutTodoResource extends PutEntityServerResource[Todo] {
-  override def getEntity() = TodosResource.todoRepo(getSkysailApplication()).findOne(getAttribute("id"))
+  override def getEntity() = {
+    val r = TodosResource.todoRepo(getSkysailApplication()).findOne(getAttribute("id")).get
+    null
+  }
   //override def redirectTo() = super.redirectTo(classOf[TodosResource])
   def updateEntity(entity: Todo): Unit = {
     val original = getEntity()

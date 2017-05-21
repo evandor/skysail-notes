@@ -1,6 +1,5 @@
 package io.skysail.app.dbviewer.resources
 
-import io.skysail.api.responses.SkysailResponse
 import io.skysail.core.app.SkysailApplication
 import io.skysail.restlet.ResourceContextId
 import io.skysail.restlet.resources._
@@ -21,7 +20,7 @@ object SchemasResource {
   def connectionsRepo(app: SkysailApplication) = app.getRepository[DbViewerRepository](classOf[Connection])
 }
 
-class SchemasResource extends ListServerResource[SchemaDetails] { //(classOf[ConnectionResource]) {
+class SchemasResource extends ListServerResource[List[SchemaDetails]] { //(classOf[ConnectionResource]) {
   setDescription("resource class responsible of handling requests to get the list of all Connections")
   addToContext(ResourceContextId.LINK_TITLE, "list Connections");
   override def linkedResourceClasses() = List(classOf[PostConnectionResource])

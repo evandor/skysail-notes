@@ -1,6 +1,5 @@
 package io.skysail.app.notes.resources
 
-import io.skysail.api.responses.SkysailResponse
 import io.skysail.app.notes.NotesApplication
 import io.skysail.app.notes.domain.Note
 import io.skysail.app.notes.repository.NotesRepository
@@ -19,7 +18,7 @@ object NotesResource {
   def noteRepo(app: SkysailApplication) = app.getRepository[NotesRepository](classOf[Note])
 }
 
-class NotesResource extends ListServerResource[Note](classOf[NoteResource]) {
+class NotesResource extends ListServerResource[List[Note]](classOf[NoteResource]) {
   setDescription("resource class responsible of handling requests to get the list of all notes")
   addToContext(ResourceContextId.LINK_TITLE, "list Notes");
   override def linkedResourceClasses() = List(classOf[PostNoteResource])
@@ -44,10 +43,11 @@ class NoteResource extends EntityServerResource[Note] {
   @ApiSummary("returns the note identified by the provided path id")
   @ApiDescription("some description")
   @ApiTags(Array("Note","Testing Swagger"))
-  override def getEntity(): Option[Note] = {
+  override def getEntity(): Note = {
     implicit val formats = DefaultFormats
     val noteJValue = NotesResource.noteRepo(getSkysailApplication()).findOne(getAttribute("id"))
-    if (noteJValue.isDefined) Some(noteJValue.get.extract[Note]) else None
+    //if (noteJValue.isDefined) Some(noteJValue.get.extract[Note]) else None
+    noteJValue.get.extract[Note]
   }
   
   @ApiSummary("deletes the note identfied by its id")
@@ -55,7 +55,8 @@ class NoteResource extends EntityServerResource[Note] {
   @ApiTags(Array("Note","Testing Swagger"))
   override def eraseEntity() = {
     //NotesResource.noteRepo(getSkysailApplication()).delete(getAttribute("id"))
-    new SkysailResponse[Note]()
+    //new SkysailResponse[Note]()
+    null
   }
   override def redirectTo() = super.redirectTo(classOf[NotesResource])
  // override def getLinks() = super.getLinks(classOf[PutNoteResource])
@@ -81,7 +82,10 @@ class PostNoteResource extends PostEntityServerResource[Note] {
 }
 
 class PutNoteResource extends PutEntityServerResource[Note] {
-  override def getEntity() = NotesResource.noteRepo(getSkysailApplication()).findOne(getAttribute("id"))
+  override def getEntity() = {
+    NotesResource.noteRepo(getSkysailApplication()).findOne(getAttribute("id")).get
+    null
+  }
   //override def redirectTo() = super.redirectTo(classOf[NotesResource])
   @ApiSummary("...")
   @ApiDescription("some description")

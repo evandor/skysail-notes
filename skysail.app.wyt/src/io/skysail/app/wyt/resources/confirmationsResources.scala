@@ -2,7 +2,6 @@ package io.skysail.app.wyt.resources
 
 import io.skysail.restlet.resources.EntityServerResource
 import io.skysail.api.doc._
-import io.skysail.api.responses.SkysailResponse
 import org.json4s.DefaultFormats
 import io.skysail.app.wyt.domain.Confirmation
 import io.skysail.restlet.resources.PostEntityServerResource
