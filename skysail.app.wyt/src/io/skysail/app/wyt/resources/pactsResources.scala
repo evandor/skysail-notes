@@ -23,7 +23,7 @@ class PactsResource extends ListServerResource[List[Pact]]() {
     //associatedResourceClasses(Array(classOf[TurnResource]))
   }
   override def linkedResourceClasses() = List(
-      classOf[TurnResource], classOf[PostConfirmationResource], classOf[PostPactResource])
+      /*classOf[TurnResource], */classOf[PostConfirmationResource], classOf[PostPactResource])
 
 }
 

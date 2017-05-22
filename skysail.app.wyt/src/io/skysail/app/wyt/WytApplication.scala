@@ -64,7 +64,7 @@ class WytApplication extends SkysailApplication(
     router.attach(new RouteBuilder("", classOf[PactsResource]));
     router.attach(new RouteBuilder("/pact/", classOf[PostPactResource]))
     router.attach(new RouteBuilder("/confirmation/", classOf[PostConfirmationResource]))
-    router.attach(new RouteBuilder("/turn", classOf[TurnResource]))
+    router.attach(new RouteBuilder("/pact/{id}/turn", classOf[TurnResource]))
     createStaticDirectory();
   }
 

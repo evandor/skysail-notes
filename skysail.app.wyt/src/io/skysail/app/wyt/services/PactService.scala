@@ -8,11 +8,14 @@ import io.skysail.app.wyt.domain.Pact
 import scala.util.Try
 import io.skysail.queryfilter.filter.Filter
 import io.skysail.queryfilter.pagination.Pagination
+import io.skysail.app.wyt.domain.Turn
 
 class PactService(dbService: ScalaDbService, appModel: ApplicationModel) {
 
   private var repo: WytRepository = new WytRepository(dbService)
   private implicit val formats = DefaultFormats
+  
+  private var i = 0
 
   def create(pact: Pact): Try[Pact] = {
     repo.save(pact, appModel)
@@ -23,6 +26,14 @@ class PactService(dbService: ScalaDbService, appModel: ApplicationModel) {
 //  }
 //
   def find(f: Filter, p: Pagination) = repo.find(f, p).map { (row => row.extract[Pact]) }.toList
+  
+   def getNextTurn(pactId: String) = {
+    if (i % 2 == 0) {
+      Turn(Some("1"),Some("Georgios is next"))
+    } else {
+      Turn(Some("1"),Some("Carsten is next"))
+    }
+  }
 //
 //  def findOne(id: String): Option[Connection] = {
 //    val option = repo.findOne(id)

@@ -15,7 +15,7 @@ class TurnResource extends EntityServerResource[Turn] {
 
   @ApiSummary("returns the current turn")
   override def getEntity(): Turn = {
-    Services.turns.getNextTurn
+    Services.turns.getNextTurn(getAttribute("id"))
   }
 
 }

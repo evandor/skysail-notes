@@ -92,7 +92,7 @@ class WytBrowser(mediaType: MediaType, port: Integer) extends ScalaApplicationBr
 
   private def createForm(entity: Pact): Form = {
     val form = new Form()
-    form.add("io.skysail.app.wyt.domain.Pact|content", entity.getContent())
+    form.add("io.skysail.app.wyt.domain.Pact|title", entity.getTitle())
     form
   }
 

@@ -32,6 +32,7 @@ skysail.server.um:\
 	${serverbundles-minimal-1.0.0},\
 	${orientdb},\
 	${jetty},\
+	${skysail.server.um},\
 	skysail.converter;version=latest,\
 	skysail.queryfilter;version=latest,\
 	skysail.core;version=${skysail.core.version},\

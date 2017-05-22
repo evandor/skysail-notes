@@ -18,7 +18,7 @@ class TurnService(dbService: ScalaDbService, appModel: ApplicationModel) {
     i = i+1
   }
   
-  def getNextTurn() = {
+  def getNextTurn(pactId: String) = {
     if (i % 2 == 0) {
       Turn(Some("1"),Some("Georgios is next"))
     } else {
