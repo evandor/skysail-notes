@@ -14,6 +14,10 @@ import org.osgi.service.component.ComponentContext
 import io.skysail.app.wyt.resources._
 import io.skysail.core.model.APPLICATION_CONTEXT_RESOURCE
 import io.skysail.app.wyt.resources.PostConfirmationResource
+import io.skysail.app.wyt.services.PactService
+import io.skysail.app.wyt.domain.Pact
+import io.skysail.app.wyt.services.ConfirmationService
+import io.skysail.app.wyt.services.TurnService
 
 object WytApplication {
   final val APP_NAME = "wyt"
@@ -32,9 +36,13 @@ class WytApplication extends SkysailApplication(
 
   addAssociatedResourceClasses(List((APPLICATION_CONTEXT_RESOURCE, classOf[PactsResource])))
 
+  var pactService: PactService = null
+  var confirmationService: ConfirmationService = null
+  var turnService: TurnService = null
+
   @Reference(cardinality = ReferenceCardinality.MANDATORY)
   var dbService: ScalaDbService = null
-  
+
   @Reference(policy = ReferencePolicy.DYNAMIC, cardinality = ReferenceCardinality.OPTIONAL)
   def setApplicationListProvider(service: ScalaServiceListProvider) {
     SkysailApplication.serviceListProvider = service;
@@ -44,20 +52,17 @@ class WytApplication extends SkysailApplication(
     SkysailApplication.serviceListProvider = null;
   }
 
-
   @Activate
   override def activate(appConfig: ApplicationConfiguration, componentContext: ComponentContext) = {
     super.activate(appConfig, componentContext);
-   // addRepository(new NotesRepository(dbService));
+    pactService = new PactService(dbService, getApplicationModel2())
+    confirmationService = new ConfirmationService(dbService, getApplicationModel2())
+    turnService = new TurnService(dbService, getApplicationModel2())
   }
 
   override def attach() = {
     router.attach(new RouteBuilder("", classOf[PactsResource]));
-//
-//    router.attach(new RouteBuilder("/notes", classOf[NotesResource]));
-//    router.attach(new RouteBuilder("/notes/", classOf[PostNoteResource]));
-//    //router.attach(new RouteBuilder("/notes/{id}", classOf[NoteResource]));
-//    //router.attach(new RouteBuilder("/notes/{id}/", classOf[PutNoteResource]));
+    router.attach(new RouteBuilder("/pact/", classOf[PostPactResource]))
     router.attach(new RouteBuilder("/confirmation/", classOf[PostConfirmationResource]))
     router.attach(new RouteBuilder("/turn", classOf[TurnResource]))
     createStaticDirectory();

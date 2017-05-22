@@ -66,6 +66,7 @@ skysail.server.um:\
 
 -runbundles: \
 	${serverbundles-minimal-1.0.0},\
+    ${skysail.server.um},\
 	${orientdb},\
 	${jetty},\
 	skysail.converter;version=latest,\

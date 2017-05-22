@@ -1,28 +1,35 @@
 package io.skysail.app.wyt.it
 
 import org.restlet.data._
-import org.json.JSONObject
-import java.math.BigInteger
-import org.slf4j.LoggerFactory
 import org.restlet.ext.json.JsonRepresentation
+import org.json.JSONObject
 import io.skysail.testsupport._
-import java.util.Random
 import io.skysail.app.wyt.domain._
+import java.math.BigInteger
+import java.util.Random
+import org.slf4j.LoggerFactory
 import org.restlet.representation.Representation
 
-import ScalaApplicationClient.{TESTTAG => logPrefix} 
+import ScalaApplicationClient.{ TESTTAG => logPrefix }
 
 class WytBrowser(mediaType: MediaType, port: Integer) extends ScalaApplicationBrowser("wyt", mediaType, port) {
 
   private val log = LoggerFactory.getLogger(this.getClass())
   private val random = new Random()
-  
-  def getNextTurn(): Turn = {
+
+  def getNextTurn(): Representation = {
     log.info(s"$logPrefix getting next turn")
-    navigateToTurnResourceEndpoint()
-    //val r = client.get()
-    println("xxx: "+ client.currentRepresentation.getText())
-    Turn(Some("1"))
+    getTurn()
+  }
+
+  def postConfirmation(): Unit = {
+    log.info(s"$logPrefix posting confirmation")
+    createWithForm(client, Confirmation(None))
+  }
+
+  def createPact() = {
+    log.info(s"$logPrefix posting new pact")
+    createWithForm(client, Pact(None, "test pact"))
   }
 
   def createRandomEntity(): JSONObject = {
@@ -52,12 +59,6 @@ class WytBrowser(mediaType: MediaType, port: Integer) extends ScalaApplicationBr
     ???
   }
 
-  def postConfirmation(): Unit = {
-    log.info(s"posting confirmation")
-    //createEntity(client, entity)
-    createWithForm(client, Confirmation(None))
-  }
-
   private def createEntity(client: ScalaApplicationClient, entity: JSONObject) = {
     navigateToPostEntityPage(client)
     // client.post(createForm(entity))
@@ -65,12 +66,17 @@ class WytBrowser(mediaType: MediaType, port: Integer) extends ScalaApplicationBr
     setId(client.getLocation().getLastSegment(true))
   }
 
-  private def navigateToPostEntityPage(client: ScalaApplicationClient) {
-    client.gotoAppRoot().followLinkTitle("create")
-  }
-
   private def createWithForm(client: ScalaApplicationClient, entity: Confirmation): Representation = {
     navigateToPostEntityPage(client)
+    val form = createForm(entity)
+    val result = client.post(form, MediaType.APPLICATION_WWW_FORM)
+    val loc = client.getLocation()
+    if (loc != null) setId(loc.getLastSegment(true))
+    return result
+  }
+
+  private def createWithForm(client: ScalaApplicationClient, entity: Pact): Representation = {
+    navigateToPostPactPage(client)
     val form = createForm(entity)
     val result = client.post(form, MediaType.APPLICATION_WWW_FORM)
     val loc = client.getLocation()
@@ -84,8 +90,23 @@ class WytBrowser(mediaType: MediaType, port: Integer) extends ScalaApplicationBr
     form
   }
 
-  private def navigateToTurnResourceEndpoint() = {
-    client.gotoAppRoot().followLinkTitle("show");
+  private def createForm(entity: Pact): Form = {
+    val form = new Form()
+    form.add("io.skysail.app.wyt.domain.Pact|content", entity.getContent())
+    form
+  }
+
+  private def getTurn() = {
+    client.gotoAppRoot().followLinkTitle("turn")
+    client.currentRepresentation
+  }
+
+  private def navigateToPostEntityPage(client: ScalaApplicationClient) {
+    client.gotoAppRoot().followLinkTitle("post confirmation")
+  }
+
+  private def navigateToPostPactPage(client: ScalaApplicationClient) {
+    client.gotoAppRoot().followLinkTitle("post pact")
   }
 
 }

@@ -4,17 +4,18 @@ import io.skysail.restlet.resources.EntityServerResource
 import io.skysail.app.wyt.domain.Turn
 import io.skysail.api.doc._
 import org.json4s.DefaultFormats
+import io.skysail.restlet.ResourceContextId
+import io.skysail.app.wyt.services.Services
 
 class TurnResource extends EntityServerResource[Turn] {
 
   setDescription("""resource dealing with retrieving "who's next"""")
 
+  addToContext(ResourceContextId.LINK_TITLE, "turn")
+
   @ApiSummary("returns the current turn")
   override def getEntity(): Turn = {
-    //implicit val formats = DefaultFormats
-    //val noteJValue = NotesResource.noteRepo(getSkysailApplication()).findOne(getAttribute("id"))
-    //if (noteJValue.isDefined) Some(noteJValue.get.extract[Turn]) else None
-    Turn(Some("1"))
+    Services.turns.getNextTurn
   }
 
 }

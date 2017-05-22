@@ -13,7 +13,8 @@ import io.skysail.restlet.forms._
 
 case class Pact (
     var id: Option[String] = None,
-    @BeanProperty @(Field @field) /*@(NotNull @field) @Size(min=1)*/ var content: String = ""
+    @BeanProperty @(Field @field) /*@(NotNull @field) @Size(min=1)*/ var content: String = "",
+    @BeanProperty var turn: Turn = null //new Turn(None, "test")
   ) extends ScalaEntity[String] {
 
   // title, selectionStrategy & confirmationS
