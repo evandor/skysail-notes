@@ -17,7 +17,13 @@ class WytBrowser(mediaType: MediaType, port: Integer) extends ScalaApplicationBr
   private val log = LoggerFactory.getLogger(this.getClass())
   private val random = new Random()
 
-  def getNextTurn(): Representation = {
+  def getPacts(mediaType: MediaType = MediaType.APPLICATION_JSON): Representation = {
+    log.info(s"$logPrefix getting pacts")
+    client.gotoAppRoot(mediaType)
+    client.currentRepresentation
+  }
+
+  def getNextTurn(mediaType: MediaType = MediaType.APPLICATION_JSON): Representation = {
     log.info(s"$logPrefix getting next turn")
     getTurn()
   }

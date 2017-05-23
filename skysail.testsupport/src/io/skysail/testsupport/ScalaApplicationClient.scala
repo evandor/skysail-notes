@@ -42,7 +42,7 @@ class ScalaApplicationClient(val baseUrl: String, appName: String, mediaType: Me
 
   def get(): Representation = {
     val currentUrl = baseUrl + url;
-    log.info(s"$logPrefix issuing GET on '$currentUrl', providing credentials $credentials")
+    log.info(s"$logPrefix issuing GET on '$currentUrl', providing credentials '$credentials'")
     cr = new ClientResource(currentUrl);
     //cr.setFollowingRedirects(false);
     if (credentials != null && credentials.trim().size > 0) {
@@ -58,8 +58,8 @@ class ScalaApplicationClient(val baseUrl: String, appName: String, mediaType: Me
     this
   }
 
-  def gotoAppRoot(): ScalaApplicationClient = {
-    gotoRoot().followLinkTitle(appName);
+  def gotoAppRoot(mediaType: MediaType = MediaType.APPLICATION_JSON) = {
+    gotoRoot().followLinkTitle(appName, mediaType);
     this
   }
   //
@@ -91,8 +91,8 @@ class ScalaApplicationClient(val baseUrl: String, appName: String, mediaType: Me
     return this;
   }
 
-  def followLinkTitle(linkTitle: String) = {
-    follow(new ScalaLinkTitlePredicate(linkTitle, cr.getResponse().getHeaders()));
+  def followLinkTitle(linkTitle: String, mediaType: MediaType = MediaType.APPLICATION_JSON) = {
+    follow(new ScalaLinkTitlePredicate(linkTitle, cr.getResponse().getHeaders()), mediaType)
   }
 
   //    public ApplicationClient2 followLinkTitleAndRefId(String linkTitle, String refId) {
@@ -112,7 +112,7 @@ class ScalaApplicationClient(val baseUrl: String, appName: String, mediaType: Me
   //        return follow(new LinkMethodPredicate(method, cr.getResponse().getHeaders()), method, entity);
   //    }
   //
-  private def follow(predicate: ScalaLinkPredicate, method: Method, entity: String) = {
+  private def follow(predicate: ScalaLinkPredicate, method: Method, entity: String, mediaType: MediaType) = {
     val currentHeader = cr.getResponse().getHeaders();
     val linkheader = currentHeader.getFirstValue("Link");
     if (linkheader == null) {
@@ -152,13 +152,14 @@ class ScalaApplicationClient(val baseUrl: String, appName: String, mediaType: Me
         throw new UnsupportedOperationException();
       }
     } else {
+      log.info(s"$logPrefix issuing GET on '$url', providing credentials $credentials");
       currentRepresentation = cr.get(mediaType);
       //url = currentRepresentation.getLocationRef().toUri().toString();
     }
     this;
   }
 
-  private def follow(predicate: ScalaLinkPredicate): ScalaApplicationClient = follow(predicate, null, null)
+  private def follow(predicate: ScalaLinkPredicate, mediaType: MediaType): ScalaApplicationClient = follow(predicate, null, null, mediaType)
 
   private def getTheOnlyLink(predicate: ScalaLinkPredicate, links: List[LinkModel]): LinkModel = {
     val filteredLinks = links.filter(l => predicate.apply(l)).toList

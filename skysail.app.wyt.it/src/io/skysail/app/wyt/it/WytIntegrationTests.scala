@@ -17,18 +17,35 @@ class WytIntegrationTestsBase extends BrowserTests2[WytBrowser] {
 
   @Before def setUp() {
     browser = new WytBrowser(MediaType.APPLICATION_JSON, 2018)
-  //  val pactRep = browser.createPact.getText
-   // pactId = parse(pactRep).extract[Pact].id.get
+    //  val pactRep = browser.createPact.getText
+    // pactId = parse(pactRep).extract[Pact].id.get
+  }
+
+  @Test def pacts_are_available_as_json() {
+    val rep = browser.getPacts().getText
+    assertThat(rep).startsWith("{")
+    assertThat(rep).endsWith("}")
+  }
+
+  @Test def pacts_are_available_as_xml() {
+    val rep = browser.getPacts(MediaType.TEXT_XML).getText
+    assertThat(rep).startsWith("<")
+    assertThat(rep).endsWith(">")
+  }
+
+  @Test def pacts_are_available_as_html() {
+    val rep = browser.getPacts(MediaType.TEXT_HTML).getText
+    assertThat(rep).contains("<!DOCTYPE html>")
   }
 
   @Test def georgios_is_next() {
-   // val turn = browser.getNextTurn()
+    // val turn = browser.getNextTurn()
     //assertThat(turn.getText).contains("Georgios is next")
   }
 
-//  @Test def confirming_yields_next_turn_is_carstens() {
-//    browser.postConfirmation()
-//    val turn = browser.getNextTurn()
-//    assertThat(turn.getText).doesNotContain("Georgios is next")
-//  }
+  //  @Test def confirming_yields_next_turn_is_carstens() {
+  //    browser.postConfirmation()
+  //    val turn = browser.getNextTurn()
+  //    assertThat(turn.getText).doesNotContain("Georgios is next")
+  //  }
 }
