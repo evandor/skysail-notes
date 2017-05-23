@@ -12,7 +12,7 @@ import java.util.Random
 import io.skysail.app.notes.domain.Note
 import org.restlet.representation.Representation
 
-class NotesBrowser(mediaType: MediaType, port: Integer) extends ScalaApplicationBrowser("notes", mediaType, port) {
+class NotesBrowser(port: Integer) extends ScalaApplicationBrowser("notes", port) {
 
   private val log = LoggerFactory.getLogger(this.getClass())
 

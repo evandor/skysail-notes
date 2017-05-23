@@ -9,17 +9,34 @@ import java.math.BigInteger
 import java.util.Random
 import org.slf4j.LoggerFactory
 import org.restlet.representation.Representation
+//import io.skysail.app.wyt.it.routes._
 
 import ScalaApplicationClient.{ TESTTAG => logPrefix }
 
-class WytBrowser(mediaType: MediaType, port: Integer) extends ScalaApplicationBrowser("wyt", mediaType, port) {
+class WytBrowser(port: Integer) extends ScalaApplicationBrowser("wyt", port) {
 
   private val log = LoggerFactory.getLogger(this.getClass())
   private val random = new Random()
 
   def getPacts(mediaType: MediaType = MediaType.APPLICATION_JSON): Representation = {
     log.info(s"$logPrefix getting pacts")
+    //client.gotoRoot().followLinkTitle(appName, mediaType)
+    
+    //GET on "foo" / * to Application.show
+    //val foo = GET.on( "foo"./(*) ).to(Application.shows)
+  //  GET root followLink appName
+//    val pactsPath = Root --> appName// --> "test"
+//    val rep = pactsPath.get(mediaType)
+    
+    //val home  = GET   on root       to Application.index _
+    
     client.gotoAppRoot(mediaType)
+    client.currentRepresentation
+  }
+
+  def getPostPacts(mediaType: MediaType = MediaType.APPLICATION_JSON): Representation = {
+    log.info(s"$logPrefix getting pacts")
+    client.gotoAppRoot(mediaType).followLinkTitle("post pact", mediaType)
     client.currentRepresentation
   }
 

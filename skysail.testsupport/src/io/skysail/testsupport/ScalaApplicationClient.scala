@@ -15,7 +15,7 @@ object ScalaApplicationClient {
   val TESTTAG = " > TEST:";
 }
 
-class ScalaApplicationClient(val baseUrl: String, appName: String, mediaType: MediaType) {
+class ScalaApplicationClient(val baseUrl: String, appName: String) {
 
   private val log = LoggerFactory.getLogger(this.getClass())
 
@@ -40,7 +40,7 @@ class ScalaApplicationClient(val baseUrl: String, appName: String, mediaType: Me
     return this
   }
 
-  def get(): Representation = {
+  def get(mediaType: MediaType = MediaType.APPLICATION_JSON): Representation = {
     val currentUrl = baseUrl + url;
     log.info(s"$logPrefix issuing GET on '$currentUrl', providing credentials '$credentials'")
     cr = new ClientResource(currentUrl);

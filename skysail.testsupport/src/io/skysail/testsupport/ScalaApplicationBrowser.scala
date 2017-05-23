@@ -9,7 +9,7 @@ object ScalaApplicationBrowser {
   val HOST = "http://localhost"
 }
 
-class ScalaApplicationBrowser(appName: String, mediaType: MediaType, port: Integer) {
+class ScalaApplicationBrowser(val appName: String, port: Integer) {
 
   private val log = LoggerFactory.getLogger(this.getClass())
 
@@ -40,9 +40,9 @@ class ScalaApplicationBrowser(appName: String, mediaType: MediaType, port: Integ
 
   val url = ScalaApplicationBrowser.HOST + ":" + port
   log.info(s"$logPrefix creating new browser client with url '$url' for Application '$appName' and mediaType 'MediaType.TEXT_HTML'")
-  client = new ScalaApplicationClient(url, appName, mediaType)
+  client = new ScalaApplicationClient(url, appName)
 
-  def this(url: String) = this(url, MediaType.TEXT_HTML, 2014)
+  def this(url: String) = this(url,2014)
   //
   //    abstract protected Form createForm(String entity);
   //
