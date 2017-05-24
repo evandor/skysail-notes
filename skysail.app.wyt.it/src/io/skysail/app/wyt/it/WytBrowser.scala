@@ -26,8 +26,11 @@ class WytBrowser(port: Integer) extends ScalaApplicationBrowser("wyt", port) {
   def getPostPacts(mediaType: MediaType = MediaType.APPLICATION_JSON): Representation = {
     log.info(s"$logPrefix getting pacts")
     client.get("/" --> appName --> "post pact", mediaType)
-//    client.gotoAppRoot(mediaType).followLinkTitle("post pact", mediaType)
-//    client.currentRepresentation
+  }
+
+  def postToPostPacts(mediaType: MediaType = MediaType.APPLICATION_JSON): Representation = {
+    log.info(s"$logPrefix posting to pacts")
+    client.post("/" --> appName --> "post pact", mediaType)
   }
 
   def getNextTurn(mediaType: MediaType = MediaType.APPLICATION_JSON): Representation = {

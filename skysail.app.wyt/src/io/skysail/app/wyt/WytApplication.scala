@@ -38,7 +38,6 @@ class WytApplication extends SkysailApplication(
 
   var pactService: PactService = null
   var confirmationService: ConfirmationService = null
-  var turnService: TurnService = null
 
   @Reference(cardinality = ReferenceCardinality.MANDATORY)
   var dbService: ScalaDbService = null
@@ -57,7 +56,6 @@ class WytApplication extends SkysailApplication(
     super.activate(appConfig, componentContext);
     pactService = new PactService(dbService, getApplicationModel2())
     confirmationService = new ConfirmationService(dbService, getApplicationModel2())
-    turnService = new TurnService(dbService, getApplicationModel2())
   }
 
   override def attach() = {

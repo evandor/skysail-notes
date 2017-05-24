@@ -18,7 +18,7 @@ class PostConfirmationResource extends PostEntityServerResource[Confirmation] {
 
   @ApiSummary("returns a confirmation template")
   def addEntity(entity: Confirmation): Confirmation = {
-    Services.turns.confirm(entity)
+    //Services.turns.confirm(entity)
     Confirmation(Some("1"))
   }
 

@@ -63,7 +63,7 @@ skysail.server.um:\
 	${orientdb},\
 	${jetty},\
 	${scala},\
-    ${skysail.server.um},\
+	${skysail.server.um},\
 	skysail.converter;version=latest,\
 	skysail.queryfilter;version=latest,\
 	skysail.core;version=${skysail.core.version},\
@@ -73,6 +73,8 @@ skysail.server.um:\
 	skysail.app.wyt;version=latest,\
 	skysail.testsupport;version=latest,\
 	com.springsource.org.junit;version=4.11.0,\
-	org.assertj.core;version=3.5
+	org.assertj.core;version=3.5,\
+	org.scalactic;version=3.0.1,\
+	org.scalatest;version=3.0.1
 
 Private-Package: io.skysail.app.wyt.it

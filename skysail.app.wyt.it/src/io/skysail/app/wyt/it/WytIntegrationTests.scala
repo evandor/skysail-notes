@@ -33,8 +33,13 @@ class WytIntegrationTests extends BrowserTests2[WytBrowser] {
     assertThat(rep).contains("<!DOCTYPE html>")
   }
 
-  @Test def get_request_on_PostPact() {
+  @Test def get_request_on_PostPactEndpoint_with_html_media_type_returns_HTML() {
     val rep = browser.getPostPacts(MediaType.TEXT_HTML).getText
+    assertThat(rep).contains("<!DOCTYPE html>")
+  }
+
+  @Test def post_request_on_PostPactEndpoint_with_json_media_type_returns_JSON() {
+    val rep = browser.postPostPacts(MediaType.APPLICATION_JSON).getText
     assertThat(rep).contains("<!DOCTYPE html>")
   }
 

@@ -4,14 +4,6 @@ import org.restlet.data.MediaType
 import org.restlet.representation.StringRepresentation
 import org.restlet.representation.Representation
 
-//sealed trait Path {
-//  def -->(linkTitle: String):Path
-//  def get(mediaType: MediaType) = { ???  }
-//}
-//case object Root extends Path {
-//  def -->(linkTitle: String):Path = Root
-//}
-
 object PathDsl {
 
   sealed trait Method {
