@@ -10,6 +10,7 @@ import org.restlet.data.Method
 import io.skysail.core.model.LinkModel
 import java.net.URI
 import ScalaApplicationClient.{ TESTTAG => logPrefix }
+import io.skysail.testsupport.PathDsl._
 
 object ScalaApplicationClient {
   val TESTTAG = " > TEST:";
@@ -38,6 +39,19 @@ class ScalaApplicationClient(val baseUrl: String, appName: String) {
     log.info(s"$ScalaApplicationClient.TESTTAG setting browser client url to '$url'");
     this.url = url;
     return this
+  }
+  
+  def get(path: RouteDef[_], mediaType: MediaType/* = MediaType.APPLICATION_JSON*/): Representation = {
+    path.elems.foreach { elem => follow(elem,mediaType) }
+    path.url = url
+    currentRepresentation
+  }
+  
+  private def follow(s: PathElem, mediaType: MediaType) = {
+    s.name match {
+      case "/" => gotoRoot()
+      case path => followLinkTitle(path, mediaType)
+    }
   }
 
   def get(mediaType: MediaType = MediaType.APPLICATION_JSON): Representation = {
@@ -91,7 +105,7 @@ class ScalaApplicationClient(val baseUrl: String, appName: String) {
     return this;
   }
 
-  def followLinkTitle(linkTitle: String, mediaType: MediaType = MediaType.APPLICATION_JSON) = {
+  def followLinkTitle(linkTitle: String, mediaType: MediaType = MediaType.APPLICATION_JSON): ScalaApplicationClient = {
     follow(new ScalaLinkTitlePredicate(linkTitle, cr.getResponse().getHeaders()), mediaType)
   }
 

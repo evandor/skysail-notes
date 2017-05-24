@@ -61,7 +61,7 @@ class WytApplication extends SkysailApplication(
   }
 
   override def attach() = {
-    router.attach(new RouteBuilder("", classOf[PactsResource]));
+    router.attach(new RouteBuilder("", classOf[PactsResource])); // TODO Redirect to pacts
     router.attach(new RouteBuilder("/pact/", classOf[PostPactResource]))
     router.attach(new RouteBuilder("/confirmation/", classOf[PostConfirmationResource]))
     router.attach(new RouteBuilder("/pact/{id}/turn", classOf[TurnResource]))

@@ -38,9 +38,7 @@ class WytIntegrationTests extends BrowserTests2[WytBrowser] {
     assertThat(rep).contains("<!DOCTYPE html>")
   }
 
-  @Test def pacts_are_available_as_html() {
-  }
-
+  @Ignore
   @Test def georgios_is_next() {
     val pactRep = browser.createPact.getText
     pactId = parse(pactRep).extract[Pact].id.get
