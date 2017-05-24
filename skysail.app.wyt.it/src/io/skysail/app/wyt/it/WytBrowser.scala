@@ -113,16 +113,16 @@ class WytBrowser(port: Integer) extends ScalaApplicationBrowser("wyt", port) {
   }
 
   private def getTurn() = {
-    client.gotoAppRoot().followLinkTitle("turn")
+    client.gotoAppRoot().followLinkTitle(Method.GET, "turn")
     client.currentRepresentation
   }
 
   private def navigateToPostEntityPage(client: ScalaApplicationClient) {
-    client.gotoAppRoot().followLinkTitle("post confirmation")
+    client.gotoAppRoot().followLinkTitle(Method.GET, "post confirmation")
   }
 
   private def navigateToPostPactPage(client: ScalaApplicationClient) {
-    client.gotoAppRoot().followLinkTitle("post pact")
+    client.gotoAppRoot().followLinkTitle(Method.GET, "post pact")
   }
 
 }

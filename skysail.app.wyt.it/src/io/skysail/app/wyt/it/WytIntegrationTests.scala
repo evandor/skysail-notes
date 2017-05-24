@@ -39,17 +39,17 @@ class WytIntegrationTests extends BrowserTests2[WytBrowser] {
   }
 
   @Test def post_request_on_PostPactEndpoint_with_json_media_type_returns_JSON() {
-    val rep = browser.postPostPacts(MediaType.APPLICATION_JSON).getText
-    assertThat(rep).contains("<!DOCTYPE html>")
+    val rep = browser.postToPostPacts(MediaType.APPLICATION_JSON).getText
+    assertThat(rep).contains("{")
   }
 
-  @Ignore
-  @Test def georgios_is_next() {
-    val pactRep = browser.createPact.getText
-    pactId = parse(pactRep).extract[Pact].id.get
-    val turn = browser.getNextTurn()
-    assertThat(turn.getText).contains("Georgios is next")
-  }
+//  @Ignore
+//  @Test def georgios_is_next() {
+//    val pactRep = browser.createPact.getText
+//    pactId = parse(pactRep).extract[Pact].id.get
+//    val turn = browser.getNextTurn()
+//    assertThat(turn.getText).contains("Georgios is next")
+//  }
 
   //  @Test def confirming_yields_next_turn_is_carstens() {
   //    browser.postConfirmation()

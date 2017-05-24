@@ -20,19 +20,10 @@ class ScalaApplicationClient(val baseUrl: String, appName: String) {
 
   private val log = LoggerFactory.getLogger(this.getClass())
 
-  //    @Getter
-  //    private String baseUrl;
   var credentials = ""
   var url = ""
   var cr: ClientResource = _
-  //    @Getter
   var currentRepresentation: Representation = _
-  //    private MediaType mediaType = MediaType.TEXT_HTML;
-  //    private String appName;
-  //
-  //    @Getter
-  //    private Series<Header> currentHeader;
-
   var challengeResponse: ChallengeResponse = _
 
   def setUrl(url: String): ScalaApplicationClient = {
@@ -42,15 +33,22 @@ class ScalaApplicationClient(val baseUrl: String, appName: String) {
   }
   
   def get(path: RouteDef[_], mediaType: MediaType/* = MediaType.APPLICATION_JSON*/): Representation = {
-    path.elems.foreach { elem => follow(elem,mediaType) }
+    path.elems.foreach { elem => follow(Method.GET, elem,mediaType) }
     path.url = url
     currentRepresentation
   }
   
-  private def follow(s: PathElem, mediaType: MediaType) = {
+  def post(path: RouteDef[_], mediaType: MediaType/* = MediaType.APPLICATION_JSON*/): Representation = {
+    path.elems.init.foreach { elem => follow(Method.GET, elem,mediaType) }
+    follow(Method.POST, path.elems.last,mediaType)
+    path.url = url
+    currentRepresentation
+  }
+
+  private def follow(m: Method, s: PathElem, mediaType: MediaType) = {
     s.name match {
       case "/" => gotoRoot()
-      case path => followLinkTitle(path, mediaType)
+      case path => followLinkTitle(m, path, mediaType)
     }
   }
 
@@ -73,7 +71,7 @@ class ScalaApplicationClient(val baseUrl: String, appName: String) {
   }
 
   def gotoAppRoot(mediaType: MediaType = MediaType.APPLICATION_JSON) = {
-    gotoRoot().followLinkTitle(appName, mediaType);
+    gotoRoot().followLinkTitle(Method.GET, appName, mediaType);
     this
   }
   //
@@ -105,8 +103,8 @@ class ScalaApplicationClient(val baseUrl: String, appName: String) {
     return this;
   }
 
-  def followLinkTitle(linkTitle: String, mediaType: MediaType = MediaType.APPLICATION_JSON): ScalaApplicationClient = {
-    follow(new ScalaLinkTitlePredicate(linkTitle, cr.getResponse().getHeaders()), mediaType)
+  def followLinkTitle(m: Method, linkTitle: String, mediaType: MediaType = MediaType.APPLICATION_JSON): ScalaApplicationClient = {
+    follow(m, new ScalaLinkTitlePredicate(linkTitle, cr.getResponse().getHeaders()), mediaType)
   }
 
   //    public ApplicationClient2 followLinkTitleAndRefId(String linkTitle, String refId) {
@@ -173,7 +171,7 @@ class ScalaApplicationClient(val baseUrl: String, appName: String) {
     this;
   }
 
-  private def follow(predicate: ScalaLinkPredicate, mediaType: MediaType): ScalaApplicationClient = follow(predicate, null, null, mediaType)
+  private def follow(m: Method, predicate: ScalaLinkPredicate, mediaType: MediaType): ScalaApplicationClient = follow(predicate, m, null, mediaType)
 
   private def getTheOnlyLink(predicate: ScalaLinkPredicate, links: List[LinkModel]): LinkModel = {
     val filteredLinks = links.filter(l => predicate.apply(l)).toList
