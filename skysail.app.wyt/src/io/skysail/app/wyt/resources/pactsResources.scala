@@ -32,7 +32,7 @@ class PostPactResource extends PostEntityServerResource[Pact] {
   setDescription("""resource dealing with posting pacts""")
   addToContext(ResourceContextId.LINK_TITLE, "post pact")
 
-  def createEntityTemplate() = Pact(None,"initial", new Turn(None,Some("initial")))
+  def createEntityTemplate() = Pact(None,"initial", new Turn("initial"))
 
   @ApiSummary("returns a pact template")
   def addEntity(entity: Pact): Pact = {

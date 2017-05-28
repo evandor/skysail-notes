@@ -11,6 +11,7 @@ import io.skysail.testsupport.ScalaApplicationClient
 import java.util.Random
 import io.skysail.app.notes.domain.Note
 import org.restlet.representation.Representation
+import org.restlet.data.Method
 
 class NotesBrowser(port: Integer) extends ScalaApplicationBrowser("notes", port) {
 
@@ -61,7 +62,7 @@ class NotesBrowser(port: Integer) extends ScalaApplicationBrowser("notes", port)
   }
 
   private def navigateToPostEntityPage(client: ScalaApplicationClient) {
-    client.gotoAppRoot().followLinkTitle("create");
+    client.gotoAppRoot().followLinkTitle(Method.GET, "","create");
   }
 
   private def createWithForm(client: ScalaApplicationClient, entity: Note): Representation = {

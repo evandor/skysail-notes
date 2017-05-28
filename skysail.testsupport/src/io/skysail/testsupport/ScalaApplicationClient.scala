@@ -11,6 +11,7 @@ import io.skysail.core.model.LinkModel
 import java.net.URI
 import ScalaApplicationClient.{ TESTTAG => logPrefix }
 import io.skysail.testsupport.PathDsl._
+import org.restlet.data.Form
 
 object ScalaApplicationClient {
   val TESTTAG = " > TEST:";
@@ -26,29 +27,29 @@ class ScalaApplicationClient(val baseUrl: String, appName: String) {
   var currentRepresentation: Representation = _
   var challengeResponse: ChallengeResponse = _
 
-  def setUrl(url: String): ScalaApplicationClient = {
-    log.info(s"$ScalaApplicationClient.TESTTAG setting browser client url to '$url'");
-    this.url = url;
-    return this
-  }
-  
-  def get(path: RouteDef[_], mediaType: MediaType/* = MediaType.APPLICATION_JSON*/): Representation = {
-    path.elems.foreach { elem => follow(Method.GET, elem,mediaType) }
-    path.url = url
-    currentRepresentation
-  }
-  
-  def post(path: RouteDef[_], mediaType: MediaType/* = MediaType.APPLICATION_JSON*/): Representation = {
-    path.elems.init.foreach { elem => follow(Method.GET, elem,mediaType) }
-    follow(Method.POST, path.elems.last,mediaType)
+  //  def setUrl(url: String): ScalaApplicationClient = {
+  //    log.info(s"$ScalaApplicationClient.TESTTAG setting browser client url to '$url'");
+  //    this.url = url;
+  //    return this
+  //  }
+
+  def get(path: RouteDef[_], mediaType: MediaType) = {
+    path.elems.foreach { pathElement => followPathElement(Method.GET, pathElement, mediaType) }
     path.url = url
     currentRepresentation
   }
 
-  private def follow(m: Method, s: PathElem, mediaType: MediaType) = {
-    s.name match {
+  def post(form: Form, path: RouteDef[_], acceptMediaType: MediaType) = {
+    path.elems.init.foreach { pathElement => followPathElement(Method.GET, pathElement, acceptMediaType) }
+    followPathElement(Method.POST, path.elems.last, acceptMediaType, form, MediaType.APPLICATION_WWW_FORM)
+    path.url = url
+    currentRepresentation
+  }
+
+  private def followPathElement(m: Method, p: PathElem, t: MediaType, e: AnyRef = null, c: MediaType = null) = {
+    p.name match {
       case "/" => gotoRoot()
-      case path => followLinkTitle(m, path, mediaType)
+      case p => followLinkTitle(m, p, e, t,c)
     }
   }
 
@@ -64,24 +65,18 @@ class ScalaApplicationClient(val baseUrl: String, appName: String) {
     return cr.get(mediaType);
   }
 
-  def gotoRoot() = {
+  def gotoRoot(): ScalaApplicationClient = {
+    log.info(s"$logPrefix resetting path to root URL '/'")
     url = "/";
     get();
     this
   }
 
   def gotoAppRoot(mediaType: MediaType = MediaType.APPLICATION_JSON) = {
-    gotoRoot().followLinkTitle(Method.GET, appName, mediaType);
+    gotoRoot().followLinkTitle(Method.GET, appName, "", mediaType, null);
     this
   }
-  //
-  //    public ApplicationClient2 gotoUrl(String relUrl) {
-  //        url = relUrl;
-  //        currentRepresentation = get();
-  //        return this;
-  //    }
-  //
-  //
+
   def post(entity: AnyRef, mediaType: MediaType): Representation = {
     log.info(s"$logPrefix issuing POST on '$url', providing credentials $credentials");
     //url = if (url.contains("?")) url + "&" else url + "?") + "xxx";//SkysailServerResource.NO_REDIRECTS ;
@@ -92,10 +87,6 @@ class ScalaApplicationClient(val baseUrl: String, appName: String) {
     return cr.post(entity, mediaType);
   }
 
-  //    public Response getResponse() {
-  //        return cr.getResponse();
-  //    }
-  //
   def loginAs(authenticationStrategy: AuthenticationStrategy2, username: String, password: String): ScalaApplicationClient = {
     cr = authenticationStrategy.login(this, username, password);
     challengeResponse = cr.getChallengeResponse();
@@ -103,28 +94,11 @@ class ScalaApplicationClient(val baseUrl: String, appName: String) {
     return this;
   }
 
-  def followLinkTitle(m: Method, linkTitle: String, mediaType: MediaType = MediaType.APPLICATION_JSON): ScalaApplicationClient = {
-    follow(m, new ScalaLinkTitlePredicate(linkTitle, cr.getResponse().getHeaders()), mediaType)
+  def followLinkTitle(m: Method, linkTitle: String, e: AnyRef, mediaType: MediaType = MediaType.APPLICATION_JSON, contentMediaType: MediaType = null): ScalaApplicationClient = {
+    follow(new ScalaLinkTitlePredicate(linkTitle, cr.getResponse().getHeaders()), m, e, mediaType)
   }
 
-  //    public ApplicationClient2 followLinkTitleAndRefId(String linkTitle, String refId) {
-  //    	LinkModel example = new LinkModel(refId, "", null, null, null);//new LinkModel.Builder("").title(linkTitle).refId(refId).build();
-  //        return follow(new LinkByExamplePredicate(example, cr.getResponse().getHeaders()));
-  //    }
-  //
-  //    public ApplicationClient2 followLinkRelation(LinkRelation linkRelation) {
-  //        return follow(new LinkRelationPredicate(linkRelation, cr.getResponse().getHeaders()));
-  //    }
-  //
-  //    public ApplicationClient2 followLink(Method method) {
-  //        return followLink(method, null);
-  //    }
-  //
-  //    public ApplicationClient2 followLink(Method method, String entity) {
-  //        return follow(new LinkMethodPredicate(method, cr.getResponse().getHeaders()), method, entity);
-  //    }
-  //
-  private def follow(predicate: ScalaLinkPredicate, method: Method, entity: String, mediaType: MediaType) = {
+  private def follow(predicate: ScalaLinkPredicate, method: Method, entity: AnyRef, acceptMediaType: MediaType, contentMediaType: MediaType = null) = {
     val currentHeader = cr.getResponse().getHeaders();
     val linkheader = currentHeader.getFirstValue("Link");
     if (linkheader == null) {
@@ -151,27 +125,30 @@ class ScalaApplicationClient(val baseUrl: String, appName: String) {
       //            if (!(theLink.getVerbs().contains(method))) {
       //                throw new IllegalStateException("method " + method + " not eligible for link " + theLink);
       //            }
-      if (Method.DELETE.equals(method)) {
-        log.info(s"$logPrefix issuing DELETE on '$url', providing credentials $credentials");
-        currentRepresentation = cr.delete(mediaType);
+      if (Method.GET.equals(method)) {
+        log.info(s"$logPrefix issuing GET on '$url', providing credentials '$credentials'");
+        currentRepresentation = cr.get(acceptMediaType);
+      } else if (Method.DELETE.equals(method)) {
+        log.info(s"$logPrefix issuing DELETE on '$url', providing credentials '$credentials'");
+        currentRepresentation = cr.delete(acceptMediaType);
       } else if (Method.POST.equals(method)) {
-        log.info(s"$logPrefix issuing POST on '$url' with entity '$entity', providing credentials $credentials");
-        currentRepresentation = cr.post(entity, mediaType);
+        log.info(s"$logPrefix issuing POST on '$url', acceptedMediaType: '$acceptMediaType', entity: '$entity', credentials: '$credentials'");
+        currentRepresentation = cr.post(entity, acceptMediaType);
       } else if (Method.PUT.equals(method)) {
-        log.info(s"$logPrefix issuing PUT on '$url' with entity '$entity', providing credentials $credentials");
-        currentRepresentation = cr.put(entity, mediaType);
+        log.info(s"$logPrefix issuing PUT on '$url' with entity '$entity', providing credentials '$credentials'");
+        currentRepresentation = cr.put(entity, acceptMediaType);
       } else {
         throw new UnsupportedOperationException();
       }
     } else {
       log.info(s"$logPrefix issuing GET on '$url', providing credentials $credentials");
-      currentRepresentation = cr.get(mediaType);
+      currentRepresentation = cr.get(acceptMediaType);
       //url = currentRepresentation.getLocationRef().toUri().toString();
     }
     this;
   }
 
-  private def follow(m: Method, predicate: ScalaLinkPredicate, mediaType: MediaType): ScalaApplicationClient = follow(predicate, m, null, mediaType)
+  //private def follow(m: Method, predicate: ScalaLinkPredicate, mediaType: MediaType): ScalaApplicationClient = follow(predicate, m, null, mediaType)
 
   private def getTheOnlyLink(predicate: ScalaLinkPredicate, links: List[LinkModel]): LinkModel = {
     val filteredLinks = links.filter(l => predicate.apply(l)).toList

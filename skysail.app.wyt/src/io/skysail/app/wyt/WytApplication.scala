@@ -17,7 +17,6 @@ import io.skysail.app.wyt.resources.PostConfirmationResource
 import io.skysail.app.wyt.services.PactService
 import io.skysail.app.wyt.domain.Pact
 import io.skysail.app.wyt.services.ConfirmationService
-import io.skysail.app.wyt.services.TurnService
 
 object WytApplication {
   final val APP_NAME = "wyt"

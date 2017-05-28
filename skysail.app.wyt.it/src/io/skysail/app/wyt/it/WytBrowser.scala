@@ -10,13 +10,17 @@ import java.util.Random
 import org.slf4j.LoggerFactory
 import org.restlet.representation.Representation
 import io.skysail.testsupport.PathDsl._
+import org.json4s._
+import org.json4s.native.JsonMethods._
 
 import ScalaApplicationClient.{ TESTTAG => logPrefix }
+import org.json4s.DefaultFormats
 
 class WytBrowser(port: Integer) extends ScalaApplicationBrowser("wyt", port) {
 
   private val log = LoggerFactory.getLogger(this.getClass())
   private val random = new Random()
+  private implicit val formats = DefaultFormats
 
   def getPacts(mediaType: MediaType = MediaType.APPLICATION_JSON) = {
     log.info(s"$logPrefix getting pacts")
@@ -28,9 +32,10 @@ class WytBrowser(port: Integer) extends ScalaApplicationBrowser("wyt", port) {
     client.get("/" --> appName --> "post pact", mediaType)
   }
 
-  def postToPostPacts(mediaType: MediaType = MediaType.APPLICATION_JSON): Representation = {
-    log.info(s"$logPrefix posting to pacts")
-    client.post("/" --> appName --> "post pact", mediaType)
+  def postToPostPacts(pact: Pact, mediaType: MediaType = MediaType.APPLICATION_JSON) = {
+    log.info(s"$logPrefix posting form to pacts")
+    val rep = client.post(createForm(pact), "/" --> appName --> "post pact", mediaType).getText
+    parse(rep).extract[Pact]
   }
 
   def getNextTurn(mediaType: MediaType = MediaType.APPLICATION_JSON): Representation = {
@@ -106,23 +111,23 @@ class WytBrowser(port: Integer) extends ScalaApplicationBrowser("wyt", port) {
     form
   }
 
-  private def createForm(entity: Pact): Form = {
-    val form = new Form()
-    form.add("io.skysail.app.wyt.domain.Pact|title", entity.getTitle())
-    form
-  }
-
   private def getTurn() = {
-    client.gotoAppRoot().followLinkTitle(Method.GET, "turn")
+    client.gotoAppRoot().followLinkTitle(Method.GET,"", "turn")
     client.currentRepresentation
   }
 
   private def navigateToPostEntityPage(client: ScalaApplicationClient) {
-    client.gotoAppRoot().followLinkTitle(Method.GET, "post confirmation")
+    client.gotoAppRoot().followLinkTitle(Method.GET,"", "post confirmation")
   }
 
   private def navigateToPostPactPage(client: ScalaApplicationClient) {
-    client.gotoAppRoot().followLinkTitle(Method.GET, "post pact")
+    client.gotoAppRoot().followLinkTitle(Method.GET,"", "post pact")
+  }
+  
+  private def createForm(pact: Pact) = {
+    val form = new Form()
+    form.add("io.skysail.app.wyt.domain.Pact|title", pact.title)
+    form
   }
 
 }

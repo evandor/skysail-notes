@@ -29,9 +29,9 @@ class PactService(dbService: ScalaDbService, appModel: ApplicationModel) {
   
    def getNextTurn(pactId: String) = {
     if (i % 2 == 0) {
-      Turn(Some("1"),Some("Georgios is next"))
+      Turn("Georgios is next")
     } else {
-      Turn(Some("1"),Some("Carsten is next"))
+      Turn("Carsten is next")
     }
   }
 //
