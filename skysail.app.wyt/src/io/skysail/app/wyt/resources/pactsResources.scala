@@ -10,6 +10,11 @@ import io.skysail.app.wyt.services.Services
 import io.skysail.queryfilter.filter.Filter
 import io.skysail.queryfilter.pagination.Pagination
 import io.skysail.app.wyt.domain.Turn
+import io.skysail.restlet.responses.ScalaSkysailResponse
+import org.restlet.representation.Variant
+import org.restlet.resource.Post
+import org.restlet.data.Form
+import io.skysail.restlet.transformations.Transformations
 
 class PactsResource extends ListServerResource[List[Pact]]() {
 
@@ -40,6 +45,21 @@ class PostPactResource extends PostEntityServerResource[Pact] {
     val pact = Services.pacts.create(entity)
     //Pact(Some("1"), "default pact")
     pact.get
+  }
+  
+  @Post("x-www-form-urlencoded:html|json")
+  override def post(form: Form, variant: Variant): ScalaSkysailResponse[Pact] = {
+    implicit val formats = DefaultFormats
+    val timerMetric = getMetricsCollector().timerFor(this.getClass(), "posthtml")
+    val json = if (form != null) {
+       val j = Transformations.jsonFrom[Pact](form)
+       j.extract[Pact]
+    } else {
+      null.asInstanceOf[Pact]
+    }
+    val result = jsonPost(json, variant)
+    timerMetric.stop()
+    result
   }
 
 }
