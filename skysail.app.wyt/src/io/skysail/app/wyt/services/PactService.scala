@@ -18,6 +18,9 @@ class PactService(dbService: ScalaDbService, appModel: ApplicationModel) {
   private var i = 0
 
   def create(pact: Pact): Try[Pact] = {
+    if (pact.turn == null) {
+      pact.turn = Turn("default")
+    }
     repo.save(pact, appModel)
   }
 //  def getById(id: String): Option[Connection] = {

@@ -15,6 +15,9 @@ import org.restlet.representation.Variant
 import org.restlet.resource.Post
 import org.restlet.data.Form
 import io.skysail.restlet.transformations.Transformations
+import org.json4s.jackson.JsonMethods._
+import org.json4s.native.Serialization
+import org.json4s.native.Serialization.{ read, write }
 
 class PactsResource extends ListServerResource[List[Pact]]() {
 
@@ -49,10 +52,12 @@ class PostPactResource extends PostEntityServerResource[Pact] {
   
   @Post("x-www-form-urlencoded:html|json")
   override def post(form: Form, variant: Variant): ScalaSkysailResponse[Pact] = {
+    form.add("io.skysail.app.wyt.domain.Turn|nextTurn","i")
     implicit val formats = DefaultFormats
     val timerMetric = getMetricsCollector().timerFor(this.getClass(), "posthtml")
     val json = if (form != null) {
        val j = Transformations.jsonFrom[Pact](form)
+       println(pretty(render(j)))
        j.extract[Pact]
     } else {
       null.asInstanceOf[Pact]
