@@ -11,14 +11,12 @@ import io.skysail.core.html._
 import io.skysail.domain.ddd.ScalaEntity
 import io.skysail.restlet.forms._
 
-//@JsonIgnoreProperties(ignoreUnknown = true)
-case class Pact (
+@JsonIgnoreProperties(ignoreUnknown = true)
+case class Pact(
     var id: Option[String] = None,
     @BeanProperty @(Field @field) /*@(NotNull @field) @Size(min=1)*/ var title: String = "",
-    @BeanProperty var turn: Turn = new Turn("test")
-  ) extends ScalaEntity[String] {
+    @BeanProperty var turn: Turn = new Turn("test")) extends ScalaEntity[String] {
 
   // title, selectionStrategy & confirmationS
-  
-  
+
 }
