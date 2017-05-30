@@ -1,6 +1,7 @@
 package io.skysail.app.wyt.it
 
 import io.skysail.app.wyt.domain.Pact
+import io.skysail.app.wyt.domain.Pact$
 import io.skysail.app.wyt.resources.PactsResource
 import io.skysail.testsupport.BrowserTests2
 import java.math.BigInteger
@@ -14,7 +15,7 @@ import org.junit._
 class WytIntegrationTests extends BrowserTests2[WytBrowser] {
 
   private implicit val formats = DefaultFormats
-
+  
   @Before def setUp() {
     browser = new WytBrowser(2018)
   }
@@ -31,7 +32,7 @@ class WytIntegrationTests extends BrowserTests2[WytBrowser] {
   def postPact_returns_created_pact_with_default_turn() {
     val pact = browser.postToPostPacts(Pact(None, "pactTitle_" + new BigInteger(130, random).toString(32)))
     assertThat(pact.getTurn()).isNotNull()
-    assertThat(pact.getTurn().nextTurn).isEqualTo("hi")
+    assertThat(pact.getTurn().nextTurn).isEqualTo("test")
   }
 
   //  @Test

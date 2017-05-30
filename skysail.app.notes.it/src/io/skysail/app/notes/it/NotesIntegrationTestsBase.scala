@@ -28,10 +28,10 @@ class NotesIntegrationTestsBase extends BrowserTests2[NotesBrowser] {
   @Test
   def createWithForm_and_read_entity() {
     println("hier")
-    browser
-      .loginAs("admin", "skysail")
-     // .create(entityAsJson);
-      .postForm(Note(None, "content"))
+//    browser
+//      .loginAs("admin", "skysail")
+//     // .create(entityAsJson);
+//      .postForm(Note(None, "content"))
     //        String html = browser.getEntities().getText();
     //        System.out.println(html);
     //        assertFalse(html.contains("\"created\":null"));
