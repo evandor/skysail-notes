@@ -17,6 +17,8 @@ import io.skysail.app.wyt.resources.PostConfirmationResource
 import io.skysail.app.wyt.services.PactService
 import io.skysail.app.wyt.domain.Pact
 import io.skysail.app.wyt.services.ConfirmationService
+import io.skysail.app.wyt.services.CarService
+import io.skysail.app.wyt.resources.CarsResource
 
 object WytApplication {
   final val APP_NAME = "wyt"
@@ -37,6 +39,7 @@ class WytApplication extends SkysailApplication(
 
   var pactService: PactService = null
   var confirmationService: ConfirmationService = null
+  var carService: CarService = null
 
   @Reference(cardinality = ReferenceCardinality.MANDATORY)
   var dbService: ScalaDbService = null
@@ -54,6 +57,7 @@ class WytApplication extends SkysailApplication(
   override def activate(appConfig: ApplicationConfiguration, componentContext: ComponentContext) = {
     super.activate(appConfig, componentContext);
     pactService = new PactService(dbService, getApplicationModel2())
+    carService = new CarService(dbService, getApplicationModel2())
     confirmationService = new ConfirmationService(dbService, getApplicationModel2())
   }
 
@@ -62,6 +66,10 @@ class WytApplication extends SkysailApplication(
     router.attach(new RouteBuilder("/pact/", classOf[PostPactResource]))
     router.attach(new RouteBuilder("/confirmation/", classOf[PostConfirmationResource]))
     router.attach(new RouteBuilder("/pact/{id}/turn", classOf[TurnResource]))
+
+    router.attach(new RouteBuilder("/cars", classOf[CarsResource]))
+    router.attach(new RouteBuilder("/cars/", classOf[PostCarResource]))
+
     createStaticDirectory();
   }
 

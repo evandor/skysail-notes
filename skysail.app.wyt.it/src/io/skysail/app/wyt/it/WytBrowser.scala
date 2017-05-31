@@ -38,6 +38,12 @@ class WytBrowser(port: Integer) extends ScalaApplicationBrowser("wyt", port) {
     parse(rep).extract[Pact]
   }
 
+  def postToPostCars(car: Car, mediaType: MediaType = MediaType.APPLICATION_JSON) = {
+    log.info(s"$logPrefix posting form to cars")
+    val rep = client.post(createForm(car), "/" --> appName --> "post car", mediaType).getText
+    parse(rep).extract[Car]
+  }
+
   def getNextTurn(mediaType: MediaType = MediaType.APPLICATION_JSON): Representation = {
     log.info(s"$logPrefix getting next turn")
     getTurn()
@@ -130,4 +136,10 @@ class WytBrowser(port: Integer) extends ScalaApplicationBrowser("wyt", port) {
     form
   }
 
+  private def createForm(car: Car) = {
+    val form = new Form()
+    form.add("io.skysail.app.wyt.domain.Car|model", car.model)
+    form.add("io.skysail.app.wyt.domain.Car|year", "12")
+    form
+  }
 }
