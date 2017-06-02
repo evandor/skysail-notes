@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.id=":skysail.app.notes.it" external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$/.." external.system.id="GRADLE" external.system.module.group="skysail-notes" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
+<module external.linked.project.id=":skysail.app.dbviewer" external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$/.." external.system.id="GRADLE" external.system.module.group="skysail-notes" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="Osmorc" name="OSGi">
-      <configuration manifestGenerationMode="Bnd" manifestLocation="" jarfileLocation="$MODULE_DIR$/generated/skysail.app.notes.it.jar" outputPathType="SpecificOutputPath" bndFileLocation="bnd.bnd" bundlorFileLocation="" bundleActivator="" bundleSymbolicName="" bundleVersion="1.0.0" ignoreFilePattern="" useProjectDefaultManifestFileLocation="true" alwaysRebuildBundleJAR="false" doNotSynchronizeWithMaven="true">
+      <configuration manifestGenerationMode="Bnd" manifestLocation="" jarfileLocation="$MODULE_DIR$/generated/skysail.app.dbviewer.jar" outputPathType="SpecificOutputPath" bndFileLocation="bnd.bnd" bundlorFileLocation="" bundleActivator="" bundleSymbolicName="" bundleVersion="1.0.0" ignoreFilePattern="" useProjectDefaultManifestFileLocation="true" alwaysRebuildBundleJAR="false" doNotSynchronizeWithMaven="true">
         <additionalProperties />
         <additionalJARContents />
       </configuration>
@@ -84,7 +84,7 @@
     <orderEntry type="library" name="bnd:skysail.queryfilter:0.1.1.201705310635" level="project" />
     <orderEntry type="library" name="bnd:skysail.repo.orientdb:0.1.1.201705310635" level="project" />
     <orderEntry type="library" name="bnd:skysail.server.codegen:0.1.0.201612310745" level="project" />
-    <orderEntry type="library" name="bnd:skysail.testsupport:0.1.1.201705311603" level="project" />
+    <orderEntry type="library" name="bnd:skysail.server.testsupport:2.0.0.201611110641" level="project" />
     <orderEntry type="library" name="bnd:de.twentyeleven.skysail.org.antlr.stringtemplate-osgi:4.0.8" level="project" />
     <orderEntry type="library" name="bnd:de.twentyeleven.skysail.org.json-osgi:20080701.0.0" level="project" />
     <orderEntry type="library" name="bnd:com.googlecode.concurrentlinkedhashmap.lru:1.4.0" level="project" />
@@ -99,7 +99,7 @@
     <orderEntry type="library" name="bnd:org.eclipse.jetty.server:9.2.11.v20150529" level="project" />
     <orderEntry type="library" name="bnd:org.eclipse.jetty.util:9.2.11.v20150529" level="project" />
     <orderEntry type="library" name="bnd:com.thoughtworks.paranamer:2.8.0" level="project" />
-    <orderEntry type="module" module-name="skysail.app.notes" />
-    <orderEntry type="library" name="bnd:org.assertj.core:3.5.2" level="project" />
+    <orderEntry type="library" name="bnd:org.apache.servicemix.bundles.commons-dbcp:1.4.0.3" level="project" />
+    <orderEntry type="library" name="bnd:com.mysql.jdbc:5.1.42" level="project" />
   </component>
 </module>
