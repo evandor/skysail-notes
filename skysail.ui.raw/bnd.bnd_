@@ -1,3 +1,5 @@
+moved to skysail-server
+
 Bundle-Name: SKYSAIL :: ui :: raw
 
 Bundle-Version: 0.0.1.${tstamp}
