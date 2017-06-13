@@ -8,8 +8,8 @@ import scala.annotation.meta.field
 import scala.beans.BeanProperty
 
 import io.skysail.core.html._
-import io.skysail.domain.ddd.ScalaEntity
 import io.skysail.restlet.forms._
+import io.skysail.core.domain.ScalaEntity
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 case class Pact(

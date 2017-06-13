@@ -53,7 +53,8 @@ class PutConnectionResource extends PutEntityServerResource[Connection] {
   @ApiSummary("...")
   @ApiDescription("some description")
   @ApiTags(Array("Connection", "Testing Swagger"))
-  def updateEntity(entity: Connection): Unit = {
+  def updateEntity(entity: Connection): Connection = {
     val original = getEntity()
+    null
   }
 }

@@ -90,12 +90,13 @@ class PutNoteResource extends PutEntityServerResource[Note] {
   @ApiSummary("...")
   @ApiDescription("some description")
   @ApiTags(Array("Note","Testing Swagger"))
-  def updateEntity(entity: Note): Unit = {
+  def updateEntity(entity: Note): Note = {
     val original = getEntity()
     //    val originalCreated = original.getCreated()
     //    copyProperties(original, entity)
     //    original.setCreated(originalCreated)
     //    original.setModified(new Date())
     //    //NotesResource.noteRepo(getApplication()).update(original, getApplicationModel())
+    null
   }
 }

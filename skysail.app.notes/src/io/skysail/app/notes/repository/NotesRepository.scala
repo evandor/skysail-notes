@@ -1,8 +1,8 @@
 package io.skysail.app.notes.repository
 
 import io.skysail.app.notes.domain.Note
-import io.skysail.domain.repo.ScalaDbRepository;
 import io.skysail.repo.orientdb._
+import io.skysail.core.domain.repo.ScalaDbRepository
 
 class NotesRepository(db: ScalaDbService) extends OrientDbRepository[Note](db) with ScalaDbRepository {
   

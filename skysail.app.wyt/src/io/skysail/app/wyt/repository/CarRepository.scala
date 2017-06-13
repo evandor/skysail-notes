@@ -1,6 +1,6 @@
 package io.skysail.app.wyt.repository
 
-import io.skysail.domain.repo.ScalaDbRepository;
+import io.skysail.core.domain.repo.ScalaDbRepository
 import io.skysail.repo.orientdb._
 import io.skysail.app.wyt.domain.Car
 

@@ -63,12 +63,13 @@ class PutTodoResource extends PutEntityServerResource[Todo] {
     null
   }
   //override def redirectTo() = super.redirectTo(classOf[TodosResource])
-  def updateEntity(entity: Todo): Unit = {
+  def updateEntity(entity: Todo): Todo = {
     val original = getEntity()
     //    val originalCreated = original.getCreated()
     //    copyProperties(original, entity)
     //    original.setCreated(originalCreated)
     //    original.setModified(new Date())
     //    //TodosResource.TodoRepo(getApplication()).update(original, getApplicationModel())
+    null
   }
 }
