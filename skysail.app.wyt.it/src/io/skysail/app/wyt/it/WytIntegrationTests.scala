@@ -29,7 +29,7 @@ class WytIntegrationTests extends BrowserTests2[WytBrowser] {
     assertThat(pact.title).isEqualTo(title)
   }
 
-  @Test
+  //@Test
   def postCar_returns_created_car_with_id() {
     val model = "carModel_" + new BigInteger(130, random).toString(32)
     val car = browser.postToPostCars(Car(model, "20", None))

@@ -1,8 +1,0 @@
-appNav(resourceContext) ::= <<
-    $resourceContext.navItems:{ item | $showMenu(item)$}$
->>
-
-showMenu(item) ::= <<
-  <h5>$item.title$</h5>
-  $item.html$<br>
->>

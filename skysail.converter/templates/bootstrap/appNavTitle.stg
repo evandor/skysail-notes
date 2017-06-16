@@ -1,3 +1,0 @@
-appNavTitle(model) ::= <<
-&nbsp;$model.appNavTitle$
->>
