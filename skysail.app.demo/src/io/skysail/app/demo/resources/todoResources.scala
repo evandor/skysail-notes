@@ -4,8 +4,8 @@ import io.skysail.app.demo.DemoApplication
 import io.skysail.app.demo.domain.Todo
 import io.skysail.app.demo.repository.TodosRepository
 import io.skysail.core.app.SkysailApplication
-import io.skysail.restlet.ResourceContextId
-import io.skysail.restlet.resources._
+import io.skysail.core.restlet.ResourceContextId
+import io.skysail.core.restlet.resources._
 import io.skysail.queryfilter.filter.Filter
 import io.skysail.queryfilter.pagination.Pagination
 import org.json4s.DefaultFormats

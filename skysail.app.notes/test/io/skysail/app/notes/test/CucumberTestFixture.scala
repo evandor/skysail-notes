@@ -29,7 +29,7 @@
 //import org.hamcrest.Description
 //import java.util.Arrays
 //import io.skysail.core.app._
-//import io.skysail.restlet.SkysailServerResource
+//import io.skysail.core.restlet.SkysailServerResource
 //
 //object CucumberTestFixture {
 // def validNoteWith(data: java.util.Map[String, String], keys:String*): Matcher[Note] = {

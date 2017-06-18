@@ -20,9 +20,9 @@
 //import org.restlet.data.Form
 //import org.mockito.Mockito._
 //import io.skysail.repo.orientdb.OrientGraphDbService
-//import io.skysail.restlet.SkysailServerResource
+//import io.skysail.core.restlet.SkysailServerResource
 //import io.skysail.core.Constants
-//import io.skysail.restlet.responses.EntityResponse
+//import io.skysail.core.restlet.responses.EntityResponse
 //
 //class NotesStepDefinitions extends CucumberTestFixture {
 //

@@ -9,7 +9,7 @@ import scala.beans.BeanProperty
 
 import io.skysail.core.html._
 import io.skysail.core.domain.ScalaEntity
-import io.skysail.restlet.forms._
+import io.skysail.core.forms._
 
 case class Turn (
     @BeanProperty @(Field @field) var nextTurn: String = "initial",

@@ -3,18 +3,18 @@ package io.skysail.app.wyt.resources
 import io.skysail.app.wyt.domain.Pact
 import io.skysail.api.doc._
 import org.json4s.DefaultFormats
-import io.skysail.restlet.resources.ListServerResource
-import io.skysail.restlet.ResourceContextId
-import io.skysail.restlet.resources.PostEntityServerResource
+import io.skysail.core.restlet.resources.ListServerResource
+import io.skysail.core.restlet.ResourceContextId
+import io.skysail.core.restlet.resources.PostEntityServerResource
 import io.skysail.app.wyt.services.Services
 import io.skysail.queryfilter.filter.Filter
 import io.skysail.queryfilter.pagination.Pagination
 import io.skysail.app.wyt.domain.Turn
-import io.skysail.restlet.responses.ScalaSkysailResponse
+import io.skysail.core.restlet.responses.ScalaSkysailResponse
 import org.restlet.representation.Variant
 import org.restlet.resource.Post
 import org.restlet.data.Form
-import io.skysail.restlet.transformations.Transformations
+import io.skysail.core.restlet.transformations.Transformations
 import org.json4s.jackson.JsonMethods._
 import org.json4s.native.Serialization
 import org.json4s.native.Serialization.{ read, write }

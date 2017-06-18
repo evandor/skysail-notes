@@ -1,11 +1,11 @@
 package io.skysail.app.wyt.resources
 
-import io.skysail.restlet.resources.EntityServerResource
+import io.skysail.core.restlet.resources.EntityServerResource
 import io.skysail.api.doc._
 import org.json4s.DefaultFormats
 import io.skysail.app.wyt.domain.Confirmation
-import io.skysail.restlet.resources.PostEntityServerResource
-import io.skysail.restlet.ResourceContextId
+import io.skysail.core.restlet.resources.PostEntityServerResource
+import io.skysail.core.restlet.ResourceContextId
 import io.skysail.app.wyt.WytApplication
 import io.skysail.app.wyt.services.Services
 

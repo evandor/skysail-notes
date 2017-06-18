@@ -8,7 +8,7 @@ import scala.annotation.meta.field
 import scala.beans.BeanProperty
 
 import io.skysail.core.html._
-import io.skysail.restlet.forms._
+import io.skysail.core.forms._
 import io.skysail.core.domain.ScalaEntity
 
 case class Confirmation(var id: Option[String] = None) extends ScalaEntity[String] 

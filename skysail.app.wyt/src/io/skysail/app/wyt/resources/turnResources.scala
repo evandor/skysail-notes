@@ -1,10 +1,10 @@
 package io.skysail.app.wyt.resources
 
-import io.skysail.restlet.resources.EntityServerResource
+import io.skysail.core.restlet.resources.EntityServerResource
 import io.skysail.app.wyt.domain.Turn
 import io.skysail.api.doc._
 import org.json4s.DefaultFormats
-import io.skysail.restlet.ResourceContextId
+import io.skysail.core.restlet.ResourceContextId
 import io.skysail.app.wyt.services.Services
 
 class TurnResource extends EntityServerResource[Turn] {

@@ -11,11 +11,14 @@ copyright:              Copyright (c) twentyeleven.de (2011, ${tstamp;yyyy}). Al
 copyright.html:         Copyright &copy; twentyeleven.de (2011, ${tstamp;yyyy}). All Rights Reserved.
 
 # remote: 0.1.0
-skysail.core.version                           '[1.0.0,1.0.1)'
+skysail.core.version                           '[1.0.1,1.0.2)'
 
-skysail.um.httpbasic.version                   '[0.2.0,0.2.1)'
-skysail.um.repo.test.version                   '[0.2.0,0.2.1)'
-skysail.um.shiro.version                       '[0.2.0,0.2.1)'
+#'[0.2.0,0.2.1)'
+skysail.um.httpbasic.version                   '[0.2.1,0.2.2)' 
+#'[0.2.0,0.2.1)'
+skysail.um.repo.test.version                   '[0.2.1,0.2.2)'
+#'[0.2.0,0.2.1)'
+skysail.um.shiro.version                       '[0.2.1,0.2.2)'
 
 com.fasterxml.jackson.version                      '[2.8.5,2.8.6)'
 restlet.version                                    2.3.9

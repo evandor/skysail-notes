@@ -25,8 +25,8 @@ import org.restlet.Context
 import org.restlet.Request
 import org.restlet.Response
 import scala.util.Try
-import com.tinkerpop.blueprints.impls.orient.OrientVertex
-import com.tinkerpop.blueprints.impls.orient.OrientElement
+import com.tinkerpop.blueprints.impls.orient._
+import io.skysail.app.notes.domain.Note
 
 @RunWith(classOf[JUnitRunner])
 class NotesResourceSpec extends FlatSpec with BeforeAndAfterEach {

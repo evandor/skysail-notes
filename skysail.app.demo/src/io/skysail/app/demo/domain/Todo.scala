@@ -9,7 +9,6 @@ import scala.beans.BeanProperty
 
 import io.skysail.core.html._
 import io.skysail.core.domain.ScalaEntity
-import io.skysail.restlet.forms._
 
 @BeanProperty
 case class Todo (

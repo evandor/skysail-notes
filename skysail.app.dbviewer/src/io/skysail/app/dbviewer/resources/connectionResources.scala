@@ -1,8 +1,8 @@
 package io.skysail.app.dbviewer.resources
 
 import io.skysail.core.app.SkysailApplication
-import io.skysail.restlet.ResourceContextId
-import io.skysail.restlet.resources._
+import io.skysail.core.restlet.ResourceContextId
+import io.skysail.core.restlet.resources._
 import io.skysail.queryfilter.filter.Filter
 import io.skysail.queryfilter.pagination.Pagination
 import org.json4s.DefaultFormats
@@ -11,7 +11,7 @@ import io.skysail.api.doc._
 import io.skysail.app.dbviewer.domain.Connection
 import io.skysail.app.dbviewer.repository.DbViewerRepository
 import io.skysail.app.dbviewer.DbViewerApplication
-import io.skysail.restlet.responses.ScalaSkysailResponse
+import io.skysail.core.restlet.responses.ScalaSkysailResponse
 
 object Services {
   def connections = org.restlet.Application.getCurrent().asInstanceOf[DbViewerApplication].connectionService
