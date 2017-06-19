@@ -1,0 +1,7 @@
+/.apt_generated/
+/.cache-main
+/.cache-tests
+/bin/
+/bin_test/
+/generated/
+/skysail.app.notes.iml
