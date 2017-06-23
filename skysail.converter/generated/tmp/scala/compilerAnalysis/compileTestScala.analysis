@@ -1,0 +1,160 @@
+format version: 5
+output mode:
+1 items
+0 -> single
+output directories:
+1 items
+output dir -> /Users/carsten/git/skysail-notes/skysail.converter/bin_test
+compile options:
+2 items
+0 -> -deprecation
+1 -> -unchecked
+javac options:
+8 items
+0 -> -source
+1 -> 1.8
+2 -> -target
+3 -> 1.8
+4 -> -d
+5 -> /Users/carsten/git/skysail-notes/skysail.converter/bin_test
+6 -> -g
+7 -> -XDuseUnsharedTable=true
+compiler version:
+1 items
+0 -> 2.11.8
+compile order:
+1 items
+0 -> Mixed
+name hashing:
+1 items
+0 -> true
+products:
+1 items
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> /Users/carsten/git/skysail-notes/skysail.converter/bin_test/io/skysail/converter/test/StylingTest.class
+binary dependencies:
+9 items
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> /Library/Java/JavaVirtualMachines/jdk1.8.0_121.jdk/Contents/Home/jre/lib/rt.jar
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> /Users/carsten/.bnd/cache/https%3A%2F%2Fgithub.com%2Fevandor%2Fskysail-repository%2Fraw%2Fmaster%2Frelease/com.springsource.org.junit-4.11.0.jar
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> /Users/carsten/.bnd/cache/https%3A%2F%2Fgithub.com%2Fevandor%2Fskysail-repository%2Fraw%2Fmaster%2Frelease/de.twentyeleven.skysail.org.hamcrest.hamcrest-all-osgi-1.3.0.jar
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> /Users/carsten/.bnd/cache/https%3A%2F%2Fgithub.com%2Fevandor%2Fskysail-repository%2Fraw%2Fmaster%2Frelease/mockito-all-1.10.19.jar
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> /Users/carsten/.bnd/cache/https%3A%2F%2Fgithub.com%2Fevandor%2Fskysail-repository%2Fraw%2Fmaster%2Frelease/org.restlet-2.3.9.jar
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> /Users/carsten/.gradle/caches/modules-2/files-2.1/org.scala-lang/scala-library/2.11.8/ddd5a8bced249bedd86fb4578a39b9fb71480573/scala-library-2.11.8.jar
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> /Users/carsten/git/skysail-notes/cnf/localrepo/skysail.core/skysail.core-1.0.0.jar
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> /Users/carsten/git/skysail-notes/skysail.converter/bin/io/skysail/converter/Styling$.class
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> /Users/carsten/git/skysail-notes/skysail.converter/bin/io/skysail/converter/Styling.class
+direct source dependencies:
+0 items
+direct external dependencies:
+0 items
+public inherited source dependencies:
+0 items
+public inherited external dependencies:
+0 items
+member reference internal dependencies:
+0 items
+member reference external dependencies:
+0 items
+inheritance internal dependencies:
+0 items
+inheritance external dependencies:
+0 items
+class names:
+1 items
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> io.skysail.converter.test.StylingTest
+used names:
+54 items
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> <init>
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> AnyRef
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> Assert
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> CoreMatchers
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> Form
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> Ignore
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> Matchers
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> Mockito
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> Reference
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> Request
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> Response
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> RunWith
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> Series
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> SkysailServerResource
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> Styling
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> StylingTest
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> Test
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> Unit
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> add
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> any
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> assertThat
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> converter
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> cookieSettings
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> data
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> determineFrom
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> getName
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> getPath
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> getQuery
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> getRequest
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> getResourceRef
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> getResponse
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> hamcrest
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> io
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> is
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> junit
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> mock
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> mockito
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> org
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> query
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> request
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> resource
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> resourceRef
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> response
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> restlet
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> runner
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> scala
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> skysail
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> style
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> test
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> thenReturn
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> times
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> util
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> verify
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> when
+product stamps:
+1 items
+/Users/carsten/git/skysail-notes/skysail.converter/bin_test/io/skysail/converter/test/StylingTest.class -> lastModified(1496210909000)
+source stamps:
+1 items
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> hash(898ca46b821025ace2887ec14a52e71d2b755032)
+binary stamps:
+9 items
+/Library/Java/JavaVirtualMachines/jdk1.8.0_121.jdk/Contents/Home/jre/lib/rt.jar -> lastModified(1481605174000)
+/Users/carsten/.bnd/cache/https%3A%2F%2Fgithub.com%2Fevandor%2Fskysail-repository%2Fraw%2Fmaster%2Frelease/com.springsource.org.junit-4.11.0.jar -> lastModified(1485713251000)
+/Users/carsten/.bnd/cache/https%3A%2F%2Fgithub.com%2Fevandor%2Fskysail-repository%2Fraw%2Fmaster%2Frelease/de.twentyeleven.skysail.org.hamcrest.hamcrest-all-osgi-1.3.0.jar -> lastModified(1485713251000)
+/Users/carsten/.bnd/cache/https%3A%2F%2Fgithub.com%2Fevandor%2Fskysail-repository%2Fraw%2Fmaster%2Frelease/mockito-all-1.10.19.jar -> lastModified(1485713253000)
+/Users/carsten/.bnd/cache/https%3A%2F%2Fgithub.com%2Fevandor%2Fskysail-repository%2Fraw%2Fmaster%2Frelease/org.restlet-2.3.9.jar -> lastModified(1485713253000)
+/Users/carsten/.gradle/caches/modules-2/files-2.1/org.scala-lang/scala-library/2.11.8/ddd5a8bced249bedd86fb4578a39b9fb71480573/scala-library-2.11.8.jar -> lastModified(1475076757000)
+/Users/carsten/git/skysail-notes/cnf/localrepo/skysail.core/skysail.core-1.0.0.jar -> lastModified(1495954579000)
+/Users/carsten/git/skysail-notes/skysail.converter/bin/io/skysail/converter/Styling$.class -> lastModified(1496210905000)
+/Users/carsten/git/skysail-notes/skysail.converter/bin/io/skysail/converter/Styling.class -> lastModified(1496210905000)
+class names:
+9 items
+/Library/Java/JavaVirtualMachines/jdk1.8.0_121.jdk/Contents/Home/jre/lib/rt.jar -> java.lang.Object
+/Users/carsten/.bnd/cache/https%3A%2F%2Fgithub.com%2Fevandor%2Fskysail-repository%2Fraw%2Fmaster%2Frelease/com.springsource.org.junit-4.11.0.jar -> org.junit.Ignore
+/Users/carsten/.bnd/cache/https%3A%2F%2Fgithub.com%2Fevandor%2Fskysail-repository%2Fraw%2Fmaster%2Frelease/de.twentyeleven.skysail.org.hamcrest.hamcrest-all-osgi-1.3.0.jar -> org.hamcrest.CoreMatchers
+/Users/carsten/.bnd/cache/https%3A%2F%2Fgithub.com%2Fevandor%2Fskysail-repository%2Fraw%2Fmaster%2Frelease/mockito-all-1.10.19.jar -> org.mockito.stubbing.OngoingStubbing
+/Users/carsten/.bnd/cache/https%3A%2F%2Fgithub.com%2Fevandor%2Fskysail-repository%2Fraw%2Fmaster%2Frelease/org.restlet-2.3.9.jar -> org.restlet.resource.Resource
+/Users/carsten/.gradle/caches/modules-2/files-2.1/org.scala-lang/scala-library/2.11.8/ddd5a8bced249bedd86fb4578a39b9fb71480573/scala-library-2.11.8.jar -> scala.Unit
+/Users/carsten/git/skysail-notes/cnf/localrepo/skysail.core/skysail.core-1.0.0.jar -> io.skysail.restlet.SkysailServerResource
+/Users/carsten/git/skysail-notes/skysail.converter/bin/io/skysail/converter/Styling$.class -> io.skysail.converter.Styling$
+/Users/carsten/git/skysail-notes/skysail.converter/bin/io/skysail/converter/Styling.class -> io.skysail.converter.Styling
+internal apis:
+1 items
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> 
+rO0ABXNyABB4c2J0aS5hcGkuU291cmNlFlpwRASfbtoCAAZJAAdhcGlIYXNoWgAIaGFzTWFjcm9MABhfaW50ZXJuYWxPbmx5X25hbWVIYXNoZXN0ACRMeHNidGkvYXBpL19pbnRlcm5hbE9ubHlfTmFtZUhhc2hlcztMAANhcGl0ABVMeHNidGkvYXBpL1NvdXJjZUFQSTtMAAtjb21waWxhdGlvbnQAF0x4c2J0aS9hcGkvQ29tcGlsYXRpb247WwAEaGFzaHQAAltCeHCDIWI+AHNyACJ4c2J0aS5hcGkuX2ludGVybmFsT25seV9OYW1lSGFzaGVzVNq+mfrU7EwCAAJbAA9pbXBsaWNpdE1lbWJlcnN0ACNbTHhzYnRpL2FwaS9faW50ZXJuYWxPbmx5X05hbWVIYXNoO1sADnJlZ3VsYXJNZW1iZXJzcQB+AAd4cHVyACNbTHhzYnRpLmFwaS5faW50ZXJuYWxPbmx5X05hbWVIYXNoO0lagLbdlov0AgAAeHAAAAAAdXEAfgAJAAAAHHNyACB4c2J0aS5hcGkuX2ludGVybmFsT25seV9OYW1lSGFzaFsO9SJ2OFfPAgACSQAEaGFzaEwABG5hbWV0ABJMamF2YS9sYW5nL1N0cmluZzt4cJXUULJ0AAZub3RpZnlzcQB+AAw8nz20dAALcmVzb3VyY2VSZWZzcQB+AAzA7+8wdAAEd2FpdHNxAH4ADOKl1AV0AAdyZXF1ZXN0c3EAfgAMjxOmS3QADSRhc0luc3RhbmNlT2ZzcQB+AAwRfvyOdAAGZXF1YWxzc3EAfgAMQrNvEXQADGFzSW5zdGFuY2VPZnNxAH4ADF0xmzt0AAxzeW5jaHJvbml6ZWRzcQB+AAzlcxh+dAANJGlzSW5zdGFuY2VPZnNxAH4ADLrXj7V0AAlub3RpZnlBbGxzcQB+AAw6hnObdAAqc3R5bGluZ19mcm9tX2VtcHR5X3JlcXVlc3RfcmV0dXJuc19kZWZhdWx0c3EAfgAMqLOTWnQAK3N0eWxpbmdfZnJvbV9udWxsX3JlcXVlc3RfdGhyb3dzX2V4Y2VwdGlvbnRzcQB+AAzrZjezdAAMaXNJbnN0YW5jZU9mc3EAfgAMStdq9nQACHJlc3BvbnNlc3EAfgAMBRGVCHQABjxpbml0PnNxAH4ADI1cYsZ0AAhyZXNvdXJjZXNxAH4ADOSJXVh0ADVzdHlsaW5nX2lzX2Rlcml2ZWRfZnJvbV9wYXJhbWV0ZXJfYW5kX3NhdmVkX3RvX2Nvb2tpZXNxAH4ADNaXMuV0AAI9PXNxAH4ADE8cmGR0AAVjbG9uZXNxAH4ADNqiO1F0AAh0b1N0cmluZ3NxAH4ADCnOlD90AAIhPXNxAH4ADMgfILp0AAhnZXRDbGFzc3NxAH4ADFEyfpN0AAJuZXNxAH4ADF26CBx0AAJlcXNxAH4ADAVx5Sl0AAtTdHlsaW5nVGVzdHNxAH4ADAKWedd0AAIjI3NxAH4ADBevrSh0AAhmaW5hbGl6ZXNxAH4ADBOE1790AAhoYXNoQ29kZXNyABN4c2J0aS5hcGkuU291cmNlQVBJuV6n+SkjOKQCAAJbAAtkZWZpbml0aW9uc3QAF1tMeHNidGkvYXBpL0RlZmluaXRpb247WwAIcGFja2FnZXN0ABRbTHhzYnRpL2FwaS9QYWNrYWdlO3hwdXIAF1tMeHNidGkuYXBpLkRlZmluaXRpb247iMlc57TjXg4CAAB4cAAAAAFzcgATeHNidGkuYXBpLkNsYXNzTGlrZYM0HKHfsJdsAgAETAAOZGVmaW5pdGlvblR5cGV0ABpMeHNidGkvYXBpL0RlZmluaXRpb25UeXBlO1sAEHNhdmVkQW5ub3RhdGlvbnN0ABNbTGphdmEvbGFuZy9TdHJpbmc7TAAIc2VsZlR5cGV0ABBMeHNidGkvYXBpL0xhenk7TAAJc3RydWN0dXJlcQB+AE94cgAheHNidGkuYXBpLlBhcmFtZXRlcml6ZWREZWZpbml0aW9u+RFusdVQPOICAAFbAA50eXBlUGFyYW1ldGVyc3QAGltMeHNidGkvYXBpL1R5cGVQYXJhbWV0ZXI7eHIAFHhzYnRpLmFwaS5EZWZpbml0aW9uhyob6HFC40YCAARMAAZhY2Nlc3N0ABJMeHNidGkvYXBpL0FjY2VzcztbAAthbm5vdGF0aW9uc3QAF1tMeHNidGkvYXBpL0Fubm90YXRpb247TAAJbW9kaWZpZXJzdAAVTHhzYnRpL2FwaS9Nb2RpZmllcnM7TAAEbmFtZXEAfgANeHBzcgAQeHNidGkuYXBpLlB1YmxpY7pYPa5sLWBCAgAAeHIAEHhzYnRpLmFwaS5BY2Nlc3PdYpr4HWMxSAIAAHhwdXIAF1tMeHNidGkuYXBpLkFubm90YXRpb24765frGRD2jUgCAAB4cAAAAABzcgATeHNidGkuYXBpLk1vZGlmaWVyc8cREyFpnNwkAgABQgAFZmxhZ3N4cAB0ACVpby5za3lzYWlsLmNvbnZlcnRlci50ZXN0LlN0eWxpbmdUZXN0dXIAGltMeHNidGkuYXBpLlR5cGVQYXJhbWV0ZXI72W0mDyid8rYCAAB4cAAAAAB+cgAYeHNidGkuYXBpLkRlZmluaXRpb25UeXBlAAAAAAAAAAASAAB4cgAOamF2YS5sYW5nLkVudW0AAAAAAAAAABIAAHhwdAAIQ2xhc3NEZWZ1cgATW0xqYXZhLmxhbmcuU3RyaW5nO63SVufpHXtHAgAAeHAAAAACdAAOb3JnLmp1bml0LlRlc3R0ABBvcmcuanVuaXQuSWdub3Jlc3IAE3hzYnRpLlNhZmVMYXp5JEltcGxQAi6Tl5dAPwIAA1oACGJpdG1hcCQwTAACX3R0ABJMamF2YS9sYW5nL09iamVjdDtMAARldmFsdAARTHNjYWxhL0Z1bmN0aW9uMDt4cgAWeHNidGkuYXBpLkFic3RyYWN0TGF6edN3tQFfu+egAgAAeHAAcHNyACB4c2J0aS5TYWZlTGF6eSQkYW5vbmZ1biRzdHJpY3QkMQAAAAAAAAAAAgABTAAHdmFsdWUkMXEAfgBqeHBzcgATeHNidGkuYXBpLkVtcHR5VHlwZbz9nkZJO4kkAgAAeHIAFHhzYnRpLmFwaS5TaW1wbGVUeXBlcnhiiCEjv0ACAAB4cgAOeHNidGkuYXBpLlR5cGU/atkhFkmqygIAAHhwc3EAfgBpAHBzcQB+AG5zcgATeHNidGkuYXBpLlN0cnVjdHVyZamq+YCTb9gAAgADTAAIZGVjbGFyZWRxAH4AT0wACWluaGVyaXRlZHEAfgBPTAAHcGFyZW50c3EAfgBPeHEAfgByc3EAfgBpAHBzcQB+AG51cQB+AEoAAAAAc3EAfgBpAHBzcQB+AG51cQB+AEoAAAAAc3EAfgBpAHBzcQB+AG51cgARW0x4c2J0aS5hcGkuVHlwZTt0/6Vae/npQQIAAHhwAAAAAnNyABR4c2J0aS5hcGkuUHJvamVjdGlvbvPSjVTpRaQtAgACTAACaWRxAH4ADUwABnByZWZpeHQAFkx4c2J0aS9hcGkvU2ltcGxlVHlwZTt4cQB+AHF0AAZPYmplY3RzcgATeHNidGkuYXBpLlNpbmdsZXRvbvynX/jPVuRGAgABTAAEcGF0aHQAEEx4c2J0aS9hcGkvUGF0aDt4cQB+AHFzcgAOeHNidGkuYXBpLlBhdGibPVwIzqUnhAIAAVsACmNvbXBvbmVudHN0ABpbTHhzYnRpL2FwaS9QYXRoQ29tcG9uZW50O3hwdXIAGltMeHNidGkuYXBpLlBhdGhDb21wb25lbnQ7Q9oJdC1nFnQCAAB4cAAAAANzcgAMeHNidGkuYXBpLklkmDJsizdTxEACAAFMAAJpZHEAfgANeHIAF3hzYnRpLmFwaS5QYXRoQ29tcG9uZW50X5oiWy6Gn7wCAAB4cHQABGphdmFzcQB+AI50AARsYW5nc3IADnhzYnRpLmFwaS5UaGlz2wntpsxaQFwCAAB4cQB+AI9zcQB+AIJ0AANBbnlzcQB+AIZzcQB+AIl1cQB+AIwAAAACc3EAfgCOdAAFc2NhbGFxAH4AlXVyABRbTHhzYnRpLmFwaS5QYWNrYWdlO1sTGTdwpyehAgAAeHAAAAAEc3IAEXhzYnRpLmFwaS5QYWNrYWdlflmP9q7OOVgCAAFMAARuYW1lcQB+AA14cHQAAmlvc3EAfgCfdAAUaW8uc2t5c2FpbC5jb252ZXJ0ZXJzcQB+AJ90ABlpby5za3lzYWlsLmNvbnZlcnRlci50ZXN0c3EAfgCfdAAKaW8uc2t5c2FpbHNyABV4c2J0aS5hcGkuQ29tcGlsYXRpb27t+uDDauigQgIAAkoACXN0YXJ0VGltZVsAB291dHB1dHN0ABpbTHhzYnRpL2FwaS9PdXRwdXRTZXR0aW5nO3hwAAABXF0epTN1cgAaW0x4c2J0aS5hcGkuT3V0cHV0U2V0dGluZzt/asLzp4elQgIAAHhwAAAAAXNyABd4c2J0aS5hcGkuT3V0cHV0U2V0dGluZ3rZmkd0+x17AgACTAAPb3V0cHV0RGlyZWN0b3J5cQB+AA1MAA9zb3VyY2VEaXJlY3RvcnlxAH4ADXhwdAA7L1VzZXJzL2NhcnN0ZW4vZ2l0L3NreXNhaWwtbm90ZXMvc2t5c2FpbC5jb252ZXJ0ZXIvYmluX3Rlc3R0AAEvdXIAAltCrPMX+AYIVOACAAB4cAAAABSJjKRrghAlrOKIfsFKUucdK3VQMg==
+external apis:
+0 items
+source infos:
+1 items
+/Users/carsten/git/skysail-notes/skysail.converter/test/io/skysail/converter/test/StylingTest.scala -> 
+AAAAAAAAAAA=
+compilations:
+1 items
+0 -> rO0ABXNyABV4c2J0aS5hcGkuQ29tcGlsYXRpb27t+uDDauigQgIAAkoACXN0YXJ0VGltZVsAB291dHB1dHN0ABpbTHhzYnRpL2FwaS9PdXRwdXRTZXR0aW5nO3hwAAABXF0epTN1cgAaW0x4c2J0aS5hcGkuT3V0cHV0U2V0dGluZzt/asLzp4elQgIAAHhwAAAAAXNyABd4c2J0aS5hcGkuT3V0cHV0U2V0dGluZ3rZmkd0+x17AgACTAAPb3V0cHV0RGlyZWN0b3J5dAASTGphdmEvbGFuZy9TdHJpbmc7TAAPc291cmNlRGlyZWN0b3J5cQB+AAZ4cHQAOy9Vc2Vycy9jYXJzdGVuL2dpdC9za3lzYWlsLW5vdGVzL3NreXNhaWwuY29udmVydGVyL2Jpbl90ZXN0dAABLw==

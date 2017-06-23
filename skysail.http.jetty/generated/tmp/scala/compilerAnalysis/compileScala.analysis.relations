@@ -1,0 +1,22 @@
+products:
+   skysail.http.jetty/src/io/skysail/http/jetty/ScalaHttpServer.scala -> skysail.http.jetty/bin/io/skysail/http/jetty/ScalaHttpServer$$anonfun$1.class
+   skysail.http.jetty/src/io/skysail/http/jetty/ScalaHttpServer.scala -> skysail.http.jetty/bin/io/skysail/http/jetty/ScalaHttpServer$.class
+   skysail.http.jetty/src/io/skysail/http/jetty/ScalaHttpServer.scala -> skysail.http.jetty/bin/io/skysail/http/jetty/ScalaHttpServer.class
+binary dependencies:
+   skysail.http.jetty/src/io/skysail/http/jetty/ScalaHttpServer.scala -> /Library/Java/JavaVirtualMachines/jdk1.8.0_121.jdk/Contents/Home/jre/lib/rt.jar
+   skysail.http.jetty/src/io/skysail/http/jetty/ScalaHttpServer.scala -> /Users/carsten/.bnd/cache/https%3A%2F%2Fgithub.com%2Fevandor%2Fskysail-repository%2Fraw%2Fmaster%2Frelease/de.twentyeleven.skysail.org.hamcrest.hamcrest-all-osgi-1.3.0.jar
+   skysail.http.jetty/src/io/skysail/http/jetty/ScalaHttpServer.scala -> /Users/carsten/.bnd/cache/https%3A%2F%2Fgithub.com%2Fevandor%2Fskysail-repository%2Fraw%2Fmaster%2Frelease/jetty-server-9.2.11.v20150529.jar
+   skysail.http.jetty/src/io/skysail/http/jetty/ScalaHttpServer.scala -> /Users/carsten/.bnd/cache/https%3A%2F%2Fgithub.com%2Fevandor%2Fskysail-repository%2Fraw%2Fmaster%2Frelease/jetty-servlet-9.2.11.v20150529.jar
+   skysail.http.jetty/src/io/skysail/http/jetty/ScalaHttpServer.scala -> /Users/carsten/.bnd/cache/https%3A%2F%2Fgithub.com%2Fevandor%2Fskysail-repository%2Fraw%2Fmaster%2Frelease/org.restlet-2.3.9.jar
+   skysail.http.jetty/src/io/skysail/http/jetty/ScalaHttpServer.scala -> /Users/carsten/.bnd/cache/https%3A%2F%2Fgithub.com%2Fevandor%2Fskysail-repository%2Fraw%2Fmaster%2Frelease/org.restlet.ext.jackson-2.3.9.jar
+   skysail.http.jetty/src/io/skysail/http/jetty/ScalaHttpServer.scala -> /Users/carsten/.bnd/cache/https%3A%2F%2Fgithub.com%2Fevandor%2Fskysail-repository%2Fraw%2Fmaster%2Frelease/slf4j-api-1.7.21.jar
+   skysail.http.jetty/src/io/skysail/http/jetty/ScalaHttpServer.scala -> /Users/carsten/.gradle/caches/modules-2/files-2.1/org.scala-lang/scala-library/2.11.8/ddd5a8bced249bedd86fb4578a39b9fb71480573/scala-library-2.11.8.jar
+   skysail.http.jetty/src/io/skysail/http/jetty/ScalaHttpServer.scala -> /Users/carsten/.m2/repository/org/osgi/osgi.cmpn/6.0.0/osgi.cmpn-6.0.0.jar
+   skysail.http.jetty/src/io/skysail/http/jetty/ScalaHttpServer.scala -> cnf/localrepo/skysail.core/skysail.core-1.0.0.jar
+source dependencies:
+   skysail.http.jetty/src/io/skysail/http/jetty/ScalaHttpServer.scala -> skysail.http.jetty/src/io/skysail/http/jetty/ServerConfig.java
+external dependencies:
+class names:
+   skysail.http.jetty/src/io/skysail/http/jetty/ScalaHttpServer.scala -> io.skysail.http.jetty.ScalaHttpServer
+   skysail.http.jetty/src/io/skysail/http/jetty/ScalaHttpServer.scala -> io.skysail.http.jetty.ScalaHttpServer$
+   skysail.http.jetty/src/io/skysail/http/jetty/ScalaHttpServer.scala -> io.skysail.http.jetty.ScalaHttpServer$$anonfun$1
