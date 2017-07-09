@@ -56,9 +56,9 @@ class WytApplication extends SkysailApplication(
   @Activate
   override def activate(appConfig: ApplicationConfiguration, componentContext: ComponentContext) = {
     super.activate(appConfig, componentContext);
-    pactService = new PactService(dbService, getApplicationModel2())
-    carService = new CarService(dbService, getApplicationModel2())
-    confirmationService = new ConfirmationService(dbService, getApplicationModel2())
+    pactService = new PactService(dbService, getApplicationModel())
+    carService = new CarService(dbService, getApplicationModel())
+    confirmationService = new ConfirmationService(dbService, getApplicationModel())
   }
 
   override def attach() = {

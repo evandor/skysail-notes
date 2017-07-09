@@ -74,7 +74,7 @@ class PostNoteResource extends PostEntityServerResource[Note] {
     entity.setCreated(new Date())
     entity.setModified(null)
     val repo = NotesResource.noteRepo(getSkysailApplication())
-    val vertex = repo.save(entity, getSkysailApplication().applicationModel2)
+    val vertex = repo.save(entity, getModel)
     // entity.setId(vertex.getId().toString())
     entity.copy(id=Some(vertex.get.id.toString()))
   }

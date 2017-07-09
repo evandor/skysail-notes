@@ -41,7 +41,8 @@ DynamicImport-Package: *
 	org.eclipse.jetty.util;version=9.2,\
 	com.thoughtworks.paranamer;version=2.8,\
 	org.apache.servicemix.bundles.commons-dbcp;version=1.4,\
-	com.mysql.jdbc;version=5.1
+	com.mysql.jdbc;version=5.1,\
+    ${akka-compiletime}
 
 Private-Package: \
 	io.skysail.app.dbviewer,\

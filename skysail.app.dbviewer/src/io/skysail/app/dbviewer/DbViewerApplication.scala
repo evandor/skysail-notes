@@ -55,7 +55,7 @@ class DbViewerApplication extends SkysailApplication(
   @Activate
   override def activate(appConfig: ApplicationConfiguration, componentContext: ComponentContext) = {
     super.activate(appConfig, componentContext);
-    connectionService = new ConnectionService(dbService, getApplicationModel2())
+    connectionService = new ConnectionService(dbService, getApplicationModel())
   }
 
   override def attach() = {

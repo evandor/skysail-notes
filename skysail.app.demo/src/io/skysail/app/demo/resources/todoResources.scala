@@ -50,7 +50,7 @@ class PostTodoResource extends PostEntityServerResource[Todo] {
   def createEntityTemplate() = Todo()
   def addEntity(entity: Todo): Todo = {
     val repo = TodosResource.todoRepo(getSkysailApplication())
-    val vertex = repo.save(entity, getSkysailApplication().applicationModel2)
+    val vertex = repo.save(entity, getModel)
     // entity.setId(vertex.getId().toString())
     entity.copy(id=Some(vertex.get.id.toString()))
   }

@@ -103,7 +103,7 @@ class NotesResourceSpec extends FlatSpec with BeforeAndAfterEach {
     val postNote = Note(None,"postNote")
     val dummy = mock(classOf[OrientVertex])
     when(dummy.getId()).thenReturn("2", Nil: _*)
-    when(dbService.persist(postNote, app.getApplicationModel2())).thenReturn(Try(dummy))
+    when(dbService.persist(postNote, app.getApplicationModel())).thenReturn(Try(dummy))
     val postNoteResource = new PostNoteResource()
     requestAttributes.put("id","1")
     postNoteResource.init(context, request, response)
