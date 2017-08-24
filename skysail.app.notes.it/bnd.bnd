@@ -77,7 +77,6 @@ skysail.server.um:\
 	skysail.doc.swagger;version=latest,\
 	skysail.ui.raw;version=latest,\
 	skysail.app.demo;version=latest,\
-	skysail.app.wyt;version=latest,\
 	skysail.app.notes;version=latest,\
 	skysail.testsupport;version=latest,\
 	io.dropwizard.metrics.core;version=3.1.2,\
