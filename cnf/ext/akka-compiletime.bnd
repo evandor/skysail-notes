@@ -10,5 +10,4 @@ akka-compiletime: \
     org.scala-lang.modules.scala-java8-compat;version=0.8,\
 	com.typesafe.sslconfig;version=0.2,\
 	com.typesafe.akka.parsing;version=10.0,\
-	org.scala-lang.modules.scala-parser-combinators;version=1.0
-    
+	org.scala-lang.modules.scala-parser-combinators;version=1.0    
